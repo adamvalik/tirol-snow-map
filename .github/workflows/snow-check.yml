@@ -32,6 +32,12 @@ jobs:
           CDSE_USERNAME: ${{ secrets.CDSE_USERNAME }}
           CDSE_PASSWORD: ${{ secrets.CDSE_PASSWORD }}
         run: npm run pipeline
+      - name: Inspect recent snow cover products
+        if: always()
+        env:
+          CDSE_USERNAME: ${{ secrets.CDSE_USERNAME }}
+          CDSE_PASSWORD: ${{ secrets.CDSE_PASSWORD }}
+        run: npx tsx pipeline/src/snow/inspect-cover.ts 3
       - name: Show snow.json
         if: always()
         run: |
