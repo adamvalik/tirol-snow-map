@@ -68,6 +68,14 @@ function createStyle(lowPower: boolean): StyleSpecification {
         },
       },
       ...basemap.fills,
+      // Simulated snow above the land colours and under the shading; the colour ramp is set once stations load.
+      {
+        id: 'snow-sim',
+        type: 'color-relief',
+        source: 'dem',
+        layout: { visibility: 'none' },
+        paint: { 'color-relief-color': ['interpolate', ['linear'], ['elevation'], 0, 'rgba(255, 255, 255, 0)', 9000, 'rgba(255, 255, 255, 0)'] },
+      },
       {
         id: 'hillshade',
         type: 'hillshade',
@@ -75,7 +83,7 @@ function createStyle(lowPower: boolean): StyleSpecification {
         paint: {
           'hillshade-method': 'standard',
           'hillshade-exaggeration': 0.3,
-          'hillshade-shadow-color': '#5b4f40',
+          'hillshade-shadow-color': '#4f5058',
           'hillshade-highlight-color': '#ffffff',
         },
       },

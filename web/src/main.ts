@@ -9,6 +9,7 @@ import { createMap, DEFAULT_EXAGGERATION, isLowPowerDevice } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
 import { addSnowLayers, loadSnow, pointSnowHtml, SNOW_LAYERS, type SnowLayer, snowInfoHtml, SnowValues } from './snow.ts';
+import { estimateSnowLine, SNOW_SIM_LAYER, snowLineHtml, snowSimColor } from './snowline.ts';
 import { addStationLayer, loadStations, STATION_LAYER_ID } from './stations.ts';
 
 /** Station data older than this gets a visible warning (the pipeline runs every 30 minutes). */
@@ -252,6 +253,18 @@ map.on('load', async () => {
   }
 
   const file = await stationsPromise;
+  const snowToggle = $<HTMLInputElement>('toggle-snow');
+  const line = file ? estimateSnowLine(file.stations, snow?.cover.available ? snow.cover.snowLineM : null) : null;
+  if (file) $('snowline-info').innerHTML = snowLineHtml(line);
+  if (line) {
+    map.setPaintProperty(SNOW_SIM_LAYER, 'color-relief-color', snowSimColor(line));
+    map.setLayoutProperty(SNOW_SIM_LAYER, 'visibility', snowToggle.checked ? 'visible' : 'none');
+    bindToggle('toggle-snow', (on) => map.setLayoutProperty(SNOW_SIM_LAYER, 'visibility', on ? 'visible' : 'none'));
+  } else {
+    snowToggle.checked = false;
+    snowToggle.disabled = true;
+    snowToggle.parentElement!.title = file ? 'The stations report no snow' : 'Station data not available';
+  }
   if (file) {
     const layer = addStationLayer(map, file.stations, (s) => {
       clearPoint();

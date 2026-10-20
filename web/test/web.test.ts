@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { snowColor, SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from '../src/colors.ts';
 import { forecastUrl } from '../src/forecast.ts';
 import { compass, formatAge, weatherText } from '../src/format.ts';
+import { estimateSnowLine, snowShareByElevation } from '../src/snowline.ts';
+import type { Station } from '../../shared/types.ts';
 
 describe('forecastUrl', () => {
   it('passes the clicked elevation so Open-Meteo downscales to it', () => {
@@ -35,5 +37,38 @@ describe('format helpers', () => {
     expect(compass(350)).toBe('N');
     expect(compass(135)).toBe('SE');
     expect(weatherText(73)).toBe('Snow');
+  });
+});
+
+describe('estimateSnowLine', () => {
+  const station = (elevation: number, snowDepthCm: number | null) =>
+    ({ id: `s${elevation}`, name: '', lon: 11, lat: 46.5, elevation, snowDepthCm }) as Station;
+
+  it('puts the line where half the stations report snow, ignoring an odd station', () => {
+    const stations = [
+      ...[600, 900, 1200, 1400, 1600, 1800].map((h) => station(h, 0)),
+      station(1300, 15), // a single snowy valley station does not drag the line down
+      ...[2000, 2200, 2400, 2600, 2800].map((h) => station(h, 20)),
+      station(2100, 0),
+    ];
+    const line = estimateSnowLine(stations)!;
+    expect(line.source).toBe('stations');
+    expect(line.lineM).toBeGreaterThan(1800);
+    expect(line.lineM).toBeLessThan(2200);
+    expect(line.startM).toBeLessThan(line.lineM);
+    expect(line.fullM).toBeGreaterThan(line.lineM);
+  });
+
+  it('returns null when no station reports snow, and follows the satellite line when given', () => {
+    const bare = [...Array(12)].map((_, i) => station(800 + i * 200, i % 3 === 0 ? 1 : 0));
+    expect(estimateSnowLine(bare)).toBeNull();
+    const sat = estimateSnowLine(bare, 2600)!;
+    expect(sat.source).toBe('satellite');
+    expect(sat.lineM).toBe(2600);
+  });
+
+  it('isotonic share never decreases with elevation', () => {
+    const share = snowShareByElevation([1, 0, 1, 1, 0, 1].map((s, i) => ({ elevation: 1000 + i * 100, snowy: s === 1 })));
+    for (let i = 1; i < share.length; i++) expect(share[i][1]).toBeGreaterThanOrEqual(share[i - 1][1]);
   });
 });
