@@ -105,6 +105,10 @@ export interface SatelliteFile {
   coverage?: number;
   clearShare?: number;
   scenes?: string[];
+  /** Older day used to fill pixels the main day hides under clouds, if any. */
+  fallbackDate?: string;
+  /** Share of the picture's pixels from the main day, the fill-in day, and still empty (0–1). */
+  shares?: { main: number; fallback: number; empty: number };
   bounds?: [number, number, number, number];
   minZoom?: number;
   maxZoom?: number;

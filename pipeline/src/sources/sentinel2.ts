@@ -111,7 +111,11 @@ export interface DayChoice {
  * each weighted by its scene's clear fraction) and returns the newest day above `minClearShare`,
  * along with all scored days for logging.
  */
-export function chooseDay(scenes: Scene[], bbox: Bbox, minClearShare = 0.45): { choice: DayChoice | null; days: DayChoice[] } {
+export function chooseDay(
+  scenes: Scene[],
+  bbox: Bbox,
+  minClearShare = 0.45,
+): { choice: DayChoice | null; fallback: DayChoice | null; days: DayChoice[] } {
   const byDay = new Map<string, Scene[]>();
   for (const s of scenes) {
     const d = s.datetime.slice(0, 10);
@@ -142,17 +146,24 @@ export function chooseDay(scenes: Scene[], bbox: Bbox, minClearShare = 0.45): { 
     });
   }
   days.sort((a, b) => b.date.localeCompare(a.date));
-  return { choice: days.find((d) => d.clearShare >= minClearShare) ?? null, days };
+  const choice = days.find((d) => d.clearShare >= minClearShare) ?? null;
+  // The clearest older day fills what the chosen day hides under clouds.
+  const older = choice ? days.filter((d) => d.date < choice.date && d.clearShare >= 0.3) : [];
+  const fallback = older.sort((a, b) => b.clearShare - a.clearShare)[0] ?? null;
+  return { choice, fallback, days };
 }
 
-/** True colour with a gentle gamma; clouds, cirrus, cloud shadows and no-data pixels transparent. */
+/**
+ * True colour with a brightening gamma; clouds, cirrus and no-data pixels transparent. Cloud
+ * shadows stay: it is still ground (and the class also catches steep terrain shadow in autumn).
+ */
 export const EVALSCRIPT = `//VERSION=3
 function setup() {
   return { input: [{ bands: ["B02", "B03", "B04", "SCL", "dataMask"] }], output: { bands: 4, sampleType: "UINT8" } };
 }
-// Scene classification: 3 cloud shadow, 8/9 cloud, 10 thin cirrus (11 is snow and stays visible).
-const HIDE = [3, 8, 9, 10];
-function tone(x) { return 255 * Math.min(1, Math.pow(Math.max(0, 2.2 * x), 0.85)); }
+// Scene classification: 8/9 cloud, 10 thin cirrus (11 is snow and stays visible).
+const HIDE = [8, 9, 10];
+function tone(x) { return 255 * Math.min(1, Math.pow(Math.max(0, 2.6 * x), 0.8)); }
 function evaluatePixel(s) {
   if (!s.dataMask || HIDE.indexOf(s.SCL) >= 0) return [0, 0, 0, 0];
   return [tone(s.B04), tone(s.B03), tone(s.B02), 255];

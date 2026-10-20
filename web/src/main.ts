@@ -1,5 +1,5 @@
 import * as maplibregl from 'maplibre-gl';
-import type { SnowFile, StationsFile } from '../../shared/types.ts';
+import type { SatelliteFile, SnowFile, StationsFile } from '../../shared/types.ts';
 import './style.css';
 import { SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from './colors.ts';
 import { getForecast } from './forecast.ts';
@@ -7,6 +7,7 @@ import { ageHours, escapeHtml, formatAge, formatTime } from './format.ts';
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
 import { createMap, DEFAULT_EXAGGERATION, isLowPowerDevice } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
+import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
 import { addSnowLayers, loadSnow, pointSnowHtml, SNOW_LAYERS, type SnowLayer, snowInfoHtml, SnowValues } from './snow.ts';
 import { addStationLayer, loadStations, STATION_LAYER_ID } from './stations.ts';
 
@@ -88,6 +89,9 @@ function renderSources() {
     ${snowFile ? snowInfoHtml(snowFile) : '<p class="muted">Not loaded.</p>'}
     ${snowFile?.cover.available ? `<p>Satellite snow cover: <a href="${escapeHtml(snowFile.cover.source)}" target="_blank" rel="noopener">${escapeHtml(snowFile.cover.attribution)}</a>. ${escapeHtml(snowFile.cover.licence)}.</p>` : ''}
     <p class="muted">The depth map is the app's own estimate from station readings and elevation (method in plan.md); it is not an official product.</p>
+    <h3>Satellite picture</h3>
+    ${satelliteFile ? satelliteInfoHtml(satelliteFile) : '<p class="muted">Not loaded.</p>'}
+    ${satelliteFile?.available ? `<p>${escapeHtml(satelliteFile.attribution)}. Free and open Copernicus data.</p>` : ''}
     <h3>Point forecast</h3>
     <p><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a>, licensed CC BY 4.0.
     Fetched live when you click the map and cached in your browser for one hour.</p>
@@ -150,6 +154,17 @@ const snowPromise = loadSnow().then(
   },
 );
 
+let satelliteFile: SatelliteFile | null = null;
+const satellitePromise = loadSatellite().then(
+  (f) => {
+    satelliteFile = f;
+    $('satellite-info').innerHTML = satelliteInfoHtml(f);
+    if (f.available && f.date) $('satellite-date').textContent = `(${shortDate(f.date)})`;
+    return f;
+  },
+  () => null,
+);
+
 const stationsPromise = loadStations().then(
   (f) => {
     stationsFile = f;
@@ -196,6 +211,23 @@ async function showPoint(lngLat: maplibregl.LngLat) {
 // --- Map setup -------------------------------------------------------------
 
 map.on('load', async () => {
+  // The picture replaces the drawn land colours but keeps hillshade, roads and labels on top.
+  const sat = await satellitePromise;
+  const satToggle = $<HTMLInputElement>('toggle-satellite');
+  if (sat && addSatelliteLayer(map, sat, 'hillshade', satToggle.checked)) {
+    // The photo already has real light and shade, so the drawn hillshade is toned down over it.
+    const shade = (on: boolean) => map.setPaintProperty('hillshade', 'hillshade-exaggeration', on ? 0.12 : 0.3);
+    shade(satToggle.checked);
+    bindToggle('toggle-satellite', (on) => {
+      map.setLayoutProperty(SATELLITE_LAYER, 'visibility', on ? 'visible' : 'none');
+      shade(on);
+    });
+  } else {
+    satToggle.checked = false;
+    satToggle.disabled = true;
+    satToggle.parentElement!.title = 'No satellite picture in the current data';
+  }
+
   const snow = await snowPromise;
   if (snow) {
     const toggles: Record<SnowLayer, HTMLInputElement> = {
