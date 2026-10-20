@@ -69,6 +69,7 @@ Snow sensors read slightly negative values when there is no snow (as low as −2
 - Download: `https://download.dataspace.copernicus.eu/odata/v1/Products({Id})/$value`. **Without a token it returns 401** `{"code":"DAT-ZIP-604","message":"Token not found"}`. A token comes from `POST https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token` with `grant_type=password&client_id=cdse-public&username=…&password=…`. The pipeline needs these credentials as GitHub secrets
 - Pixel coding, from the product user manual: `100–200` means snow fraction = code − 100 (0–100 %), `30` cloud, `20/21/22` sea, lake and river, `251` polar night, `254` input error, `255` no data, `0` outside the area. The manual warns that the file layout "may differ" from what it describes, so I will verify the coding on the first real download
 - Grid: EPSG:4326 at 0.005°. South Tyrol is about 450 × 190 px
+- **Update from V2 (real downloads, 20 Oct 2026):** each product downloads as a ZIP holding one single-band COG of all Europe (12200 × 7400 px). Code 30 (cloud) never occurs; clouds and gaps are written as 255, the file's no-data value. The app treats 255 as "no clear view" and fills cloudy cells from the previous days
 
 ### NASA fallback
 
