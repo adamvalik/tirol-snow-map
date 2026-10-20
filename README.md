@@ -4,7 +4,7 @@ A read-only 3D miniature of South Tyrol, centred on Bolzano: terrain with OpenSt
 
 > **Not for avalanche decisions.** This is a visualisation for orientation only. Always check the official bulletin at [avalanche.report](https://avalanche.report).
 
-Status: **MVP plus OSM basemap**; V2 (satellite picture, snow cover, snow depth estimate) is next. The spike findings are in [`docs/spike-report.md`](docs/spike-report.md).
+Status: **V2 in progress**: satellite snow cover and the estimated snow depth layer work; the Sentinel-2 "today from space" picture is next. The spike findings are in [`docs/spike-report.md`](docs/spike-report.md).
 
 ## Run it locally
 
@@ -13,7 +13,7 @@ Requires Node 22+.
 ```sh
 npm ci
 npm run basemap             # one-off, ~1-2 min: OSM extract -> web/public/basemap/south-tyrol.pmtiles (~90 MB, not in git)
-npm run pipeline            # fetch live station data -> web/public/data/stations.json
+npm run pipeline            # stations + snow layers -> web/public/data/ (set CDSE_USERNAME / CDSE_PASSWORD for satellite snow cover)
 # or: npm run pipeline:fixtures   (offline, from the saved fixtures)
 npm run dev                 # http://localhost:5173
 ```
@@ -23,6 +23,7 @@ Other scripts:
 | Command | What it does |
 | --- | --- |
 | `npm test` | Unit tests (parsers, merge, PMTiles extractor, web helpers) against `fixtures/` |
+| `npm run dem` | Rebuild `pipeline/assets/dem-grid.bin`, the 250 m elevation grid the snow model uses (static; only when the grid changes) |
 | `npm run basemap` | Re-cut the OSM basemap from the newest Protomaps daily build (monthly is plenty) |
 | `npm run basemap:assets` | Re-download the fonts and icon sprites the basemap style needs (committed in `web/public/basemap-assets/`) |
 | `npm run typecheck` | TypeScript check of app, pipeline and tests |
@@ -35,7 +36,8 @@ Other scripts:
 Province meteo API v1 (CC0) ----+
                                 +--> pipeline (Node, scheduled) --> web/public/data/stations.json --> browser
 Euregio station feed (linea) ---+     parse, convert units,              (static file)               |
-                                      drop stale, merge duplicates                                    |
+Copernicus snow cover 500 m ----+     drop stale, merge duplicates,  --> snow.json + snow-*.png -------->+
+  (CDSE login, daily)                 snow depth model on 250 m grid                                  |
 Protomaps OSM build --> npm run basemap --> web/public/basemap/south-tyrol.pmtiles ------------------>+  (same site, range requests)
 Mapterhorn terrain tiles --------------------------------------------------------------------------->+  (direct)
 Open-Meteo forecast (on click) --------------------------------------------------------------------->+  (direct, cached 1 h)
@@ -48,6 +50,13 @@ Open-Meteo forecast (on click) -------------------------------------------------
   - Writes `stations.json` with per-source status, licence and fetch time.
   - If every source fails, it keeps the previous file and marks it `stale`; the app then shows a warning.
 - **Basemap** (`pipeline/src/basemap/`): the Protomaps daily planet build is read with HTTP range requests, and only the tiles for South Tyrol are written into a new PMTiles file. Zooms 0–9 cover the whole pannable area, zooms 10–14 South Tyrol. A small built-in writer is used because the `pmtiles` npm package only reads. The style comes from `@protomaps/basemaps` (light flavour), drawn translucently over the terrain tint and under the hillshade.
+- **Snow layers** (`pipeline/src/snow/`, run as part of `npm run pipeline`):
+  - **Snow cover**: the newest Copernicus *Snow Cover Extent Europe 500 m* product (VIIRS preferred, MODIS as fallback) is found in the open CDSE catalogue, downloaded with the account in `CDSE_USERNAME` / `CDSE_PASSWORD`, unzipped, and its pixel codes decoded onto the grid (100–200 → 0–100 % snow, 30 → cloud). The decoded grid is cached per product, so the 30-minute runs download it once a day.
+  - **Estimated snow depth** follows `plan.md`: a least-squares elevation trend fitted to all stations with a snow reading, plus station residuals spread by inverse distance weighting that fade back to the trend about 12 km from a station. Cells the satellite sees as snow-free (under 15 %) are set to 0. Leave-one-out validation (hide each station, predict it from the rest) runs on every update and picks trend-only or trend-plus-residuals, whichever predicts better; its mean absolute error is shown in the app, overall and per elevation band.
+  - **Confidence** per cell: high within 10 km of a snow station and inside the stations' elevation range; medium within 25 km and 300 m of the range; low otherwise; one level lower where the satellite has no view (cloud or no data).
+  - **Outputs**: `snow.json` (dates, method, trend, validation, snow line), `snow-cover.png`, `snow-depth.png`, `snow-confidence.png`, and `snow-data.png`, which stores depth and cover losslessly in its colour channels so the app can show the value under a click.
+  - The grid (`shared/grid.ts`) has 764 × 512 cells of about 250 m, with rows spaced evenly in Web Mercator so the PNGs line up exactly on the map.
+- **Check workflow** (`.github/workflows/snow-check.yml`): runs the tests and the live pipeline with the repository secrets, prints `snow.json`, and uploads the outputs as a workflow artifact. It runs by hand or on pushes to `claude/**` branches; the scheduled production workflow comes in V3.
 - **Data contract**: `shared/types.ts`.
 - **Sources**:
   - Province API v1: `geoservices.buergernetz.bz.it/services/meteo/v1`. Official, CC0, about 97 stations, 26 of them with snow depth.
@@ -68,6 +77,8 @@ Open-Meteo forecast (on click) -------------------------------------------------
 ## Known limits
 
 - **No snow-depth sensors in the valleys.** Inside South Tyrol, snow depth is measured only at about 1700–3000 m; the lowest station in the surrounding region is at about 530 m. A missing marker does not mean there is no snow.
+- **The snow depth map is an estimate, not a measurement.** It is a smooth trend with local corrections; real depth varies far more (wind drift, sun-exposed slopes, gullies). The leave-one-out error in the app tells you how far off a station-like spot typically is. Above about 3000 m, and in valleys below the lowest station, it extrapolates.
+- **Satellite snow cover is 500 m and optical.** Clouds hide the ground (hatched), narrow valleys can be missed, and a day's product appears in the afternoon (VIIRS) or evening (MODIS).
 - **Station snow depth is a point measurement.** Wind and terrain make real depth vary a lot over short distances.
 - **The forecast is model output** (Open-Meteo, best-match blend), downscaled to the clicked elevation. Open-Meteo's own model snow depth is not used: in the spike it read 0 cm where a station measured 5.8 cm.
 - **Open-Meteo rate limits are per IP**, with a free non-commercial tier. Normal use is far below them. A shared IP (CI, some networks) can hit them, and the panel then shows the error.
@@ -88,6 +99,7 @@ Terrain © [Mapterhorn](https://mapterhorn.com/attribution), built from:
 
 Other sources:
 - **Stations:** Autonomous Province of Bolzano weather service (CC0); the Euregio avalanche warning services and partner operators via avalanche.report.
+- **Snow cover:** Copernicus Land Monitoring Service, Snow Cover Extent Europe 500 m (European Union), free and open access.
 - **Forecast:** [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0).
 - **Basemap and summits:** © OpenStreetMap contributors (ODbL), via a Protomaps build. Fonts: Noto Sans (OFL).
 
