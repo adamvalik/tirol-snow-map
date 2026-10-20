@@ -13,6 +13,7 @@ import { FIXTURES, STATION_BBOX, URLS } from './config.ts';
 import { mergeStations } from './merge.ts';
 import type { RawStation } from './raw.ts';
 import { parseLinea } from './sources/linea.ts';
+import { runSatelliteStep } from './satellite/run-satellite.ts';
 import { runSnowStep } from './snow/run-snow.ts';
 import { parseProvince } from './sources/provinceBz.ts';
 
@@ -164,6 +165,15 @@ async function main() {
     console.log(`[pipeline] wrote snow.json in ${((Date.now() - t0) / 1000).toFixed(1)} s (cover ${snow.cover.available ? snow.cover.date : 'unavailable'})`);
   } catch (e) {
     console.error(`[pipeline] snow step failed: ${e instanceof Error ? e.stack : String(e)}`);
+    process.exitCode = 2;
+  }
+
+  // Sentinel-2 picture: re-rendered only when a newer clear day appears.
+  try {
+    const sat = await runSatelliteStep({ outDir, now, offline: useFixtures, log: (msg) => console.log(`  ${msg}`) });
+    console.log(`[pipeline] satellite.json: ${sat.available ? `picture of ${sat.date}` : `no picture (${sat.reason})`}`);
+  } catch (e) {
+    console.error(`[pipeline] satellite step failed: ${e instanceof Error ? e.stack : String(e)}`);
     process.exitCode = 2;
   }
 }

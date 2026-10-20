@@ -31,11 +31,15 @@ jobs:
         env:
           CDSE_USERNAME: ${{ secrets.CDSE_USERNAME }}
           CDSE_PASSWORD: ${{ secrets.CDSE_PASSWORD }}
+          CDSE_CLIENT_ID: ${{ secrets.CDSE_CLIENT_ID }}
+          CDSE_CLIENT_SECRET: ${{ secrets.CDSE_CLIENT_SECRET }}
         run: npm run pipeline
       - name: Show snow.json
         if: always()
         run: |
           node -e "const s=require('./web/public/data/snow.json'); delete s.grid; console.log(JSON.stringify(s, null, 2))" || true
+          cat web/public/data/satellite.json || true
+          du -sh web/public/data/satellite || true
       - uses: actions/upload-artifact@v5
         if: always()
         with:

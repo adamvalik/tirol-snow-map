@@ -91,3 +91,24 @@ export interface SnowFile {
   } | null;
   files: { cover: string | null; depth: string | null; confidence: string | null; data: string | null };
 }
+
+/** satellite.json: the Sentinel-2 "today from space" tile layer (data/satellite/{z}/{x}/{y}.webp). */
+export interface SatelliteFile {
+  schemaVersion: number;
+  generatedAt: string;
+  available: boolean;
+  /** Why there is no picture (when `available` is false). */
+  reason?: string;
+  /** Acquisition day, YYYY-MM-DD (UTC). */
+  date?: string;
+  /** Share of the region inside that day's passes, and expected share seen without clouds (0–1). */
+  coverage?: number;
+  clearShare?: number;
+  scenes?: string[];
+  bounds?: [number, number, number, number];
+  minZoom?: number;
+  maxZoom?: number;
+  /** Changes whenever the tiles are re-rendered; used to bust browser caches. */
+  version?: string;
+  attribution: string;
+}
