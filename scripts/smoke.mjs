@@ -49,7 +49,7 @@ for (const profile of profiles) {
   const readyMs = Date.now() - t0;
   const readyInPage = Number(await page.evaluate(() => document.body.dataset.mapReadyMs));
   await page.waitForTimeout(1500);
-  await page.screenshot({ path: path.join(outDir, `${profile.name}-start.png`) });
+  await page.screenshot({ path: path.join(outDir, `${profile.name}-start.png`), timeout: 120_000 });
 
   // Rotate for 3 s and count animation frames.
   const fps = await page.evaluate(
@@ -100,12 +100,54 @@ for (const profile of profiles) {
   const appErrors = errors.filter((e) => !(rateLimited && e.includes('status of 429')));
   await page.screenshot({ path: path.join(outDir, `${profile.name}-forecast.png`) });
 
+  // V3 (desktop): day slider, forecast playback, and a shared link that restores the view.
+  let v3 = '';
+  if (profile.name === 'desktop') {
+    await page.keyboard.press('Escape');
+    const dayOk = await page.evaluate(async () => {
+      const slider = document.getElementById('day');
+      if (document.getElementById('day-group').hidden) return 'no history (slider hidden)';
+      slider.value = '0';
+      slider.dispatchEvent(new Event('input'));
+      for (let i = 0; i < 50 && document.getElementById('day-note').hidden; i++) await new Promise((r) => setTimeout(r, 100));
+      return document.getElementById('day-note').hidden ? 'FAILED' : 'OK';
+    });
+    const forecastAnim = await page.evaluate(async () => {
+      const input = document.getElementById('toggle-forecast');
+      if (input.disabled) return 'unavailable';
+      input.click();
+      const frame = document.getElementById('forecast-frame');
+      const before = frame.value;
+      document.getElementById('forecast-play').click();
+      await new Promise((r) => setTimeout(r, 2000));
+      const moved = frame.value !== before;
+      document.getElementById('forecast-play').click(); // pause: software GL re-renders the 3D view per frame
+      return moved ? 'OK' : 'FAILED';
+    });
+    await page.screenshot({ path: path.join(outDir, 'desktop-v3.png') });
+    await page.waitForTimeout(500);
+    const hash = await page.evaluate(() => window.location.hash);
+    const shared = await context.newPage();
+    shared.on('pageerror', (e) => errors.push(`pageerror (shared link): ${e.message}`));
+    await shared.goto(`${url}${hash}`, { waitUntil: 'load' });
+    await shared.waitForFunction(() => window.__snowmap?.map.loaded(), null, { timeout: 90_000 });
+    const restored = await shared.evaluate(() => {
+      const m = window.__snowmap.map;
+      return { zoom: m.getZoom(), forecast: document.getElementById('toggle-forecast').checked, day: document.getElementById('day').value };
+    });
+    const linkOk = hash.includes('map=') && Math.abs(restored.zoom - 11) < 0.05 && restored.forecast;
+    await shared.close();
+    v3 = `day slider ${dayOk}, forecast animation ${forecastAnim}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}`;
+    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || !linkOk) errors.push(`V3 checks: ${v3}`);
+  }
+
   const stationsText = await page.textContent('#stations-time');
   console.log(
     `${profile.name}: map ready ${readyMs} ms (in-page ${readyInPage} ms), ~${fps.toFixed(0)} fps while rotating (software GL), ` +
       `station panel ${stationOk ? 'OK' : 'FAILED'}, forecast ${forecastOk ? 'OK' : rateLimited ? 'RATE-LIMITED by Open-Meteo (error shown in panel)' : 'FAILED'}`,
   );
   console.log(`  ${stationsText}`);
+  if (v3) console.log(`  ${v3}`);
   console.log(`  external hosts: ${[...external].sort().join(', ')}`);
   console.log(`  console errors: ${errors.length ? errors.join(' | ') : 'none'}`);
   const allowed = ['tiles.mapterhorn.com', 'api.open-meteo.com'];

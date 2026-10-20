@@ -6,9 +6,10 @@ import { SCHEMA_VERSION, type SnowFile } from '../../shared/types.ts';
 import { escapeHtml, formatAge, formatTime } from './format.ts';
 
 const DATA = `${import.meta.env.BASE_URL}data/`;
-export const SNOW_WHITE_LAYER = 'snow-white';
-export const SNOW_LAYERS = { cover: 'snow-cover', depth: 'snow-depth', confidence: 'snow-confidence' } as const;
+/** Map layer per snow picture; `white` is the Sentinel-2 snow map, the others are 250 m cells. */
+export const SNOW_LAYERS = { white: 'snow-white', cover: 'snow-cover', depth: 'snow-depth', confidence: 'snow-confidence' } as const;
 export type SnowLayer = keyof typeof SNOW_LAYERS;
+const OPACITY: Record<SnowLayer, number> = { white: 0.95, cover: 0.9, depth: 0.85, confidence: 1 };
 
 const COVER_CLOUD = 254;
 /** viewAge value for "no clear view" in the data PNG. */
@@ -16,68 +17,74 @@ const AGE_NONE = 15;
 const COVER_NODATA = 255;
 const CONFIDENCE = ['low', 'medium', 'high'];
 
-export async function loadSnow(): Promise<SnowFile> {
-  const res = await fetch(`${DATA}snow.json`, { cache: 'no-cache' });
-  if (!res.ok) throw new Error(`snow.json: HTTP ${res.status}`);
+/** `path` relative to data/: snow.json, or a time slider day's copy. */
+export async function loadSnow(path = 'snow.json'): Promise<SnowFile> {
+  const res = await fetch(`${DATA}${path}`, { cache: 'no-cache' });
+  if (!res.ok) throw new Error(`${path}: HTTP ${res.status}`);
   const file = (await res.json()) as SnowFile;
-  if (file.schemaVersion !== SCHEMA_VERSION) throw new Error(`snow.json: unsupported schema ${file.schemaVersion}`);
+  if (file.schemaVersion !== SCHEMA_VERSION) throw new Error(`${path}: unsupported schema ${file.schemaVersion}`);
   return file;
 }
 
-/** Adds the image layers below `beforeId` (roads and labels stay on top). Returns the ids added. */
-export function addSnowLayers(
-  map: maplibregl.Map,
-  file: SnowFile,
-  beforeId: string | undefined,
-  visible: Record<SnowLayer, boolean>,
-): SnowLayer[] {
-  const added: SnowLayer[] = [];
-  const opacity: Record<SnowLayer, number> = { cover: 0.9, depth: 0.85, confidence: 1 };
-  // Cache-bust per pipeline run so a reload never mixes old images with new metadata.
-  const version = encodeURIComponent(file.generatedAt);
-  for (const key of ['cover', 'depth', 'confidence'] as SnowLayer[]) {
-    const name = file.files[key];
-    if (!name) continue;
-    map.addSource(SNOW_LAYERS[key], {
-      type: 'image',
-      url: `${new URL(DATA, window.location.href).href}${name}?v=${version}`,
-      coordinates: gridCorners(file.grid),
-    });
-    map.addLayer(
-      {
-        id: SNOW_LAYERS[key],
-        type: 'raster',
-        source: SNOW_LAYERS[key],
-        layout: { visibility: visible[key] ? 'visible' : 'none' },
-        paint: { 'raster-opacity': opacity[key], 'raster-fade-duration': 0, 'raster-resampling': 'linear' },
-      },
-      beforeId,
-    );
-    added.push(key);
-  }
-  return added;
-}
+/**
+ * The snow pictures on the map. `show` swaps them for another snow.json (the time slider) in
+ * place; layers a file lacks are hidden.
+ */
+export class SnowLayers {
+  private visible: Record<SnowLayer, boolean>;
+  private present = new Set<SnowLayer>();
 
-/** The Sentinel-2 snow map (about 60 m): white where snow was seen, transparent elsewhere. */
-export function addSnowWhite(map: maplibregl.Map, file: SnowFile, beforeId: string, visible: boolean): boolean {
-  const name = file.files.white;
-  if (!name) return false;
-  map.addSource(SNOW_WHITE_LAYER, {
-    type: 'image',
-    url: `${new URL(DATA, window.location.href).href}${name}?v=${encodeURIComponent(file.generatedAt)}`,
-    coordinates: gridCorners(file.grid),
-  });
-  map.addLayer(
-    {
-      id: SNOW_WHITE_LAYER,
-      type: 'raster',
-      source: SNOW_WHITE_LAYER,
-      layout: { visibility: visible ? 'visible' : 'none' },
-      paint: { 'raster-opacity': 0.95, 'raster-fade-duration': 0, 'raster-resampling': 'linear' },
-    },
-    beforeId,
-  );
-  return true;
+  /** `before`: the layer a picture goes under when it is first added. */
+  constructor(
+    private map: maplibregl.Map,
+    private before: (key: SnowLayer) => string | undefined,
+    visible: Record<SnowLayer, boolean>,
+  ) {
+    this.visible = { ...visible };
+  }
+
+  /** Shows `file`'s pictures; returns the layers it has. */
+  show(file: SnowFile): Set<SnowLayer> {
+    const base = new URL(DATA, window.location.href).href;
+    // Cache-bust per pipeline run so a reload never mixes old images with new metadata.
+    const version = encodeURIComponent(file.generatedAt);
+    this.present = new Set();
+    for (const key of Object.keys(SNOW_LAYERS) as SnowLayer[]) {
+      const id = SNOW_LAYERS[key];
+      const name = file.files[key];
+      if (name) {
+        this.present.add(key);
+        const url = `${base}${name}?v=${version}`;
+        const source = this.map.getSource(id) as maplibregl.ImageSource | undefined;
+        if (source) source.updateImage({ url, coordinates: gridCorners(file.grid) });
+        else {
+          this.map.addSource(id, { type: 'image', url, coordinates: gridCorners(file.grid) });
+          this.map.addLayer(
+            {
+              id,
+              type: 'raster',
+              source: id,
+              layout: { visibility: 'none' },
+              paint: { 'raster-opacity': OPACITY[key], 'raster-fade-duration': 0, 'raster-resampling': 'linear' },
+            },
+            this.before(key),
+          );
+        }
+      }
+      this.apply(key);
+    }
+    return this.present;
+  }
+
+  setVisible(key: SnowLayer, on: boolean) {
+    this.visible[key] = on;
+    this.apply(key);
+  }
+
+  private apply(key: SnowLayer) {
+    const id = SNOW_LAYERS[key];
+    if (this.map.getLayer(id)) this.map.setLayoutProperty(id, 'visibility', this.visible[key] && this.present.has(key) ? 'visible' : 'none');
+  }
 }
 
 /** Reads the lossless data PNG once so a click can show the estimate under the cursor. */

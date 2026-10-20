@@ -8,8 +8,9 @@ import { escapeHtml, fmt, formatAge } from './format.ts';
 export const STATIONS_URL = `${import.meta.env.BASE_URL}data/stations.json`;
 const LAYER = 'stations';
 
-export async function loadStations(): Promise<StationsFile> {
-  const res = await fetch(STATIONS_URL, { cache: 'no-cache' });
+/** `url` defaults to the latest readings; the time slider passes a day's copy. */
+export async function loadStations(url = STATIONS_URL): Promise<StationsFile> {
+  const res = await fetch(url, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`stations.json: HTTP ${res.status}`);
   const file = (await res.json()) as StationsFile;
   if (file.schemaVersion !== SCHEMA_VERSION) throw new Error(`stations.json: unsupported schema ${file.schemaVersion}`);
@@ -41,13 +42,15 @@ export function addStationLayer(
   map: maplibregl.Map,
   stations: Station[],
   onSelect: (s: Station) => void,
-): { setVisible: (v: boolean) => void } {
+  visible = true,
+): { setVisible: (v: boolean) => void; setStations: (s: Station[]) => void } {
+  let current = stations;
   map.addSource(LAYER, { type: 'geojson', data: toGeoJson(stations) });
   map.addLayer({
     id: LAYER,
     type: 'circle',
     source: LAYER,
-    layout: { 'circle-sort-key': ['get', 'hasSnow'] },
+    layout: { 'circle-sort-key': ['get', 'hasSnow'], visibility: visible ? 'visible' : 'none' },
     paint: {
       'circle-color': snowColorExpression(),
       'circle-radius': [
@@ -72,7 +75,8 @@ export function addStationLayer(
   };
   const stationAt = (e: MapLayerMouseEvent) => {
     const f = e.features?.[0];
-    return f ? { id: f.id as number, station: stations[f.properties.index as number] } : null;
+    const station = f ? current[f.properties.index as number] : undefined;
+    return f && station ? { id: f.id as number, station } : null;
   };
 
   // Hover tooltips only for real pointers; touch devices go straight to the details panel.
@@ -99,6 +103,12 @@ export function addStationLayer(
     setVisible: (v) => {
       map.setLayoutProperty(LAYER, 'visibility', v ? 'visible' : 'none');
       if (!v) popup.remove();
+    },
+    setStations: (list) => {
+      setHover(null);
+      popup.remove();
+      current = list;
+      (map.getSource(LAYER) as maplibregl.GeoJSONSource).setData(toGeoJson(list));
     },
   };
 }

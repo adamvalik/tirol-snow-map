@@ -114,13 +114,13 @@ The app opens on a tilted 3D view of Bolzano and the surrounding peaks, with one
 | Click for point weather | Elevation, current conditions and a 7-day forecast for the clicked point, with snowfall bars | MVP |
 | OSM basemap | Towns, villages, roads, railways, rivers, lakes, forests, summit and place labels, 3D buildings at close zoom, so the map reads like a miniature of the real valleys | MVP+ (done) |
 | "Today from space" layer | Latest cloud-free Sentinel-2 true-colour picture draped over the terrain, with its acquisition date; cloud gaps filled from the newest older clear day | V2 (done) |
-| Snow cover layer | Satellite snow fraction draped over the terrain, with date and a cloud-gap indicator | V2 |
-| Estimated snow depth layer | Colour ramp from 0 to 200 cm and above, transparent where no snow | V2 |
-| Snow line indicator | Elevation above which snow cover exceeds 50 percent, shown as a number and a contour | V2 |
-| Confidence toggle | Grey-out of cells far from any station or above the highest station | V2 |
-| Time slider | Step through the last 14 days of snow cover and depth | V3 |
-| Forecast animation | Play forecast snowfall hour by hour | V3 |
-| Shareable view link | The address stores camera position and active layers, so a friend opens the same view | V3 |
+| Snow cover layer | Satellite snow fraction draped over the terrain, with date and a cloud-gap indicator | V2 (done) |
+| Estimated snow depth layer | Colour ramp from 0 to 200 cm and above, transparent where no snow | V2 (done) |
+| Snow line indicator | Elevation above which snow cover exceeds 50 percent, shown as a number and a contour | V2 (done, number only) |
+| Confidence toggle | Grey-out of cells far from any station or above the highest station | V2 (done) |
+| Time slider | Step through the last 14 days of snow cover, depth and station readings; days before the first deploy are rebuilt from cached Sentinel-2 passes (snow cover only) | V3 (done) |
+| Forecast animation | Play forecast new snow in 3-hour steps over the next 72 hours, on the 250 m grid with the terrain deciding rain or snow | V3 (done) |
+| Shareable view link | The address stores camera position, exaggeration, active layers, slider day and forecast frame, so a friend opens the same view | V3 (done) |
 
 **Interface decisions**
 
@@ -180,6 +180,7 @@ The biggest risk is that the snow depth estimate looks convincing but is wrong i
 - [x] Station source: province API plus the Euregio station feed (linea), merged
 - [x] Basemap: self-hosted OSM extract instead of a bare terrain model; MapLibre stays, no three.js
 - [x] V2 scope adds the Sentinel-2 "today from space" layer next to snow cover and snow depth
+- [x] V3: forecast snowfall from an Open-Meteo grid fetched by the pipeline every 6 hours (not from the browser), so it stays inside the free limits; pipeline state carried between scheduled runs in an Actions cache; failures reported as an automatically opened and closed GitHub issue
 - [x] GitHub: you have an account. Claude Code runs git init first, then you create the GitHub repository and connect it, and only after that are Pages and the scheduled workflow set up
 
 ## Kickoff prompt for Claude Code

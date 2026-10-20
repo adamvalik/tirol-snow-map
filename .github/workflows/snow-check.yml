@@ -1,6 +1,7 @@
-# Runs the live data pipeline (stations, Copernicus snow cover, snow depth estimate) and uploads
-# the generated files. Used to verify the Copernicus access with the repository secrets before
-# the scheduled production workflow exists (V3). Start it from the Actions tab or by pushing.
+# Runs the live data pipeline (stations, snow cover, snow depth estimate, satellite picture,
+# forecast) and uploads the generated files, without deploying. Used to check pipeline changes on
+# a branch with the repository secrets; production runs in deploy.yml. Start it from the Actions
+# tab or by pushing.
 name: Snow data check
 
 on:

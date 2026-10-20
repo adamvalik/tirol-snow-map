@@ -1,0 +1,123 @@
+# Production: every 30 minutes, refreshes the data and publishes the app with it to GitHub Pages.
+#
+# Data that must survive between runs (the files the app reads, the 14-day history, classified
+# Sentinel-2 days, the forecast grid) travels in an Actions cache; the OSM basemap is rebuilt once
+# a month. A failed upstream never stops the deploy: the app then shows the last good data with a
+# warning, and scripts/monitor.mjs opens an issue when a step keeps failing.
+#
+# One-time setup: Settings → Pages → Source "GitHub Actions"; secrets CDSE_USERNAME, CDSE_PASSWORD,
+# CDSE_CLIENT_ID, CDSE_CLIENT_SECRET. Scheduled runs only happen on the default branch.
+name: Update data and deploy
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  DATA_PATHS: |
+    web/public/data
+    data/state
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: write # prune old data caches
+      issues: write # monitoring issue
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+      - name: Restore data from the previous run
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.DATA_PATHS }}
+          key: pipeline-data-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: pipeline-data-
+
+      - name: Month for the basemap cache
+        id: month
+        run: echo "month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+      - name: Restore the basemap
+        id: basemap
+        uses: actions/cache@v4
+        with:
+          path: web/public/basemap
+          key: basemap-${{ steps.month.outputs.month }}
+      - name: Build the basemap (once a month)
+        if: steps.basemap.outputs.cache-hit != 'true'
+        run: npm run basemap
+
+      - name: Run the pipeline
+        id: pipeline
+        env:
+          CDSE_USERNAME: ${{ secrets.CDSE_USERNAME }}
+          CDSE_PASSWORD: ${{ secrets.CDSE_PASSWORD }}
+          CDSE_CLIENT_ID: ${{ secrets.CDSE_CLIENT_ID }}
+          CDSE_CLIENT_SECRET: ${{ secrets.CDSE_CLIENT_SECRET }}
+        # Exit code 2 means some upstream failed and the files carry the last good data; anything
+        # else non-zero is a crash, and the restored data from the previous run is deployed as is.
+        run: |
+          set +e
+          npm run pipeline
+          code=$?
+          echo "exit=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Save data for the next run
+        if: steps.pipeline.outputs.exit == '0' || steps.pipeline.outputs.exit == '2'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.DATA_PATHS }}
+          key: pipeline-data-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+      - name: Report data problems
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PIPELINE_EXIT: ${{ steps.pipeline.outputs.exit }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: node scripts/monitor.mjs
+
+      - name: Prune old data caches
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh cache list --key pipeline-data- --sort created_at --order desc --limit 100 --json id --jq '.[3:][].id' \
+            | xargs -r -n1 gh cache delete || true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

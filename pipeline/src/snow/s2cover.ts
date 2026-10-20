@@ -36,6 +36,10 @@ export interface S2Composite {
   cls: Uint8Array;
   /** Fine grid: days between that view and `date`; AGE_NONE without a clear view. */
   age: Uint8Array;
+  /** Classes of each day used, newest first (for history snapshots of earlier days). */
+  perDay: { date: string; cls: Uint8Array }[];
+  /** Set when the catalogue could not be reached and only cached days were used. */
+  error?: string;
 }
 
 const daysBetween = (a: string, b: string) => Math.round((Date.parse(a) - Date.parse(b)) / 86_400_000);
@@ -125,8 +129,11 @@ export function s2Stats(c: { cls: Uint8Array; age: Uint8Array }) {
 }
 
 interface CacheIndex {
-  [date: string]: string[];
+  /** Older caches stored only the scene list. */
+  [date: string]: { scenes: string[]; clearShare: number } | string[];
 }
+
+const indexScenes = (e: CacheIndex[string] | undefined) => (Array.isArray(e) ? e : e?.scenes);
 
 /**
  * Classifies new pass days (cached in `cacheDir`) and returns the composite, or a reason. Needs
@@ -137,13 +144,6 @@ export async function loadS2Composite(opts: { cacheDir: string; now: string; log
   const secret = process.env.CDSE_CLIENT_SECRET;
   if (!id || !secret) return { reason: 'No Sentinel Hub OAuth client configured (CDSE_CLIENT_ID, CDSE_CLIENT_SECRET)' };
   const bbox = { west: FINE_GRID.west, south: FINE_GRID.south, east: FINE_GRID.east, north: FINE_GRID.north };
-  const token = await getClientToken(id, secret);
-  const { days: scored } = chooseDay(await searchScenes(token, bbox, WINDOW_DAYS, opts.now), bbox);
-  const days: S2Day[] = scored
-    .filter((d) => d.clearShare >= MIN_CLEAR_SHARE)
-    .map((d) => ({ date: d.date, scenes: [...d.scenes].sort(), clearShare: d.clearShare }));
-  if (!days.length) return { reason: `No Sentinel-2 pass with clear sky in the last ${WINDOW_DAYS} days` };
-
   await mkdir(opts.cacheDir, { recursive: true });
   const indexPath = path.join(opts.cacheDir, 'index.json');
   let index: CacheIndex = {};
@@ -152,12 +152,35 @@ export async function loadS2Composite(opts: { cacheDir: string; now: string; log
   } catch {
     // no cache yet
   }
+
+  let token: string | null = null;
+  let days: S2Day[];
+  let error: string | undefined;
+  try {
+    token = await getClientToken(id, secret);
+    const { days: scored } = chooseDay(await searchScenes(token, bbox, WINDOW_DAYS, opts.now), bbox);
+    days = scored
+      .filter((d) => d.clearShare >= MIN_CLEAR_SHARE)
+      .map((d) => ({ date: d.date, scenes: [...d.scenes].sort(), clearShare: d.clearShare }));
+  } catch (e) {
+    // Catalogue or login unreachable: the days classified earlier still give a (staler) snow map.
+    error = e instanceof Error ? e.message : String(e);
+    const cutoff = new Date(Date.parse(opts.now) - WINDOW_DAYS * 86_400_000).toISOString().slice(0, 10);
+    days = Object.entries(index)
+      .filter(([date]) => date >= cutoff)
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .map(([date, e]) => ({ date, scenes: indexScenes(e) ?? [], clearShare: Array.isArray(e) ? 0 : e.clearShare }));
+    if (!days.length) throw e;
+    opts.log(`snow (Sentinel-2): ${error}; using ${days.length} cached pass days`);
+  }
+  if (!days.length) return { reason: `No Sentinel-2 pass with clear sky in the last ${WINDOW_DAYS} days` };
+
   const file = (date: string) => path.join(opts.cacheDir, `${date}.png`);
-  const loaded: { cls: Uint8Array; ageDays: number }[] = [];
+  const loaded: { date: string; cls: Uint8Array }[] = [];
   for (const d of days) {
     let cls: Uint8Array | null = null;
     // A day is re-classified when more of its scenes have been published since.
-    if (index[d.date]?.join() === d.scenes.join()) {
+    if (indexScenes(index[d.date])?.join() === d.scenes.join()) {
       try {
         const { data, info } = await sharp(await readFile(file(d.date))).extractChannel(0).raw().toBuffer({ resolveWithObject: true });
         if (info.width === FINE_GRID.width && info.height === FINE_GRID.height) cls = new Uint8Array(data);
@@ -165,14 +188,15 @@ export async function loadS2Composite(opts: { cacheDir: string; now: string; log
         // cache file missing or broken
       }
     }
+    if (!cls && !token) continue;
     if (!cls) {
       const t0 = Date.now();
-      cls = await classifyDay(token, d.date, FINE_GRID);
+      cls = await classifyDay(token!, d.date, FINE_GRID);
       await writeFile(
         file(d.date),
         await sharp(Buffer.from(cls), { raw: { width: FINE_GRID.width, height: FINE_GRID.height, channels: 1 } }).png({ compressionLevel: 9 }).toBuffer(),
       );
-      index[d.date] = d.scenes;
+      index[d.date] = { scenes: d.scenes, clearShare: d.clearShare };
       const counts = [0, 0, 0, 0];
       for (const k of cls) counts[k]++;
       opts.log(
@@ -180,17 +204,29 @@ export async function loadS2Composite(opts: { cacheDir: string; now: string; log
           `snow ${counts[S2_SNOW]}, bare ${counts[S2_BARE]}, cloud ${counts[S2_CLOUD]}, no data ${counts[S2_NODATA]}`,
       );
     }
-    loaded.push({ cls, ageDays: daysBetween(days[0].date, d.date) });
+    loaded.push({ date: d.date, cls });
   }
+  if (!loaded.length) throw new Error(error ?? 'No Sentinel-2 day could be loaded');
 
-  // Forget days that left the window.
-  const keep = new Set(days.map((d) => d.date));
+  // Forget days that left the window (only after a successful search; offline, keep everything).
+  const keep = new Set(error ? Object.keys(index) : days.map((d) => d.date));
   for (const date of Object.keys(index)) if (!keep.has(date)) delete index[date];
   for (const f of await readdir(opts.cacheDir)) {
     if (f.endsWith('.png') && !keep.has(f.slice(0, -4))) await rm(path.join(opts.cacheDir, f));
   }
   await writeFile(indexPath, JSON.stringify(index));
 
-  const { cls, age } = compositeDays(loaded);
-  return { date: days[0].date, days, cls, age };
+  const used = days.filter((d) => loaded.some((l) => l.date === d.date));
+  const { cls, age } = compositeDays(loaded.map((l) => ({ cls: l.cls, ageDays: daysBetween(loaded[0].date, l.date) })));
+  return { date: loaded[0].date, days: used, cls, age, perDay: loaded.map((l) => ({ date: l.date, cls: l.cls })), ...(error ? { error } : {}) };
+}
+
+/**
+ * The composite as it stood on `date`: the pass days up to then, aged relative to it. Used to
+ * rebuild time slider days from the cache.
+ */
+export function compositeAsOf(perDay: S2Composite['perDay'], date: string): { cls: Uint8Array; age: Uint8Array } | null {
+  const days = perDay.filter((d) => d.date <= date && daysBetween(date, d.date) < WINDOW_DAYS);
+  if (!days.length) return null;
+  return compositeDays(days.map((d) => ({ cls: d.cls, ageDays: daysBetween(date, d.date) })));
 }

@@ -1,28 +1,59 @@
 import * as maplibregl from 'maplibre-gl';
-import type { SatelliteFile, SnowFile, StationsFile } from '../../shared/types.ts';
+import type { ForecastFile, HistoryDay, HistoryFile, SatelliteFile, SnowFile, StationsFile, StatusFile } from '../../shared/types.ts';
+import { SCHEMA_VERSION } from '../../shared/types.ts';
 import './style.css';
 import { SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from './colors.ts';
 import { getForecast } from './forecast.ts';
+import { FORECAST_LAYER, ForecastAnimation, forecastInfoHtml, frameLabel, loadForecast } from './forecastAnim.ts';
 import { ageHours, escapeHtml, formatAge, formatTime } from './format.ts';
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
-import { createMap, DEFAULT_EXAGGERATION, isLowPowerDevice } from './map.ts';
+import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
-import { addSnowLayers, addSnowWhite, loadSnow, pointSnowHtml, SNOW_LAYERS, SNOW_WHITE_LAYER, type SnowLayer, snowInfoHtml, SnowValues } from './snow.ts';
+import { loadSnow, pointSnowHtml, SNOW_LAYERS, type SnowLayer, SnowLayers, snowInfoHtml, SnowValues } from './snow.ts';
 import { addStationLayer, loadStations, STATION_LAYER_ID } from './stations.ts';
+import { LAYER_KEYS, type LayerKey, parseHash, toHash, type ViewState } from './viewState.ts';
 
 /** Station data older than this gets a visible warning (the pipeline runs every 30 minutes). */
 const STALE_AFTER_HOURS = 3;
+/** The snow layers are rebuilt on every run as well. */
+const SNOW_STALE_AFTER_HOURS = 6;
+/** The forecast grid is fetched every 6 hours. */
+const FORECAST_STALE_AFTER_HOURS = 12;
+const DATA = `${import.meta.env.BASE_URL}data/`;
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+const toggle = (key: LayerKey) => $<HTMLInputElement>(`toggle-${key}`);
 
-const map = createMap('map');
+// The address can carry a shared view (see viewState.ts).
+const initial = parseHash(window.location.hash);
+if (initial.layers) for (const key of LAYER_KEYS) toggle(key).checked = initial.layers.includes(key);
+
+const map = createMap('map', {
+  center: initial.center ?? DEFAULT_VIEW.center,
+  zoom: initial.zoom ?? DEFAULT_VIEW.zoom,
+  pitch: initial.pitch ?? DEFAULT_VIEW.pitch,
+  bearing: initial.bearing ?? DEFAULT_VIEW.bearing,
+});
 map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
 map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
 
 let stationsFile: StationsFile | null = null;
+/** Stations on the map: the latest, or the slider day's. */
+let shownStations: StationsFile | null = null;
 let stationsError: string | null = null;
-let exaggeration = DEFAULT_EXAGGERATION;
+let exaggeration = initial.exaggeration ?? DEFAULT_EXAGGERATION;
+
+// --- Warnings ----------------------------------------------------------------
+
+const warnings = new Map<string, string>();
+function setWarning(key: string, text: string | null) {
+  if (text) warnings.set(key, text);
+  else warnings.delete(key);
+  const el = $('data-warning');
+  el.hidden = warnings.size === 0;
+  el.textContent = [...warnings.values()].join(' ');
+}
 
 // --- Layer panel -------------------------------------------------------------
 
@@ -41,9 +72,14 @@ $('legend-items').innerHTML =
   `<li><span class="swatch" style="background:${NO_SNOW_SENSOR_COLOR}"></span>No snow sensor</li>`;
 
 const exaggerationInput = $<HTMLInputElement>('exaggeration');
+const showExaggeration = () => {
+  exaggerationInput.value = String(exaggeration);
+  $('exaggeration-value').textContent = `${exaggeration.toFixed(1)}×`;
+};
+showExaggeration();
 exaggerationInput.addEventListener('input', () => {
   exaggeration = Number(exaggerationInput.value);
-  $('exaggeration-value').textContent = `${exaggeration.toFixed(1)}×`;
+  showExaggeration();
   map.setTerrain({ source: 'terrain', exaggeration });
 });
 
@@ -64,7 +100,68 @@ bindToggle('toggle-basemap', (on) =>
 );
 bindToggle('toggle-labels', (on) => setGroup(basemap.labels.map((l) => l.id), on));
 
+// --- Shareable view ----------------------------------------------------------
+
+let selectedDay: string | null = null;
+let forecastFrame: number | null = null;
+
+function currentView(): ViewState {
+  const c = map.getCenter();
+  return {
+    center: [c.lng, c.lat],
+    zoom: map.getZoom(),
+    pitch: map.getPitch(),
+    bearing: map.getBearing(),
+    exaggeration,
+    layers: LAYER_KEYS.filter((k) => toggle(k).checked),
+    day: selectedDay,
+    frame: toggle('forecast').checked ? forecastFrame : null,
+  };
+}
+
+let hashTimer: number | undefined;
+function syncHash() {
+  window.clearTimeout(hashTimer);
+  hashTimer = window.setTimeout(() => window.history.replaceState(null, '', toHash(currentView())), 300);
+}
+map.on('moveend', syncHash);
+$('layers-body').addEventListener('change', syncHash);
+exaggerationInput.addEventListener('change', syncHash);
+
+let toastTimer: number | undefined;
+function toast(text: string) {
+  const el = $('toast');
+  el.textContent = text;
+  el.hidden = false;
+  window.clearTimeout(toastTimer);
+  toastTimer = window.setTimeout(() => (el.hidden = true), 4000);
+}
+
+$('share-btn').addEventListener('click', async () => {
+  window.history.replaceState(null, '', toHash(currentView()));
+  const url = window.location.href;
+  try {
+    // Phones get the system share sheet; desktops a copied link.
+    if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+      await navigator.share({ title: document.title, url });
+      return;
+    }
+    await navigator.clipboard.writeText(url);
+    toast('Link to this view copied.');
+  } catch (e) {
+    if (e instanceof DOMException && e.name === 'AbortError') return;
+    toast('Copy the address from the address bar to share this view.');
+  }
+});
+
 // --- Sources dialog ----------------------------------------------------------
+
+const STEP_NAMES: Record<string, string> = {
+  stations: 'weather stations',
+  snow: 'snow layers',
+  satellite: 'satellite picture',
+  forecast: 'forecast snowfall',
+};
 
 function renderSources() {
   const stationPart = stationsFile
@@ -76,7 +173,18 @@ function renderSources() {
         )
         .join('')
     : `<p class="muted">${escapeHtml(stationsError ?? 'Loading…')}</p>`;
+  const failing = statusFile ? Object.entries(statusFile.steps).filter(([, s]) => !s.ok) : [];
   $('sources-body').innerHTML = `
+    ${
+      failing.length
+        ? `<h3>Last update</h3>${failing
+            .map(
+              ([id, s]) =>
+                `<p class="warning">Problems with the ${escapeHtml(STEP_NAMES[id] ?? id)} since ${formatTime(s.failingSince)}: ${escapeHtml(s.problems.join('; '))}</p>`,
+            )
+            .join('')}<p class="muted">The layers keep showing their last good data, each with its own date.</p>`
+        : ''
+    }
     <h3>Terrain</h3>
     <p><a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a>, built from open elevation data:
     South Tyrol DGM 2.5 m (Autonomous Province of Bolzano, CC0), TINITALY 10 m (INGV, CC BY 4.0),
@@ -88,13 +196,15 @@ function renderSources() {
     <h3>Snow cover and estimated snow depth</h3>
     ${snowFile ? snowInfoHtml(snowFile) : '<p class="muted">Not loaded.</p>'}
     ${snowFile?.cover.available ? `<p>Satellite snow cover: <a href="${escapeHtml(snowFile.cover.source)}" target="_blank" rel="noopener">${escapeHtml(snowFile.cover.attribution)}</a>. ${escapeHtml(snowFile.cover.licence)}.</p>` : ''}
-    <p class="muted">The depth map is the app's own estimate from station readings and elevation (method in plan.md); it is not an official product.</p>
+    <p class="muted">The depth map is the app's own estimate from station readings and elevation (method in plan.md); it is not an official product.
+    The day slider shows the last update of each of the past ${historyFile?.days.length ?? 14} days.</p>
     <h3>Satellite picture</h3>
     ${satelliteFile ? satelliteInfoHtml(satelliteFile) : '<p class="muted">Not loaded.</p>'}
     ${satelliteFile?.available ? `<p>${escapeHtml(satelliteFile.attribution)}. Free and open Copernicus data.</p>` : ''}
-    <h3>Point forecast</h3>
+    <h3>Forecast snowfall and point forecast</h3>
+    ${forecastFile ? forecastInfoHtml(forecastFile) : ''}
     <p><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a>, licensed CC BY 4.0.
-    Fetched live when you click the map and cached in your browser for one hour.</p>
+    The point forecast is fetched live when you click the map and cached in your browser for one hour.</p>
     <h3>Roads, places, rivers, buildings and summits</h3>
     <p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL),
     via a <a href="https://protomaps.com/" target="_blank" rel="noopener">Protomaps</a> basemap build served from this site.
@@ -117,35 +227,32 @@ $('sources-btn').addEventListener('click', () => {
 
 function showStationsStatus() {
   const time = $('stations-time');
-  const warning = $('data-warning');
   if (!stationsFile) {
     time.textContent = `Stations: ${stationsError ?? 'loading…'}`;
-    warning.hidden = !stationsError;
-    warning.textContent = stationsError ? 'Station data could not be loaded. Terrain and forecasts still work.' : '';
+    setWarning('stations', stationsError ? 'Station data could not be loaded. Terrain and forecasts still work.' : null);
     return;
   }
   const f = stationsFile;
   const withSnow = f.stations.filter((s) => s.snowDepthCm !== null).length;
-  time.textContent = `Stations: ${f.stations.length} (${withSnow} with snow depth), updated ${formatTime(f.generatedAt)}.`;
+  if (!selectedDay) time.textContent = `Stations: ${f.stations.length} (${withSnow} with snow depth), updated ${formatTime(f.generatedAt)}.`;
   const failed = f.sources.filter((s) => !s.ok);
   const messages: string[] = [];
   if (f.stale || ageHours(f.generatedAt) > STALE_AFTER_HOURS) {
     messages.push(`Station data is out of date (${formatAge(f.generatedAt)}).`);
   }
   if (failed.length) messages.push(`Last update could not reach: ${failed.map((s) => s.name).join(', ')}.`);
-  warning.hidden = messages.length === 0;
-  warning.textContent = messages.join(' ');
+  setWarning('stations', messages.join(' ') || null);
 }
 
-// --- Snow layers -------------------------------------------------------------
+// --- Data files --------------------------------------------------------------
 
 let snowFile: SnowFile | null = null;
+let latestSnow: SnowFile | null = null;
 let snowValues: SnowValues | null = null;
 const snowPromise = loadSnow().then(
-  async (f) => {
-    snowFile = f;
-    $('snow-info').innerHTML = snowInfoHtml(f);
-    snowValues = await SnowValues.load(f).catch(() => null);
+  (f) => {
+    latestSnow = f;
+    if (ageHours(f.generatedAt) > SNOW_STALE_AFTER_HOURS) setWarning('snow', `Snow layers were last updated ${formatAge(f.generatedAt)}.`);
     return f;
   },
   (e: unknown) => {
@@ -179,6 +286,171 @@ const stationsPromise = loadStations().then(
   },
 );
 
+let forecastFile: ForecastFile | null = null;
+const forecastPromise = loadForecast().then(
+  (f) => {
+    forecastFile = f;
+    $('forecast-info').innerHTML = forecastInfoHtml(f);
+    if (f.available && (f.stale || ageHours(f.fetchedAt) > FORECAST_STALE_AFTER_HOURS)) {
+      setWarning('forecast', `Forecast snowfall is from ${formatAge(f.fetchedAt)}; newer forecasts could not be fetched.`);
+    }
+    return f;
+  },
+  () => null,
+);
+
+async function loadJson<T extends { schemaVersion: number }>(name: string): Promise<T | null> {
+  try {
+    const res = await fetch(`${DATA}${name}`, { cache: 'no-cache' });
+    if (!res.ok) return null;
+    const f = (await res.json()) as T;
+    return f.schemaVersion === SCHEMA_VERSION ? f : null;
+  } catch {
+    return null;
+  }
+}
+
+let statusFile: StatusFile | null = null;
+void loadJson<StatusFile>('status.json').then((s) => {
+  statusFile = s;
+  // Station and forecast problems have their own, more specific warnings.
+  const failing = s ? (['snow', 'satellite'] as const).filter((id) => !s.steps[id]?.ok) : [];
+  setWarning(
+    'status',
+    failing.length
+      ? `The last update could not refresh the ${failing.map((id) => STEP_NAMES[id]).join(' and ')}; they show their last good data (details under Data sources).`
+      : null,
+  );
+});
+
+let historyFile: HistoryFile | null = null;
+const historyPromise = loadJson<HistoryFile>('history.json').then((h) => (historyFile = h));
+
+// --- Snow layers and the day slider -------------------------------------------
+
+let snowLayers: SnowLayers | null = null;
+let stationLayer: ReturnType<typeof addStationLayer> | null = null;
+const SNOW_TOGGLES: Record<SnowLayer, LayerKey> = { white: 'snow', cover: 'cover', depth: 'depth', confidence: 'confidence' };
+
+async function showSnow(file: SnowFile | null) {
+  snowFile = file;
+  snowValues = null;
+  const present = file && snowLayers ? snowLayers.show(file) : new Set<SnowLayer>();
+  for (const [layer, key] of Object.entries(SNOW_TOGGLES) as [SnowLayer, LayerKey][]) {
+    const input = toggle(key);
+    input.disabled = !present.has(layer);
+    input.parentElement!.title = input.disabled ? (selectedDay ? 'Not available for this day' : 'Not available in the current data') : '';
+  }
+  $('snow-date').textContent = file?.cover.available ? `(${shortDate(file.cover.date)})` : '';
+  $('snow-info').innerHTML = file ? snowInfoHtml(file) : 'Snow layers: no data for this day.';
+  if (file) snowValues = await SnowValues.load(file).catch(() => null);
+}
+
+// Oldest first, so the slider runs left to right through time; the newest day is the live data.
+let days: HistoryDay[] = [];
+let dayRequest = 0;
+
+const dayLabel = (d: HistoryDay, latest: boolean) =>
+  `${new Date(`${d.date}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })}${latest ? ' (latest)' : ''}`;
+
+async function showDay(i: number) {
+  const day = days[i];
+  const latest = i === days.length - 1;
+  const request = ++dayRequest;
+  selectedDay = latest ? null : day.date;
+  $('day-label').textContent = dayLabel(day, latest);
+  const note = $('day-note');
+  let snow: SnowFile | null = latestSnow;
+  let stations: StationsFile | null = stationsFile;
+  if (!latest) {
+    [snow, stations] = await Promise.all([
+      loadSnow(day.snow).catch(() => null),
+      day.stations ? loadStations(`${DATA}${day.stations}`).catch(() => null) : Promise.resolve(null),
+    ]);
+  }
+  if (request !== dayRequest) return;
+  await showSnow(snow);
+  shownStations = stations;
+  stationLayer?.setStations(stations?.stations ?? []);
+  if (latest) {
+    note.hidden = true;
+    showStationsStatus();
+  } else {
+    note.hidden = false;
+    note.textContent = day.backfilled
+      ? `Snow seen from space as of ${shortDate(day.date)}, rebuilt from the satellite passes up to that day. The app kept no depth estimate or station readings for it.`
+      : `Snow layers and station readings as of the last update on ${shortDate(day.date)} (${formatTime(snow?.generatedAt)}).`;
+    $('stations-time').textContent = stations
+      ? `Stations on ${shortDate(day.date)}: ${stations.stations.length} (${stations.stations.filter((s) => s.snowDepthCm !== null).length} with snow depth).`
+      : `Stations: no readings stored for ${shortDate(day.date)}.`;
+  }
+  syncHash();
+}
+
+function setupDaySlider(h: HistoryFile | null) {
+  days = [...(h?.days ?? [])].reverse();
+  if (days.length < 2) return;
+  const slider = $<HTMLInputElement>('day');
+  slider.max = String(days.length - 1);
+  const start = initial.day ? days.findIndex((d) => d.date === initial.day) : -1;
+  slider.value = String(start >= 0 ? start : days.length - 1);
+  $('day-first').textContent = shortDate(days[0].date);
+  $('day-label').textContent = dayLabel(days[Number(slider.value)], start < 0 || start === days.length - 1);
+  $('day-group').hidden = false;
+  let timer: number | undefined;
+  slider.addEventListener('input', () => {
+    const i = Number(slider.value);
+    $('day-label').textContent = dayLabel(days[i], i === days.length - 1);
+    // Wait until the thumb rests so dragging does not fire a request per step.
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => void showDay(i), 150);
+  });
+  if (start >= 0 && start < days.length - 1) void showDay(start);
+}
+
+// --- Forecast animation --------------------------------------------------------
+
+function setupForecast(file: ForecastFile | null) {
+  const input = toggle('forecast');
+  const player = $('forecast-player');
+  if (!file?.available || !file.frames?.length) {
+    input.checked = false;
+    input.disabled = true;
+    input.parentElement!.title = file?.reason ?? 'No forecast in the current data';
+    return;
+  }
+  const frameInput = $<HTMLInputElement>('forecast-frame');
+  const playBtn = $('forecast-play');
+  frameInput.max = String(file.frames.length - 1);
+  const showPlaying = (playing: boolean) => {
+    playBtn.querySelector('span')!.textContent = playing ? '❚❚' : '▶';
+    playBtn.setAttribute('aria-label', playing ? 'Pause the forecast' : 'Play the forecast');
+  };
+  const anim = new ForecastAnimation(map, file, basemap.lines[0]?.id, input.checked, (k) => {
+    forecastFrame = k;
+    frameInput.value = String(k);
+    $('forecast-label').textContent = frameLabel(file, k);
+    syncHash();
+  });
+  anim.setFrame(Math.min(initial.frame ?? file.frames.length - 1, file.frames.length - 1));
+  player.hidden = !input.checked;
+  bindToggle('toggle-forecast', (on) => {
+    anim.setVisible(on);
+    player.hidden = !on;
+    showPlaying(false);
+  });
+  playBtn.addEventListener('click', () => {
+    if (anim.playing) anim.pause();
+    else anim.play();
+    showPlaying(anim.playing);
+  });
+  frameInput.addEventListener('input', () => {
+    anim.pause();
+    showPlaying(false);
+    anim.setFrame(Number(frameInput.value));
+  });
+}
+
 // --- Point click: elevation + forecast ----------------------------------------
 
 const pointMarker = new maplibregl.Marker({ element: Object.assign(document.createElement('div'), { className: 'point-marker' }) });
@@ -211,9 +483,15 @@ async function showPoint(lngLat: maplibregl.LngLat) {
 // --- Map setup -------------------------------------------------------------
 
 map.on('load', async () => {
+  // A shared link may switch off layers that the style draws by default.
+  if (exaggeration !== DEFAULT_EXAGGERATION) map.setTerrain({ source: 'terrain', exaggeration });
+  for (const key of ['hillshade', 'relief', 'basemap', 'labels'] as const) {
+    if (!toggle(key).checked) toggle(key).dispatchEvent(new Event('change'));
+  }
+
   // The picture replaces the drawn land colours but keeps hillshade, roads and labels on top.
   const sat = await satellitePromise;
-  const satToggle = $<HTMLInputElement>('toggle-satellite');
+  const satToggle = toggle('satellite');
   if (sat && addSatelliteLayer(map, sat, 'hillshade', satToggle.checked)) {
     // The photo already has real light and shade, so the drawn hillshade is toned down over it.
     const shade = (on: boolean) => map.setPaintProperty('hillshade', 'hillshade-exaggeration', on ? 0.12 : 0.3);
@@ -228,47 +506,42 @@ map.on('load', async () => {
     satToggle.parentElement!.title = 'No satellite picture in the current data';
   }
 
-  const snow = await snowPromise;
-  // Snow seen by Sentinel-2: white on the terrain, under the shading so it reads like a snowed-in model.
-  const snowToggle = $<HTMLInputElement>('toggle-snow');
-  if (snow && addSnowWhite(map, snow, 'hillshade', snowToggle.checked)) {
-    if (snow.cover.available) $('snow-date').textContent = `(${shortDate(snow.cover.date)})`;
-    bindToggle('toggle-snow', (on) => map.setLayoutProperty(SNOW_WHITE_LAYER, 'visibility', on ? 'visible' : 'none'));
-  } else {
-    snowToggle.checked = false;
-    snowToggle.disabled = true;
-    snowToggle.parentElement!.title = 'No satellite snow map in the current data';
+  // Snow seen by Sentinel-2 goes under the shading so it reads like a snowed-in model; the 250 m
+  // cell layers go above the shading and below roads and labels.
+  // A layer first added on a day switch still lands in this order, below the forecast.
+  const order = [SNOW_LAYERS.cover, SNOW_LAYERS.depth, SNOW_LAYERS.confidence, FORECAST_LAYER];
+  snowLayers = new SnowLayers(
+    map,
+    (key) =>
+      key === 'white'
+        ? 'hillshade'
+        : (order.slice(order.indexOf(SNOW_LAYERS[key]) + 1).find((id) => map.getLayer(id)) ?? basemap.lines[0]?.id),
+    { white: toggle('snow').checked, cover: toggle('cover').checked, depth: toggle('depth').checked, confidence: toggle('confidence').checked },
+  );
+  for (const [layer, key] of Object.entries(SNOW_TOGGLES) as [SnowLayer, LayerKey][]) {
+    bindToggle(`toggle-${key}`, (on) => snowLayers!.setVisible(layer, on));
   }
-  if (snow) {
-    const toggles: Record<SnowLayer, HTMLInputElement> = {
-      cover: $<HTMLInputElement>('toggle-cover'),
-      depth: $<HTMLInputElement>('toggle-depth'),
-      confidence: $<HTMLInputElement>('toggle-confidence'),
-    };
-    // Below roads and labels, above the terrain shading.
-    const added = addSnowLayers(map, snow, basemap.lines[0]?.id, {
-      cover: toggles.cover.checked,
-      depth: toggles.depth.checked,
-      confidence: toggles.confidence.checked,
-    });
-    for (const key of Object.keys(toggles) as SnowLayer[]) {
-      if (!added.includes(key)) {
-        toggles[key].disabled = true;
-        toggles[key].parentElement!.title = 'Not available in the current data';
-        continue;
-      }
-      bindToggle(`toggle-${key}`, (on) => map.setLayoutProperty(SNOW_LAYERS[key], 'visibility', on ? 'visible' : 'none'));
-    }
-  }
+  await showSnow(await snowPromise);
+
+  // Above the snow cells, below roads and labels.
+  setupForecast(await forecastPromise);
 
   const file = await stationsPromise;
   if (file) {
-    const layer = addStationLayer(map, file.stations, (s) => {
-      clearPoint();
-      openPanel(s.name, stationHtml(s, file));
-    });
-    bindToggle('toggle-stations', (on) => layer.setVisible(on));
+    shownStations ??= file;
+    stationLayer = addStationLayer(
+      map,
+      file.stations,
+      (s) => {
+        clearPoint();
+        openPanel(s.name, stationHtml(s, shownStations ?? file));
+      },
+      toggle('stations').checked,
+    );
+    bindToggle('toggle-stations', (on) => stationLayer!.setVisible(on));
   }
+
+  setupDaySlider(await historyPromise);
 
   map.on('click', (e: maplibregl.MapMouseEvent) => {
     const onStation =
@@ -289,16 +562,10 @@ map.once('idle', () => {
 });
 Object.assign(window, { __snowmap: { map } });
 
-let basemapWarned = false;
 map.on('error', (e: maplibregl.ErrorEvent & { sourceId?: string }) => {
   if (e.sourceId === BASEMAP_SOURCE) {
-    // The extract is built locally with `npm run basemap` and is not in git; say so once instead of failing silently.
-    if (!basemapWarned) {
-      basemapWarned = true;
-      const warning = $('data-warning');
-      warning.hidden = false;
-      warning.textContent = `${warning.textContent ?? ''} Roads and places are unavailable (basemap file missing; run "npm run basemap").`.trim();
-    }
+    // The extract is built locally with `npm run basemap` and is not in git; say so instead of failing silently.
+    setWarning('basemap', 'Roads and places are unavailable (basemap file missing; run "npm run basemap").');
     return;
   }
   // Missing ocean/edge tiles are expected; anything else is worth surfacing in the console.
@@ -306,4 +573,3 @@ map.on('error', (e: maplibregl.ErrorEvent & { sourceId?: string }) => {
   if (status === 404) return;
   console.warn('Map error:', e.error?.message ?? e);
 });
-

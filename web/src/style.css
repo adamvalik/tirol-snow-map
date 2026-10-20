@@ -365,3 +365,72 @@ dialog button {
     font-size: 14px;
   }
 }
+
+/* V3: share button, day slider, forecast player, toast */
+.head-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.icon-btn svg {
+  vertical-align: middle;
+}
+
+#day-group input[type='range'],
+.player input[type='range'] {
+  width: 100%;
+}
+
+#day-group legend output {
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+.range-ends {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+
+#day-note {
+  margin: 2px 0 0;
+}
+
+.player {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 2px 6px;
+  margin: 0 0 4px 20px;
+}
+
+.player output {
+  grid-column: 1 / -1;
+  font-variant-numeric: tabular-nums;
+}
+
+.player[hidden] {
+  display: none;
+}
+
+.toast {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 16px;
+  transform: translateX(-50%);
+  background: var(--fg);
+  color: #fff;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  box-shadow: var(--panel-shadow);
+}
+
+.toast[hidden] {
+  display: none;
+}
+
+#day-group[hidden] {
+  display: none;
+}

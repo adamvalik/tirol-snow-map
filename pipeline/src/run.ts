@@ -2,20 +2,27 @@
 //
 //   npm run pipeline             live fetch
 //   npm run pipeline:fixtures    build from fixtures/ (offline, deterministic)
-//   --out <dir>                  output directory (default web/public/data)
+//   --out <dir>                  output directory, published with the app (default web/public/data)
+//   --state <dir>                caches that are kept between runs but not published (default data/state)
 //   --now <iso>                  reference time for staleness checks
+//
+// Exit code 2 means some upstream failed; the files then carry the last good data, flagged stale.
 
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rename, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SCHEMA_VERSION, type SourceStatus, type StationsFile } from '../../shared/types.ts';
+import { SCHEMA_VERSION, type SourceStatus, type StationsFile, type StepId } from '../../shared/types.ts';
 import { FIXTURES, STATION_BBOX, URLS } from './config.ts';
+import { loadDemGrid } from './dem.ts';
+import { FORECAST_FIXTURE, runForecastStep } from './forecast/run-forecast.ts';
+import { readHistory, romeDate, updateHistory } from './history.ts';
 import { mergeStations } from './merge.ts';
 import type { RawStation } from './raw.ts';
 import { parseLinea } from './sources/linea.ts';
 import { runSatelliteStep } from './satellite/run-satellite.ts';
 import { runSnowStep } from './snow/run-snow.ts';
 import { parseProvince } from './sources/provinceBz.ts';
+import { writeStatus } from './status.ts';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 /** Readings older than this are left out rather than shown as current. */
@@ -30,6 +37,7 @@ function arg(name: string): string | undefined {
 
 const useFixtures = process.argv.includes('--fixtures');
 const outDir = path.resolve(ROOT, arg('--out') ?? 'web/public/data');
+const stateDir = path.resolve(ROOT, arg('--state') ?? 'data/state');
 const now = arg('--now') ?? (useFixtures ? FIXTURE_NOW : new Date().toISOString());
 
 async function getJson<T>(key: keyof typeof URLS): Promise<T> {
@@ -101,7 +109,27 @@ async function readPrevious(file: string): Promise<StationsFile | null> {
   }
 }
 
+/** Caches used to live inside the published folder; move them so a local run does not pay again. */
+async function migrateState() {
+  const moves: [string, string][] = [
+    [path.join(outDir, '.cache', 's2-snow'), path.join(stateDir, 's2-snow')],
+    [path.join(outDir, 'snow-cover-grid.bin'), path.join(stateDir, 'snow-cover-grid.bin')],
+  ];
+  for (const [from, to] of moves) {
+    try {
+      await stat(from);
+      await mkdir(stateDir, { recursive: true });
+      await rename(from, to);
+      console.log(`[pipeline] moved ${path.relative(ROOT, from)} to ${path.relative(ROOT, to)}`);
+    } catch {
+      // nothing to move, or already moved
+    }
+  }
+  await rm(path.join(outDir, '.cache'), { recursive: true, force: true });
+}
+
 async function main() {
+  await migrateState();
   const outFile = path.join(outDir, 'stations.json');
   const previous = await readPrevious(outFile);
 
@@ -150,32 +178,54 @@ async function main() {
       (file.stale ? ', STALE' : ''),
   );
   for (const r of results) console.log(`  ${r.status.id}: ${r.status.ok ? `${r.status.stationCount} records` : `FAILED ${r.status.error}`}`);
-  if (!results.every((r) => r.status.ok)) process.exitCode = 2;
 
-  // Snow cover and depth estimate. A failure here must not take the station data down with it.
-  try {
+  const problems: Record<StepId, string[]> = { stations: [], snow: [], satellite: [], forecast: [] };
+  for (const r of results) if (!r.status.ok) problems.stations.push(`${r.status.name}: ${r.status.error}`);
+  const step = async (id: StepId, name: string, fn: () => Promise<void>) => {
+    try {
+      await fn();
+    } catch (e) {
+      console.error(`[pipeline] ${name} step failed: ${e instanceof Error ? e.stack : String(e)}`);
+      problems[id].push(`${name} step failed: ${e instanceof Error ? e.message : String(e)}`);
+    }
+  };
+  const log = (msg: string) => console.log(`  ${msg}`);
+  const dem = await loadDemGrid();
+
+  // Snow cover and depth estimate, then the day's time slider snapshot. A failure here must not
+  // take the station data down with it; the previous snow files stay in place.
+  const today = romeDate(now);
+  const historyDates = new Set([today, ...((await readHistory(outDir))?.days.map((d) => d.date) ?? [])]);
+  let snowResult: Awaited<ReturnType<typeof runSnowStep>> | null = null;
+  await step('snow', 'snow', async () => {
     const t0 = Date.now();
-    const snow = await runSnowStep({
-      outDir,
-      now,
-      stations: file.stations,
-      offline: useFixtures,
-      log: (msg) => console.log(`  ${msg}`),
-    });
-    console.log(`[pipeline] wrote snow.json in ${((Date.now() - t0) / 1000).toFixed(1)} s (cover ${snow.cover.available ? snow.cover.date : 'unavailable'})`);
-  } catch (e) {
-    console.error(`[pipeline] snow step failed: ${e instanceof Error ? e.stack : String(e)}`);
-    process.exitCode = 2;
-  }
+    snowResult = await runSnowStep({ outDir, stateDir, now, stations: file.stations, offline: useFixtures, historyDates, log });
+    problems.snow.push(...snowResult.problems);
+    const cover = snowResult.file.cover;
+    console.log(`[pipeline] wrote snow.json in ${((Date.now() - t0) / 1000).toFixed(1)} s (cover ${cover.available ? cover.date : 'unavailable'})`);
+  });
+  await step('snow', 'history', async () => {
+    const r = snowResult as Awaited<ReturnType<typeof runSnowStep>> | null;
+    await updateHistory({ outDir, now, snow: r?.file ?? null, backfill: r?.backfill ?? [], log });
+  });
 
   // Sentinel-2 picture: re-rendered only when a newer clear day appears.
-  try {
-    const sat = await runSatelliteStep({ outDir, now, offline: useFixtures, log: (msg) => console.log(`  ${msg}`) });
+  await step('satellite', 'satellite', async () => {
+    const sat = await runSatelliteStep({ outDir, now, offline: useFixtures, log });
     console.log(`[pipeline] satellite.json: ${sat.available ? `picture of ${sat.date}` : `no picture (${sat.reason})`}`);
-  } catch (e) {
-    console.error(`[pipeline] satellite step failed: ${e instanceof Error ? e.stack : String(e)}`);
-    process.exitCode = 2;
-  }
+  });
+
+  // Forecast snowfall frames for the animation.
+  await step('forecast', 'forecast', async () => {
+    const r = await runForecastStep({ outDir, stateDir, now, fixture: useFixtures ? path.join(ROOT, FORECAST_FIXTURE) : null, dem, log });
+    problems.forecast.push(...r.problems);
+    console.log(`[pipeline] forecast.json: ${r.file.available ? `${r.file.frames!.length} frames${r.file.stale ? ', STALE' : ''}` : `unavailable (${r.file.reason})`}`);
+  });
+
+  const status = await writeStatus(outDir, now, problems);
+  const failing = Object.entries(status.steps).filter(([, s]) => !s.ok);
+  console.log(`[pipeline] status: ${failing.length ? failing.map(([id, s]) => `${id} failing (${s.consecutiveFailures} runs)`).join(', ') : 'all steps OK'}`);
+  if (failing.length) process.exitCode = 2;
 }
 
 await main();

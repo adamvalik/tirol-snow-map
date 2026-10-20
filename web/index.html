@@ -14,12 +14,23 @@
     <section id="layers" class="panel" aria-label="Layers">
       <header class="panel-head">
         <h1>South Tyrol Snow Map</h1>
+        <span class="head-actions">
+        <button id="share-btn" class="icon-btn" title="Copy a link to this view" aria-label="Copy a link to this view">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+        </button>
         <button id="layers-toggle" class="icon-btn" aria-expanded="true" aria-controls="layers-body" title="Show or hide layers">
           <span aria-hidden="true">☰</span>
         </button>
+        </span>
       </header>
       <div id="layers-body" class="panel-body">
         <div id="data-warning" class="warning" hidden></div>
+        <fieldset id="day-group" hidden>
+          <legend>Day <output id="day-label" class="muted"></output></legend>
+          <input type="range" id="day" min="0" max="0" step="1" value="0" aria-label="Day shown by the snow layers and stations" />
+          <div class="range-ends muted"><span id="day-first"></span><span>latest</span></div>
+          <p id="day-note" class="muted" hidden></p>
+        </fieldset>
         <fieldset>
           <legend>Layers</legend>
           <label><input type="checkbox" id="toggle-snow" checked /> Snow seen from space <span id="snow-date" class="muted"></span></label>
@@ -28,6 +39,12 @@
           <label><input type="checkbox" id="toggle-cover" /> Snow share per 250 m cell</label>
           <label><input type="checkbox" id="toggle-depth" /> Estimated snow depth</label>
           <label><input type="checkbox" id="toggle-confidence" /> Show uncertainty (grey = less certain)</label>
+          <label><input type="checkbox" id="toggle-forecast" /> Forecast new snow, next 3 days</label>
+          <div id="forecast-player" class="player" hidden>
+            <button id="forecast-play" class="icon-btn" aria-label="Play the forecast"><span aria-hidden="true">▶</span></button>
+            <input type="range" id="forecast-frame" min="0" max="0" step="1" value="0" aria-label="Forecast time" />
+            <output id="forecast-label" class="muted"></output>
+          </div>
           <label><input type="checkbox" id="toggle-basemap" checked /> Roads, rivers, towns, buildings</label>
           <label><input type="checkbox" id="toggle-labels" checked /> Labels</label>
           <label><input type="checkbox" id="toggle-hillshade" checked /> Hillshade</label>
@@ -38,13 +55,14 @@
           <input type="range" id="exaggeration" min="1" max="3" step="0.1" value="1.5" />
         </label>
         <div class="legend" aria-label="Snow depth legend">
-          <div class="legend-title">Snow depth: dots measured, depth layer <em>estimated</em></div>
+          <div class="legend-title">Snow depth: dots measured, depth layer <em>estimated</em>, forecast new snow in the same colours</div>
           <ul id="legend-items"></ul>
         </div>
         <p class="hint">Click a station for its readings, or anywhere on the terrain for elevation and a 7-day forecast. Right-drag (two fingers on a phone) to tilt and rotate.</p>
         <p class="layer-time" id="stations-time">Stations: loading…</p>
         <div class="layer-time" id="snow-info">Snow layers: loading…</div>
         <div class="layer-time" id="satellite-info"></div>
+        <div class="layer-time" id="forecast-info"></div>
       </div>
     </section>
 
@@ -55,6 +73,8 @@
       </header>
       <div id="details-body" class="panel-body"></div>
     </aside>
+
+    <div id="toast" class="toast" role="status" hidden></div>
 
     <footer id="footer">
       <strong>Not for avalanche decisions.</strong> Check the official bulletin at

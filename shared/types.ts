@@ -124,3 +124,69 @@ export interface SatelliteFile {
   version?: string;
   attribution: string;
 }
+
+/**
+ * forecast.json: forecast new snow on the model grid, one PNG per frame (data/forecast/), each the
+ * snowfall accumulated from `start` to the frame time.
+ */
+export interface ForecastFile {
+  schemaVersion: number;
+  generatedAt: string;
+  available: boolean;
+  reason?: string;
+  /** When Open-Meteo was last fetched successfully (ISO 8601 UTC). */
+  fetchedAt?: string;
+  /** True when the latest fetch failed and these frames come from an earlier one. */
+  stale?: boolean;
+  error?: string;
+  /** Start of the accumulation (ISO 8601 UTC, whole hour). */
+  start?: string;
+  stepHours?: number;
+  frames?: { time: string; file: string; maxCm: number }[];
+  /** Forecast points fetched (coarse grid, interpolated to 250 m with the terrain). */
+  points?: number;
+  /** Lowest and highest freezing level over the period (m). */
+  freezingLevelM?: [number, number];
+  source: string;
+  attribution: string;
+}
+
+/** history.json: daily snapshots for the time slider, newest first. */
+export interface HistoryFile {
+  schemaVersion: number;
+  generatedAt: string;
+  days: HistoryDay[];
+}
+
+export interface HistoryDay {
+  /** Local day (Europe/Rome), YYYY-MM-DD. */
+  date: string;
+  /** Snapshot metadata, a snow.json whose `files` point into the day folder (relative to data/). */
+  snow: string;
+  /** Station readings of that day's last update (relative to data/), or null when not stored. */
+  stations: string | null;
+  /** Rebuilt from cached satellite passes before the app kept history: snow cover only, no depth estimate. */
+  backfilled: boolean;
+  coverDate: string | null;
+  snowLineM: number | null;
+}
+
+export type StepId = 'stations' | 'snow' | 'satellite' | 'forecast';
+
+/** status.json: health of the last pipeline run, for the app warnings and the workflow monitor. */
+export interface StatusFile {
+  schemaVersion: number;
+  generatedAt: string;
+  steps: Record<
+    StepId,
+    {
+      ok: boolean;
+      /** What failed in the last run (an upstream that could not be reached, an exception). */
+      problems: string[];
+      /** Runs in a row with problems; 0 when the last run was clean. */
+      consecutiveFailures: number;
+      /** When the current run of failures started (ISO 8601 UTC), or null. */
+      failingSince: string | null;
+    }
+  >;
+}

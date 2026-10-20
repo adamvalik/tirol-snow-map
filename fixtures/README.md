@@ -23,6 +23,7 @@ These are real API responses captured during the spike on 2026-10-20, between ab
 | `nasa-gibs/MODIS_NDSI_Snow_Cover-colormap.xml` | `https://gibs.earthdata.nasa.gov/colormaps/v1.3/MODIS_NDSI_Snow_Cover.xml` |
 | `open-meteo/forecast-bolzano-7d.json` | forecast for 46.4983, 11.3548 with hourly, daily and current snow and weather variables |
 | `open-meteo/forecast-teufelsegg-3035m-{model}.json` | forecast for 46.7845, 10.7848 with `elevation=3035`, one file per model |
+| `open-meteo/forecast-grid-72h.json` | hourly `precipitation,freezing_level_height` for the 273-point forecast grid (`pipeline/src/forecast/snowfall.ts`), fetched 2026-10-20 about 18:57 UTC with `forecast_days=4` and **trimmed** to the 72 hours from 12:00 UTC (`generationtime_ms` removed). Used by `npm run pipeline:fixtures` and the forecast tests |
 | `open-meteo/elevation-3-points.json` | `https://api.open-meteo.com/v1/elevation?latitude=46.4983,46.4310,46.5404&longitude=11.3548,11.6397,11.8320` |
 | `mapterhorn/tilejson.json` | `https://tiles.mapterhorn.com/tilejson.json` |
 | `mapterhorn/12-2177-1449-bolzano.webp` | terrain tile z12 over Bolzano (terrarium encoding) |

@@ -18,7 +18,7 @@ import {
 } from '../sources/snowCover.ts';
 import { COVER_NODATA, estimateGrid, fit, leaveOneOut } from './model.ts';
 import { confidenceRgba, coverRgba, dataRgba, depthRgba, encodePng, snowLine } from './render.ts';
-import { aggregateToModel, loadS2Composite, type S2Composite, s2Stats, snowWhitePng } from './s2cover.ts';
+import { aggregateToModel, compositeAsOf, loadS2Composite, type S2Composite, s2Stats, snowWhitePng } from './s2cover.ts';
 import { toModelStations } from './stations.ts';
 
 const COVER_CACHE = 'snow-cover-grid.bin';
@@ -31,11 +31,30 @@ const S2_MASK_DAYS = 6;
 
 export interface SnowStepOptions {
   outDir: string;
+  /** Pipeline caches that are not published (decoded products, classified Sentinel-2 days). */
+  stateDir: string;
   now: string;
   stations: Station[];
   /** Skip network access (fixture runs). */
   offline: boolean;
+  /** Days the time slider already has (or gets from this run); others are rebuilt from cached passes. */
+  historyDates?: Set<string>;
   log: (msg: string) => void;
+}
+
+/** A time slider day rebuilt from cached Sentinel-2 passes: snow cover only. */
+export interface BackfillDay {
+  date: string;
+  /** snow.json for the day, `files` holding bare file names. */
+  meta: SnowFile;
+  pngs: Record<string, Buffer>;
+}
+
+export interface SnowStepResult {
+  file: SnowFile;
+  /** Upstream failures worth monitoring (not "no clear pass", which is weather). */
+  problems: string[];
+  backfill: BackfillDay[];
 }
 
 interface Cover {
@@ -68,7 +87,7 @@ async function loadCover(opts: SnowStepOptions, previous: SnowFile | null): Prom
 
   // Products change about twice a day; reuse the decoded composite while the set is the same.
   const cells = MODEL_GRID.width * MODEL_GRID.height;
-  const cachePath = path.join(opts.outDir, COVER_CACHE);
+  const cachePath = path.join(opts.stateDir, COVER_CACHE);
   const sameSet =
     previous?.cover.available &&
     previous.cover.composite.map((c) => c.product).join() === products.map((p) => p.name).join();
@@ -115,7 +134,7 @@ function copernicusMeta(products: SceProduct[]) {
 /** Sentinel-2 snow map; null (with the reason logged) when it cannot be built. */
 async function loadS2(opts: SnowStepOptions): Promise<{ cover: Cover; s2: S2Composite } | { reason: string }> {
   if (opts.offline) return { reason: 'Offline run (fixtures): no satellite data' };
-  const s2 = await loadS2Composite({ cacheDir: path.join(opts.outDir, '.cache', 's2-snow'), now: opts.now, log: opts.log });
+  const s2 = await loadS2Composite({ cacheDir: path.join(opts.stateDir, 's2-snow'), now: opts.now, log: opts.log });
   if ('reason' in s2) return s2;
   const { values, age } = aggregateToModel(s2);
   return {
@@ -158,7 +177,60 @@ async function readPrevious(file: string): Promise<SnowFile | null> {
   }
 }
 
-export async function runSnowStep(opts: SnowStepOptions): Promise<SnowFile> {
+const S2_META = {
+  source: 'https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-2',
+  licence: 'Copernicus data policy (free, full and open access)',
+  attribution: 'Contains modified Copernicus Sentinel data, processed by Sentinel Hub (Copernicus Data Space Ecosystem); snow detection by this app',
+};
+
+/** Time slider days for cached pass days the history does not have yet. */
+async function backfillDays(s2: S2Composite, opts: SnowStepOptions, elevation: Float32Array): Promise<BackfillDay[]> {
+  const out: BackfillDay[] = [];
+  for (const { date } of s2.perDay) {
+    if (opts.historyDates?.has(date)) continue;
+    const c = compositeAsOf(s2.perDay, date);
+    if (!c) continue;
+    const { values, age } = aggregateToModel(c);
+    const cover: Cover = {
+      sensor: 'Sentinel-2',
+      date,
+      composite: s2.days.filter((d) => d.date <= date).map((d) => ({ date: d.date, sensor: 'Sentinel-2' as const, product: d.scenes.join(', ') })),
+      values,
+      age,
+      fetchedAt: opts.now,
+    };
+    const masking = maskingCover(values, age, S2_MASK_DAYS);
+    out.push({
+      date,
+      pngs: { 'snow-white.png': await snowWhitePng(c), 'snow-cover.png': await encodePng(MODEL_GRID, coverRgba(MODEL_GRID, values, age)) },
+      meta: {
+        schemaVersion: SCHEMA_VERSION,
+        generatedAt: opts.now,
+        grid: MODEL_GRID,
+        cover: {
+          available: true,
+          date,
+          sensor: 'Sentinel-2',
+          product: cover.composite[0].product,
+          fetchedAt: opts.now,
+          resolutionM: 60,
+          stats: coverStats(cover),
+          shares: shares(s2Stats(c)),
+          composite: cover.composite,
+          snowLineM: snowLine(masking, elevation),
+          ...S2_META,
+        },
+        depth: null,
+        files: { white: 'snow-white.png', cover: 'snow-cover.png', depth: null, confidence: null, data: null },
+      },
+    });
+  }
+  if (out.length) opts.log(`history: rebuilt ${out.map((d) => d.date).join(', ')} from cached Sentinel-2 passes`);
+  return out;
+}
+
+export async function runSnowStep(opts: SnowStepOptions): Promise<SnowStepResult> {
+  const problems: string[] = [];
   const jsonPath = path.join(opts.outDir, 'snow.json');
   const previous = await readPrevious(jsonPath);
   const dem = await loadDemGrid();
@@ -171,15 +243,20 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowFile> {
   try {
     const r = await loadS2(opts);
     if ('reason' in r) reasons.push(`Sentinel-2: ${r.reason}`);
-    else ({ cover, s2 } = r);
+    else {
+      ({ cover, s2 } = r);
+      if (r.s2.error) problems.push(`Sentinel-2 catalogue unreachable, snow map from cached passes up to ${r.s2.date}: ${r.s2.error}`);
+    }
   } catch (e) {
     reasons.push(`Sentinel-2 snow map failed: ${e instanceof Error ? e.message : String(e)}`);
+    problems.push(reasons.at(-1)!);
   }
   if (!s2) {
     try {
       cover = await loadCover(opts, previous);
     } catch (e) {
       cover = { reason: `Snow cover fetch failed: ${e instanceof Error ? e.message : String(e)}` };
+      problems.push(`Copernicus 500 m: ${cover.reason}`);
     }
     if ('reason' in cover) {
       reasons.push(`Copernicus 500 m: ${cover.reason}`);
@@ -270,11 +347,7 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowFile> {
             composite: coverOk.composite,
             snowLineM: snowLine(masking!, dem.values),
             ...(s2
-              ? {
-                  source: 'https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-2',
-                  licence: 'Copernicus data policy (free, full and open access)',
-                  attribution: 'Contains modified Copernicus Sentinel data, processed by Sentinel Hub (Copernicus Data Space Ecosystem); snow detection by this app',
-                }
+              ? S2_META
               : {
                   source: 'https://land.copernicus.eu/en/products/snow/snow-cover-extent-europe-v1-0-500m',
                   licence: 'Copernicus data policy (free, full and open access)',
@@ -286,5 +359,5 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowFile> {
     files,
   };
   await writeFile(jsonPath, JSON.stringify(file));
-  return file;
+  return { file, problems, backfill: s2 ? await backfillDays(s2, opts, dem.values) : [] };
 }
