@@ -18,8 +18,11 @@ async function png(grid: GridSpec, rgba: Uint8Array): Promise<Buffer> {
     .toBuffer();
 }
 
-/** Snow-covered cells in white (more opaque with more cover); cloud gaps hatched grey. */
-export function coverRgba(grid: GridSpec, cover: Uint8Array): Uint8Array {
+/**
+ * Snow-covered cells in white (more opaque with more cover); views from earlier days fainter;
+ * cells never seen through the clouds hatched grey.
+ */
+export function coverRgba(grid: GridSpec, cover: Uint8Array, age?: Uint8Array): Uint8Array {
   const out = new Uint8Array(grid.width * grid.height * 4);
   for (let row = 0; row < grid.height; row++) {
     for (let col = 0; col < grid.width; col++) {
@@ -30,7 +33,9 @@ export function coverRgba(grid: GridSpec, cover: Uint8Array): Uint8Array {
         const stripe = (col + row) % 6 < 2;
         out.set(stripe ? [110, 120, 135, 150] : [110, 120, 135, 35], o);
       } else if (v <= 100 && v >= SNOW_FREE_BELOW_PCT) {
-        out.set([250, 252, 255, Math.round(90 + ((v - SNOW_FREE_BELOW_PCT) / (100 - SNOW_FREE_BELOW_PCT)) * 140)], o);
+        const alpha = 90 + ((v - SNOW_FREE_BELOW_PCT) / (100 - SNOW_FREE_BELOW_PCT)) * 140;
+        const older = age && age[i] > 0;
+        out.set([250, 252, 255, Math.round(older ? alpha * 0.55 : alpha)], o);
       }
       // Bare ground and no data stay transparent.
     }
@@ -61,19 +66,27 @@ export function confidenceRgba(grid: GridSpec, confidence: Uint8Array): Uint8Arr
 
 /**
  * Lossless values for the click readout. Alpha stays 255 so browsers do not premultiply.
- * R = confidence·4 + (depth >> 8), G = depth & 255 (depth in whole cm, 0–1023), B = cover code.
+ * R = viewAge·16 + confidence·4 + (depth >> 8), G = depth & 255 (depth in whole cm, 0–1023),
+ * B = cover value. viewAge is days since the satellite view (0–2, 3 = three or more / none).
  */
-export function dataRgba(grid: GridSpec, depthCm: Float32Array, confidence: Uint8Array, cover: Uint8Array | null): Uint8Array {
+export function dataRgba(
+  grid: GridSpec,
+  depthCm: Float32Array,
+  confidence: Uint8Array,
+  cover: Uint8Array | null,
+  age: Uint8Array | null,
+): Uint8Array {
   const out = new Uint8Array(grid.width * grid.height * 4);
   for (let i = 0; i < depthCm.length; i++) {
     const d = Math.min(1023, Math.round(depthCm[i]));
-    out.set([confidence[i] * 4 + (d >> 8), d & 255, cover ? cover[i] : COVER_NODATA, 255], i * 4);
+    const a = age ? Math.min(3, age[i]) : 3;
+    out.set([a * 16 + confidence[i] * 4 + (d >> 8), d & 255, cover ? cover[i] : COVER_NODATA, 255], i * 4);
   }
   return out;
 }
 
-export function decodeData(r: number, g: number, b: number): { depthCm: number; confidence: number; cover: number } {
-  return { depthCm: ((r & 3) << 8) + g, confidence: r >> 2, cover: b };
+export function decodeData(r: number, g: number, b: number): { depthCm: number; confidence: number; cover: number; viewAge: number } {
+  return { depthCm: ((r & 3) << 8) + g, confidence: (r >> 2) & 3, cover: b, viewAge: r >> 4 };
 }
 
 export const encodePng = png;

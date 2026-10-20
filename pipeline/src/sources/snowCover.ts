@@ -4,6 +4,8 @@
 //
 // Pixel codes (product user manual, table 4.2): 100–200 snow fraction = code − 100 (%),
 // 30 cloud, 20/21/22 sea/lake/river, 251 polar night, 254 input error, 255 no data, 0 outside.
+// Checked on real COG files (20 Oct 2026, VIIRS and MODIS): code 30 never occurs; clouds and
+// swath gaps are both written as 255 (the GeoTIFF no-data value), so 255 means "no clear view".
 
 import { unzipSync } from 'fflate';
 import { fromArrayBuffer } from 'geotiff';
@@ -53,6 +55,22 @@ export function pickProducts(catalogue: { value: { Id: string; Name: string; Pub
     byDate.set(p.date, { id: v.Id, name: v.Name, date: p.date, sensor: p.sensor, published: v.PublicationDate ?? '' });
   }
   return [...byDate.values()].sort((a, b) => b.date.localeCompare(a.date));
+}
+
+/** All COG products (both sensors), newest day first, VIIRS before MODIS within a day. */
+export function allCogProducts(catalogue: { value: { Id: string; Name: string; PublicationDate?: string }[] }): SceProduct[] {
+  const out: SceProduct[] = [];
+  for (const v of catalogue.value) {
+    const p = parseProductName(v.Name);
+    if (p?.format === 'cog') out.push({ id: v.Id, name: v.Name, date: p.date, sensor: p.sensor, published: v.PublicationDate ?? '' });
+  }
+  return out.sort((a, b) => b.date.localeCompare(a.date) || (a.sensor === 'VIIRS' ? -1 : 1) - (b.sensor === 'VIIRS' ? -1 : 1));
+}
+
+export async function searchAllProducts(): Promise<SceProduct[]> {
+  const res = await fetch(searchUrl(), { signal: AbortSignal.timeout(30_000) });
+  if (!res.ok) throw new Error(`CDSE catalogue: HTTP ${res.status}`);
+  return allCogProducts(await res.json());
 }
 
 export async function searchProducts(): Promise<SceProduct[]> {
@@ -124,8 +142,37 @@ export function extractTiff(download: ArrayBuffer): { tiff: ArrayBuffer; note: s
 /** Maps a raw product code to the model's cover value. */
 export function decodeCode(code: number): number {
   if (code >= 100 && code <= 200) return code - 100;
-  if (code === 30) return COVER_CLOUD;
+  if (code === 30 || code === 255) return COVER_CLOUD;
   return COVER_NODATA;
+}
+
+/** Age value for cells with no clear view in any of the composited days. */
+export const AGE_NONE = 255;
+
+/**
+ * Combines several days (newest first) into "last clear view" per cell: each cell takes the newest
+ * day that saw the ground; `age` is that day's index in `ages` (days before the newest product).
+ */
+export function compositeCover(days: { values: Uint8Array; ageDays: number }[]): { values: Uint8Array; age: Uint8Array } {
+  const n = days[0].values.length;
+  const values = new Uint8Array(n);
+  const age = new Uint8Array(n).fill(AGE_NONE);
+  for (let i = 0; i < n; i++) {
+    values[i] = days[0].values[i];
+    for (const d of days) {
+      if (d.values[i] <= 100) {
+        values[i] = d.values[i];
+        age[i] = d.ageDays;
+        break;
+      }
+    }
+  }
+  return { values, age };
+}
+
+/** Cover used to mask the depth estimate: only views at most `maxAgeDays` old count. */
+export function maskingCover(values: Uint8Array, age: Uint8Array, maxAgeDays = 1): Uint8Array {
+  return values.map((v, i) => (age[i] <= maxAgeDays ? v : v <= 100 ? COVER_CLOUD : v));
 }
 
 export interface CoverGrid {

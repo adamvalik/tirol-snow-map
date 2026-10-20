@@ -61,8 +61,13 @@ export interface SnowFile {
         sensor: 'VIIRS' | 'MODIS';
         product: string;
         fetchedAt: string;
-        /** Cell counts inside the grid. */
-        stats: { snow: number; bare: number; cloud: number; nodata: number };
+        /**
+         * Cell counts inside the grid for the composite: `snow`/`bare` seen on the newest day,
+         * `olderView` taken from an earlier day because of clouds, `cloud` with no clear view at all.
+         */
+        stats: { snow: number; bare: number; olderView: number; cloud: number; nodata: number };
+        /** Products combined, newest first ("last clear view" per cell). */
+        composite: { date: string; sensor: 'VIIRS' | 'MODIS'; product: string }[];
         /** Elevation (m) above which most clear ground is snow-covered, or null if unclear. */
         snowLineM: number | null;
         source: string;

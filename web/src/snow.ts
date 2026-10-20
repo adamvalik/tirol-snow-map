@@ -73,25 +73,36 @@ export class SnowValues {
     return new SnowValues(file, ctx.getImageData(0, 0, bitmap.width, bitmap.height).data);
   }
 
-  at(lon: number, lat: number): { depthCm: number; confidence: string; cover: number } | null {
+  /** Decodes pipeline/src/snow/render.ts dataRgba: R = age·16 + confidence·4 + depth>>8, G = depth&255, B = cover. */
+  at(lon: number, lat: number): { depthCm: number; confidence: string; cover: number; viewAge: number } | null {
     const c = cellAt(this.file.grid, lon, lat);
     if (!c) return null;
     const i = (c.row * this.file.grid.width + c.col) * 4;
     const [r, g, b] = [this.pixels[i], this.pixels[i + 1], this.pixels[i + 2]];
-    return { depthCm: ((r & 3) << 8) + g, confidence: CONFIDENCE[r >> 2] ?? 'low', cover: b };
+    return { depthCm: ((r & 3) << 8) + g, confidence: CONFIDENCE[(r >> 2) & 3] ?? 'low', cover: b, viewAge: r >> 4 };
   }
 }
 
 export function coverText(cover: number): string {
-  if (cover === COVER_CLOUD) return 'cloud (no view of the ground)';
+  if (cover === COVER_CLOUD) return 'no clear view (cloud)';
   if (cover === COVER_NODATA) return 'no data';
   return `${cover} % snow`;
+}
+
+/** Date `daysBefore` the given YYYY-MM-DD, formatted like "19 Oct". */
+function dayBefore(date: string, daysBefore: number): string {
+  const d = new Date(`${date}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() - daysBefore);
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
 }
 
 /** HTML for the click panel: the estimate and the satellite view at this point. */
 export function pointSnowHtml(file: SnowFile, v: ReturnType<SnowValues['at']>): string {
   if (!v || !file.depth) return '';
-  const cover = file.cover.available ? `${coverText(v.cover)} (satellite, ${file.cover.date})` : 'no satellite data';
+  let cover = 'no satellite data';
+  if (file.cover.available) {
+    cover = v.cover <= 100 ? `${coverText(v.cover)} (satellite, ${dayBefore(file.cover.date, v.viewAge)})` : coverText(v.cover);
+  }
   return `
     <dl class="kv">
       <dt>Estimated snow</dt><dd><strong>${v.depthCm < 1 ? 'none' : `~${v.depthCm} cm`}</strong> (confidence ${v.confidence})</dd>
@@ -104,10 +115,13 @@ export function snowInfoHtml(file: SnowFile): string {
   const parts: string[] = [];
   if (file.cover.available) {
     const c = file.cover;
-    const total = c.stats.snow + c.stats.bare + c.stats.cloud;
-    const cloudPct = total ? Math.round((c.stats.cloud / total) * 100) : 0;
+    const total = c.stats.snow + c.stats.bare + c.stats.olderView + c.stats.cloud;
+    const pct = (n: number) => (total ? Math.round((n / total) * 100) : 0);
+    const days = [...new Set(c.composite.map((p) => p.date))];
     parts.push(
-      `<p><strong>Snow cover</strong>: satellite (${c.sensor}, 500 m) for ${escapeHtml(c.date)}, ${cloudPct} % of the area under cloud (hatched).` +
+      `<p><strong>Snow cover</strong>: satellite (VIIRS and MODIS, 500 m), newest pass ${escapeHtml(c.date)}. ` +
+        `${pct(c.stats.snow + c.stats.bare)} % of the area seen on that day, ${pct(c.stats.olderView)} % filled in from the ` +
+        `${days.length - 1} days before (drawn fainter), ${pct(c.stats.cloud)} % never seen through the clouds (hatched).` +
         (c.snowLineM !== null ? ` Snow line about <strong>${c.snowLineM.toLocaleString('en-GB')} m</strong>.` : '') +
         `</p>`,
     );

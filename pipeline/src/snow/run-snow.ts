@@ -7,21 +7,24 @@ import { MODEL_GRID } from '../../../shared/grid.ts';
 import { SCHEMA_VERSION, type SnowFile, type Station } from '../../../shared/types.ts';
 import { loadDemGrid } from '../dem.ts';
 import {
-  type CoverGrid,
+  compositeCover,
   decodeToGrid,
   downloadProduct,
   extractTiff,
   getToken,
+  maskingCover,
   type SceProduct,
-  searchProducts,
+  searchAllProducts,
 } from '../sources/snowCover.ts';
-import { estimateGrid, fit, leaveOneOut } from './model.ts';
+import { COVER_NODATA, estimateGrid, fit, leaveOneOut } from './model.ts';
 import { confidenceRgba, coverRgba, dataRgba, depthRgba, encodePng, snowLine } from './render.ts';
 import { toModelStations } from './stations.ts';
 
 const COVER_CACHE = 'snow-cover-grid.bin';
 /** Older products are not shown as current snow cover. */
 const MAX_COVER_AGE_DAYS = 7;
+/** Days combined into the "last clear view" composite. */
+const COMPOSITE_DAYS = 4;
 
 export interface SnowStepOptions {
   outDir: string;
@@ -32,7 +35,16 @@ export interface SnowStepOptions {
   log: (msg: string) => void;
 }
 
-type CoverResult = { product: SceProduct; grid: CoverGrid; fetchedAt: string } | { reason: string };
+interface Cover {
+  products: SceProduct[];
+  values: Uint8Array;
+  /** Days between each cell's view and the newest product; AGE_NONE without any clear view. */
+  age: Uint8Array;
+  fetchedAt: string;
+}
+type CoverResult = Cover | { reason: string };
+
+const daysBetween = (a: string, b: string) => Math.round((Date.parse(a) - Date.parse(b)) / 86_400_000);
 
 async function loadCover(opts: SnowStepOptions, previous: SnowFile | null): Promise<CoverResult> {
   if (opts.offline) return { reason: 'Offline run (fixtures): no satellite data' };
@@ -40,21 +52,25 @@ async function loadCover(opts: SnowStepOptions, previous: SnowFile | null): Prom
   const pass = process.env.CDSE_PASSWORD;
   if (!user || !pass) return { reason: 'No Copernicus credentials configured (CDSE_USERNAME, CDSE_PASSWORD)' };
 
-  const products = await searchProducts();
-  const newest = products[0];
+  const all = await searchAllProducts();
+  const newest = all[0];
   if (!newest) return { reason: 'No snow cover product found in the catalogue' };
   const ageDays = (Date.parse(opts.now) - Date.parse(`${newest.date}T12:00:00Z`)) / 86_400_000;
   if (ageDays > MAX_COVER_AGE_DAYS) return { reason: `Newest snow cover product is from ${newest.date}, too old to show` };
+  const products = all.filter((p) => daysBetween(newest.date, p.date) < COMPOSITE_DAYS);
 
-  // The product changes once a day; reuse the decoded grid when it is the same one.
+  // Products change about twice a day; reuse the decoded composite while the set is the same.
+  const cells = MODEL_GRID.width * MODEL_GRID.height;
   const cachePath = path.join(opts.outDir, COVER_CACHE);
-  if (previous?.cover.available && previous.cover.product === newest.name) {
+  const sameSet =
+    previous?.cover.available &&
+    previous.cover.composite.map((c) => c.product).join() === products.map((p) => p.name).join();
+  if (sameSet && previous.cover.available) {
     try {
-      const buf = await readFile(cachePath);
-      if (buf.length === MODEL_GRID.width * MODEL_GRID.height) {
-        const values = new Uint8Array(buf);
-        opts.log(`snow cover: reusing ${newest.name}`);
-        return { product: newest, fetchedAt: previous.cover.fetchedAt, grid: { values, stats: previous.cover.stats, rawCodes: {}, bands: 1 } };
+      const buf = new Uint8Array(await readFile(cachePath));
+      if (buf.length === cells * 2) {
+        opts.log(`snow cover: reusing composite of ${products.length} products`);
+        return { products, values: buf.slice(0, cells), age: buf.slice(cells), fetchedAt: previous.cover.fetchedAt };
       }
     } catch {
       // cache missing: download again
@@ -62,21 +78,36 @@ async function loadCover(opts: SnowStepOptions, previous: SnowFile | null): Prom
   }
 
   const token = await getToken(user, pass);
-  const download = await downloadProduct(newest.id, token);
-  const { tiff, note } = extractTiff(download);
-  opts.log(`snow cover: downloaded ${(download.byteLength / 1e6).toFixed(1)} MB, ${note}`);
-  const grid = await decodeToGrid(tiff, MODEL_GRID);
-  await writeFile(cachePath, grid.values);
-  const codes = Object.entries(grid.rawCodes)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 12)
-    .map(([c, n]) => `${c}:${n}`)
-    .join(' ');
-  opts.log(
-    `snow cover: ${newest.name} (${(tiff.byteLength / 1e6).toFixed(1)} MB, ${grid.bands} band(s)); ` +
-      `cells snow ${grid.stats.snow}, bare ${grid.stats.bare}, cloud ${grid.stats.cloud}, no data ${grid.stats.nodata}; raw codes ${codes}`,
-  );
-  return { product: newest, grid, fetchedAt: opts.now };
+  const days: { values: Uint8Array; ageDays: number }[] = [];
+  for (const p of products) {
+    const download = await downloadProduct(p.id, token);
+    const { tiff } = extractTiff(download);
+    const g = await decodeToGrid(tiff, MODEL_GRID);
+    days.push({ values: g.values, ageDays: daysBetween(newest.date, p.date) });
+    opts.log(
+      `snow cover: ${p.name} (${(download.byteLength / 1e6).toFixed(1)} MB): ` +
+        `snow ${g.stats.snow}, bare ${g.stats.bare}, no clear view ${g.stats.cloud}, no data ${g.stats.nodata}`,
+    );
+  }
+  const { values, age } = compositeCover(days);
+  const merged = new Uint8Array(cells * 2);
+  merged.set(values);
+  merged.set(age, cells);
+  await writeFile(cachePath, merged);
+  return { products, values, age, fetchedAt: opts.now };
+}
+
+function coverStats(c: Cover): Extract<SnowFile['cover'], { available: true }>['stats'] {
+  const s = { snow: 0, bare: 0, olderView: 0, cloud: 0, nodata: 0 };
+  for (let i = 0; i < c.values.length; i++) {
+    const v = c.values[i];
+    if (v === COVER_NODATA) s.nodata++;
+    else if (v > 100) s.cloud++;
+    else if (c.age[i] > 0) s.olderView++;
+    else if (v >= 15) s.snow++;
+    else s.bare++;
+  }
+  return s;
 }
 
 async function readPrevious(file: string): Promise<SnowFile | null> {
@@ -100,7 +131,9 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowFile> {
   } catch (e) {
     cover = { reason: `Snow cover fetch failed: ${e instanceof Error ? e.message : String(e)}` };
   }
-  const coverValues = 'grid' in cover ? cover.grid.values : null;
+  const coverOk = 'values' in cover ? cover : null;
+  // Views older than a day still show on the cover layer but do not mask the depth estimate.
+  const masking = coverOk ? maskingCover(coverOk.values, coverOk.age) : null;
   if ('reason' in cover) opts.log(`snow cover: ${cover.reason}`);
 
   const stations = toModelStations(opts.stations);
@@ -111,16 +144,16 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowFile> {
     files[name] = file;
   };
 
-  if (coverValues) await write('cover', coverRgba(grid, coverValues));
+  if (coverOk) await write('cover', coverRgba(grid, coverOk.values, coverOk.age));
 
   let depth: SnowFile['depth'] = null;
   if (stations.length >= 10) {
     const validation = leaveOneOut(stations);
     const fitted = fit(stations, validation.chosen);
-    const estimate = estimateGrid(grid, dem.values, fitted, coverValues);
+    const estimate = estimateGrid(grid, dem.values, fitted, masking);
     await write('depth', depthRgba(grid, estimate.depthCm));
     await write('confidence', confidenceRgba(grid, estimate.confidence));
-    await write('data', dataRgba(grid, estimate.depthCm, estimate.confidence, coverValues));
+    await write('data', dataRgba(grid, estimate.depthCm, estimate.confidence, coverOk?.values ?? null, coverOk?.age ?? null));
     const elevations = stations.map((s) => s.elevation);
     depth = {
       method: validation.chosen,
@@ -149,20 +182,21 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowFile> {
     generatedAt: opts.now,
     grid,
     cover:
-      'grid' in cover
+      coverOk
         ? {
             available: true,
-            date: cover.product.date,
-            sensor: cover.product.sensor,
-            product: cover.product.name,
-            fetchedAt: cover.fetchedAt,
-            stats: cover.grid.stats,
-            snowLineM: snowLine(cover.grid.values, dem.values),
+            date: coverOk.products[0].date,
+            sensor: coverOk.products[0].sensor,
+            product: coverOk.products[0].name,
+            fetchedAt: coverOk.fetchedAt,
+            stats: coverStats(coverOk),
+            composite: coverOk.products.map((p) => ({ date: p.date, sensor: p.sensor, product: p.name })),
+            snowLineM: snowLine(masking!, dem.values),
             source: 'https://land.copernicus.eu/en/products/snow/snow-cover-extent-europe-v1-0-500m',
             licence: 'Copernicus data policy (free, full and open access)',
             attribution: 'Copernicus Land Monitoring Service, Snow Cover Extent Europe 500 m (European Union)',
           }
-        : { available: false, reason: cover.reason },
+        : { available: false, reason: 'reason' in cover ? cover.reason : 'unknown' },
     depth,
     files,
   };

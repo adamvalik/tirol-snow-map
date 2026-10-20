@@ -4,7 +4,16 @@ import { describe, expect, it } from 'vitest';
 import { cellCenter, type GridSpec } from '../../shared/grid.ts';
 import { COVER_CLOUD, COVER_NODATA } from '../src/snow/model.ts';
 import { zipSync } from 'fflate';
-import { decodeCode, decodeToGrid, extractTiff, parseProductName, pickProducts } from '../src/sources/snowCover.ts';
+import {
+  AGE_NONE,
+  compositeCover,
+  decodeCode,
+  decodeToGrid,
+  extractTiff,
+  maskingCover,
+  parseProductName,
+  pickProducts,
+} from '../src/sources/snowCover.ts';
 
 const catalogue = JSON.parse(
   readFileSync(new URL('../../fixtures/copernicus/cdse-odata-search-sce-europe-500m.json', import.meta.url), 'utf8'),
@@ -34,7 +43,9 @@ describe('pixel codes (product user manual table 4.2)', () => {
     expect(decodeCode(165)).toBe(65);
     expect(decodeCode(200)).toBe(100);
     expect(decodeCode(30)).toBe(COVER_CLOUD);
-    for (const c of [0, 20, 21, 22, 251, 254, 255]) expect(decodeCode(c)).toBe(COVER_NODATA);
+    // In the COG files clouds come as 255 (no data): treated as "no clear view".
+    expect(decodeCode(255)).toBe(COVER_CLOUD);
+    for (const c of [0, 20, 21, 22, 251, 254]) expect(decodeCode(c)).toBe(COVER_NODATA);
   });
 });
 
@@ -97,5 +108,26 @@ describe('extractTiff', () => {
 
   it('explains what arrived when it is neither', () => {
     expect(() => extractTiff(new TextEncoder().encode('<html>login</html>').buffer as ArrayBuffer)).toThrow(/neither GeoTIFF nor ZIP.*login/);
+  });
+});
+
+describe('compositeCover', () => {
+  const C = COVER_CLOUD;
+  it('takes the newest clear view per cell and records its age', () => {
+    const today = Uint8Array.from([80, C, C, C]);
+    const yesterday = Uint8Array.from([10, 60, C, C]);
+    const threeDaysAgo = Uint8Array.from([0, 0, 5, C]);
+    const c = compositeCover([
+      { values: today, ageDays: 0 },
+      { values: yesterday, ageDays: 1 },
+      { values: threeDaysAgo, ageDays: 3 },
+    ]);
+    expect([...c.values]).toEqual([80, 60, 5, C]);
+    expect([...c.age]).toEqual([0, 1, 3, AGE_NONE]);
+  });
+
+  it('masks the estimate only with recent views', () => {
+    const m = maskingCover(Uint8Array.from([80, 60, 5, C]), Uint8Array.from([0, 1, 3, AGE_NONE]));
+    expect([...m]).toEqual([80, 60, C, C]);
   });
 });
