@@ -6,10 +6,13 @@ import { SCHEMA_VERSION, type SnowFile } from '../../shared/types.ts';
 import { escapeHtml, formatAge, formatTime } from './format.ts';
 
 const DATA = `${import.meta.env.BASE_URL}data/`;
+export const SNOW_WHITE_LAYER = 'snow-white';
 export const SNOW_LAYERS = { cover: 'snow-cover', depth: 'snow-depth', confidence: 'snow-confidence' } as const;
 export type SnowLayer = keyof typeof SNOW_LAYERS;
 
 const COVER_CLOUD = 254;
+/** viewAge value for "no clear view" in the data PNG. */
+const AGE_NONE = 15;
 const COVER_NODATA = 255;
 const CONFIDENCE = ['low', 'medium', 'high'];
 
@@ -55,6 +58,28 @@ export function addSnowLayers(
   return added;
 }
 
+/** The Sentinel-2 snow map (about 60 m): white where snow was seen, transparent elsewhere. */
+export function addSnowWhite(map: maplibregl.Map, file: SnowFile, beforeId: string, visible: boolean): boolean {
+  const name = file.files.white;
+  if (!name) return false;
+  map.addSource(SNOW_WHITE_LAYER, {
+    type: 'image',
+    url: `${new URL(DATA, window.location.href).href}${name}?v=${encodeURIComponent(file.generatedAt)}`,
+    coordinates: gridCorners(file.grid),
+  });
+  map.addLayer(
+    {
+      id: SNOW_WHITE_LAYER,
+      type: 'raster',
+      source: SNOW_WHITE_LAYER,
+      layout: { visibility: visible ? 'visible' : 'none' },
+      paint: { 'raster-opacity': 0.95, 'raster-fade-duration': 0, 'raster-resampling': 'linear' },
+    },
+    beforeId,
+  );
+  return true;
+}
+
 /** Reads the lossless data PNG once so a click can show the estimate under the cursor. */
 export class SnowValues {
   private constructor(
@@ -89,6 +114,12 @@ export function coverText(cover: number): string {
   return `${cover} % snow`;
 }
 
+/** Days between the newest and the oldest of the given YYYY-MM-DD dates. */
+function dayGap(days: string[]): number {
+  if (days.length < 2) return 0;
+  return Math.round((Date.parse(days[0]) - Date.parse(days[days.length - 1])) / 86_400_000);
+}
+
 /** Date `daysBefore` the given YYYY-MM-DD, formatted like "19 Oct". */
 function dayBefore(date: string, daysBefore: number): string {
   const d = new Date(`${date}T12:00:00Z`);
@@ -101,7 +132,10 @@ export function pointSnowHtml(file: SnowFile, v: ReturnType<SnowValues['at']>): 
   if (!v || !file.depth) return '';
   let cover = 'no satellite data';
   if (file.cover.available) {
-    cover = v.cover <= 100 ? `${coverText(v.cover)} (satellite, ${dayBefore(file.cover.date, v.viewAge)})` : coverText(v.cover);
+    cover =
+      v.cover <= 100 && v.viewAge !== AGE_NONE
+        ? `${coverText(v.cover)} of this 250 m cell (${file.cover.sensor}, ${dayBefore(file.cover.date, v.viewAge)})`
+        : coverText(v.cover);
   }
   return `
     <dl class="kv">
@@ -116,12 +150,14 @@ export function snowInfoHtml(file: SnowFile): string {
   if (file.cover.available) {
     const c = file.cover;
     const total = c.stats.snow + c.stats.bare + c.stats.olderView + c.stats.cloud;
-    const pct = (n: number) => (total ? Math.round((n / total) * 100) : 0);
     const days = [...new Set(c.composite.map((p) => p.date))];
+    const s2 = c.sensor === 'Sentinel-2';
+    const share = c.shares ?? { newest: (c.stats.snow + c.stats.bare) / (total || 1), older: c.stats.olderView / (total || 1), never: c.stats.cloud / (total || 1) };
     parts.push(
-      `<p><strong>Snow cover</strong>: satellite (VIIRS and MODIS, 500 m), newest pass ${escapeHtml(c.date)}. ` +
-        `${pct(c.stats.snow + c.stats.bare)} % of the area seen on that day, ${pct(c.stats.olderView)} % filled in from the ` +
-        `${days.length - 1} days before (drawn fainter), ${pct(c.stats.cloud)} % never seen through the clouds (hatched).` +
+      `<p><strong>Snow seen from space</strong>: ${s2 ? 'Sentinel-2, about 60 m pixels' : 'VIIRS and MODIS, 500 m'}, newest pass ${escapeHtml(c.date)}. ` +
+        `${Math.round(share.newest * 100)} % of the area seen clear that day, ${Math.round(share.older * 100)} % taken from the ` +
+        `${days.length - 1} passes before (up to ${dayGap(days)} days older, drawn fainter), ${Math.round(share.never * 100)} % hidden by clouds on every pass` +
+        `${s2 ? ' (shown without snow, so check the date before trusting a bare patch)' : ' (hatched on the cell layer)'}.` +
         (c.snowLineM !== null ? ` Snow line about <strong>${c.snowLineM.toLocaleString('en-GB')} m</strong>.` : '') +
         `</p>`,
     );
@@ -138,7 +174,7 @@ export function snowInfoHtml(file: SnowFile): string {
     parts.push(
       `<p><strong>Estimated snow depth</strong> from ${d.stationCount} stations (readings up to ${formatTime(d.stationsObservedAt)}),` +
         ` ${d.method === 'trend' ? 'elevation trend' : 'elevation trend plus local corrections'}` +
-        `${file.cover.available ? ', masked by the satellite snow cover' : ''}.` +
+        `${file.cover.available ? ', set to zero wherever the satellite saw bare ground in the last few days' : ', <strong>not checked against the satellite</strong> (no snow map), so it may show snow where there is none'}.` +
         ` Typical error when a station is hidden and predicted from the others: <strong>±${mae.toFixed(1)} cm</strong> (${bands}).` +
         ` Stations sit between ${d.stationElevationRange[0]} and ${d.stationElevationRange[1]} m; outside that range the map extrapolates.</p>`,
     );

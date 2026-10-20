@@ -67,7 +67,7 @@ export function confidenceRgba(grid: GridSpec, confidence: Uint8Array): Uint8Arr
 /**
  * Lossless values for the click readout. Alpha stays 255 so browsers do not premultiply.
  * R = viewAge·16 + confidence·4 + (depth >> 8), G = depth & 255 (depth in whole cm, 0–1023),
- * B = cover value. viewAge is days since the satellite view (0–2, 3 = three or more / none).
+ * B = cover value. viewAge is days since the satellite view (0–14, 15 = none).
  */
 export function dataRgba(
   grid: GridSpec,
@@ -79,7 +79,7 @@ export function dataRgba(
   const out = new Uint8Array(grid.width * grid.height * 4);
   for (let i = 0; i < depthCm.length; i++) {
     const d = Math.min(1023, Math.round(depthCm[i]));
-    const a = age ? Math.min(3, age[i]) : 3;
+    const a = age ? Math.min(15, age[i]) : 15;
     out.set([a * 16 + confidence[i] * 4 + (d >> 8), d & 255, cover ? cover[i] : COVER_NODATA, 255], i * 4);
   }
   return out;

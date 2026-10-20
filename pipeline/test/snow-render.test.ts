@@ -17,7 +17,7 @@ describe('data PNG encoding', () => {
     const at = (i: number) => decodeData(rgba[i * 4], rgba[i * 4 + 1], rgba[i * 4 + 2]);
     expect(at(0)).toEqual({ depthCm: 0, confidence: 2, cover: 5, viewAge: 0 });
     expect(at(1)).toEqual({ depthCm: 37, confidence: 1, cover: 80, viewAge: 1 });
-    expect(at(2)).toEqual({ depthCm: 512, confidence: 0, cover: COVER_CLOUD, viewAge: 3 });
+    expect(at(2)).toEqual({ depthCm: 512, confidence: 0, cover: COVER_CLOUD, viewAge: 15 });
     expect(at(3).depthCm).toBe(1023); // clamped
     for (let i = 0; i < 4; i++) expect(rgba[i * 4 + 3]).toBe(255);
   });

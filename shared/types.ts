@@ -58,16 +58,20 @@ export interface SnowFile {
         available: true;
         /** Observation day of the satellite product, YYYY-MM-DD. */
         date: string;
-        sensor: 'VIIRS' | 'MODIS';
+        sensor: 'Sentinel-2' | 'VIIRS' | 'MODIS';
         product: string;
         fetchedAt: string;
+        /** Pixel size of the cover map (m): about 60 for Sentinel-2, 500 for the Copernicus product. */
+        resolutionM: number;
         /**
          * Cell counts inside the grid for the composite: `snow`/`bare` seen on the newest day,
          * `olderView` taken from an earlier day because of clouds, `cloud` with no clear view at all.
          */
         stats: { snow: number; bare: number; olderView: number; cloud: number; nodata: number };
         /** Products combined, newest first ("last clear view" per cell). */
-        composite: { date: string; sensor: 'VIIRS' | 'MODIS'; product: string }[];
+        composite: { date: string; sensor: 'Sentinel-2' | 'VIIRS' | 'MODIS'; product: string }[];
+        /** Share of the region (0–1) seen on the newest day, on older days, and never (clouds). */
+        shares: { newest: number; older: number; never: number };
         /** Elevation (m) above which most clear ground is snow-covered, or null if unclear. */
         snowLineM: number | null;
         source: string;
@@ -89,7 +93,11 @@ export interface SnowFile {
     };
     stats: { cells: number; maskedBySatellite: number; cloudy: number; noCover: number; high: number; medium: number; low: number };
   } | null;
-  files: { cover: string | null; depth: string | null; confidence: string | null; data: string | null };
+  /**
+   * `white`: the snow seen by Sentinel-2 at about 60 m (white, transparent elsewhere), same corners
+   * as the grid. The others are on the 250 m grid.
+   */
+  files: { white: string | null; cover: string | null; depth: string | null; confidence: string | null; data: string | null };
 }
 
 /** satellite.json: the Sentinel-2 "today from space" tile layer (data/satellite/{z}/{x}/{y}.webp). */

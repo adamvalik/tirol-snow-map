@@ -22,10 +22,10 @@
         <div id="data-warning" class="warning" hidden></div>
         <fieldset>
           <legend>Layers</legend>
-          <label><input type="checkbox" id="toggle-snow" checked /> Snow (simulated)</label>
+          <label><input type="checkbox" id="toggle-snow" checked /> Snow seen from space <span id="snow-date" class="muted"></span></label>
           <label><input type="checkbox" id="toggle-stations" checked /> Weather stations</label>
           <label><input type="checkbox" id="toggle-satellite" /> Satellite picture <span id="satellite-date" class="muted"></span></label>
-          <label><input type="checkbox" id="toggle-cover" /> Snow cover (satellite)</label>
+          <label><input type="checkbox" id="toggle-cover" /> Snow share per 250 m cell</label>
           <label><input type="checkbox" id="toggle-depth" /> Estimated snow depth</label>
           <label><input type="checkbox" id="toggle-confidence" /> Show uncertainty (grey = less certain)</label>
           <label><input type="checkbox" id="toggle-basemap" checked /> Roads, rivers, towns, buildings</label>
@@ -43,7 +43,6 @@
         </div>
         <p class="hint">Click a station for its readings, or anywhere on the terrain for elevation and a 7-day forecast. Right-drag (two fingers on a phone) to tilt and rotate.</p>
         <p class="layer-time" id="stations-time">Stations: loading…</p>
-        <div class="layer-time" id="snowline-info"></div>
         <div class="layer-time" id="snow-info">Snow layers: loading…</div>
         <div class="layer-time" id="satellite-info"></div>
       </div>

@@ -18,6 +18,7 @@ import {
 } from '../sources/snowCover.ts';
 import { COVER_NODATA, estimateGrid, fit, leaveOneOut } from './model.ts';
 import { confidenceRgba, coverRgba, dataRgba, depthRgba, encodePng, snowLine } from './render.ts';
+import { aggregateToModel, loadS2Composite, type S2Composite, s2Stats, snowWhitePng } from './s2cover.ts';
 import { toModelStations } from './stations.ts';
 
 const COVER_CACHE = 'snow-cover-grid.bin';
@@ -25,6 +26,8 @@ const COVER_CACHE = 'snow-cover-grid.bin';
 const MAX_COVER_AGE_DAYS = 7;
 /** Days combined into the "last clear view" composite. */
 const COMPOSITE_DAYS = 4;
+/** Sentinel-2 passes come every 2–5 days, so its views mask the depth estimate for longer. */
+const S2_MASK_DAYS = 6;
 
 export interface SnowStepOptions {
   outDir: string;
@@ -36,7 +39,11 @@ export interface SnowStepOptions {
 }
 
 interface Cover {
-  products: SceProduct[];
+  sensor: 'Sentinel-2' | 'Copernicus';
+  /** Newest observation day and the days combined, newest first. */
+  date: string;
+  composite: { date: string; sensor: 'Sentinel-2' | 'VIIRS' | 'MODIS'; product: string }[];
+  /** Model-grid cover in the Copernicus convention. */
   values: Uint8Array;
   /** Days between each cell's view and the newest product; AGE_NONE without any clear view. */
   age: Uint8Array;
@@ -70,7 +77,7 @@ async function loadCover(opts: SnowStepOptions, previous: SnowFile | null): Prom
       const buf = new Uint8Array(await readFile(cachePath));
       if (buf.length === cells * 2) {
         opts.log(`snow cover: reusing composite of ${products.length} products`);
-        return { products, values: buf.slice(0, cells), age: buf.slice(cells), fetchedAt: previous.cover.fetchedAt };
+        return { ...copernicusMeta(products), values: buf.slice(0, cells), age: buf.slice(cells), fetchedAt: previous.cover.fetchedAt };
       }
     } catch {
       // cache missing: download again
@@ -94,7 +101,34 @@ async function loadCover(opts: SnowStepOptions, previous: SnowFile | null): Prom
   merged.set(values);
   merged.set(age, cells);
   await writeFile(cachePath, merged);
-  return { products, values, age, fetchedAt: opts.now };
+  return { ...copernicusMeta(products), values, age, fetchedAt: opts.now };
+}
+
+function copernicusMeta(products: SceProduct[]) {
+  return {
+    sensor: 'Copernicus' as const,
+    date: products[0].date,
+    composite: products.map((p) => ({ date: p.date, sensor: p.sensor, product: p.name })),
+  };
+}
+
+/** Sentinel-2 snow map; null (with the reason logged) when it cannot be built. */
+async function loadS2(opts: SnowStepOptions): Promise<{ cover: Cover; s2: S2Composite } | { reason: string }> {
+  if (opts.offline) return { reason: 'Offline run (fixtures): no satellite data' };
+  const s2 = await loadS2Composite({ cacheDir: path.join(opts.outDir, '.cache', 's2-snow'), now: opts.now, log: opts.log });
+  if ('reason' in s2) return s2;
+  const { values, age } = aggregateToModel(s2);
+  return {
+    s2,
+    cover: {
+      sensor: 'Sentinel-2',
+      date: s2.date,
+      composite: s2.days.map((d) => ({ date: d.date, sensor: 'Sentinel-2' as const, product: d.scenes.join(', ') })),
+      values,
+      age,
+      fetchedAt: opts.now,
+    },
+  };
 }
 
 function coverStats(c: Cover): Extract<SnowFile['cover'], { available: true }>['stats'] {
@@ -108,6 +142,11 @@ function coverStats(c: Cover): Extract<SnowFile['cover'], { available: true }>['
     else s.bare++;
   }
   return s;
+}
+
+function shares(s: { snow: number; bare: number; olderView: number; cloud: number }) {
+  const total = s.snow + s.bare + s.olderView + s.cloud || 1;
+  return { newest: (s.snow + s.bare) / total, older: s.olderView / total, never: s.cloud / total };
 }
 
 async function readPrevious(file: string): Promise<SnowFile | null> {
@@ -125,19 +164,36 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowFile> {
   const dem = await loadDemGrid();
   const grid = MODEL_GRID;
 
+  // Sentinel-2 first (about 60 m, sees the snow line); the Copernicus 500 m product only as a fallback.
   let cover: CoverResult;
+  let s2: S2Composite | null = null;
+  const reasons: string[] = [];
   try {
-    cover = await loadCover(opts, previous);
+    const r = await loadS2(opts);
+    if ('reason' in r) reasons.push(`Sentinel-2: ${r.reason}`);
+    else ({ cover, s2 } = r);
   } catch (e) {
-    cover = { reason: `Snow cover fetch failed: ${e instanceof Error ? e.message : String(e)}` };
+    reasons.push(`Sentinel-2 snow map failed: ${e instanceof Error ? e.message : String(e)}`);
   }
+  if (!s2) {
+    try {
+      cover = await loadCover(opts, previous);
+    } catch (e) {
+      cover = { reason: `Snow cover fetch failed: ${e instanceof Error ? e.message : String(e)}` };
+    }
+    if ('reason' in cover) {
+      reasons.push(`Copernicus 500 m: ${cover.reason}`);
+      cover = { reason: [...new Set(reasons)].join('; ') };
+    }
+  }
+  cover ??= { reason: 'unknown' };
   const coverOk = 'values' in cover ? cover : null;
-  // Views older than a day still show on the cover layer but do not mask the depth estimate.
-  const masking = coverOk ? maskingCover(coverOk.values, coverOk.age) : null;
+  // Older views still show on the cover layer but do not mask the depth estimate.
+  const masking = coverOk ? maskingCover(coverOk.values, coverOk.age, s2 ? S2_MASK_DAYS : 1) : null;
   if ('reason' in cover) opts.log(`snow cover: ${cover.reason}`);
 
   const stations = toModelStations(opts.stations);
-  const files: SnowFile['files'] = { cover: null, depth: null, confidence: null, data: null };
+  const files: SnowFile['files'] = { white: null, cover: null, depth: null, confidence: null, data: null };
   const write = async (name: keyof SnowFile['files'], rgba: Uint8Array) => {
     const file = `snow-${name}.png`;
     await writeFile(path.join(opts.outDir, file), await encodePng(grid, rgba));
@@ -145,6 +201,25 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowFile> {
   };
 
   if (coverOk) await write('cover', coverRgba(grid, coverOk.values, coverOk.age));
+  if (s2 && coverOk) {
+    // Snow share of the clear cells per elevation band, to sanity-check the classification in logs.
+    const bands = new Map<number, [number, number]>();
+    coverOk.values.forEach((v, i) => {
+      if (v > 100) return;
+      const b = Math.floor(dem.values[i] / 500) * 500;
+      const t = bands.get(b) ?? [0, 0];
+      bands.set(b, [t[0] + 1, t[1] + v / 100]);
+    });
+    opts.log(
+      `snow (Sentinel-2): newest pass ${s2.date}, days ${s2.days.map((d) => `${d.date} (${Math.round(d.clearShare * 100)}% clear)`).join(', ')}; ` +
+        `snow share of clear ground by elevation: ${[...bands.entries()]
+          .sort((a, b) => a[0] - b[0])
+          .map(([b, [n, snow]]) => `${b}–${b + 500} m ${((100 * snow) / n).toFixed(1)}% (${n} cells)`)
+          .join(', ')}`,
+    );
+    await writeFile(path.join(opts.outDir, 'snow-white.png'), await snowWhitePng(s2));
+    files.white = 'snow-white.png';
+  }
 
   let depth: SnowFile['depth'] = null;
   if (stations.length >= 10) {
@@ -185,16 +260,26 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowFile> {
       coverOk
         ? {
             available: true,
-            date: coverOk.products[0].date,
-            sensor: coverOk.products[0].sensor,
-            product: coverOk.products[0].name,
+            date: coverOk.date,
+            sensor: coverOk.composite[0].sensor,
+            product: coverOk.composite[0].product,
             fetchedAt: coverOk.fetchedAt,
+            resolutionM: s2 ? 60 : 500,
             stats: coverStats(coverOk),
-            composite: coverOk.products.map((p) => ({ date: p.date, sensor: p.sensor, product: p.name })),
+            shares: shares(s2 ? s2Stats(s2) : coverStats(coverOk)),
+            composite: coverOk.composite,
             snowLineM: snowLine(masking!, dem.values),
-            source: 'https://land.copernicus.eu/en/products/snow/snow-cover-extent-europe-v1-0-500m',
-            licence: 'Copernicus data policy (free, full and open access)',
-            attribution: 'Copernicus Land Monitoring Service, Snow Cover Extent Europe 500 m (European Union)',
+            ...(s2
+              ? {
+                  source: 'https://dataspace.copernicus.eu/explore-data/data-collections/sentinel-data/sentinel-2',
+                  licence: 'Copernicus data policy (free, full and open access)',
+                  attribution: 'Contains modified Copernicus Sentinel data, processed by Sentinel Hub (Copernicus Data Space Ecosystem); snow detection by this app',
+                }
+              : {
+                  source: 'https://land.copernicus.eu/en/products/snow/snow-cover-extent-europe-v1-0-500m',
+                  licence: 'Copernicus data policy (free, full and open access)',
+                  attribution: 'Copernicus Land Monitoring Service, Snow Cover Extent Europe 500 m (European Union)',
+                }),
           }
         : { available: false, reason: 'reason' in cover ? cover.reason : 'unknown' },
     depth,
