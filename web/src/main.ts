@@ -1,5 +1,5 @@
 import * as maplibregl from 'maplibre-gl';
-import type { StationsFile } from '../../shared/types.ts';
+import type { SnowFile, StationsFile } from '../../shared/types.ts';
 import './style.css';
 import { SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from './colors.ts';
 import { getForecast } from './forecast.ts';
@@ -7,6 +7,7 @@ import { ageHours, escapeHtml, formatAge, formatTime } from './format.ts';
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
 import { createMap, DEFAULT_EXAGGERATION, isLowPowerDevice } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
+import { addSnowLayers, loadSnow, pointSnowHtml, SNOW_LAYERS, type SnowLayer, snowInfoHtml, SnowValues } from './snow.ts';
 import { addStationLayer, loadStations, STATION_LAYER_ID } from './stations.ts';
 
 /** Station data older than this gets a visible warning (the pipeline runs every 30 minutes). */
@@ -83,6 +84,10 @@ function renderSources() {
     ${stationPart}
     <p class="muted">Stations reported by more than one source are merged. The pipeline refreshes this data every 30 minutes;
     the file you are viewing was generated ${stationsFile ? `${formatTime(stationsFile.generatedAt)} (${formatAge(stationsFile.generatedAt)})` : '–'}.</p>
+    <h3>Snow cover and estimated snow depth</h3>
+    ${snowFile ? snowInfoHtml(snowFile) : '<p class="muted">Not loaded.</p>'}
+    ${snowFile?.cover.available ? `<p>Satellite snow cover: <a href="${escapeHtml(snowFile.cover.source)}" target="_blank" rel="noopener">${escapeHtml(snowFile.cover.attribution)}</a>. ${escapeHtml(snowFile.cover.licence)}.</p>` : ''}
+    <p class="muted">The depth map is the app's own estimate from station readings and elevation (method in plan.md); it is not an official product.</p>
     <h3>Point forecast</h3>
     <p><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a>, licensed CC BY 4.0.
     Fetched live when you click the map and cached in your browser for one hour.</p>
@@ -128,6 +133,23 @@ function showStationsStatus() {
   warning.textContent = messages.join(' ');
 }
 
+// --- Snow layers -------------------------------------------------------------
+
+let snowFile: SnowFile | null = null;
+let snowValues: SnowValues | null = null;
+const snowPromise = loadSnow().then(
+  async (f) => {
+    snowFile = f;
+    $('snow-info').innerHTML = snowInfoHtml(f);
+    snowValues = await SnowValues.load(f).catch(() => null);
+    return f;
+  },
+  (e: unknown) => {
+    $('snow-info').textContent = `Snow layers unavailable (${e instanceof Error ? e.message : String(e)}).`;
+    return null;
+  },
+);
+
 const stationsPromise = loadStations().then(
   (f) => {
     stationsFile = f;
@@ -159,7 +181,8 @@ async function showPoint(lngLat: maplibregl.LngLat) {
   const raw = map.queryTerrainElevation(lngLat);
   const elevation = raw === null ? null : raw / exaggeration;
   pointMarker.setLngLat(lngLat).addTo(map);
-  openPanel('Point forecast', loadingHtml(elevation), clearPoint);
+  const snowHtml = snowFile && snowValues ? pointSnowHtml(snowFile, snowValues.at(lngLat.lng, lngLat.lat)) : '';
+  openPanel('Point forecast', loadingHtml(elevation, snowHtml), clearPoint);
   let result;
   try {
     result = await getForecast(lngLat.lat, lngLat.lng, elevation, abort.signal);
@@ -167,12 +190,34 @@ async function showPoint(lngLat: maplibregl.LngLat) {
     if (abort.signal.aborted) return;
     result = e instanceof Error ? e : new Error(String(e));
   }
-  if (!abort.signal.aborted) updatePanelBody(pointHtml(lngLat.lat, lngLat.lng, elevation, result));
+  if (!abort.signal.aborted) updatePanelBody(pointHtml(lngLat.lat, lngLat.lng, elevation, result, snowHtml));
 }
 
 // --- Map setup -------------------------------------------------------------
 
 map.on('load', async () => {
+  const snow = await snowPromise;
+  if (snow) {
+    const toggles: Record<SnowLayer, HTMLInputElement> = {
+      cover: $<HTMLInputElement>('toggle-cover'),
+      depth: $<HTMLInputElement>('toggle-depth'),
+      confidence: $<HTMLInputElement>('toggle-confidence'),
+    };
+    // Below roads and labels, above the terrain shading.
+    const added = addSnowLayers(map, snow, basemap.lines[0]?.id, {
+      cover: toggles.cover.checked,
+      depth: toggles.depth.checked,
+      confidence: toggles.confidence.checked,
+    });
+    for (const key of Object.keys(toggles) as SnowLayer[]) {
+      if (!added.includes(key)) {
+        toggles[key].disabled = true;
+        toggles[key].parentElement!.title = 'Not available in the current data';
+        continue;
+      }
+      bindToggle(`toggle-${key}`, (on) => map.setLayoutProperty(SNOW_LAYERS[key], 'visibility', on ? 'visible' : 'none'));
+    }
+  }
 
   const file = await stationsPromise;
   if (file) {

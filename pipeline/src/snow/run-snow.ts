@@ -6,7 +6,15 @@ import path from 'node:path';
 import { MODEL_GRID } from '../../../shared/grid.ts';
 import { SCHEMA_VERSION, type SnowFile, type Station } from '../../../shared/types.ts';
 import { loadDemGrid } from '../dem.ts';
-import { type CoverGrid, decodeToGrid, downloadProduct, getToken, type SceProduct, searchProducts } from '../sources/snowCover.ts';
+import {
+  type CoverGrid,
+  decodeToGrid,
+  downloadProduct,
+  extractTiff,
+  getToken,
+  type SceProduct,
+  searchProducts,
+} from '../sources/snowCover.ts';
 import { estimateGrid, fit, leaveOneOut } from './model.ts';
 import { confidenceRgba, coverRgba, dataRgba, depthRgba, encodePng, snowLine } from './render.ts';
 import { toModelStations } from './stations.ts';
@@ -54,7 +62,9 @@ async function loadCover(opts: SnowStepOptions, previous: SnowFile | null): Prom
   }
 
   const token = await getToken(user, pass);
-  const tiff = await downloadProduct(newest.id, token);
+  const download = await downloadProduct(newest.id, token);
+  const { tiff, note } = extractTiff(download);
+  opts.log(`snow cover: downloaded ${(download.byteLength / 1e6).toFixed(1)} MB, ${note}`);
   const grid = await decodeToGrid(tiff, MODEL_GRID);
   await writeFile(cachePath, grid.values);
   const codes = Object.entries(grid.rawCodes)

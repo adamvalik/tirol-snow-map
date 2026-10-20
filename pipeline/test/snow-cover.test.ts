@@ -3,7 +3,8 @@ import { writeArrayBuffer } from 'geotiff';
 import { describe, expect, it } from 'vitest';
 import { cellCenter, type GridSpec } from '../../shared/grid.ts';
 import { COVER_CLOUD, COVER_NODATA } from '../src/snow/model.ts';
-import { decodeCode, decodeToGrid, parseProductName, pickProducts } from '../src/sources/snowCover.ts';
+import { zipSync } from 'fflate';
+import { decodeCode, decodeToGrid, extractTiff, parseProductName, pickProducts } from '../src/sources/snowCover.ts';
 
 const catalogue = JSON.parse(
   readFileSync(new URL('../../fixtures/copernicus/cdse-odata-search-sce-europe-500m.json', import.meta.url), 'utf8'),
@@ -73,5 +74,28 @@ describe('decodeToGrid', () => {
     expect(at(11.8, 47.3)).toBe(COVER_CLOUD); // east: code 30
     expect(out.stats.snow + out.stats.cloud + out.stats.nodata + out.stats.bare).toBe(400);
     expect(out.rawCodes[180]).toBeGreaterThan(0);
+  });
+});
+
+describe('extractTiff', () => {
+  const tiff = writeArrayBuffer(new Uint8Array(4).fill(150), { width: 2, height: 2 } as Parameters<typeof writeArrayBuffer>[1]);
+
+  it('passes a plain GeoTIFF through', () => {
+    expect(extractTiff(tiff).tiff.byteLength).toBe(tiff.byteLength);
+  });
+
+  it('takes the snow cover layer out of a ZIP and skips side layers', () => {
+    const zip = zipSync({
+      'c_gls_SCE500_x/c_gls_SCE500_x_QFLAG.tif': new Uint8Array(tiff).slice(),
+      'c_gls_SCE500_x/c_gls_SCE500_x_SCE.tif': new Uint8Array(tiff),
+      'c_gls_SCE500_x/readme.txt': new TextEncoder().encode('hi'),
+    });
+    const out = extractTiff(zip.buffer as ArrayBuffer);
+    expect(out.note).toContain('_SCE.tif');
+    expect(out.tiff.byteLength).toBe(tiff.byteLength);
+  });
+
+  it('explains what arrived when it is neither', () => {
+    expect(() => extractTiff(new TextEncoder().encode('<html>login</html>').buffer as ArrayBuffer)).toThrow(/neither GeoTIFF nor ZIP.*login/);
   });
 });

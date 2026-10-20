@@ -64,16 +64,18 @@ export function stationHtml(s: Station, file: StationsFile): string {
     Snow depth is measured at a single point and can differ a lot on nearby slopes.</p>`;
 }
 
-export const loadingHtml = (elevation: number | null) => `
+export const loadingHtml = (elevation: number | null, snowHtml = '') => `
   <dl class="kv"><dt>Elevation</dt><dd class="big">${elevation === null ? '–' : `${Math.round(elevation).toLocaleString('en-GB')} m`}</dd></dl>
+  ${snowHtml}
   <p class="muted">Loading forecast…</p>`;
 
-export function pointHtml(lat: number, lon: number, elevation: number | null, f: Forecast | Error): string {
+export function pointHtml(lat: number, lon: number, elevation: number | null, f: Forecast | Error, snowHtml = ''): string {
   const head = `
     <dl class="kv">
       <dt>Elevation</dt><dd class="big">${elevation === null ? '–' : `${Math.round(elevation).toLocaleString('en-GB')} m`}</dd>
       <dt>Position</dt><dd>${lat.toFixed(4)}° N, ${lon.toFixed(4)}° E</dd>
-    </dl>`;
+    </dl>
+    ${snowHtml}`;
   if (f instanceof Error) {
     return `${head}<p class="warning">Forecast unavailable: ${escapeHtml(f.message)}</p>`;
   }

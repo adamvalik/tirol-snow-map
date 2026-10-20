@@ -5,6 +5,7 @@
 // Pixel codes (product user manual, table 4.2): 100–200 snow fraction = code − 100 (%),
 // 30 cloud, 20/21/22 sea/lake/river, 251 polar night, 254 input error, 255 no data, 0 outside.
 
+import { unzipSync } from 'fflate';
 import { fromArrayBuffer } from 'geotiff';
 import { cellCenter, type GridSpec } from '../../../shared/grid.ts';
 import { COVER_CLOUD, COVER_NODATA } from '../snow/model.ts';
@@ -92,6 +93,32 @@ export async function downloadProduct(id: string, token: string): Promise<ArrayB
     return res.arrayBuffer();
   }
   throw new Error(`CDSE download ${id}: too many redirects`);
+}
+
+const isTiff = (b: Uint8Array) =>
+  (b[0] === 0x49 && b[1] === 0x49 && (b[2] === 42 || b[2] === 43)) || (b[0] === 0x4d && b[1] === 0x4d && (b[3] === 42 || b[3] === 43));
+
+/**
+ * The download is either the GeoTIFF itself or a ZIP around it (possibly with extra layers such
+ * as quality flags). Returns the snow cover TIFF and a note on what was found, for the logs.
+ */
+export function extractTiff(download: ArrayBuffer): { tiff: ArrayBuffer; note: string } {
+  const bytes = new Uint8Array(download);
+  if (isTiff(bytes)) return { tiff: download, note: 'plain GeoTIFF' };
+  if (bytes[0] === 0x50 && bytes[1] === 0x4b) {
+    const files = unzipSync(bytes, { filter: (f) => /\.tiff?$/i.test(f.name) });
+    const names = Object.keys(files);
+    if (names.length === 0) throw new Error('ZIP download contains no .tif file');
+    // Prefer the snow cover layer itself over side layers (quality flags, observation counts).
+    const pick =
+      names.find((n) => /SCE/i.test(n.split('/').pop()!) && !/QFLAG|QA|NOBS|AGE|UNC/i.test(n.split('/').pop()!)) ??
+      names.sort((a, b) => files[b].length - files[a].length)[0];
+    const f = files[pick];
+    return { tiff: f.buffer.slice(f.byteOffset, f.byteOffset + f.byteLength) as ArrayBuffer, note: `ZIP, using ${pick} of [${names.join(', ')}]` };
+  }
+  const head = [...bytes.slice(0, 16)].map((b) => b.toString(16).padStart(2, '0')).join(' ');
+  const text = new TextDecoder().decode(bytes.slice(0, 200)).replace(/[^\x20-\x7e]/g, '.');
+  throw new Error(`Download is neither GeoTIFF nor ZIP (${bytes.length} bytes; starts ${head}; "${text}")`);
 }
 
 /** Maps a raw product code to the model's cover value. */
