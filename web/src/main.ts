@@ -4,7 +4,7 @@ import './style.css';
 import { SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from './colors.ts';
 import { getForecast } from './forecast.ts';
 import { ageHours, escapeHtml, formatAge, formatTime } from './format.ts';
-import { LABELS_ATTRIBUTION, MapLabels } from './labels.ts';
+import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
 import { createMap, DEFAULT_EXAGGERATION, isLowPowerDevice } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addStationLayer, loadStations, STATION_LAYER_ID } from './stations.ts';
@@ -52,6 +52,16 @@ const bindToggle = (id: string, apply: (on: boolean) => void) => {
 bindToggle('toggle-hillshade', (on) => map.setLayoutProperty('hillshade', 'visibility', on ? 'visible' : 'none'));
 bindToggle('toggle-relief', (on) => map.setLayoutProperty('relief', 'visibility', on ? 'visible' : 'none'));
 
+// Layer groups from the OSM basemap, toggled together.
+const basemap = basemapLayers();
+const setGroup = (ids: string[], on: boolean) => {
+  for (const id of ids) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
+};
+bindToggle('toggle-basemap', (on) =>
+  setGroup([...basemap.fills, ...basemap.lines, basemap.buildings].map((l) => l.id), on),
+);
+bindToggle('toggle-labels', (on) => setGroup(basemap.labels.map((l) => l.id), on));
+
 // --- Sources dialog ----------------------------------------------------------
 
 function renderSources() {
@@ -76,8 +86,10 @@ function renderSources() {
     <h3>Point forecast</h3>
     <p><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a>, licensed CC BY 4.0.
     Fetched live when you click the map and cached in your browser for one hour.</p>
-    <h3>Labels</h3>
-    <p>Summit names and heights ${escapeHtml(LABELS_ATTRIBUTION)} (ODbL).</p>
+    <h3>Roads, places, rivers, buildings and summits</h3>
+    <p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL),
+    via a <a href="https://protomaps.com/" target="_blank" rel="noopener">Protomaps</a> basemap build served from this site.
+    Fonts: Noto Sans (OFL).</p>
     <h3>Map library</h3>
     <p><a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a> (BSD-3-Clause).</p>
     <h3>Safety</h3>
@@ -161,8 +173,6 @@ async function showPoint(lngLat: maplibregl.LngLat) {
 // --- Map setup -------------------------------------------------------------
 
 map.on('load', async () => {
-  const labels = new MapLabels(map);
-  bindToggle('toggle-labels', (on) => labels.setVisible(on));
 
   const file = await stationsPromise;
   if (file) {
@@ -181,13 +191,29 @@ map.on('load', async () => {
   });
 });
 
+// The Protomaps style names a few POI icons its sprite does not contain; draw those labels without an icon.
+map.on('styleimagemissing', (e: { id: string }) => {
+  if (!map.hasImage(e.id)) map.addImage(e.id, { width: 1, height: 1, data: new Uint8Array(4) });
+});
+
 // Hooks for the smoke test (scripts/smoke.mjs) and for debugging from the console.
 map.once('idle', () => {
   document.body.dataset.mapReadyMs = String(Math.round(performance.now()));
 });
 Object.assign(window, { __snowmap: { map } });
 
-map.on('error', (e: maplibregl.ErrorEvent) => {
+let basemapWarned = false;
+map.on('error', (e: maplibregl.ErrorEvent & { sourceId?: string }) => {
+  if (e.sourceId === BASEMAP_SOURCE) {
+    // The extract is built locally with `npm run basemap` and is not in git; say so once instead of failing silently.
+    if (!basemapWarned) {
+      basemapWarned = true;
+      const warning = $('data-warning');
+      warning.hidden = false;
+      warning.textContent = `${warning.textContent ?? ''} Roads and places are unavailable (basemap file missing; run "npm run basemap").`.trim();
+    }
+    return;
+  }
   // Missing ocean/edge tiles are expected; anything else is worth surfacing in the console.
   const status = (e.error as { status?: number } | undefined)?.status;
   if (status === 404) return;

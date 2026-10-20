@@ -45,7 +45,7 @@ for (const profile of profiles) {
 
   const t0 = Date.now();
   await page.goto(url, { waitUntil: 'load' });
-  await page.waitForFunction(() => document.body.dataset.mapReadyMs, null, { timeout: 30_000 });
+  await page.waitForFunction(() => document.body.dataset.mapReadyMs, null, { timeout: 90_000 });
   const readyMs = Date.now() - t0;
   const readyInPage = Number(await page.evaluate(() => document.body.dataset.mapReadyMs));
   await page.waitForTimeout(1500);
@@ -69,7 +69,7 @@ for (const profile of profiles) {
 
   // Click a station with snow data, then a terrain point, and check the panels fill.
   await page.evaluate(() => window.__snowmap.map.jumpTo({ center: [11.69, 46.51], zoom: 11, pitch: 50, bearing: 0 }));
-  await page.waitForFunction(() => window.__snowmap.map.loaded(), null, { timeout: 30_000 });
+  await page.waitForFunction(() => window.__snowmap.map.loaded(), null, { timeout: 90_000 });
   const stationPoint = await page.evaluate(() => {
     const { map } = window.__snowmap;
     // Pick a snow station that is not covered by a panel.

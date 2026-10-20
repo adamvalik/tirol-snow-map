@@ -1,11 +1,15 @@
 import * as maplibregl from 'maplibre-gl';
 import type { StyleSpecification } from 'maplibre-gl';
+import { Protocol } from 'pmtiles';
+import { basemapLayers, basemapSources, glyphsUrl, spriteUrl } from './basemap.ts';
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 locates its worker relative to its own module URL, which a bundler cannot follow;
 // let Vite bundle the worker and hand MapLibre the resulting URL.
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 
 maplibregl.setWorkerUrl(workerUrl);
+// The OSM basemap is a single PMTiles file read with HTTP range requests.
+maplibregl.addProtocol('pmtiles', new Protocol({ metadata: true }).tile);
 
 export const MAPTERHORN_TILES = 'https://tiles.mapterhorn.com/{z}/{x}/{y}.webp';
 /** Mapterhorn serves tiles up to z15; z16 returns 404. */
@@ -29,12 +33,16 @@ function createStyle(lowPower: boolean): StyleSpecification {
       maxzoom,
       attribution: '<a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a>',
     }) as const;
+  const basemap = basemapLayers();
   return {
     version: 8,
+    glyphs: glyphsUrl(),
+    sprite: spriteUrl(),
     // Separate sources for the 3D mesh and the drawn layers, as MapLibre recommends; the tiles are shared via HTTP cache.
     sources: {
       terrain: dem(lowPower ? 13 : 14),
       dem: dem(DEM_MAX_ZOOM),
+      ...basemapSources(),
     },
     layers: [
       { id: 'background', type: 'background', paint: { 'background-color': '#dcd8cf' } },
@@ -43,7 +51,7 @@ function createStyle(lowPower: boolean): StyleSpecification {
         type: 'color-relief',
         source: 'dem',
         paint: {
-          'color-relief-opacity': 0.9,
+          'color-relief-opacity': 0.75,
           'color-relief-color': [
             'interpolate',
             ['linear'],
@@ -59,6 +67,7 @@ function createStyle(lowPower: boolean): StyleSpecification {
           ],
         },
       },
+      ...basemap.fills,
       {
         id: 'hillshade',
         type: 'hillshade',
@@ -70,6 +79,9 @@ function createStyle(lowPower: boolean): StyleSpecification {
           'hillshade-highlight-color': '#ffffff',
         },
       },
+      ...basemap.lines,
+      basemap.buildings,
+      ...basemap.labels,
     ],
     terrain: { source: 'terrain', exaggeration: DEFAULT_EXAGGERATION },
     sky: {

@@ -34,6 +34,8 @@ Four kinds of free data cover the whole app. Terrain is solved; snow is the part
 | Snow cover | [Copernicus Snow Cover Extent Europe, 500 m](https://land.copernicus.eu/api/en/products/snow/snow-cover-extent-europe-v1-0-500m) | Fraction of ground covered by snow per pixel, 0 to 100 percent | 500 m, daily, near real time | Optical, so clouds leave gaps. 500 m is coarse for narrow valleys |
 | Station measurements | [South Tyrol Open Data Hub](https://databrowser.opendatahub.bz.it) and the provincial open data catalogue (about 120 stations) | Snow depth, temperature, precipitation, wind per station, with coordinates and elevation | 10 to 15 minute readings, but cadence varies per station | Province moved its weather site in January 2026; confirm open data endpoints still work as before |
 | Station measurements, north side | [lawinen.report](https://lawinen.report/weather/stations) (Tirol, about 200 stations) | Same variables for Tirol, useful for the northern border | Near real time | Access method for programmatic use unverified; may need scraping or a data request |
+| Basemap | [OpenStreetMap](https://www.openstreetmap.org/copyright) via a [Protomaps](https://protomaps.com/) daily build, cut to South Tyrol and self-hosted as one PMTiles file (about 90 MB, up to zoom 14) | Roads, railways, rivers, lakes, land cover, place names, buildings (3D at close zoom) | Refreshed manually (`npm run basemap`), monthly is plenty | ODbL attribution required. Fonts and icons are self-hosted too |
+| True-colour satellite image | [Sentinel-2 L2A](https://dataspace.copernicus.eu/) through the Copernicus Data Space Sentinel Hub API | What the region actually looks like, so fresh snow shows up white on the real mountains | 10 m, a new pass every 2–5 days, clouds permitting | Needs a CDSE OAuth client. 10 m pixels look soft at village zoom |
 | Weather and forecast | [Open-Meteo](https://open-meteo.com/en/docs/ecmwf-api) | Point weather, snowfall, snow depth model output, hourly, up to 15 days. Downscaled to a chosen elevation | ECMWF 9 km globally; a finer regional model (ICON-D2, about 2 km) is much better in mountains | Free tier is for non-commercial use; check terms. Model snow depth is a derived estimate, not a measurement |
 
 **Two things to verify in the first hour of the build**, because they decide the design:
@@ -110,6 +112,8 @@ The app opens on a tilted 3D view of Bolzano and the surrounding peaks, with one
 | 3D terrain with hillshade | Free tilt and rotate, vertical exaggeration slider (default 1.5), summit labels | MVP |
 | Station markers | Dots coloured by snow depth, tooltip with temperature, depth, wind, time of last reading | MVP |
 | Click for point weather | Elevation, current conditions and a 7-day forecast for the clicked point, with snowfall bars | MVP |
+| OSM basemap | Towns, villages, roads, railways, rivers, lakes, forests, summit and place labels, 3D buildings at close zoom, so the map reads like a miniature of the real valleys | MVP+ (done) |
+| "Today from space" layer | Latest cloud-free Sentinel-2 true-colour picture draped over the terrain, with its acquisition date; keeps the last clear picture on cloudy days | V2 |
 | Snow cover layer | Satellite snow fraction draped over the terrain, with date and a cloud-gap indicator | V2 |
 | Estimated snow depth layer | Colour ramp from 0 to 200 cm and above, transparent where no snow | V2 |
 | Snow line indicator | Elevation above which snow cover exceeds 50 percent, shown as a number and a contour | V2 |
@@ -133,7 +137,9 @@ Spike (first hour)
   -> gate: Data confirmed (snow source chosen)
 MVP (afternoon to weekend)
   -> gate: MVP review (smooth on a phone)
-V2 (a few days; snow depth estimate)
+MVP+ basemap (OpenStreetMap roads, places, rivers, 3D buildings)
+  -> gate: basemap review
+V2 (a few days; satellite picture, snow cover, snow depth estimate)
   -> gate: Estimate trusted (error acceptable)
 V3 (1 to 3 weeks)
   -> gate: Shipped (deployed, tested)
@@ -145,7 +151,8 @@ Effort ranges are rough estimates. V2 is where the risky part arrives: the snow 
 | --- | --- | --- |
 | Spike | Call Open Data Hub for stations and read the field names. Test browser calls against it. Fetch the Copernicus snow product, or the NASA fallback. Call Open-Meteo for one point. Save every response in `fixtures/` | A short report says which endpoints work, whether a backend proxy is needed, and which snow product to use |
 | MVP | Vite and MapLibre project. Terrain from Mapterhorn with hillshade. Camera preset over Bolzano. Station markers from cached JSON. Click handler that shows elevation and a 7-day forecast. Footer with attribution | Opens in under 5 seconds on desktop. Tilt and rotate stay smooth on a phone. No console errors. Station values match the official site for three spot checks |
-| V2 | Pipeline renders snow cover PNG. Interpolation code with unit tests on fixtures. Snow depth PNG draped on terrain. Confidence layer. Leave-one-out validation with error shown in an info panel | Snow line in the app matches what you see from the window on a clear day. Validation error is displayed and you accept it. Layers show their own timestamps |
+| MVP+ | Self-hosted OSM basemap from a Protomaps extract (PMTiles), self-hosted fonts and icons, muted style under the data layers, 3D buildings | Towns and roads make it easy to find your way. No new external hosts in the browser. No console errors |
+| V2 | Manual GitHub Actions workflow that logs in to Copernicus with the repository secrets and verifies the snow cover product. Pipeline fetches the latest cloud-free Sentinel-2 true-colour image (Sentinel Hub Process API, needs a CDSE OAuth client) and serves it as image tiles with its date. Pipeline renders the daily snow cover PNG (VIIRS 500 m) with cloud gaps. Interpolation code with unit tests on fixtures. Snow depth PNG draped on terrain. Confidence layer. Leave-one-out validation with error shown in an info panel | The satellite picture shows today's or the last clear day's snow, with its date. Snow line in the app matches what you see from the window on a clear day. Validation error is displayed and you accept it. Layers show their own timestamps |
 | V3 | Time slider over the last 14 days. Forecast snowfall animation. A shareable link that stores camera position and layers. Scheduled jobs in production. README and monitoring for failed fetches | Deployed at a stable address. A failed upstream fetch shows stale data with a warning instead of breaking the app |
 
 ## Risks and open questions
@@ -170,6 +177,9 @@ The biggest risk is that the snow depth estimate looks convincing but is wrong i
 - [x] Language: English only
 - [x] Experience: a read-only 3D model you orbit and zoom, with layer toggles and click-for-detail. No accounts, nothing saved
 - [x] Technology: Vite, TypeScript and MapLibre with no UI framework. The app is one full-screen map, so a framework adds little, and fewer dependencies mean fewer surprises for Claude Code and a lighter page on phones
+- [x] Station source: province API plus the Euregio station feed (linea), merged
+- [x] Basemap: self-hosted OSM extract instead of a bare terrain model; MapLibre stays, no three.js
+- [x] V2 scope adds the Sentinel-2 "today from space" layer next to snow cover and snow depth
 - [x] GitHub: you have an account. Claude Code runs git init first, then you create the GitHub repository and connect it, and only after that are Pages and the scheduled workflow set up
 
 ## Kickoff prompt for Claude Code

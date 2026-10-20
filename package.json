@@ -11,10 +11,14 @@
     "pipeline:fixtures": "tsx pipeline/src/run.ts --fixtures",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "smoke": "node scripts/smoke.mjs"
+    "smoke": "node scripts/smoke.mjs",
+    "basemap": "tsx pipeline/src/basemap/run.ts",
+    "basemap:assets": "tsx pipeline/src/basemap/assets.ts"
   },
   "dependencies": {
-    "maplibre-gl": "6.12.0"
+    "@protomaps/basemaps": "5.7.2",
+    "maplibre-gl": "6.12.0",
+    "pmtiles": "4.5.0"
   },
   "devDependencies": {
     "@types/geojson": "7946.0.16",
