@@ -1,0 +1,405 @@
+:root {
+  --bg: #ffffff;
+  --fg: #1f2933;
+  --muted: #5f6b76;
+  --line: #d8dde2;
+  --accent: #1d5fa8;
+  --warn-bg: #fff4d6;
+  --warn-fg: #6b4a00;
+  --panel-shadow: 0 2px 12px rgb(0 0 0 / 0.18);
+  --radius: 10px;
+  color-scheme: light;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--fg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #dcd8cf;
+}
+
+#map {
+  position: fixed;
+  inset: 0;
+}
+
+.panel {
+  position: absolute;
+  z-index: 2;
+  background: var(--bg);
+  border-radius: var(--radius);
+  box-shadow: var(--panel-shadow);
+  max-height: calc(100% - 64px);
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.panel-head h1,
+.panel-head h2 {
+  font-size: 15px;
+  margin: 0;
+}
+
+.panel-body {
+  padding: 10px 12px 12px;
+  overflow-y: auto;
+}
+
+#layers {
+  top: 12px;
+  left: 12px;
+  width: 280px;
+}
+
+#layers.collapsed .panel-body {
+  display: none;
+}
+
+#details {
+  top: 12px;
+  right: 12px;
+  width: 360px;
+}
+
+#details[hidden] {
+  display: none;
+}
+
+.icon-btn {
+  border: 0;
+  background: transparent;
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--fg);
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  background: #eef1f4;
+}
+
+fieldset {
+  border: 0;
+  margin: 0 0 10px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+legend,
+.legend-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+label {
+  cursor: pointer;
+}
+
+.slider {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.slider input {
+  width: 100%;
+}
+
+.legend ul {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 8px;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+  box-shadow: 0 0 0 1px #888;
+  flex: none;
+}
+
+.hint,
+.layer-time,
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 6px 0 0;
+}
+
+.warning {
+  background: var(--warn-bg);
+  color: var(--warn-fg);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+#footer {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  background: rgb(255 255 255 / 0.92);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.15);
+}
+
+#footer a,
+.link-btn,
+dialog a,
+.panel a {
+  color: var(--accent);
+}
+
+.link-btn {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sep {
+  margin: 0 4px;
+  color: var(--muted);
+}
+
+dialog {
+  border: 0;
+  border-radius: var(--radius);
+  box-shadow: var(--panel-shadow);
+  max-width: min(640px, calc(100% - 32px));
+  max-height: calc(100% - 64px);
+  padding: 16px 20px;
+}
+
+dialog h2 {
+  margin-top: 0;
+  font-size: 17px;
+}
+
+dialog h3 {
+  font-size: 14px;
+  margin: 14px 0 4px;
+}
+
+dialog p {
+  margin: 0 0 4px;
+}
+
+dialog form {
+  text-align: right;
+  margin-top: 12px;
+}
+
+dialog button {
+  font: inherit;
+  padding: 6px 14px;
+}
+
+/* Details panel content */
+.kv {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 12px;
+  margin: 0 0 8px;
+}
+
+.kv dt {
+  color: var(--muted);
+}
+
+.kv dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.big {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.forecast {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  margin: 6px 0;
+}
+
+.forecast th,
+.forecast td {
+  padding: 3px 4px;
+  text-align: right;
+  border-bottom: 1px solid #eef0f2;
+  white-space: nowrap;
+}
+
+.forecast th:first-child,
+.forecast td:first-child {
+  text-align: left;
+}
+
+.forecast thead th {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.bar-cell {
+  width: 30%;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.bar span.fill {
+  display: inline-block;
+  height: 10px;
+  background: #3182bd;
+  border-radius: 2px;
+  min-width: 1px;
+}
+
+.tooltip .maplibregl-popup-content {
+  padding: 6px 9px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.tooltip strong {
+  display: block;
+}
+
+/* Map labels (DOM markers) */
+.map-label {
+  pointer-events: none;
+  font-size: 11px;
+  font-weight: 600;
+  color: #2b2b2b;
+  text-shadow:
+    0 0 2px #fff,
+    0 0 3px #fff,
+    0 0 4px #fff;
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.map-label.summit::before {
+  content: '▲';
+  display: block;
+  font-size: 9px;
+  color: #6b4f2f;
+}
+
+.map-label .ele {
+  font-weight: 400;
+  color: #4a4a4a;
+}
+
+.map-label.town {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #1a1a1a;
+}
+
+.map-label.hidden {
+  visibility: hidden;
+}
+
+.point-marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #d7263d;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.4);
+}
+
+/* Phones: layers become a bottom sheet; the details sheet replaces it when open. */
+@media (max-width: 700px) {
+  .panel {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: auto;
+    border-radius: var(--radius) var(--radius) 0 0;
+    max-height: 55%;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  #layers {
+    top: auto;
+    left: 0;
+    width: auto;
+  }
+
+  #details {
+    top: auto;
+    right: 0;
+    width: auto;
+    z-index: 3;
+  }
+
+  body.details-open #layers {
+    display: none;
+  }
+
+  #footer {
+    top: 8px;
+    bottom: auto;
+    max-width: calc(100% - 16px);
+    white-space: normal;
+    text-align: center;
+    border-radius: 10px;
+  }
+
+  .panel-head h1 {
+    font-size: 14px;
+  }
+}

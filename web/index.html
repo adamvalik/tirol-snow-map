@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="3D terrain map of South Tyrol with live snow depth and weather station data." />
+    <meta name="theme-color" content="#1f2933" />
+    <title>South Tyrol Snow Map</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 28 12 10l5 8 4-6 9 16z' fill='%23336'/%3E%3Cpath d='m12 10 3 5-3-1-2 2z' fill='%23fff'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <div id="map" role="application" aria-label="3D map of South Tyrol"></div>
+
+    <section id="layers" class="panel" aria-label="Layers">
+      <header class="panel-head">
+        <h1>South Tyrol Snow Map</h1>
+        <button id="layers-toggle" class="icon-btn" aria-expanded="true" aria-controls="layers-body" title="Show or hide layers">
+          <span aria-hidden="true">☰</span>
+        </button>
+      </header>
+      <div id="layers-body" class="panel-body">
+        <div id="data-warning" class="warning" hidden></div>
+        <fieldset>
+          <legend>Layers</legend>
+          <label><input type="checkbox" id="toggle-stations" checked /> Weather stations</label>
+          <label><input type="checkbox" id="toggle-labels" checked /> Summit and town labels</label>
+          <label><input type="checkbox" id="toggle-hillshade" checked /> Hillshade</label>
+          <label><input type="checkbox" id="toggle-relief" checked /> Elevation tint</label>
+        </fieldset>
+        <label class="slider">
+          Vertical exaggeration <output id="exaggeration-value">1.5×</output>
+          <input type="range" id="exaggeration" min="1" max="3" step="0.1" value="1.5" />
+        </label>
+        <div class="legend" aria-label="Measured snow depth legend">
+          <div class="legend-title">Measured snow depth at stations</div>
+          <ul id="legend-items"></ul>
+        </div>
+        <p class="hint">Click a station for its readings, or anywhere on the terrain for elevation and a 7-day forecast. Right-drag (two fingers on a phone) to tilt and rotate.</p>
+        <p class="layer-time" id="stations-time">Stations: loading…</p>
+      </div>
+    </section>
+
+    <aside id="details" class="panel" aria-live="polite" hidden>
+      <header class="panel-head">
+        <h2 id="details-title">Details</h2>
+        <button id="details-close" class="icon-btn" title="Close"><span aria-hidden="true">✕</span></button>
+      </header>
+      <div id="details-body" class="panel-body"></div>
+    </aside>
+
+    <footer id="footer">
+      <strong>Not for avalanche decisions.</strong> Check the official bulletin at
+      <a href="https://avalanche.report" target="_blank" rel="noopener">avalanche.report</a>.
+      <span class="sep">·</span>
+      <button id="sources-btn" class="link-btn">Data sources and attribution</button>
+    </footer>
+
+    <dialog id="sources-dialog">
+      <h2>Data sources and attribution</h2>
+      <div id="sources-body"></div>
+      <form method="dialog"><button>Close</button></form>
+    </dialog>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
