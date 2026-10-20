@@ -113,7 +113,7 @@ The app opens on a tilted 3D view of Bolzano and the surrounding peaks, with one
 | Station markers | Dots coloured by snow depth, tooltip with temperature, depth, wind, time of last reading | MVP |
 | Click for point weather | Elevation, current conditions and a 7-day forecast for the clicked point, with snowfall bars | MVP |
 | OSM basemap | Towns, villages, roads, railways, rivers, lakes, forests, summit and place labels, 3D buildings at close zoom, so the map reads like a miniature of the real valleys | MVP+ (done) |
-| "Today from space" layer | Latest cloud-free Sentinel-2 true-colour picture draped over the terrain, with its acquisition date; keeps the last clear picture on cloudy days | V2 |
+| "Today from space" layer | Latest cloud-free Sentinel-2 true-colour picture draped over the terrain, with its acquisition date; cloud gaps filled from the newest older clear day | V2 (done) |
 | Snow cover layer | Satellite snow fraction draped over the terrain, with date and a cloud-gap indicator | V2 |
 | Estimated snow depth layer | Colour ramp from 0 to 200 cm and above, transparent where no snow | V2 |
 | Snow line indicator | Elevation above which snow cover exceeds 50 percent, shown as a number and a contour | V2 |

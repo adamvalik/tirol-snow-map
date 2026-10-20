@@ -32,11 +32,11 @@ describe('chooseDay', () => {
     expect(choice?.date).toBe('2026-10-19'); // 52 % covered × 95 % clear ≈ 0.49 ≥ 0.45
   });
 
-  it('offers the clearest older day to fill cloud gaps', () => {
+  it('fills cloud gaps from the newest reasonably clear older day, not the clearest old one', () => {
     const scenes = [
       scene('b', '2026-10-19T10:20:00Z', 5, box(9, 45, 11.5, 48)),
-      scene('c', '2026-10-17T10:10:00Z', 10, box(9, 45, 14, 48)),
-      scene('d', '2026-10-15T10:10:00Z', 60, box(9, 45, 14, 48)),
+      scene('c', '2026-10-17T10:10:00Z', 50, box(9, 45, 14, 48)), // 50 % clear, recent
+      scene('d', '2026-10-04T10:10:00Z', 0, box(9, 45, 14, 48)), // perfect, but two weeks old
     ];
     const { choice, fallback } = chooseDay(scenes, REGION);
     expect(choice?.date).toBe('2026-10-19');

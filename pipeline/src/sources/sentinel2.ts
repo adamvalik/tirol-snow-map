@@ -147,9 +147,9 @@ export function chooseDay(
   }
   days.sort((a, b) => b.date.localeCompare(a.date));
   const choice = days.find((d) => d.clearShare >= minClearShare) ?? null;
-  // The clearest older day fills what the chosen day hides under clouds.
-  const older = choice ? days.filter((d) => d.date < choice.date && d.clearShare >= 0.3) : [];
-  const fallback = older.sort((a, b) => b.clearShare - a.clearShare)[0] ?? null;
+  // The newest reasonably clear older day fills what the chosen day hides under clouds; a fresher
+  // fill-in matters more than a perfect one, since snow can come and go within days.
+  const fallback = choice ? (days.find((d) => d.date < choice.date && d.clearShare >= 0.35) ?? null) : null;
   return { choice, fallback, days };
 }
 

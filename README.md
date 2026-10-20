@@ -4,7 +4,7 @@ A read-only 3D miniature of South Tyrol, centred on Bolzano: terrain with OpenSt
 
 > **Not for avalanche decisions.** This is a visualisation for orientation only. Always check the official bulletin at [avalanche.report](https://avalanche.report).
 
-Status: **V2 in progress**: satellite snow cover and the estimated snow depth layer work; the Sentinel-2 "today from space" picture is next. The spike findings are in [`docs/spike-report.md`](docs/spike-report.md).
+Status: **V2 done, awaiting review**: Sentinel-2 satellite picture, satellite snow cover, estimated snow depth with confidence and validation. V3 (time slider, forecast animation, share links, GitHub Pages) is next. The spike findings are in [`docs/spike-report.md`](docs/spike-report.md).
 
 ## Run it locally
 
@@ -13,7 +13,8 @@ Requires Node 22+.
 ```sh
 npm ci
 npm run basemap             # one-off, ~1-2 min: OSM extract -> web/public/basemap/south-tyrol.pmtiles (~90 MB, not in git)
-npm run pipeline            # stations + snow layers -> web/public/data/ (set CDSE_USERNAME / CDSE_PASSWORD for satellite snow cover)
+npm run pipeline            # stations, snow layers, satellite picture -> web/public/data/
+                            # needs CDSE_USERNAME / CDSE_PASSWORD (snow cover) and CDSE_CLIENT_ID / CDSE_CLIENT_SECRET (picture)
 # or: npm run pipeline:fixtures   (offline, from the saved fixtures)
 npm run dev                 # http://localhost:5173
 ```
@@ -37,7 +38,8 @@ Province meteo API v1 (CC0) ----+
                                 +--> pipeline (Node, scheduled) --> web/public/data/stations.json --> browser
 Euregio station feed (linea) ---+     parse, convert units,              (static file)               |
 Copernicus snow cover 500 m ----+     drop stale, merge duplicates,  --> snow.json + snow-*.png -------->+
-  (CDSE login, daily)                 snow depth model on 250 m grid                                  |
+  (CDSE login, daily)           |     snow depth model on 250 m grid                                  |
+Sentinel-2 L2A (Sentinel Hub) --+     newest clear day -> tiles      --> satellite.json + satellite/ ---->+
 Protomaps OSM build --> npm run basemap --> web/public/basemap/south-tyrol.pmtiles ------------------>+  (same site, range requests)
 Mapterhorn terrain tiles --------------------------------------------------------------------------->+  (direct)
 Open-Meteo forecast (on click) --------------------------------------------------------------------->+  (direct, cached 1 h)
@@ -56,6 +58,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
   - **Confidence** per cell: high within 10 km of a snow station and inside the stations' elevation range; medium within 25 km and 300 m of the range; low otherwise; one level lower where the satellite has no view (cloud or no data).
   - **Outputs**: `snow.json` (dates, method, trend, validation, snow line), `snow-cover.png`, `snow-depth.png`, `snow-confidence.png`, and `snow-data.png`, which stores depth and cover losslessly in its colour channels so the app can show the value under a click.
   - The grid (`shared/grid.ts`) has 764 × 512 cells of about 250 m, with rows spaced evenly in Web Mercator so the PNGs line up exactly on the map.
+- **Satellite picture** (`pipeline/src/satellite/`, `pipeline/src/sources/sentinel2.ts`): the Sentinel Hub catalogue lists Sentinel-2 L2A passes of the last 20 days; each day is scored by how much of the region it shows cloud-free. The newest day above 45 % is rendered in true colour through the Process API (clouds and cirrus made transparent with the scene classification band, snow stays white), and the newest older day above 35 % fills the cloud gaps. Zoom 12 (about 25 m pixels) is rendered in 2048 px chunks and cut into 256 px WebP tiles; zooms 8–11 are built locally. Rendering happens only when the chosen days change, because it costs Copernicus processing units (roughly 300–700 per refresh; check usage in the CDSE dashboard). Output: `satellite.json` (dates, shares) and `satellite/{z}/{x}/{y}.webp` (about 11 MB).
 - **Check workflow** (`.github/workflows/snow-check.yml`): runs the tests and the live pipeline with the repository secrets, prints `snow.json`, and uploads the outputs as a workflow artifact. It runs by hand or on pushes to `claude/**` branches; the scheduled production workflow comes in V3.
 - **Data contract**: `shared/types.ts`.
 - **Sources**:
@@ -78,6 +81,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 
 - **No snow-depth sensors in the valleys.** Inside South Tyrol, snow depth is measured only at about 1700–3000 m; the lowest station in the surrounding region is at about 530 m. A missing marker does not mean there is no snow.
 - **The snow depth map is an estimate, not a measurement.** It is a smooth trend with local corrections; real depth varies far more (wind drift, sun-exposed slopes, gullies). The leave-one-out error in the app tells you how far off a station-like spot typically is. Above about 3000 m, and in valleys below the lowest station, it extrapolates.
+- **The satellite picture is a few days old at best** (Sentinel-2 passes every 2–5 days, clouds permitting) and 25 m per pixel; it is not a live webcam. Where both days were cloudy the map shows through.
 - **Satellite snow cover is 500 m and optical.** Clouds hide the ground: cells are filled from up to three earlier days (fainter) and hatched if never seen. Narrow valleys and thin early-season snow (under 15 % of a 500 m cell) can be missed, and a day's product appears in the afternoon (VIIRS) or evening (MODIS).
 - **Station snow depth is a point measurement.** Wind and terrain make real depth vary a lot over short distances.
 - **The forecast is model output** (Open-Meteo, best-match blend), downscaled to the clicked elevation. Open-Meteo's own model snow depth is not used: in the spike it read 0 cm where a station measured 5.8 cm.
@@ -99,6 +103,7 @@ Terrain © [Mapterhorn](https://mapterhorn.com/attribution), built from:
 
 Other sources:
 - **Stations:** Autonomous Province of Bolzano weather service (CC0); the Euregio avalanche warning services and partner operators via avalanche.report.
+- **Satellite picture:** contains modified Copernicus Sentinel data, processed by Sentinel Hub (Copernicus Data Space Ecosystem).
 - **Snow cover:** Copernicus Land Monitoring Service, Snow Cover Extent Europe 500 m (European Union), free and open access.
 - **Forecast:** [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0).
 - **Basemap and summits:** © OpenStreetMap contributors (ODbL), via a Protomaps build. Fonts: Noto Sans (OFL).
