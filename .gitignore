@@ -1,6 +1,7 @@
 node_modules/
 dist/
-data/
+/data/
+/web/public/data/
 *.log
 .DS_Store
 .vscode

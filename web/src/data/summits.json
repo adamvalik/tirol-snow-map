@@ -1,0 +1,245 @@
+{
+ "source": "OpenStreetMap natural=peak via Overpass API, 2026-10-20",
+ "licence": "ODbL 1.0",
+ "attribution": "© OpenStreetMap contributors",
+ "summits": [
+  {
+   "name": "Ortler / Ortles",
+   "lat": 46.5091,
+   "lon": 10.54493,
+   "ele": 3905,
+   "osmId": 26864153
+  },
+  {
+   "name": "Monte Cevedale",
+   "lat": 46.44365,
+   "lon": 10.61659,
+   "ele": 3769,
+   "osmId": 26863823
+  },
+  {
+   "name": "Weißkugel / Palla Bianca",
+   "lat": 46.79783,
+   "lon": 10.72607,
+   "ele": 3738,
+   "osmId": 26865132
+  },
+  {
+   "name": "Wildspitze",
+   "lat": 46.88524,
+   "lon": 10.86728,
+   "ele": 3768,
+   "osmId": 26865139
+  },
+  {
+   "name": "Hochfeiler / Gran Pilastro",
+   "lat": 46.9724,
+   "lon": 11.72759,
+   "ele": 3509,
+   "osmId": 333899881
+  },
+  {
+   "name": "Zuckerhütl",
+   "lat": 46.96431,
+   "lon": 11.1538,
+   "ele": 3508,
+   "osmId": 410930695
+  },
+  {
+   "name": "Großvenediger",
+   "lat": 47.10927,
+   "lon": 12.34534,
+   "ele": 3657,
+   "osmId": 256041740
+  },
+  {
+   "name": "Hochgall / Monte Collalto",
+   "lat": 46.91085,
+   "lon": 12.14025,
+   "ele": 3436,
+   "osmId": 1653401529
+  },
+  {
+   "name": "Dreiherrnspitze",
+   "lat": 47.06917,
+   "lon": 12.24075,
+   "ele": 3499,
+   "osmId": 307311105
+  },
+  {
+   "name": "Marmolada (Punta Penia)",
+   "lat": 46.43455,
+   "lon": 11.85135,
+   "ele": 3343,
+   "osmId": 534251275
+  },
+  {
+   "name": "Langkofel / Sassolungo",
+   "lat": 46.52494,
+   "lon": 11.73531,
+   "ele": 3181,
+   "osmId": 1838701719
+  },
+  {
+   "name": "Piz Boè",
+   "lat": 46.50892,
+   "lon": 11.8283,
+   "ele": 3152,
+   "osmId": 307292232
+  },
+  {
+   "name": "Sas Rigais",
+   "lat": 46.60929,
+   "lon": 11.76682,
+   "ele": 3025,
+   "osmId": 307297650
+  },
+  {
+   "name": "Peitlerkofel / Sass de Putia",
+   "lat": 46.65886,
+   "lon": 11.82053,
+   "ele": 2875,
+   "osmId": 313974459
+  },
+  {
+   "name": "Cima Grande / Große Zinne",
+   "lat": 46.61944,
+   "lon": 12.30254,
+   "ele": 2999,
+   "osmId": 11050889060
+  },
+  {
+   "name": "Tofana di Mezzo",
+   "lat": 46.55099,
+   "lon": 12.06549,
+   "ele": 3244,
+   "osmId": 26864932
+  },
+  {
+   "name": "Monte Cristallo",
+   "lat": 46.49586,
+   "lon": 10.46044,
+   "ele": 3439,
+   "osmId": 452507191
+  },
+  {
+   "name": "Antelao",
+   "lat": 46.45189,
+   "lon": 12.2618,
+   "ele": 3264,
+   "osmId": 2641912271
+  },
+  {
+   "name": "Kesselkogel / Catinaccio d'Antermoia",
+   "lat": 46.47409,
+   "lon": 11.64383,
+   "ele": 3004,
+   "osmId": 26862661
+  },
+  {
+   "name": "Rosengartenspitze / Cima Catinaccio",
+   "lat": 46.45415,
+   "lon": 11.62162,
+   "ele": 2981,
+   "osmId": 2194879257
+  },
+  {
+   "name": "Schlern / Sciliar",
+   "lat": 46.51084,
+   "lon": 11.56075,
+   "ele": 2448,
+   "osmId": 1126435412
+  },
+  {
+   "name": "Eggentaler Horn / Corno d'Ega",
+   "lat": 46.37191,
+   "lon": 11.55679,
+   "ele": 2799,
+   "osmId": 4789492488
+  },
+  {
+   "name": "Großer Ifinger / Picco Ivigna",
+   "lat": 46.6923,
+   "lon": 11.25668,
+   "ele": 2581,
+   "osmId": 398230269
+  },
+  {
+   "name": "Hirzer / Punta Cervina",
+   "lat": 46.73725,
+   "lon": 11.2766,
+   "ele": 2781,
+   "osmId": 7007010308
+  },
+  {
+   "name": "Rittner Horn / Corno Renon",
+   "lat": 46.61504,
+   "lon": 11.46135,
+   "ele": 2260,
+   "osmId": 424414599
+  },
+  {
+   "name": "Laugen / Monte Luco",
+   "lat": 46.53457,
+   "lon": 11.08584,
+   "ele": 2434,
+   "osmId": 457960176
+  },
+  {
+   "name": "Wilde Kreuzspitze / Picco della Croce",
+   "lat": 46.91346,
+   "lon": 11.59373,
+   "ele": 3135,
+   "osmId": 9909923503
+  },
+  {
+   "name": "Hinterer Seelenkogel / Cima delle Anime",
+   "lat": 46.8016,
+   "lon": 11.04436,
+   "ele": 3475,
+   "osmId": 256042795
+  },
+  {
+   "name": "Hochalt / Monte Alto",
+   "lat": 46.70035,
+   "lon": 10.72557,
+   "ele": 3265,
+   "osmId": 2511776177
+  },
+  {
+   "name": "Cima Presanella",
+   "lat": 46.21993,
+   "lon": 10.66412,
+   "ele": 3557,
+   "osmId": 26862710
+  },
+  {
+   "name": "Cima Brenta",
+   "lat": 46.17946,
+   "lon": 10.89991,
+   "ele": 3151,
+   "osmId": 26862689
+  },
+  {
+   "name": "Plosebühel / Col della Plose",
+   "lat": 46.71895,
+   "lon": 11.73439,
+   "ele": 2275,
+   "osmId": 9916871208
+  },
+  {
+   "name": "Toblacher Pfannhorn / Corno di Fana",
+   "lat": 46.78283,
+   "lon": 12.28452,
+   "ele": 2663,
+   "osmId": 554555752
+  },
+  {
+   "name": "Villanderer Berg / Monte Villandro",
+   "lat": 46.65858,
+   "lon": 11.419,
+   "ele": 2509,
+   "osmId": 440008270
+  }
+ ]
+}
