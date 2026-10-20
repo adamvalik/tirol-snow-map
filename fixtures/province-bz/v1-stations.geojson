@@ -1,0 +1,3905 @@
+{
+	"type" : "FeatureCollection",
+	"name" : "station",
+	"crs" : {
+		"type" : "name",
+		"properties" : {
+			"name" : "EPSG:25832"
+		}
+	},
+	"features" : [
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 669803.015637213, 5123442.043259705 ]
+			},
+			"properties" : {
+				"SCODE" : "89940PG",
+				"NAME_D" : "ETSCH BEI SALURN",
+				"NAME_I" : "ADIGE A SALORNO",
+				"NAME_L" : "ETSCH BEI SALURN",
+				"NAME_E" : "ETSCH BEI SALURN",
+				"ALT" : 205.57,
+				"LONG" : 11.20262,
+				"LAT" : 46.243333
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 626295.144330621, 5164467.604860652 ]
+			},
+			"properties" : {
+				"SCODE" : "08155PG",
+				"NAME_D" : "ETSCH BEI EYRS",
+				"NAME_I" : "ADIGE A ORIS",
+				"NAME_L" : "ETSCH BEI EYRS",
+				"NAME_E" : "ETSCH BEI EYRS",
+				"ALT" : 873.99,
+				"LONG" : 10.64963,
+				"LAT" : 46.621876
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 744723.3507957777, 5192575.7005686425 ]
+			},
+			"properties" : {
+				"SCODE" : "45200SF",
+				"NAME_D" : "Gsies Pfinnalm",
+				"NAME_I" : "Casies Malga Pfinn",
+				"NAME_L" : "Gsies Pfinnalm",
+				"NAME_E" : "Gsies Pfinnalm",
+				"ALT" : 2152,
+				"LONG" : 12.2096,
+				"LAT" : 46.8417
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 688387.4448635259, 5165389.11614639 ]
+			},
+			"properties" : {
+				"SCODE" : "82500WS",
+				"NAME_D" : "Rittner Horn",
+				"NAME_I" : "Corno del Renon",
+				"NAME_L" : "Rittner Horn",
+				"NAME_E" : "Rittner Horn",
+				"ALT" : 2260,
+				"LONG" : 11.4604,
+				"LAT" : 46.6156
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 743964.2738234224, 5194147.377880877 ]
+			},
+			"properties" : {
+				"SCODE" : "45100WS",
+				"NAME_D" : "Gsies Regelspitze",
+				"NAME_I" : "Casies Cima Regola",
+				"NAME_L" : "Gsies Regelspitze",
+				"NAME_E" : "Gsies Regelspitze",
+				"ALT" : 2747,
+				"LONG" : 12.2005,
+				"LAT" : 46.8561
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 613580.4657503774, 5181424.774218111 ]
+			},
+			"properties" : {
+				"SCODE" : "00700WS",
+				"NAME_D" : "Graun Elferspitze",
+				"NAME_I" : "Curon Cima Undici",
+				"NAME_L" : "Graun Elferspitze",
+				"NAME_E" : "Graun Elferspitze",
+				"ALT" : 2926,
+				"LONG" : 10.4878,
+				"LAT" : 46.7767
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 614288.6005309876, 5184739.680057721 ]
+			},
+			"properties" : {
+				"SCODE" : "00390SF",
+				"NAME_D" : "Graun Schöneben",
+				"NAME_I" : "Curon Belpiano",
+				"NAME_L" : "Graun Schöneben",
+				"NAME_E" : "Graun Schöneben",
+				"ALT" : 2040,
+				"LONG" : 10.4979,
+				"LAT" : 46.8064
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 624958.0498285479, 5151214.046353901 ]
+			},
+			"properties" : {
+				"SCODE" : "06040WS",
+				"NAME_D" : "Sulden Schöntaufspitze",
+				"NAME_I" : "Solda Cima Beltovo",
+				"NAME_L" : "Sulden Schöntaufspitze",
+				"NAME_E" : "Sulden Schöntaufspitze",
+				"ALT" : 3328,
+				"LONG" : 10.6286,
+				"LAT" : 46.5029
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 623889.2084653699, 5150180.532772641 ]
+			},
+			"properties" : {
+				"SCODE" : "06090SF",
+				"NAME_D" : "Sulden Madritsch",
+				"NAME_I" : "Solda Madriccio",
+				"NAME_L" : "Sulden Madritsch",
+				"NAME_E" : "Sulden Madritsch",
+				"ALT" : 2825,
+				"LONG" : 10.6144,
+				"LAT" : 46.4938
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 676779.811438235, 5190004.87560029 ]
+			},
+			"properties" : {
+				"SCODE" : "35100WS",
+				"NAME_D" : "Jaufenkamm",
+				"NAME_I" : "Cresta del Giovo",
+				"NAME_L" : "Jaufenkamm",
+				"NAME_E" : "Jaufenkamm",
+				"ALT" : 2145,
+				"LONG" : 11.3184,
+				"LAT" : 46.8401
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 737957.2426166856, 5211689.618511076 ]
+			},
+			"properties" : {
+				"SCODE" : "50400WS",
+				"NAME_D" : "Prettau Lengspitze",
+				"NAME_I" : "Predoi Pizzo Lungo",
+				"NAME_L" : "Prettau Lengspitze",
+				"NAME_E" : "Prettau Lengspitze",
+				"ALT" : 3105,
+				"LONG" : 12.131,
+				"LAT" : 47.0159
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 737190.8661384727, 5213918.233183576 ]
+			},
+			"properties" : {
+				"SCODE" : "50360SF",
+				"NAME_D" : "Prettau Merbalm",
+				"NAME_I" : "Predoi Malga Merbe",
+				"NAME_L" : "Predoi Malga Merbe",
+				"NAME_E" : "Prettau Merbalm",
+				"ALT" : 2006,
+				"LONG" : 12.1221,
+				"LAT" : 47.0362
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 722527.9677324969, 5160922.170537959 ]
+			},
+			"properties" : {
+				"SCODE" : "61690SF",
+				"NAME_D" : "Abtei Piz La Ila",
+				"NAME_I" : "Badia Piz La Ila",
+				"NAME_L" : "Val Badia - Piz La Ila",
+				"NAME_E" : "Abtei Piz la Ila",
+				"ALT" : 2050,
+				"LONG" : 11.9036,
+				"LAT" : 46.565
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 716638.174103346, 5156970.0150290225 ]
+			},
+			"properties" : {
+				"SCODE" : "61720WS",
+				"NAME_D" : "Abtei Piz Pisciadù",
+				"NAME_I" : "Badia Cima Pisciadù",
+				"NAME_L" : "Val Badia Piz Pisciadù",
+				"NAME_E" : "Abtei Piz Pisciadù",
+				"ALT" : 2985,
+				"LONG" : 11.825,
+				"LAT" : 46.5314
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 659066.4408580256, 5170818.305810355 ]
+			},
+			"properties" : {
+				"SCODE" : "19850PG",
+				"NAME_D" : "ETSCH BEI TÖLL",
+				"NAME_I" : "ADIGE A TEL",
+				"NAME_L" : "ETSCH BEI TÖLL",
+				"NAME_E" : "ETSCH BEI TÖLL",
+				"ALT" : 506.34,
+				"LONG" : 11.07961,
+				"LAT" : 46.67202
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 676827.8546005826, 5150310.857942461 ]
+			},
+			"properties" : {
+				"SCODE" : "29850PG",
+				"NAME_D" : "ETSCH BEI SIGMUNDSKRON",
+				"NAME_I" : "ADIGE A PONTE ADIGE",
+				"NAME_L" : "ETSCH BEI SIGMUNDSKRON",
+				"NAME_E" : "ETSCH BEI SIGMUNDSKRON",
+				"ALT" : 237.04,
+				"LONG" : 11.30381,
+				"LAT" : 46.48316
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 737905.7755867399, 5182251.463809027 ]
+			},
+			"properties" : {
+				"SCODE" : "43350PG",
+				"NAME_D" : "RIENZ BEI WELSBERG (abgeleitete Strecke)",
+				"NAME_I" : "RIENZA A  MONGUELFO (tratto derivato)",
+				"NAME_L" : "RIENZ BEI WELSBERG",
+				"NAME_E" : "RIENZ BEI WELSBERG",
+				"ALT" : 1095.04,
+				"LONG" : 12.11496,
+				"LAT" : 46.7514
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 723868.1616081349, 5189015.114877048 ]
+			},
+			"properties" : {
+				"SCODE" : "59450PG",
+				"NAME_D" : "AHR BEI ST.GEORGEN",
+				"NAME_I" : "AURINO A S. GIORGIO",
+				"NAME_L" : "AHR BEI ST.GEORGEN",
+				"NAME_E" : "AHR BEI ST.GEORGEN",
+				"ALT" : 815.77,
+				"LONG" : 11.93472,
+				"LAT" : 46.81704
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 719835.8234205624, 5184310.624106218 ]
+			},
+			"properties" : {
+				"SCODE" : "64550PG",
+				"NAME_D" : "GADER BEI MONTAL",
+				"NAME_I" : "GADERA A MANTANA",
+				"NAME_L" : "GRAN EGA A MANTËNA TODËSCIA",
+				"NAME_E" : "GADER BEI MONTAL",
+				"ALT" : 813.27,
+				"LONG" : 11.87967,
+				"LAT" : 46.7761
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 706592.1194801466, 5188228.513728081 ]
+			},
+			"properties" : {
+				"SCODE" : "67350PG",
+				"NAME_D" : "RIENZ BEI VINTL",
+				"NAME_I" : "RIENZA A VANDOIES",
+				"NAME_L" : "RIENZ BEI VINTL",
+				"NAME_E" : "RIENZ BEI VINTL",
+				"ALT" : 733.19,
+				"LONG" : 11.70816,
+				"LAT" : 46.81555
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 703111.1837448593, 5176076.4486058885 ]
+			},
+			"properties" : {
+				"SCODE" : "69790PG",
+				"NAME_D" : "EISACK BEI BRIXEN",
+				"NAME_I" : "ISARCO A BRESSANONE",
+				"NAME_L" : "EISACK A PERSENON",
+				"NAME_E" : "EISACK BEI BRIXEN",
+				"ALT" : 551.54,
+				"LONG" : 11.6572,
+				"LAT" : 46.70738
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677932.117031418, 5142616.536914164 ]
+			},
+			"properties" : {
+				"SCODE" : "85550PG",
+				"NAME_D" : "ETSCH BEI BRANZOLL",
+				"NAME_I" : "ADIGE A BRONZOLO",
+				"NAME_L" : "ETSCH BEI BRANZOLL",
+				"NAME_E" : "ETSCH BEI BRANZOLL",
+				"ALT" : 226.05,
+				"LONG" : 11.31525,
+				"LAT" : 46.41368
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 661273.8862441912, 5188321.6243349295 ]
+			},
+			"properties" : {
+				"SCODE" : "20720WS",
+				"NAME_D" : "Pfelders Rauhjoch",
+				"NAME_I" : "Monte Scabro di Plan",
+				"NAME_L" : "Pfelders Rauhjoch",
+				"NAME_E" : "Pfelders Rauhjoch",
+				"ALT" : 2926,
+				"LONG" : 11.1146,
+				"LAT" : 46.8289
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 660392.1478339839, 5184194.7524176715 ]
+			},
+			"properties" : {
+				"SCODE" : "20690SF",
+				"NAME_D" : "Pfelders Grünboden",
+				"NAME_I" : "Prati di Plan",
+				"NAME_L" : "Pfelders Grünboden",
+				"NAME_E" : "Pfelders Grünboden",
+				"ALT" : 2015,
+				"LONG" : 11.1016,
+				"LAT" : 46.792
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 622732.0070226989, 5166017.492577294 ]
+			},
+			"properties" : {
+				"SCODE" : "05950PG",
+				"NAME_D" : "ETSCH BEI SPONDINIG",
+				"NAME_I" : "ADIGE A SPONDIGNA",
+				"NAME_L" : "ETSCH BEI SPONDINIG",
+				"NAME_E" : "ETSCH BEI SPONDINIG",
+				"ALT" : 882.34,
+				"LONG" : 10.60352,
+				"LAT" : 46.63648
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 749104.0852367093, 5174781.181040643 ]
+			},
+			"properties" : {
+				"SCODE" : "91210WS",
+				"NAME_D" : "Toblach Hochebenkofel",
+				"NAME_I" : "Dobbiaco Cima Piatta Alta",
+				"NAME_L" : "Toblach Hochebenkofel",
+				"NAME_E" : "Toblach Hochebenkofel",
+				"ALT" : 2906,
+				"LONG" : 12.2573,
+				"LAT" : 46.6802
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 757831.9247385368, 5173301.115145005 ]
+			},
+			"properties" : {
+				"SCODE" : "91180SF",
+				"NAME_D" : "Sexten Rotwandwiesen",
+				"NAME_I" : "Sesto Prati di Croda Rossa",
+				"NAME_L" : "Sexten Rotwandwiesen",
+				"NAME_E" : "Sexten Rotwandwiesen",
+				"ALT" : 1910,
+				"LONG" : 12.3704,
+				"LAT" : 46.6636
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 639683.380661008, 5147800.264754916 ]
+			},
+			"properties" : {
+				"SCODE" : "24300SF",
+				"NAME_D" : "Ulten Rossbänke",
+				"NAME_I" : "Ultimo Pian dei Cavalli",
+				"NAME_L" : "Ulten Rossbänke",
+				"NAME_E" : "Ulten Rossbänke",
+				"ALT" : 2255,
+				"LONG" : 10.8194,
+				"LAT" : 46.4693
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 695898.2152000023, 5137599.153258593 ]
+			},
+			"properties" : {
+				"SCODE" : "78480SF",
+				"NAME_D" : "Deutschnofen Obereggen",
+				"NAME_I" : "Nova Ponente Obereggen",
+				"NAME_L" : "Deutschnofen Obereggen",
+				"NAME_E" : "Deutschnofen Obereggen",
+				"ALT" : 2125,
+				"LONG" : 11.5467,
+				"LAT" : 46.3636
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 634699.016242459, 5182751.04590287 ]
+			},
+			"properties" : {
+				"SCODE" : "15000SF",
+				"NAME_D" : "Schnals Teufelsegg",
+				"NAME_I" : "Senales Teufelsegg",
+				"NAME_L" : "Schnals Teufelsegg",
+				"NAME_E" : "Schnals Teufelsegg",
+				"ALT" : 3035,
+				"LONG" : 10.7647,
+				"LAT" : 46.7847
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 666812.0080612104, 5203986.52423738 ]
+			},
+			"properties" : {
+				"SCODE" : "34200WS",
+				"NAME_D" : "Signalgipfel Wilder Freiger",
+				"NAME_I" : "Anticima Cima Libera",
+				"NAME_L" : "Signalgipfel Wilder Freiger",
+				"NAME_E" : "Signalgipfel Wilder Freiger",
+				"ALT" : 3399,
+				"LONG" : 11.1929,
+				"LAT" : 46.9684
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 680114.6549898508, 5200636.729572766 ]
+			},
+			"properties" : {
+				"SCODE" : "31810SF",
+				"NAME_D" : "Ladurns",
+				"NAME_I" : "Ladurns",
+				"NAME_L" : "Ladurns",
+				"NAME_E" : "Ladurns",
+				"ALT" : 1960,
+				"LONG" : 11.3663,
+				"LAT" : 46.9348
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 704498.9624702474, 5202379.517281853 ]
+			},
+			"properties" : {
+				"SCODE" : "66000WS",
+				"NAME_D" : "Pfunders Dannelspitz",
+				"NAME_I" : "Fundres Punta di Dan",
+				"NAME_L" : "Pfunders Dannelspitz",
+				"NAME_E" : "Pfunders Dannelspitz",
+				"ALT" : 2808,
+				"LONG" : 11.6871,
+				"LAT" : 46.9434
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 704651.2807922225, 5200382.283460603 ]
+			},
+			"properties" : {
+				"SCODE" : "66100SF",
+				"NAME_D" : "Pfunders Stutzenalm",
+				"NAME_I" : "Fundres Malga Stutzen",
+				"NAME_L" : "Pfunders Stutzenalm",
+				"NAME_E" : "Pfunders Stutzenalm",
+				"ALT" : 2050,
+				"LONG" : 11.6882,
+				"LAT" : 46.9254
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 688831.7018763749, 5193776.509232856 ]
+			},
+			"properties" : {
+				"SCODE" : "37230PG",
+				"NAME_D" : "EISACK BEI FREIENFELD",
+				"NAME_I" : "ISARCO A CAMPO DI TRENS",
+				"NAME_L" : "EISACK BEI FREIENFELD",
+				"NAME_E" : "EISACK BEI FREIENFELD",
+				"ALT" : 927.36,
+				"LONG" : 11.47787,
+				"LAT" : 46.8707
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 689061.3236517403, 5185363.853503987 ]
+			},
+			"properties" : {
+				"SCODE" : "80100SF",
+				"NAME_D" : "Pens Tramintal",
+				"NAME_I" : "Pennes Val Tramin",
+				"NAME_L" : "Pens Tramintal",
+				"NAME_E" : "Pens Tramintal",
+				"ALT" : 2100,
+				"LONG" : 11.4774,
+				"LAT" : 46.795
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 722979.7590411385, 5186142.4252653355 ]
+			},
+			"properties" : {
+				"SCODE" : "61050PG",
+				"NAME_D" : "RIENZ BEI STEGEN",
+				"NAME_I" : "RIENZA A STEGONA",
+				"NAME_L" : "RIENZ BEI STEGEN",
+				"NAME_E" : "RIENZ BEI STEGEN",
+				"ALT" : 808.71,
+				"LONG" : 11.92169,
+				"LAT" : 46.79152
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 653374.8136987604, 5151055.181952989 ]
+			},
+			"properties" : {
+				"SCODE" : "90005SF",
+				"NAME_D" : "Proveis Samerberg",
+				"NAME_I" : "Proves Alpe di Brez",
+				"NAME_L" : "Proveis Samerberg",
+				"NAME_E" : "Proveis Samerberg",
+				"ALT" : 2142,
+				"LONG" : 10.9987,
+				"LAT" : 46.4956
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 680298.8451922387, 5153372.419741461 ]
+			},
+			"properties" : {
+				"SCODE" : "82910PG",
+				"NAME_D" : "TALFER BEI BOZEN",
+				"NAME_I" : "TALVERA A BOLZANO",
+				"NAME_L" : "TALFER A BULSAN",
+				"NAME_E" : "TALFER BEI BOZEN",
+				"ALT" : 287.71,
+				"LONG" : 11.35018,
+				"LAT" : 46.50977
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 637170.459064876, 5181206.102485301 ]
+			},
+			"properties" : {
+				"SCODE" : "15050WS",
+				"NAME_D" : "Schnals Grawand",
+				"NAME_I" : "Senales Croda d. Cornacchie",
+				"NAME_L" : "Schnals Grawand",
+				"NAME_E" : "Schnals Grawand",
+				"ALT" : 3220,
+				"LONG" : 10.7966,
+				"LAT" : 46.7703
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 701972.109120826, 5162170.0841577 ]
+			},
+			"properties" : {
+				"SCODE" : "73950PG",
+				"NAME_D" : "GRÖDNERBACH BEI PONTIVES",
+				"NAME_I" : "RIO GARDENA A PONTIVES",
+				"NAME_L" : "DERJON A PUNTIVES",
+				"NAME_E" : "GRÖDNERBACH BEI PONTIVES",
+				"ALT" : 1110.03,
+				"LONG" : 11.63623,
+				"LAT" : 46.58271
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 685789.7670918732, 5195271.728883142 ]
+			},
+			"properties" : {
+				"SCODE" : "37100MS",
+				"NAME_D" : "Sterzing",
+				"NAME_I" : "Vipiteno",
+				"NAME_L" : "Sterzing",
+				"NAME_E" : "Sterzing",
+				"ALT" : 943,
+				"LONG" : 11.4386,
+				"LAT" : 46.885
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 659363.8418918715, 5184667.719984791 ]
+			},
+			"properties" : {
+				"SCODE" : "20500MS",
+				"NAME_D" : "Pfelders",
+				"NAME_I" : "Plan",
+				"NAME_L" : "Pfelders",
+				"NAME_E" : "Pfelders",
+				"ALT" : 1640,
+				"LONG" : 11.0883,
+				"LAT" : 46.7965
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 652372.5745445656, 5167941.14456779 ]
+			},
+			"properties" : {
+				"SCODE" : "19300MS",
+				"NAME_D" : "Naturns",
+				"NAME_I" : "Naturno",
+				"NAME_L" : "Naturns",
+				"NAME_E" : "Naturns",
+				"ALT" : 541,
+				"LONG" : 10.9912,
+				"LAT" : 46.6477
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 684470.1798051379, 5183639.2561909435 ]
+			},
+			"properties" : {
+				"SCODE" : "80300MS",
+				"NAME_D" : "Pens",
+				"NAME_I" : "Pennes",
+				"NAME_L" : "Pens",
+				"NAME_E" : "Pens",
+				"ALT" : 1453,
+				"LONG" : 11.4166,
+				"LAT" : 46.78078
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 735441.8794011836, 5213893.195800169 ]
+			},
+			"properties" : {
+				"SCODE" : "50500MS",
+				"NAME_D" : "Prettau",
+				"NAME_I" : "Predoi",
+				"NAME_L" : "Prettau",
+				"NAME_E" : "Prettau",
+				"ALT" : 1450,
+				"LONG" : 12.0991,
+				"LAT" : 47.0366
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 675669.9106958163, 5197645.971451009 ]
+			},
+			"properties" : {
+				"SCODE" : "34500MS",
+				"NAME_D" : "Ridnaun",
+				"NAME_I" : "Ridanna",
+				"NAME_L" : "Ridnaun",
+				"NAME_E" : "Ridnaun",
+				"ALT" : 1364,
+				"LONG" : 11.3068,
+				"LAT" : 46.9091
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 724487.8090484021, 5198302.717045973 ]
+			},
+			"properties" : {
+				"SCODE" : "56900MS",
+				"NAME_D" : "Sand i.T. Mühlen",
+				"NAME_I" : "Campo Tures Molini",
+				"NAME_L" : "Sand i.T. Mühlen",
+				"NAME_E" : "Sand i.T. Mühlen",
+				"ALT" : 851,
+				"LONG" : 11.9474,
+				"LAT" : 46.9003
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 734591.269464942, 5203420.767917481 ]
+			},
+			"properties" : {
+				"SCODE" : "54500MS",
+				"NAME_D" : "Rein in Taufers",
+				"NAME_I" : "Riva di Tures",
+				"NAME_L" : "Rein in Taufers",
+				"NAME_E" : "Rein in Taufers",
+				"ALT" : 1562,
+				"LONG" : 12.0825,
+				"LAT" : 46.9428
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 708999.9849549899, 5175301.509822944 ]
+			},
+			"properties" : {
+				"SCODE" : "69900MS",
+				"NAME_D" : "Plose",
+				"NAME_I" : "Plose",
+				"NAME_L" : "Plose",
+				"NAME_E" : "Plose",
+				"ALT" : 2472,
+				"LONG" : 11.7338,
+				"LAT" : 46.6986
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 636294.1960743119, 5164899.097262148 ]
+			},
+			"properties" : {
+				"SCODE" : "09700MS",
+				"NAME_D" : "Schlanders",
+				"NAME_I" : "Silandro",
+				"NAME_L" : "Sulaneres",
+				"NAME_E" : "Schlanders",
+				"ALT" : 698,
+				"LONG" : 10.7803,
+				"LAT" : 46.6238
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 680242.064811378, 5167920.587208324 ]
+			},
+			"properties" : {
+				"SCODE" : "82200MS",
+				"NAME_D" : "Sarnthein",
+				"NAME_I" : "Sarentino",
+				"NAME_L" : "Sarnthein",
+				"NAME_E" : "Sarnthein",
+				"ALT" : 970,
+				"LONG" : 11.3551,
+				"LAT" : 46.6406
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 668505.0827744901, 5122612.987510361 ]
+			},
+			"properties" : {
+				"SCODE" : "88820MS",
+				"NAME_D" : "Salurn",
+				"NAME_I" : "Salorno",
+				"NAME_L" : "Salurn",
+				"NAME_E" : "Salurn",
+				"ALT" : 212,
+				"LONG" : 11.1855,
+				"LAT" : 46.2362
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 723675.3979855238, 5187590.351039241 ]
+			},
+			"properties" : {
+				"SCODE" : "59700MS",
+				"NAME_D" : "Bruneck",
+				"NAME_I" : "Brunico",
+				"NAME_L" : "Burnech",
+				"NAME_E" : "Bruneck",
+				"ALT" : 828,
+				"LONG" : 11.9315,
+				"LAT" : 46.8043
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 686489.1612632398, 5143631.653023703 ]
+			},
+			"properties" : {
+				"SCODE" : "85120MS",
+				"NAME_D" : "Deutschnofen",
+				"NAME_I" : "Nova Ponente",
+				"NAME_L" : "Deutschnofen",
+				"NAME_E" : "Deutschnofen",
+				"ALT" : 1470,
+				"LONG" : 11.4269,
+				"LAT" : 46.4205
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677470.5360380183, 5151946.593559685 ]
+			},
+			"properties" : {
+				"SCODE" : "83200MS",
+				"NAME_D" : "Bozen",
+				"NAME_I" : "Bolzano",
+				"NAME_L" : "Bulsan",
+				"NAME_E" : "Bolzano",
+				"ALT" : 245,
+				"LONG" : 11.3128,
+				"LAT" : 46.4977
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677360.6157947856, 5135173.59013558 ]
+			},
+			"properties" : {
+				"SCODE" : "86900MS",
+				"NAME_D" : "Auer",
+				"NAME_I" : "Ora",
+				"NAME_L" : "Auer",
+				"NAME_E" : "Auer",
+				"ALT" : 250,
+				"LONG" : 11.305,
+				"LAT" : 46.3469
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 702098.0525437036, 5178669.788199097 ]
+			},
+			"properties" : {
+				"SCODE" : "39100MS",
+				"NAME_D" : "Brixen - Vahrn",
+				"NAME_I" : "Bressanone",
+				"NAME_L" : "Persenon",
+				"NAME_E" : "Brixen",
+				"ALT" : 585,
+				"LONG" : 11.6451,
+				"LAT" : 46.731
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 626285.8138620807, 5164803.573013325 ]
+			},
+			"properties" : {
+				"SCODE" : "08200MS",
+				"NAME_D" : "Laas Eyrs",
+				"NAME_I" : "Lasa Oris",
+				"NAME_L" : "Laas Eyrs",
+				"NAME_E" : "Laas Eyrs",
+				"ALT" : 874,
+				"LONG" : 10.6496,
+				"LAT" : 46.6249
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 663377.2158908213, 5172710.654838316 ]
+			},
+			"properties" : {
+				"SCODE" : "23200MS",
+				"NAME_D" : "Meran",
+				"NAME_I" : "Merano",
+				"NAME_L" : "Maran",
+				"NAME_E" : "Meran",
+				"ALT" : 330,
+				"LONG" : 11.1366,
+				"LAT" : 46.688
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 737506.1134752763, 5195478.807345519 ]
+			},
+			"properties" : {
+				"SCODE" : "47400MS",
+				"NAME_D" : "Antholz Obertal",
+				"NAME_I" : "Anterselva di Sopra",
+				"NAME_L" : "Antholz Obertal",
+				"NAME_E" : "Antholz Obertal",
+				"ALT" : 1320,
+				"LONG" : 12.1166,
+				"LAT" : 46.8704
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 675992.009932489, 5139092.704052947 ]
+			},
+			"properties" : {
+				"SCODE" : "86600MS",
+				"NAME_D" : "Laimburg",
+				"NAME_I" : "Laimburg",
+				"NAME_L" : "Laimburg",
+				"NAME_E" : "Laimburg",
+				"ALT" : 224,
+				"LONG" : 11.2887,
+				"LAT" : 46.3825
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 694446.85082489, 5187482.690980729 ]
+			},
+			"properties" : {
+				"SCODE" : "37700MS",
+				"NAME_D" : "Franzensfeste Grasstein",
+				"NAME_I" : "Fortezza Le Cave",
+				"NAME_L" : "Franzensfeste Grasstein",
+				"NAME_E" : "Franzensfeste Grasstein",
+				"ALT" : 850,
+				"LONG" : 11.5488,
+				"LAT" : 46.8125
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 693720.5743468495, 5163277.861228962 ]
+			},
+			"properties" : {
+				"SCODE" : "74900MS",
+				"NAME_D" : "Barbian Kollmann",
+				"NAME_I" : "Barbiano Colma",
+				"NAME_L" : "Barbian Kollmann",
+				"NAME_E" : "Barbian Kollmann",
+				"ALT" : 490,
+				"LONG" : 11.5291,
+				"LAT" : 46.5951
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 666494.8314131674, 5172346.844665524 ]
+			},
+			"properties" : {
+				"SCODE" : "22950PG",
+				"NAME_D" : "PASSER BEI MERAN",
+				"NAME_I" : "PASSIRIO A MERANO",
+				"NAME_L" : "PASSER A MARAN",
+				"NAME_E" : "PASSER BEI MERAN",
+				"ALT" : 355.88,
+				"LONG" : 11.17721,
+				"LAT" : 46.68396
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 616564.2231280825, 5169712.320434007 ]
+			},
+			"properties" : {
+				"SCODE" : "03750PG",
+				"NAME_D" : "RAMBACH BEI LAATSCH",
+				"NAME_I" : "RIO RAM A LAUDES",
+				"NAME_L" : "RAMBACH BEI LAATSCH",
+				"NAME_E" : "RAMBACH BEI LAATSCH",
+				"ALT" : 942.14,
+				"LONG" : 10.5239,
+				"LAT" : 46.67082
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 739447.8941712528, 5180946.171514221 ]
+			},
+			"properties" : {
+				"SCODE" : "42850PG",
+				"NAME_D" : "PRAGSERBACH BEI AUSSERPRAGS",
+				"NAME_I" : "RIO BRAIES A BRAIES DI FUORI",
+				"NAME_L" : "RUF DE BRAIES A BRAIES DEDORA",
+				"NAME_E" : "PRAGSERBACH BEI AUSSERPRAGS",
+				"ALT" : 1122.81,
+				"LONG" : 12.13444,
+				"LAT" : 46.73912
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 726592.6094654263, 5208874.412979947 ]
+			},
+			"properties" : {
+				"SCODE" : "51450PG",
+				"NAME_D" : "AHR BEI STEINHAUS",
+				"NAME_I" : "AURINO A CADIPIETRA",
+				"NAME_L" : "AHR BEI STEINHAUS",
+				"NAME_E" : "AHR BEI STEINHAUS",
+				"ALT" : 1044.78,
+				"LONG" : 11.98027,
+				"LAT" : 46.99459
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 660448.7565986806, 5185247.082042388 ]
+			},
+			"properties" : {
+				"SCODE" : "20750PG",
+				"NAME_D" : "PFELDERERBACH BEI ESCHBAUM",
+				"NAME_I" : "RIO PLAN A ESCHBAUM",
+				"NAME_L" : "PFELDERERBACH BEI ESCHBAUM",
+				"NAME_E" : "PFELDERERBACH BEI ESCHBAUM",
+				"ALT" : 1569.26,
+				"LONG" : 11.10271,
+				"LAT" : 46.80145
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 665750.7962494154, 5166063.567904385 ]
+			},
+			"properties" : {
+				"SCODE" : "26950PG",
+				"NAME_D" : "FALSCHAUER BEI LANA",
+				"NAME_I" : "VALSURA A LANA",
+				"NAME_L" : "FALSCHAUER BEI LANA",
+				"NAME_E" : "FALSCHAUER BEI LANA",
+				"ALT" : 270.5,
+				"LONG" : 11.16523,
+				"LAT" : 46.62764
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 673019.1387170788, 5145657.225216025 ]
+			},
+			"properties" : {
+				"SCODE" : "89190MS",
+				"NAME_D" : "Kaltern Oberplanitzing",
+				"NAME_I" : "Caldaro Pianizza di Sopra",
+				"NAME_L" : "Kaltern Oberplanitzing",
+				"NAME_E" : "Kaltern Oberplanitzing",
+				"ALT" : 495,
+				"LONG" : 11.2525,
+				"LAT" : 46.4423
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 670176.326946854, 5183374.615632588 ]
+			},
+			"properties" : {
+				"SCODE" : "22210MS",
+				"NAME_D" : "St. Martin in Passeier",
+				"NAME_I" : "S. Martino in Passiria",
+				"NAME_L" : "St. Martin in Passeier",
+				"NAME_E" : "St. Martin in Passeier",
+				"ALT" : 588,
+				"LONG" : 11.2294,
+				"LAT" : 46.7822
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 721052.9988503358, 5178248.994004809 ]
+			},
+			"properties" : {
+				"SCODE" : "63870PG",
+				"NAME_D" : "St.Vigilerbach - Zwischenwasser",
+				"NAME_I" : "Rio S.Vigilio - Longega",
+				"NAME_L" : "St.Vigilerbach - Zwischenwasser",
+				"NAME_E" : "St.Vigilerbach - Zwischenwasser",
+				"ALT" : 1011.06,
+				"LONG" : 11.8926748,
+				"LAT" : 46.721218
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 725136.9961036184, 5198683.230938771 ]
+			},
+			"properties" : {
+				"SCODE" : "57150PG",
+				"NAME_D" : "AHR BEI KEMATEN",
+				"NAME_I" : "AURINO A CAMINATA",
+				"NAME_L" : "AHR BEI KEMATEN",
+				"NAME_E" : "AHR BEI KEMATEN",
+				"ALT" : 850.62,
+				"LONG" : 11.9561,
+				"LAT" : 46.9035
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 687435.9948692753, 5204071.995025385 ]
+			},
+			"properties" : {
+				"SCODE" : "30350PG",
+				"NAME_D" : "Eisack - Brennerbad",
+				"NAME_I" : "Isarco - Terme di Brennero",
+				"NAME_L" : "Eisack - Brennerbad",
+				"NAME_E" : "Eisack - Brennerbad",
+				"ALT" : 1288,
+				"LONG" : 11.4638144,
+				"LAT" : 46.9636572
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 652562.7361414466, 5156160.26640593 ]
+			},
+			"properties" : {
+				"SCODE" : "25900MS",
+				"NAME_D" : "St. Walburg",
+				"NAME_I" : "S. Valburga",
+				"NAME_L" : "St. Walburg",
+				"NAME_E" : "St. Walburg",
+				"ALT" : 1142,
+				"LONG" : 10.9898,
+				"LAT" : 46.5417
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 712242.5448596452, 5158393.907777688 ]
+			},
+			"properties" : {
+				"SCODE" : "73500MS",
+				"NAME_D" : "Wolkenstein",
+				"NAME_I" : "Selva di V. Gardena",
+				"NAME_L" : "Sëlva",
+				"NAME_E" : "Sëlva",
+				"ALT" : 1594,
+				"LONG" : 11.7684,
+				"LAT" : 46.5456
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 700294.5702175251, 5191657.739112629 ]
+			},
+			"properties" : {
+				"SCODE" : "68600MS",
+				"NAME_D" : "Vals",
+				"NAME_I" : "Valles",
+				"NAME_L" : "Vals",
+				"NAME_E" : "Vals",
+				"ALT" : 1410,
+				"LONG" : 11.6272,
+				"LAT" : 46.8483
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 616719.7741907632, 5181396.081506506 ]
+			},
+			"properties" : {
+				"SCODE" : "02200MS",
+				"NAME_D" : "St. Valentin a.d. Haide",
+				"NAME_I" : "S. Valentino alla Muta",
+				"NAME_L" : "St. Valentin a.d. Haide",
+				"NAME_E" : "St. Valentin a.d. Haide",
+				"ALT" : 1499,
+				"LONG" : 10.5289,
+				"LAT" : 46.7759
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 745956.8409046727, 5180183.1201596875 ]
+			},
+			"properties" : {
+				"SCODE" : "41000MS",
+				"NAME_D" : "Toblach",
+				"NAME_I" : "Dobbiaco",
+				"NAME_L" : "Toblach",
+				"NAME_E" : "Toblach",
+				"ALT" : 1219,
+				"LONG" : 12.2191,
+				"LAT" : 46.7299
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 692239.7048009844, 5154143.490899899 ]
+			},
+			"properties" : {
+				"SCODE" : "75600MS",
+				"NAME_D" : "Völs am Schlern",
+				"NAME_I" : "Fie' allo Sciliar",
+				"NAME_L" : "Völs am Schlern",
+				"NAME_E" : "Völs am Schlern",
+				"ALT" : 840,
+				"LONG" : 11.506,
+				"LAT" : 46.5134
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 721624.2786252825, 5173594.982688993 ]
+			},
+			"properties" : {
+				"SCODE" : "62600MS",
+				"NAME_D" : "St. Martin in Thurn",
+				"NAME_I" : "S. Martino in Badia",
+				"NAME_L" : "S. Martin de Tor",
+				"NAME_E" : "S. Martin de Tor",
+				"ALT" : 1150,
+				"LONG" : 11.8979,
+				"LAT" : 46.6792
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 706267.7793602508, 5154438.35130166 ]
+			},
+			"properties" : {
+				"SCODE" : "74200MS",
+				"NAME_D" : "Seiser Alm Zallinger",
+				"NAME_I" : "Alpe di Siusi Zallinger",
+				"NAME_L" : "Seiser Alm Zallinger",
+				"NAME_E" : "Seiser Alm Zallinger",
+				"ALT" : 2055,
+				"LONG" : 11.6888,
+				"LAT" : 46.5119
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 632466.2022057497, 5152929.899556992 ]
+			},
+			"properties" : {
+				"SCODE" : "11400MS",
+				"NAME_D" : "Hintermartell",
+				"NAME_I" : "Alta Val Martello",
+				"NAME_L" : "Hintermartell",
+				"NAME_E" : "Hintermartell",
+				"ALT" : 1720,
+				"LONG" : 10.7269,
+				"LAT" : 46.5169
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 616290.4523295397, 5173584.27227597 ]
+			},
+			"properties" : {
+				"SCODE" : "02500MS",
+				"NAME_D" : "Marienberg",
+				"NAME_I" : "Monte Maria",
+				"NAME_L" : "Marienberg",
+				"NAME_E" : "Marienberg",
+				"ALT" : 1310,
+				"LONG" : 10.5213,
+				"LAT" : 46.7057
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 697644.2219744893, 5204617.918705995 ]
+			},
+			"properties" : {
+				"SCODE" : "33500MS",
+				"NAME_D" : "Pfitsch St. Jakob",
+				"NAME_I" : "Val di Vizze San Giacomo",
+				"NAME_L" : "Pfitsch St. Jakob",
+				"NAME_E" : "Pfitsch St. Jakob",
+				"ALT" : 1440,
+				"LONG" : 11.5981,
+				"LAT" : 46.9656
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 747276.3538880721, 5191968.349475014 ]
+			},
+			"properties" : {
+				"SCODE" : "44500MS",
+				"NAME_D" : "St. Magdalena in Gsies",
+				"NAME_I" : "S. Maddalena in Casies",
+				"NAME_L" : "St. Magdalena in Gsies",
+				"NAME_E" : "St. Magdalena in Gsies",
+				"ALT" : 1412,
+				"LONG" : 12.2427,
+				"LAT" : 46.8353
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 622373.8793650203, 5152606.378702667 ]
+			},
+			"properties" : {
+				"SCODE" : "06400MS",
+				"NAME_D" : "Sulden",
+				"NAME_I" : "Solda",
+				"NAME_L" : "Sulden",
+				"NAME_E" : "Sulden",
+				"ALT" : 1907,
+				"LONG" : 10.5953,
+				"LAT" : 46.5159
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 712424.6315095045, 5190540.796696277 ]
+			},
+			"properties" : {
+				"SCODE" : "65600MS",
+				"NAME_D" : "Terenten",
+				"NAME_I" : "Terento",
+				"NAME_L" : "Terenten",
+				"NAME_E" : "Terenten",
+				"ALT" : 1349,
+				"LONG" : 11.7856,
+				"LAT" : 46.8345
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 640590.2739317713, 5149766.747079231 ]
+			},
+			"properties" : {
+				"SCODE" : "24400MS",
+				"NAME_D" : "Ulten Weißbrunn",
+				"NAME_I" : "Ultimo Fontana Bianca",
+				"NAME_L" : "Ulten Weißbrunn",
+				"NAME_E" : "Ulten Weißbrunn",
+				"ALT" : 1900,
+				"LONG" : 10.8318,
+				"LAT" : 46.4868
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 739007.0997968435, 5181371.53322656 ]
+			},
+			"properties" : {
+				"SCODE" : "43200MS",
+				"NAME_D" : "Welsberg",
+				"NAME_I" : "Monguelfo",
+				"NAME_L" : "Valsperch",
+				"NAME_E" : "Welsberg",
+				"ALT" : 1131,
+				"LONG" : 12.1289,
+				"LAT" : 46.7431
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 694888.571128619, 5144829.638532127 ]
+			},
+			"properties" : {
+				"SCODE" : "78305MS",
+				"NAME_D" : "Welschnofen",
+				"NAME_I" : "Nova Levante",
+				"NAME_L" : "Welschnofen",
+				"NAME_E" : "Welschnofen",
+				"ALT" : 1128,
+				"LONG" : 11.5366,
+				"LAT" : 46.4289
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 718969.6446102725, 5196962.920921561 ]
+			},
+			"properties" : {
+				"SCODE" : "56500MS",
+				"NAME_D" : "Mühlwald",
+				"NAME_I" : "Selva dei Molini",
+				"NAME_L" : "Mühlwald",
+				"NAME_E" : "Mühlwald",
+				"ALT" : 1141,
+				"LONG" : 11.8744,
+				"LAT" : 46.8901
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 736936.3481462763, 5177817.383461138 ]
+			},
+			"properties" : {
+				"SCODE" : "42700MS",
+				"NAME_D" : "St. Veit in Prags",
+				"NAME_I" : "S. Vito di Braies",
+				"NAME_L" : "St. Veit in Prags",
+				"NAME_E" : "St. Veit in Prags",
+				"ALT" : 1285,
+				"LONG" : 12.1,
+				"LAT" : 46.7119
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 641284.4434292649, 5177454.722251364 ]
+			},
+			"properties" : {
+				"SCODE" : "15800MS",
+				"NAME_D" : "Schnals Vernagt",
+				"NAME_I" : "Senales Vernago",
+				"NAME_L" : "Schnals Vernagt",
+				"NAME_E" : "Schnals Vernagt",
+				"ALT" : 1700,
+				"LONG" : 10.8493,
+				"LAT" : 46.7357
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 618022.8524220305, 5156932.971936927 ]
+			},
+			"properties" : {
+				"SCODE" : "07740WS",
+				"NAME_D" : "Trafoi Zaufenkofel",
+				"NAME_I" : "Trafoi Zaufenkofel",
+				"NAME_L" : "Trafoi Zaufenkofel",
+				"NAME_E" : "Trafoi Zaufenkofel",
+				"ALT" : 2475,
+				"LONG" : 10.5397,
+				"LAT" : 46.5556
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 682859.8581426482, 5151690.049659444 ]
+			},
+			"properties" : {
+				"SCODE" : "79770GW",
+				"NAME_D" : "Bozen Mila",
+				"NAME_I" : "Bolzano Mila",
+				"NAME_L" : "Bozen Mila",
+				"NAME_E" : "Bozen Mila",
+				"ALT" : 277.98,
+				"LONG" : 11.382872,
+				"LAT" : 46.493952
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 639215.1943766095, 5178017.903604014 ]
+			},
+			"properties" : {
+				"SCODE" : "15590SF",
+				"NAME_D" : "Schnals Finail",
+				"NAME_I" : "Senales Finale",
+				"NAME_L" : "Schnals Finail",
+				"NAME_E" : "Schnals Finail",
+				"ALT" : 1950,
+				"LONG" : 10.8224,
+				"LAT" : 46.7412
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 676108.908666407, 5152639.148881254 ]
+			},
+			"properties" : {
+				"SCODE" : "83070GW",
+				"NAME_D" : "Bozen Schwefelbad",
+				"NAME_I" : "Bolzano Bagni di Zolfo",
+				"NAME_L" : "Bozen Schwefelbad",
+				"NAME_E" : "Bozen Schwefelbad",
+				"ALT" : 239.4,
+				"LONG" : 11.295332,
+				"LAT" : 46.504285
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 667602.968665876, 5163179.962861491 ]
+			},
+			"properties" : {
+				"SCODE" : "27020GW",
+				"NAME_D" : "Burgstall",
+				"NAME_I" : "Postal",
+				"NAME_L" : "Burgstall",
+				"NAME_E" : "Burgstall",
+				"ALT" : 260.285,
+				"LONG" : 11.188362,
+				"LAT" : 46.601248
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 664593.0330531561, 5165027.969848682 ]
+			},
+			"properties" : {
+				"SCODE" : "27001GW",
+				"NAME_D" : "Lana Lorenzenweg",
+				"NAME_I" : "Lana Lorenzenweg",
+				"NAME_L" : "Lana Lorenzenweg",
+				"NAME_E" : "Lana Lorenzenweg",
+				"ALT" : 301.728,
+				"LONG" : 11.149748,
+				"LAT" : 46.618612
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 666627.0496389046, 5163985.047208915 ]
+			},
+			"properties" : {
+				"SCODE" : "27010GW",
+				"NAME_D" : "Lana Sportplatz",
+				"NAME_I" : "Lana campo sportivo",
+				"NAME_L" : "Lana Sportplatz",
+				"NAME_E" : "Lana Sportplatz",
+				"ALT" : 263.785,
+				"LONG" : 11.175919,
+				"LAT" : 46.608731
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 679699.2603818802, 5144450.095727337 ]
+			},
+			"properties" : {
+				"SCODE" : "84415GW",
+				"NAME_D" : "Leifers Sportplatz",
+				"NAME_I" : "Leifers Sportplatz",
+				"NAME_L" : "Laives campo sportivo",
+				"NAME_E" : "Leifers Sportplatz",
+				"ALT" : 237.093,
+				"LONG" : 11.33893,
+				"LAT" : 46.4297
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 664382.6309713583, 5170767.929092422 ]
+			},
+			"properties" : {
+				"SCODE" : "23250GW",
+				"NAME_D" : "Meran foro boario",
+				"NAME_I" : "Merano foro boario",
+				"NAME_L" : "Meran foro boario",
+				"NAME_E" : "Meran foro boario",
+				"ALT" : 301.183,
+				"LONG" : 11.149046,
+				"LAT" : 46.670283
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 664699.0001995185, 5170030.98735111 ]
+			},
+			"properties" : {
+				"SCODE" : "23350GW",
+				"NAME_D" : "Meran Pferdrennplatz",
+				"NAME_I" : "Merano ippodromo",
+				"NAME_L" : "Meran Pferdrennplatz",
+				"NAME_E" : "Meran Pferdrennplatz",
+				"ALT" : 298.43,
+				"LONG" : 11.1529158,
+				"LAT" : 46.663578
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 652372.2936355432, 5167952.25614022 ]
+			},
+			"properties" : {
+				"SCODE" : "19350GW",
+				"NAME_D" : "Naturns",
+				"NAME_I" : "Naturno",
+				"NAME_L" : "Naturns",
+				"NAME_E" : "Naturns",
+				"ALT" : 536.67,
+				"LONG" : 10.9912,
+				"LAT" : 46.6478
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 623326.863593905, 5164186.54379526 ]
+			},
+			"properties" : {
+				"SCODE" : "08105GW",
+				"NAME_D" : "Prad",
+				"NAME_I" : "Prato allo Stelvio",
+				"NAME_L" : "Prad",
+				"NAME_E" : "Prad",
+				"ALT" : 889.92,
+				"LONG" : 10.6108,
+				"LAT" : 46.6199
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 669556.9883263293, 5123441.996273767 ]
+			},
+			"properties" : {
+				"SCODE" : "89935GW",
+				"NAME_D" : "Salurn Bahnhof",
+				"NAME_I" : "Salorno stazione",
+				"NAME_L" : "Salurn Bahnhof",
+				"NAME_E" : "Salurn Bahnhof",
+				"ALT" : 210.35,
+				"LONG" : 11.199431,
+				"LAT" : 46.243394
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 666622.0623159651, 5168320.465783763 ]
+			},
+			"properties" : {
+				"SCODE" : "23605GW",
+				"NAME_D" : "Sinich",
+				"NAME_I" : "Sinigo",
+				"NAME_L" : "Sinich",
+				"NAME_E" : "Sinich",
+				"ALT" : 283.61,
+				"LONG" : 11.1774175,
+				"LAT" : 46.64772
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 672488.9667651518, 5154745.016298688 ]
+			},
+			"properties" : {
+				"SCODE" : "28620GW",
+				"NAME_D" : "Terlan Kuhmoos",
+				"NAME_I" : "Terlano Kuhmoos",
+				"NAME_L" : "Terlan Kuhmoos",
+				"NAME_E" : "Terlan Kuhmoos",
+				"ALT" : 246.98,
+				"LONG" : 11.24897,
+				"LAT" : 46.524159
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 710060.4290155664, 5187854.07366603 ]
+			},
+			"properties" : {
+				"SCODE" : "65350MS",
+				"NAME_D" : "Obervintl",
+				"NAME_I" : "Vandoies",
+				"NAME_L" : "Obervintl",
+				"NAME_E" : "Obervintl",
+				"ALT" : 746,
+				"LONG" : 11.7534,
+				"LAT" : 46.8111
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 668279.5977381461, 5126834.323009973 ]
+			},
+			"properties" : {
+				"SCODE" : "89950SE",
+				"NAME_D" : "Fennberger See",
+				"NAME_I" : "Lago di Favogna",
+				"NAME_L" : "Fennberger See",
+				"NAME_E" : "Fennberger See",
+				"ALT" : 0,
+				"LONG" : 11.184085,
+				"LAT" : 46.27422
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 617206.5117866397, 5178475.3456604155 ]
+			},
+			"properties" : {
+				"SCODE" : "02250SE",
+				"NAME_D" : "Haidersee",
+				"NAME_I" : "Lago di S.Valentino alla Muta",
+				"NAME_L" : "Haidersee",
+				"NAME_E" : "Haidersee",
+				"ALT" : 1448.7,
+				"LONG" : 10.534527,
+				"LAT" : 46.74954
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 697944.0296687153, 5142822.940835978 ]
+			},
+			"properties" : {
+				"SCODE" : "78150SE",
+				"NAME_D" : "Karersee",
+				"NAME_I" : "Lago di Carezza",
+				"NAME_L" : "Karersee",
+				"NAME_E" : "Karersee",
+				"ALT" : 1524.3,
+				"LONG" : 11.575478,
+				"LAT" : 46.40997
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 669803.0248971231, 5123441.70993528 ]
+			},
+			"properties" : {
+				"SCODE" : "89940GW",
+				"NAME_D" : "Etsch - Salurn",
+				"NAME_I" : "Adige - Salorno",
+				"NAME_L" : "Etsch - Salurn",
+				"NAME_E" : "Etsch - Salurn",
+				"ALT" : 214.3,
+				"LONG" : 11.20262,
+				"LAT" : 46.24333
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 623870.325201767, 5189421.18281899 ]
+			},
+			"properties" : {
+				"SCODE" : "01080SF",
+				"NAME_D" : "Melag Pratznerberg",
+				"NAME_I" : "Melago Monte Pratzen",
+				"NAME_L" : "Melag Pratznerberg",
+				"NAME_E" : "Melag Pratznerberg",
+				"ALT" : 2450,
+				"LONG" : 10.6247,
+				"LAT" : 46.8468
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 663616.7923481241, 5197803.98782882 ]
+			},
+			"properties" : {
+				"SCODE" : "20050SF",
+				"NAME_D" : "Timmelsalm",
+				"NAME_I" : "Alpe del Tumulo",
+				"NAME_L" : "Timmelsalm",
+				"NAME_E" : "Timmelsalm",
+				"ALT" : 2230,
+				"LONG" : 11.1487,
+				"LAT" : 46.9136
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678828.7656167955, 5155623.072341318 ]
+			},
+			"properties" : {
+				"SCODE" : "82910MS",
+				"NAME_D" : "Jenesien",
+				"NAME_I" : "San Genesio",
+				"NAME_L" : "Jenesien",
+				"NAME_E" : "Jenesien",
+				"ALT" : 970,
+				"LONG" : 11.3319,
+				"LAT" : 46.5304
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 740935.0698317462, 5197108.721028329 ]
+			},
+			"properties" : {
+				"SCODE" : "47150SE",
+				"NAME_D" : "Antholzersee",
+				"NAME_I" : "Lago di Anterselva",
+				"NAME_L" : "Antholzersee",
+				"NAME_E" : "Antholzersee",
+				"ALT" : 1640.46,
+				"LONG" : 12.162387,
+				"LAT" : 46.883812
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 673647.973538269, 5136997.033927262 ]
+			},
+			"properties" : {
+				"SCODE" : "89357PG",
+				"NAME_D" : "Grosser Kalterergraben",
+				"NAME_I" : "Grosser Kalterergraben",
+				"NAME_L" : "Grosser Kalterergraben",
+				"NAME_E" : "Grosser Kalterergraben",
+				"ALT" : 220,
+				"LONG" : 11.257464,
+				"LAT" : 46.36426
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 675259.8263345559, 5190571.851149827 ]
+			},
+			"properties" : {
+				"SCODE" : "35205SF",
+				"NAME_D" : "Ratschings Wasserfaller Alm",
+				"NAME_I" : "Racines Malga Wasserfaller",
+				"NAME_L" : "Ratschings Wasserfaller Alm",
+				"NAME_E" : "Ratschings Wasserfaller Alm",
+				"ALT" : 1907,
+				"LONG" : 11.2987,
+				"LAT" : 46.8456
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 636136.2381482008, 5150465.501201087 ]
+			},
+			"properties" : {
+				"SCODE" : "24170WS",
+				"NAME_D" : "Ulten Weißbrunnspitz",
+				"NAME_I" : "Ultimo Cima di Fontana Bianca",
+				"NAME_L" : "Ulten Weißbrunnspitz",
+				"NAME_E" : "Ulten Weißbrunnspitz",
+				"ALT" : 3253,
+				"LONG" : 10.774,
+				"LAT" : 46.494
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 717835.389968596, 5200871.303087217 ]
+			},
+			"properties" : {
+				"SCODE" : "53200SF",
+				"NAME_D" : "Weissenbach Fadner Alm",
+				"NAME_I" : "Rio Bianco Malga Fadner",
+				"NAME_L" : "Weissenbach Fadner Alm",
+				"NAME_E" : "Weissenbach Fadner Alm",
+				"ALT" : 2155,
+				"LONG" : 11.8614,
+				"LAT" : 46.9256
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 737994.1348173993, 5173329.886875574 ]
+			},
+			"properties" : {
+				"SCODE" : "42830SF",
+				"NAME_D" : "Prags Rossalm",
+				"NAME_I" : "Braies Alpe Cavallo",
+				"NAME_L" : "Prags Rossalm",
+				"NAME_E" : "Prags Rossalm",
+				"ALT" : 2340,
+				"LONG" : 12.1115,
+				"LAT" : 46.6712
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 668631.696538802, 5160478.862405402 ]
+			},
+			"properties" : {
+				"SCODE" : "27100MS",
+				"NAME_D" : "Gargazon",
+				"NAME_I" : "Gargazzone",
+				"NAME_L" : "Gargazon",
+				"NAME_E" : "Gargazon",
+				"ALT" : 254,
+				"LONG" : 11.2008,
+				"LAT" : 46.5767
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 675763.214779695, 5143516.876261007 ]
+			},
+			"properties" : {
+				"SCODE" : "89155SE",
+				"NAME_D" : "Großer Montiggler See",
+				"NAME_I" : "Lago Grande di Monticolo",
+				"NAME_L" : "Großer Montiggler See",
+				"NAME_E" : "Großer Montiggler See",
+				"ALT" : 491.88,
+				"LONG" : 11.28739,
+				"LAT" : 46.422344
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 673718.1238281978, 5139400.860050561 ]
+			},
+			"properties" : {
+				"SCODE" : "89355SE",
+				"NAME_D" : "Kalterer See",
+				"NAME_I" : "Lago di Caldaro",
+				"NAME_L" : "Kalterer See",
+				"NAME_E" : "Kalterer See",
+				"ALT" : 213.1,
+				"LONG" : 11.259267,
+				"LAT" : 46.385859
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677636.5085671903, 5141809.431797464 ]
+			},
+			"properties" : {
+				"SCODE" : "85700MS",
+				"NAME_D" : "Branzoll",
+				"NAME_I" : "Bronzolo",
+				"NAME_L" : "Branzoll",
+				"NAME_E" : "Bronzolo",
+				"ALT" : 226,
+				"LONG" : 11.3111,
+				"LAT" : 46.4065
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 676267.1003748195, 5144435.570243383 ]
+			},
+			"properties" : {
+				"SCODE" : "89055SE",
+				"NAME_D" : "Kleiner Montiggler See",
+				"NAME_I" : "Lago Piccolo di Monticolo",
+				"NAME_L" : "Kleiner Montiggler See",
+				"NAME_E" : "Kleiner Montiggler See",
+				"ALT" : 518.34,
+				"LONG" : 11.294289,
+				"LAT" : 46.430474
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 735735.0282664896, 5175998.53532094 ]
+			},
+			"properties" : {
+				"SCODE" : "42150SE",
+				"NAME_D" : "Pragser Wildsee",
+				"NAME_I" : "Lago di Braies",
+				"NAME_L" : "Pragser Wildsee",
+				"NAME_E" : "Pragser Wildsee",
+				"ALT" : 1489.92,
+				"LONG" : 12.083374,
+				"LAT" : 46.69598
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 701160.1235827048, 5182566.720653379 ]
+			},
+			"properties" : {
+				"SCODE" : "39050SE",
+				"NAME_D" : "Vahrner See",
+				"NAME_I" : "Lago di Varna",
+				"NAME_L" : "Vahrner See",
+				"NAME_E" : "Vahrner See",
+				"ALT" : 682.06,
+				"LONG" : 11.634545,
+				"LAT" : 46.766315
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 686206.4874074006, 5154814.407840642 ]
+			},
+			"properties" : {
+				"SCODE" : "79450SE",
+				"NAME_D" : "Wolfsgrubener See",
+				"NAME_I" : "Lago di Costalovara",
+				"NAME_L" : "Wolfsgrubener See",
+				"NAME_E" : "Wolfsgrubener See",
+				"ALT" : 1177.39,
+				"LONG" : 11.427694,
+				"LAT" : 46.521128
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 628715.2823064667, 5148330.181152248 ]
+			},
+			"properties" : {
+				"SCODE" : "10750PG",
+				"NAME_D" : "Plimabach - Zufallhütte",
+				"NAME_I" : "Plimabach - Zufallhütte",
+				"NAME_L" : "Plimabach - Zufallhütte",
+				"NAME_E" : "Plimabach - Zufallhütte",
+				"ALT" : 2300,
+				"LONG" : 10.67675,
+				"LAT" : 46.47625
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 676827.8108656388, 5147598.541503039 ]
+			},
+			"properties" : {
+				"SCODE" : "83450PG",
+				"NAME_D" : "EISACK BEI BOZEN SÜD",
+				"NAME_I" : "ISARCO A BOLZANO SUD",
+				"NAME_L" : "EISACK A BULSAN SUD",
+				"NAME_E" : "EISACK BEI BOZEN SÜD",
+				"ALT" : 235.03,
+				"LONG" : 11.30278,
+				"LAT" : 46.45877
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 742054.9976535505, 5184155.989793522 ]
+			},
+			"properties" : {
+				"SCODE" : "45750PG",
+				"NAME_D" : "Gsieserbach - Pichl",
+				"NAME_I" : "Rio Casies - Colle",
+				"NAME_L" : "Gsieserbach - Pichl",
+				"NAME_E" : "Gsieserbach - Pichl",
+				"ALT" : 1196.07,
+				"LONG" : 12.1702072,
+				"LAT" : 46.7670221
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 685583.9961525926, 5201187.999005773 ]
+			},
+			"properties" : {
+				"SCODE" : "31950PG",
+				"NAME_D" : "Pflerscherbach - Gossensass",
+				"NAME_I" : "Rio Fleres - Colle Isarco",
+				"NAME_L" : "Pflerscherbach - Gossensass",
+				"NAME_E" : "Pflerscherbach - Gossensass",
+				"ALT" : 1063.32,
+				"LONG" : 11.4383143,
+				"LAT" : 46.9382492
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 704928.9937591584, 5168676.997655532 ]
+			},
+			"properties" : {
+				"SCODE" : "71550PG",
+				"NAME_D" : "Villnösserbach - St.Peter",
+				"NAME_I" : "Rio Funes - S.Pietro",
+				"NAME_L" : "Villnösserbach - St.Peter",
+				"NAME_E" : "Villnösserbach - St.Peter",
+				"ALT" : 1060.65,
+				"LONG" : 11.6776653,
+				"LAT" : 46.6403087
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 681487.9990826498, 5194920.997136072 ]
+			},
+			"properties" : {
+				"SCODE" : "35850PG",
+				"NAME_D" : "Ratschingserbach - Stange",
+				"NAME_I" : "Rio Racines - Stanghe",
+				"NAME_L" : "Ratschingserbach - Stange",
+				"NAME_E" : "Ratschingserbach - Stange",
+				"ALT" : 960,
+				"LONG" : 11.3820476,
+				"LAT" : 46.883035
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 683834.9995064395, 5194875.997627539 ]
+			},
+			"properties" : {
+				"SCODE" : "36250PG",
+				"NAME_D" : "Jaufentalerbach - Gasteig",
+				"NAME_I" : "Rio Giovo - Casateia",
+				"NAME_L" : "Jaufentalerbach - Gasteig",
+				"NAME_E" : "Jaufentalerbach - Gasteig",
+				"ALT" : 952.93,
+				"LONG" : 11.4128063,
+				"LAT" : 46.8819855
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 686085.2613556446, 5196168.05650085 ]
+			},
+			"properties" : {
+				"SCODE" : "32470PG",
+				"NAME_D" : "EISACK BEI STERZING",
+				"NAME_I" : "ISARCO A VIPITENO",
+				"NAME_L" : "EISACK BEI STERZING",
+				"NAME_E" : "EISACK BEI STERZING",
+				"ALT" : 942,
+				"LONG" : 11.442841,
+				"LAT" : 46.892976
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 735132.9949636704, 5190076.993728347 ]
+			},
+			"properties" : {
+				"SCODE" : "48750PG",
+				"NAME_D" : "Antholzerbach - Salomonsbrunn",
+				"NAME_I" : "Rio Anterselva - Bagni Salomone",
+				"NAME_L" : "Antholzerbach - Salomonsbrunn",
+				"NAME_E" : "Antholzerbach - Salomonsbrunn",
+				"ALT" : 1095.95,
+				"LONG" : 12.082725,
+				"LAT" : 46.8227027
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 725802.9986882005, 5199890.999274821 ]
+			},
+			"properties" : {
+				"SCODE" : "54970PG",
+				"NAME_D" : "Reinbach - Kematen",
+				"NAME_I" : "Rio Riva - Caminata",
+				"NAME_L" : "Reinbach - Kematen",
+				"NAME_E" : "Reinbach - Kematen",
+				"ALT" : 859.79,
+				"LONG" : 11.9654319,
+				"LAT" : 46.914128
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 683642.9938828829, 5151426.99490907 ]
+			},
+			"properties" : {
+				"SCODE" : "78970PG",
+				"NAME_D" : "Eggentalerbach - Kardaun",
+				"NAME_I" : "Rio Ega - Cardano",
+				"NAME_L" : "Eggentalerbach - Kardaun",
+				"NAME_E" : "Eggentalerbach - Kardaun",
+				"ALT" : 291.49,
+				"LONG" : 11.3929643,
+				"LAT" : 46.4913737
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 721792.9774295525, 5165571.991678016 ]
+			},
+			"properties" : {
+				"SCODE" : "61750PG",
+				"NAME_D" : "Gader - Pedraces",
+				"NAME_I" : "Gadera - Pedraces",
+				"NAME_L" : "Gader - Pedraces",
+				"NAME_E" : "Gader - Pedraces",
+				"ALT" : 1321.15,
+				"LONG" : 11.896249,
+				"LAT" : 46.6070351
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 618778.2356577714, 5161102.877073183 ]
+			},
+			"properties" : {
+				"SCODE" : "07770PG",
+				"NAME_D" : "SULDENBACH - STILFSERBRÜCKE",
+				"NAME_I" : "RIO SOLDA - PONTE STELVIO",
+				"NAME_L" : "SULDENBACH - STILFSERBRÜCKE",
+				"NAME_E" : "SULDENBACH - STILFSERBRÜCKE",
+				"ALT" : 1120,
+				"LONG" : 10.55062,
+				"LAT" : 46.59298
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 684425.4220871702, 5135338.959309676 ]
+			},
+			"properties" : {
+				"SCODE" : "87300MS",
+				"NAME_D" : "Radein",
+				"NAME_I" : "Redagno",
+				"NAME_L" : "Radein",
+				"NAME_E" : "Radein",
+				"ALT" : 1551,
+				"LONG" : 11.3968,
+				"LAT" : 46.3465
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 670761.0065906869, 5158601.973875741 ]
+			},
+			"properties" : {
+				"SCODE" : "27890GW",
+				"NAME_D" : "Vilpian Feuerwehr",
+				"NAME_I" : "Vilpiano vigili del fuoco",
+				"NAME_L" : "Vilpian Feuerwehr",
+				"NAME_E" : "Vilpian Feuerwehr",
+				"ALT" : 268.8,
+				"LONG" : 11.2278767,
+				"LAT" : 46.559284
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678942.9725820167, 5148687.016545467 ]
+			},
+			"properties" : {
+				"SCODE" : "83360GW",
+				"NAME_D" : "Bozen Einsteinstraße 2",
+				"NAME_I" : "Bolzano via Einstein 2",
+				"NAME_L" : "Bozen Einsteinstraße 2",
+				"NAME_E" : "Bozen Einsteinstraße 2",
+				"ALT" : 241.25,
+				"LONG" : 11.33072,
+				"LAT" : 46.468
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 671878.9730687607, 5129143.95624956 ]
+			},
+			"properties" : {
+				"SCODE" : "89740GW",
+				"NAME_D" : "Kurtatsch Neumarkt 6",
+				"NAME_I" : "Cortaccia Egna 6",
+				"NAME_L" : "Kurtatsch Neumarkt 6",
+				"NAME_E" : "Kurtatsch Neumarkt 6",
+				"ALT" : 213.305,
+				"LONG" : 11.231609,
+				"LAT" : 46.294089
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 705916.6604149423, 5196176.121021626 ]
+			},
+			"properties" : {
+				"SCODE" : "66500MS",
+				"NAME_D" : "Pfunders",
+				"NAME_I" : "Fundres",
+				"NAME_L" : "Pfunders",
+				"NAME_E" : "Pfunders",
+				"ALT" : 1168,
+				"LONG" : 11.7029,
+				"LAT" : 46.8872
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 733633.9998259697, 5205245.995696355 ]
+			},
+			"properties" : {
+				"SCODE" : "54650PG",
+				"NAME_D" : "Knuttenbach - Rein",
+				"NAME_I" : "Rio Dossi - Riva di Tures",
+				"NAME_L" : "Knuttenbach - Rein",
+				"NAME_E" : "Knuttenbach - Rein",
+				"ALT" : 1675,
+				"LONG" : 12.070879,
+				"LAT" : 46.9595391
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 668627.6345400622, 5160500.766681349 ]
+			},
+			"properties" : {
+				"SCODE" : "27025GW",
+				"NAME_D" : "Gargazon Sportplatz",
+				"NAME_I" : "Gargazzone campo sportivo",
+				"NAME_L" : "Gargazon Sportplatz",
+				"NAME_E" : "Gargazon Sportplatz",
+				"ALT" : 254.953,
+				"LONG" : 11.200755,
+				"LAT" : 46.576898
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 681489.7267657974, 5151766.513070844 ]
+			},
+			"properties" : {
+				"SCODE" : "79865GW",
+				"NAME_D" : "Bozen Eisenbahn",
+				"NAME_I" : "Bolzano ferrovia",
+				"NAME_L" : "Bozen Eisenbahn",
+				"NAME_E" : "Bozen Eisenbahn",
+				"ALT" : 267.133,
+				"LONG" : 11.365063,
+				"LAT" : 46.49501
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 680357.6201214755, 5151759.395219597 ]
+			},
+			"properties" : {
+				"SCODE" : "79875GW",
+				"NAME_D" : "Bozen Marconistraße-Dantestraße",
+				"NAME_I" : "Bolzano via Marconi-via Dante",
+				"NAME_L" : "Bozen Marconistraße-Dantestraße",
+				"NAME_E" : "Bozen Marconistraße-Dantestraße",
+				"ALT" : 262.96,
+				"LONG" : 11.35032,
+				"LAT" : 46.49525
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678638.5856966665, 5148713.851257295 ]
+			},
+			"properties" : {
+				"SCODE" : "83310GW",
+				"NAME_D" : "Bozen Einsteinstraße 1",
+				"NAME_I" : "Bolzano via Einstein 1",
+				"NAME_L" : "Bozen Einsteinstraße 1",
+				"NAME_E" : "Bozen Einsteinstraße 1",
+				"ALT" : 240.84,
+				"LONG" : 11.326769,
+				"LAT" : 46.468322
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677491.0543569082, 5146783.863381438 ]
+			},
+			"properties" : {
+				"SCODE" : "83380GW",
+				"NAME_D" : "Bozen Gruzzen Tomasini",
+				"NAME_I" : "Bozen Gruzzen Tomasini",
+				"NAME_L" : "Bolzano Agruzzo Tommasini",
+				"NAME_E" : "Bozen Gruzzen Tomasini",
+				"ALT" : 235.07,
+				"LONG" : 11.3111,
+				"LAT" : 46.45127
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 686507.5419279204, 5194874.765259936 ]
+			},
+			"properties" : {
+				"SCODE" : "36770PG",
+				"NAME_D" : "MAREITERBACH - ELZENBAUM",
+				"NAME_I" : "RIO RIDANNA - PRUNO",
+				"NAME_L" : "MAREITERBACH - ELZENBAUM",
+				"NAME_E" : "MAREITERBACH - ELZENBAUM",
+				"ALT" : 932.97,
+				"LONG" : 11.44785,
+				"LAT" : 46.88123
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 625932.994425235, 5174456.98895042 ]
+			},
+			"properties" : {
+				"SCODE" : "04450PG",
+				"NAME_D" : "Saldurbach - Matsch",
+				"NAME_I" : "Rio Saldura - Mazia",
+				"NAME_L" : "Saldurbach - Matsch",
+				"NAME_E" : "Saldurbach - Matsch",
+				"ALT" : 1632,
+				"LONG" : 10.6476305,
+				"LAT" : 46.7118043
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 669517.560634337, 5151296.277253598 ]
+			},
+			"properties" : {
+				"SCODE" : "90200MS",
+				"NAME_D" : "Gantkofel",
+				"NAME_I" : "Macaion",
+				"NAME_L" : "Gantkofel",
+				"NAME_E" : "Gantkofel",
+				"ALT" : 1860,
+				"LONG" : 11.209,
+				"LAT" : 46.4939
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678885.2318084852, 5150331.194999664 ]
+			},
+			"properties" : {
+				"SCODE" : "83320GW",
+				"NAME_D" : "Bozen Siemensstrasse",
+				"NAME_I" : "Bolzano via Siemens",
+				"NAME_L" : "Bozen Siemensstrasse",
+				"NAME_E" : "Bozen Siemensstrasse",
+				"ALT" : 249.853,
+				"LONG" : 11.3306,
+				"LAT" : 46.4828
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 671775.0427593832, 5130973.002381099 ]
+			},
+			"properties" : {
+				"SCODE" : "89720GW",
+				"NAME_D" : "Kurtatsch Neumarkt 5",
+				"NAME_I" : "Cortaccia Egna 5",
+				"NAME_L" : "Kurtatsch Neumarkt 5",
+				"NAME_E" : "Kurtatsch Neumarkt 5",
+				"ALT" : 213.58,
+				"LONG" : 11.230929,
+				"LAT" : 46.310564
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 676328.9964000878, 5135524.947554085 ]
+			},
+			"properties" : {
+				"SCODE" : "86310GW",
+				"NAME_D" : "Auer Tramin",
+				"NAME_I" : "Ora Termeno",
+				"NAME_L" : "Auer Tramin",
+				"NAME_E" : "Auer Tramin",
+				"ALT" : 228.53,
+				"LONG" : 11.291736,
+				"LAT" : 46.350329
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 679997.9223224834, 5150537.290227557 ]
+			},
+			"properties" : {
+				"SCODE" : "83314GW",
+				"NAME_D" : "Bozen Mignone Park",
+				"NAME_I" : "Bolzano Parco Mignone",
+				"NAME_L" : "Bozen Mignone Park",
+				"NAME_E" : "Bozen Mignone Park",
+				"ALT" : 254.25,
+				"LONG" : 11.345164,
+				"LAT" : 46.484357
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 683536.1282116338, 5151803.217374677 ]
+			},
+			"properties" : {
+				"SCODE" : "77860GW",
+				"NAME_D" : "Kardaun",
+				"NAME_I" : "Cardano",
+				"NAME_L" : "Kardaun",
+				"NAME_E" : "Kardaun",
+				"ALT" : 283.59,
+				"LONG" : 11.3917214,
+				"LAT" : 46.4947857
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 692268.993983631, 5200901.994125863 ]
+			},
+			"properties" : {
+				"SCODE" : "33550PG",
+				"NAME_D" : "Pfitscherbach - Ried",
+				"NAME_I" : "Rio Vizze - Novale",
+				"NAME_L" : "Pfitscherbach - Ried",
+				"NAME_E" : "Pfitscherbach - Ried",
+				"ALT" : 1365.4,
+				"LONG" : 11.525939,
+				"LAT" : 46.9337745
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 682425.9955078105, 5133915.994759176 ]
+			},
+			"properties" : {
+				"SCODE" : "87550PG",
+				"NAME_D" : "Schwarzenbach - Kaltenbrunn",
+				"NAME_I" : "Rio Nero - Fontanefredde",
+				"NAME_L" : "Schwarzenbach - Kaltenbrunn",
+				"NAME_E" : "Schwarzenbach - Kaltenbrunn",
+				"ALT" : 916.82,
+				"LONG" : 11.3702848,
+				"LAT" : 46.3342461
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 756385.0005427895, 5177103.992778481 ]
+			},
+			"properties" : {
+				"SCODE" : "91350PG",
+				"NAME_D" : "Sextnerbach - Sexten",
+				"NAME_I" : "Rio Sesto - Sesto",
+				"NAME_L" : "Sextnerbach - Sexten",
+				"NAME_E" : "Sextnerbach - Sexten",
+				"ALT" : 1307,
+				"LONG" : 12.3536345,
+				"LAT" : 46.6983197
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 670136.035100081, 5157153.971468247 ]
+			},
+			"properties" : {
+				"SCODE" : "27930GW",
+				"NAME_D" : "Nals Nord Sägewerk",
+				"NAME_I" : "Nalles nord segheria",
+				"NAME_L" : "Nals Nord Sägewerk",
+				"NAME_E" : "Nals Nord Sägewerk",
+				"ALT" : 253.389,
+				"LONG" : 11.219198,
+				"LAT" : 46.546421
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 676963.4375605141, 5150896.2026313795 ]
+			},
+			"properties" : {
+				"SCODE" : "83250GW",
+				"NAME_D" : "Bozen Langzeitkrankenhaus",
+				"NAME_I" : "Bolzano centro lungodegenti",
+				"NAME_L" : "Bozen Langzeitkrankenhaus",
+				"NAME_E" : "Bozen Langzeitkrankenhaus",
+				"ALT" : 241.6,
+				"LONG" : 11.3057975,
+				"LAT" : 46.488388
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 665994.5717278508, 5187627.70500077 ]
+			},
+			"properties" : {
+				"SCODE" : "20910MS",
+				"NAME_D" : "Platt in Passeier",
+				"NAME_I" : "Plata in Passiria",
+				"NAME_L" : "Platt in Passeier",
+				"NAME_E" : "Platt in Passeier",
+				"ALT" : 1145,
+				"LONG" : 11.1762,
+				"LAT" : 46.8215
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 681033.622562192, 5202989.068976129 ]
+			},
+			"properties" : {
+				"SCODE" : "31410MS",
+				"NAME_D" : "Pflersch",
+				"NAME_I" : "Fleres",
+				"NAME_L" : "Pflersch",
+				"NAME_E" : "Pflersch",
+				"ALT" : 1154,
+				"LONG" : 11.3793,
+				"LAT" : 46.9557
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 699962.1283059226, 5142803.378010587 ]
+			},
+			"properties" : {
+				"SCODE" : "78110MS",
+				"NAME_D" : "Karerpass",
+				"NAME_I" : "Passo di Costalunga",
+				"NAME_L" : "Jouf de Ciarej",
+				"NAME_E" : "Karerpass",
+				"ALT" : 1715,
+				"LONG" : 11.6017,
+				"LAT" : 46.4092
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 720265.0386951682, 5159214.883624729 ]
+			},
+			"properties" : {
+				"SCODE" : "61300MS",
+				"NAME_D" : "Corvara",
+				"NAME_I" : "Corvara",
+				"NAME_L" : "Corvara",
+				"NAME_E" : "Corvara",
+				"ALT" : 1530,
+				"LONG" : 11.8733,
+				"LAT" : 46.5504
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 650438.7224544509, 5167653.5180582395 ]
+			},
+			"properties" : {
+				"SCODE" : "14750PG",
+				"NAME_D" : "Etsch - Staben",
+				"NAME_I" : "Adige – Stava",
+				"NAME_L" : "Etsch - Staben",
+				"NAME_E" : "Etsch - Staben",
+				"ALT" : 0,
+				"LONG" : 10.96585,
+				"LAT" : 46.64555
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 736544.5826197304, 5201060.720274 ]
+			},
+			"properties" : {
+				"SCODE" : "54100SF",
+				"NAME_D" : "Rein i.T. Tristenboden",
+				"NAME_I" : "Rein i.T. Tristenboden",
+				"NAME_L" : "Rein i.T. Tristenboden",
+				"NAME_E" : "Rein i.T. Tristenboden",
+				"ALT" : 2450,
+				"LONG" : 12.1069,
+				"LAT" : 46.9209
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 668914.9535413065, 5157815.188777009 ]
+			},
+			"properties" : {
+				"SCODE" : "27920GW",
+				"NAME_D" : "Nals Pferdereitplatz",
+				"NAME_I" : "Nalles boschetto",
+				"NAME_L" : null,
+				"NAME_E" : null,
+				"ALT" : 0,
+				"LONG" : 11.2035234,
+				"LAT" : 46.552675
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 673687.9946244173, 5154005.993040991 ]
+			},
+			"properties" : {
+				"SCODE" : "28630GW",
+				"NAME_D" : "Terlan Klaus",
+				"NAME_I" : "Terlano Chiusa",
+				"NAME_L" : "Terlan Klaus",
+				"NAME_E" : "Terlan Klaus",
+				"ALT" : 264.01,
+				"LONG" : 11.2643147,
+				"LAT" : 46.517205
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 671484.993981985, 5154729.999024694 ]
+			},
+			"properties" : {
+				"SCODE" : "29180GW",
+				"NAME_D" : "Andrian Laghetto",
+				"NAME_I" : "Andriano Laghetto",
+				"NAME_L" : "Andrian Laghetto",
+				"NAME_E" : "Andrian Laghetto",
+				"ALT" : 253.84,
+				"LONG" : 11.2358845,
+				"LAT" : 46.5242805
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 670845.9963254336, 5154145.992152997 ]
+			},
+			"properties" : {
+				"SCODE" : "29190GW",
+				"NAME_D" : "Andrian Eislaufplatz",
+				"NAME_I" : "Andriano campo pattinaggio",
+				"NAME_L" : "Andrian Eislaufplatz",
+				"NAME_E" : "Andrian Eislaufplatz",
+				"ALT" : 307.94,
+				"LONG" : 11.2273447,
+				"LAT" : 46.5191912
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 674377.9945113044, 5148618.99825146 ]
+			},
+			"properties" : {
+				"SCODE" : "29310GW",
+				"NAME_D" : "Eppan Warth",
+				"NAME_I" : "Appiano Gamberoni",
+				"NAME_L" : "Eppan Warth",
+				"NAME_E" : "Eppan Warth",
+				"ALT" : 334.28,
+				"LONG" : 11.2712842,
+				"LAT" : 46.4685842
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 675453.9982429228, 5149602.99172991 ]
+			},
+			"properties" : {
+				"SCODE" : "29320GW",
+				"NAME_D" : "Appiano Frangarto Maso Pill",
+				"NAME_I" : "Eppan Frangart Pillhof",
+				"NAME_L" : "Eppan Frangart Pillhof",
+				"NAME_E" : "Eppan Frangart Pillhof",
+				"ALT" : 284.75,
+				"LONG" : 11.2856585,
+				"LAT" : 46.4771536
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678677.6832582197, 5151272.389772351 ]
+			},
+			"properties" : {
+				"SCODE" : "83042GW",
+				"NAME_D" : "Bozen Nazim-Hikmet-Weg",
+				"NAME_I" : "Bolzano Passaggio Nazim Hikmet",
+				"NAME_L" : "Bozen Nazim-Hikmet-Weg",
+				"NAME_E" : "Bozen Nazim-Hikmet-Weg",
+				"ALT" : 250.44,
+				"LONG" : 11.3282595,
+				"LAT" : 46.4913184
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 685029.8783373226, 5196662.371080686 ]
+			},
+			"properties" : {
+				"SCODE" : "32615GW",
+				"NAME_D" : "Sterzing",
+				"NAME_I" : "Vipiteno",
+				"NAME_L" : "Sterzing",
+				"NAME_E" : "Sterzing",
+				"ALT" : 949.583,
+				"LONG" : 11.4292,
+				"LAT" : 46.897715
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677582.506672664, 5143025.330925703 ]
+			},
+			"properties" : {
+				"SCODE" : "84435GW",
+				"NAME_D" : "Branzoll Sgarbossa",
+				"NAME_I" : "Branzoll Sgarbossa",
+				"NAME_L" : "Bronzolo Sgarbossa",
+				"NAME_E" : "Branzoll Sgarbossa",
+				"ALT" : 229.398,
+				"LONG" : 11.31086,
+				"LAT" : 46.417448
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 673964.4347303752, 5130458.611952133 ]
+			},
+			"properties" : {
+				"SCODE" : "87940GW",
+				"NAME_D" : "Neumarkt Stiermoos-bis",
+				"NAME_I" : "Egna Stiermoos-bis",
+				"NAME_L" : "Neumarkt Stiermoos-bis",
+				"NAME_E" : "Neumarkt Stiermoos-bis",
+				"ALT" : 214.21,
+				"LONG" : 11.259151,
+				"LAT" : 46.30538
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 666858.9961635947, 5167139.994142012 ]
+			},
+			"properties" : {
+				"SCODE" : "23750PG",
+				"NAME_D" : "Sinichbach - Sinich",
+				"NAME_I" : "Torrente Sinigo - Sinigo",
+				"NAME_L" : "Sinichbach - Sinich",
+				"NAME_E" : "Sinichbach - Sinich",
+				"ALT" : 500,
+				"LONG" : 11.1800848,
+				"LAT" : 46.6370453
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 676261.9973500121, 5135979.995539933 ]
+			},
+			"properties" : {
+				"SCODE" : "86550PG",
+				"NAME_D" : "Grosser Branzoller Graben",
+				"NAME_I" : "Fossa grande di Bornzolo",
+				"NAME_L" : "Grosser Branzoller Graben",
+				"NAME_E" : "Grosser Branzoller Graben",
+				"ALT" : 218.19,
+				"LONG" : 11.291037,
+				"LAT" : 46.3544385
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 674189.9967875215, 5131709.997744693 ]
+			},
+			"properties" : {
+				"SCODE" : "87910PG",
+				"NAME_D" : "Etsch - Neumarkt",
+				"NAME_I" : "Adige - Egna",
+				"NAME_L" : "Etsch - Neumarkt",
+				"NAME_E" : "Etsch - Neumarkt",
+				"ALT" : 212,
+				"LONG" : 11.2625418,
+				"LAT" : 46.3165756
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 676501.5556193703, 5135158.529113453 ]
+			},
+			"properties" : {
+				"SCODE" : "86315GW",
+				"NAME_D" : "Auer Kreuzweg",
+				"NAME_I" : "Ora incrocio",
+				"NAME_L" : "Auer Kreuzweg",
+				"NAME_E" : "Auer Kreuzweg",
+				"ALT" : 242.71,
+				"LONG" : 11.293839,
+				"LAT" : 46.346989
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 624526.924980743, 5188289.769772916 ]
+			},
+			"properties" : {
+				"SCODE" : "01110MS",
+				"NAME_D" : "Langtaufers Grub",
+				"NAME_I" : "Vallelunga Grub",
+				"NAME_L" : "Langtaufers Grub",
+				"NAME_E" : "Langtaufers Grub",
+				"ALT" : 1842,
+				"LONG" : 10.633,
+				"LAT" : 46.8365
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 705798.2360433924, 5169551.089822218 ]
+			},
+			"properties" : {
+				"SCODE" : "71510MS",
+				"NAME_D" : "Villnöss",
+				"NAME_I" : "Funes",
+				"NAME_L" : "Villnöss",
+				"NAME_E" : "Villnöss",
+				"ALT" : 1327,
+				"LONG" : 11.6894,
+				"LAT" : 46.6479
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 688948.4532273358, 5155774.908609217 ]
+			},
+			"properties" : {
+				"SCODE" : "79300MS",
+				"NAME_D" : "Ritten Siffian",
+				"NAME_I" : "Renon Siffian",
+				"NAME_L" : "Ritten Siffian",
+				"NAME_E" : "Ritten Siffian",
+				"ALT" : 987,
+				"LONG" : 11.4638,
+				"LAT" : 46.529
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 693610.5098097443, 5155372.611233296 ]
+			},
+			"properties" : {
+				"SCODE" : "75510SE",
+				"NAME_D" : "Völser Weiher",
+				"NAME_I" : "Laghetto di Fiè",
+				"NAME_L" : "Völser Weiher",
+				"NAME_E" : "Völser Weiher",
+				"ALT" : 1053.1,
+				"LONG" : 11.524364,
+				"LAT" : 46.524058
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 666089.2256628062, 5151422.8345324695 ]
+			},
+			"properties" : {
+				"SCODE" : "90150SE",
+				"NAME_D" : "Tretsee",
+				"NAME_I" : "Lago di Tret",
+				"NAME_L" : "Tretsee",
+				"NAME_E" : "Tretsee",
+				"ALT" : 1599.16,
+				"LONG" : 11.164403,
+				"LAT" : 46.495892
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 638053.8435490057, 5177102.80424631 ]
+			},
+			"properties" : {
+				"SCODE" : "15570PG",
+				"NAME_D" : "Schnalserbach - Gerstgras",
+				"NAME_I" : "Rio Senales - Gerstgras",
+				"NAME_L" : "Schnalserbach - Gerstgras",
+				"NAME_E" : "Schnalserbach - Gerstgras",
+				"ALT" : 1770,
+				"LONG" : 10.80693,
+				"LAT" : 46.73321
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 670136.0146998456, 5157151.969275433 ]
+			},
+			"properties" : {
+				"SCODE" : "27935GW",
+				"NAME_D" : "Nals Süd Sägewerk",
+				"NAME_I" : "Nalles sud-segheria",
+				"NAME_L" : "Nals Süd Sägewerk",
+				"NAME_E" : "Nals Süd Sägewerk",
+				"ALT" : 253.367,
+				"LONG" : 11.219197,
+				"LAT" : 46.546403
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 724376.1037980919, 5188030.695706664 ]
+			},
+			"properties" : {
+				"SCODE" : "59500GW",
+				"NAME_D" : "St.Georgen Bruneck",
+				"NAME_I" : "S.Giorgio Brunico",
+				"NAME_L" : "St.Georgen Bruneck",
+				"NAME_E" : "St.Georgen Bruneck",
+				"ALT" : 831.143,
+				"LONG" : 11.940887,
+				"LAT" : 46.808022
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 702752.0441743012, 5176809.969962426 ]
+			},
+			"properties" : {
+				"SCODE" : "69420GW",
+				"NAME_D" : "Brixen Uni Garten",
+				"NAME_I" : "Bressanone giardino universitá",
+				"NAME_L" : "Brixen Uni Garten",
+				"NAME_E" : "Brixen Uni Garten",
+				"ALT" : 564,
+				"LONG" : 11.65283,
+				"LAT" : 46.714083
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 680668.4764212521, 5152443.26095398 ]
+			},
+			"properties" : {
+				"SCODE" : "79870GW",
+				"NAME_D" : "Bozen Schule Madonnapark",
+				"NAME_I" : "Bolzano Scuola Parco Madonna",
+				"NAME_L" : "Bozen Schule Madonnapark",
+				"NAME_E" : "Bozen Schule Madonnapark",
+				"ALT" : 272.72,
+				"LONG" : 11.354633,
+				"LAT" : 46.501316
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 679169.2700958428, 5151974.355140337 ]
+			},
+			"properties" : {
+				"SCODE" : "83025GW",
+				"NAME_D" : "Bozen Roenstrasse",
+				"NAME_I" : "Bolzano via Roen",
+				"NAME_L" : "Bozen Roenstrasse",
+				"NAME_E" : "Bozen Roenstrasse",
+				"ALT" : 258.443,
+				"LONG" : 11.33493,
+				"LAT" : 46.4975
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 756728.1381318418, 5176359.522752989 ]
+			},
+			"properties" : {
+				"SCODE" : "91510MS",
+				"NAME_D" : "Sexten",
+				"NAME_I" : "Sesto",
+				"NAME_L" : "Sexten",
+				"NAME_E" : "Sexten",
+				"ALT" : 1322,
+				"LONG" : 12.3577,
+				"LAT" : 46.6915
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 715235.1958204102, 5168746.041080762 ]
+			},
+			"properties" : {
+				"SCODE" : "62270SF",
+				"NAME_D" : "Campill Kreuzkofeljoch",
+				"NAME_I" : "Longiarù Passo Poma",
+				"NAME_L" : "Lungiarü Kreuzkofeljoch",
+				"NAME_E" : "Campill Kreuzkofeljoch",
+				"ALT" : 2297,
+				"LONG" : 11.8122,
+				"LAT" : 46.6377
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 609505.6060361164, 5172867.82559069 ]
+			},
+			"properties" : {
+				"SCODE" : "02700SF",
+				"NAME_D" : "Schleis Kloangruebes",
+				"NAME_I" : "Clusio Kloangruebes",
+				"NAME_L" : "Schleis Kloangruebes",
+				"NAME_E" : "Schleis Kloangruebes",
+				"ALT" : 2460,
+				"LONG" : 10.4324,
+				"LAT" : 46.7004
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 756695.5986260537, 5181600.943127997 ]
+			},
+			"properties" : {
+				"SCODE" : "91950PG",
+				"NAME_D" : "DRAU BEI WINNEBACH",
+				"NAME_I" : "DRAVA A PRATO ALLA DRAVA",
+				"NAME_L" : "DRAU BEI WINNEBACH",
+				"NAME_E" : "DRAU BEI WINNEBACH",
+				"ALT" : 1118.66,
+				"LONG" : 12.3602,
+				"LAT" : 46.7386
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 681893.1056568216, 5152001.823714703 ]
+			},
+			"properties" : {
+				"SCODE" : "79862GW",
+				"NAME_D" : "Bozen Premstallerpark",
+				"NAME_I" : "Bolzano Parco Premstaller",
+				"NAME_L" : "Bozen Premstallerpark",
+				"NAME_E" : "Bozen Premstallerpark",
+				"ALT" : 266.75,
+				"LONG" : 11.370407,
+				"LAT" : 46.4970171
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 680203.0375096779, 5153090.073908574 ]
+			},
+			"properties" : {
+				"SCODE" : "83005GW",
+				"NAME_D" : "Bozen Talferbett",
+				"NAME_I" : "Bolzano Talvera",
+				"NAME_L" : "Bozen Talferbett",
+				"NAME_E" : "Bozen Talferbett",
+				"ALT" : 286.45,
+				"LONG" : 11.3488228,
+				"LAT" : 46.5072568
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 679388.2249831891, 5152791.940286059 ]
+			},
+			"properties" : {
+				"SCODE" : "83015GW",
+				"NAME_D" : "Bozen Herzogs Palast",
+				"NAME_I" : "Bolzano Palazzo ducale",
+				"NAME_L" : "Bozen Herzogs Palast",
+				"NAME_E" : "Bozen Herzogs Palast",
+				"ALT" : 268.45,
+				"LONG" : 11.3380963,
+				"LAT" : 46.5047935
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 679323.4992981744, 5151490.665905843 ]
+			},
+			"properties" : {
+				"SCODE" : "83030GW",
+				"NAME_D" : "Bozen Ugo Foscolo Schule",
+				"NAME_I" : "Bolzano Scuola Ugo Foscolo",
+				"NAME_L" : "Bozen Ugo Foscolo Schule",
+				"NAME_E" : "Bozen Ugo Foscolo Schule",
+				"ALT" : 255.4,
+				"LONG" : 11.3367518,
+				"LAT" : 46.4931096
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677915.9986261345, 5151594.998690218 ]
+			},
+			"properties" : {
+				"SCODE" : "83045GW",
+				"NAME_D" : "Bozen Zivilschutz",
+				"NAME_I" : "Bolzano Protezione Civile",
+				"NAME_L" : "Bozen Zivilschutz",
+				"NAME_E" : "Bozen Zivilschutz",
+				"ALT" : 247.17,
+				"LONG" : 11.318466,
+				"LAT" : 46.4944209
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677365.4861083791, 5151507.129030883 ]
+			},
+			"properties" : {
+				"SCODE" : "83050GW",
+				"NAME_D" : "Bozen Meraner Kreuzung",
+				"NAME_I" : "Bolzano incrocio Merano",
+				"NAME_L" : "Bozen Meraner Kreuzung",
+				"NAME_E" : "Bozen Meraner Kreuzung",
+				"ALT" : 243.48,
+				"LONG" : 11.3112646,
+				"LAT" : 46.4937759
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677869.6085703608, 5150307.532958063 ]
+			},
+			"properties" : {
+				"SCODE" : "83060GW",
+				"NAME_D" : "Bozen Casanova",
+				"NAME_I" : "Bolzano Casanova",
+				"NAME_L" : "Bozen Casanova",
+				"NAME_E" : "Bozen Casanova",
+				"ALT" : 245.91,
+				"LONG" : 11.31737,
+				"LAT" : 46.482856
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 675268.6852449118, 5151981.106895307 ]
+			},
+			"properties" : {
+				"SCODE" : "83075GW",
+				"NAME_D" : "Bozen Mondscheingraben",
+				"NAME_I" : "Bolzano Mondscheingraben",
+				"NAME_L" : "Bozen Mondscheingraben",
+				"NAME_E" : "Bozen Mondscheingraben",
+				"ALT" : 240.3,
+				"LONG" : 11.2841418,
+				"LAT" : 46.4985868
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678346.6483795336, 5149500.392774226 ]
+			},
+			"properties" : {
+				"SCODE" : "83325GW",
+				"NAME_D" : "Bozen Giovanni di Vittorio",
+				"NAME_I" : "Bolzano Giovanni di Vittorio",
+				"NAME_L" : "Bozen Giovanni di Vittorio",
+				"NAME_E" : "Bozen Giovanni di Vittorio",
+				"ALT" : 246.49,
+				"LONG" : 11.3232708,
+				"LAT" : 46.475472
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678802.0599942388, 5149390.110035589 ]
+			},
+			"properties" : {
+				"SCODE" : "83330GW",
+				"NAME_D" : "Bozen Luis Braille",
+				"NAME_I" : "Bolzano Luis Braille",
+				"NAME_L" : "Bozen Luis Braille",
+				"NAME_E" : "Bozen Luis Braille",
+				"ALT" : 244.53,
+				"LONG" : 11.329156,
+				"LAT" : 46.4743597
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678899.3346497586, 5148350.470114812 ]
+			},
+			"properties" : {
+				"SCODE" : "83365GW",
+				"NAME_D" : "Bozen Flughafen",
+				"NAME_I" : "Bolzano aeroporto",
+				"NAME_L" : "Bozen Flughafen",
+				"NAME_E" : "Bozen Flughafen",
+				"ALT" : 241.01,
+				"LONG" : 11.3300229,
+				"LAT" : 46.4649853
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 679258.994741641, 5147801.990051063 ]
+			},
+			"properties" : {
+				"SCODE" : "83370GW",
+				"NAME_D" : "Leifers St.Jakob Kirche",
+				"NAME_I" : "Laives chiesa S.Giacomo",
+				"NAME_L" : "Leifers St.Jakob Kirche",
+				"NAME_E" : "Leifers St.Jakob Kirche",
+				"ALT" : 238.4,
+				"LONG" : 11.3344923,
+				"LAT" : 46.4599578
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678974.098676532, 5144561.249395171 ]
+			},
+			"properties" : {
+				"SCODE" : "84405GW",
+				"NAME_D" : "Leifers Lido 1",
+				"NAME_I" : "Laives Lido 1",
+				"NAME_L" : "Leifers Lido 1",
+				"NAME_E" : "Leifers Lido 1",
+				"ALT" : 231.34,
+				"LONG" : 11.329542,
+				"LAT" : 46.4308921
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 679507.2043036469, 5143656.975319298 ]
+			},
+			"properties" : {
+				"SCODE" : "84430GW",
+				"NAME_D" : "Leifers Weinbergstrasse",
+				"NAME_I" : "Laives via Vigneto",
+				"NAME_L" : "Leifers Weinbergstrasse",
+				"NAME_E" : "Leifers Weinbergstrasse",
+				"ALT" : 253.97,
+				"LONG" : 11.3361275,
+				"LAT" : 46.4226192
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 677982.2327594063, 5141685.621931307 ]
+			},
+			"properties" : {
+				"SCODE" : "84445GW",
+				"NAME_D" : "Branzoll Carli",
+				"NAME_I" : "Bronzolo Carli",
+				"NAME_L" : "Branzoll Carli",
+				"NAME_E" : "Branzoll Carli",
+				"ALT" : 225.29,
+				"LONG" : 11.3155471,
+				"LAT" : 46.4052957
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 678143.9957399138, 5138085.990690456 ]
+			},
+			"properties" : {
+				"SCODE" : "85900GW",
+				"NAME_D" : "Auer Coca Cola",
+				"NAME_I" : "Ora coca cola",
+				"NAME_L" : "Auer Coca Cola",
+				"NAME_E" : "Auer Coca Cola",
+				"ALT" : 227.33,
+				"LONG" : 11.3162795,
+				"LAT" : 46.3728839
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 674987.9963073006, 5131625.997703361 ]
+			},
+			"properties" : {
+				"SCODE" : "87925GW",
+				"NAME_D" : "Neumarkt Schule",
+				"NAME_I" : "Egna scuola",
+				"NAME_L" : "Neumarkt Schule",
+				"NAME_E" : "Neumarkt Schule",
+				"ALT" : 223.56,
+				"LONG" : 11.2728674,
+				"LAT" : 46.3156147
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 674408.9976091124, 5130409.993183683 ]
+			},
+			"properties" : {
+				"SCODE" : "87935GW",
+				"NAME_D" : "Neumarkt Stiermoos",
+				"NAME_I" : "Egna Stiermoos",
+				"NAME_L" : "Neumarkt Stiermoos",
+				"NAME_E" : "Neumarkt Stiermoos",
+				"ALT" : 215,
+				"LONG" : 11.2649016,
+				"LAT" : 46.3048286
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 669726.9931193518, 5122850.994057403 ]
+			},
+			"properties" : {
+				"SCODE" : "88815GW",
+				"NAME_D" : "Salurn Klaeranlage",
+				"NAME_I" : "Salorno depuratore",
+				"NAME_L" : "Salurn Klaeranlage",
+				"NAME_E" : "Salurn Klaeranlage",
+				"ALT" : 209.94,
+				"LONG" : 11.2014219,
+				"LAT" : 46.2380365
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 673553.9970173344, 5134818.99063611 ]
+			},
+			"properties" : {
+				"SCODE" : "89560GW",
+				"NAME_D" : "Tramin Lido",
+				"NAME_I" : "Termeno Lido",
+				"NAME_L" : "Tramin Lido",
+				"NAME_E" : "Tramin Lido",
+				"ALT" : 222.49,
+				"LONG" : 11.2554369,
+				"LAT" : 46.3446974
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 672331.328032297, 5130880.936189297 ]
+			},
+			"properties" : {
+				"SCODE" : "89725GW",
+				"NAME_D" : "Kurtatsch Neumarkt 4",
+				"NAME_I" : "Cortaccia Egna 4",
+				"NAME_L" : "Kurtatsch Neumarkt 4",
+				"NAME_E" : "Kurtatsch Neumarkt 4",
+				"ALT" : 212.91,
+				"LONG" : 11.2381144,
+				"LAT" : 46.3095949
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 672830.9980535178, 5130713.990788794 ]
+			},
+			"properties" : {
+				"SCODE" : "89730GW",
+				"NAME_D" : "Kurtatsch Neumarkt 3",
+				"NAME_I" : "Cortaccia Egna 3",
+				"NAME_L" : "Kurtatsch Neumarkt 3",
+				"NAME_E" : "Kurtatsch Neumarkt 3",
+				"ALT" : 213.64,
+				"LONG" : 11.2445373,
+				"LAT" : 46.3079664
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 671196.9967358623, 5126697.993709676 ]
+			},
+			"properties" : {
+				"SCODE" : "89750GW",
+				"NAME_D" : "Kurtatsch Neumarkt 7",
+				"NAME_I" : "Cortaccia Egna 7",
+				"NAME_L" : "Kurtatsch Neumarkt 7",
+				"NAME_E" : "Kurtatsch Neumarkt 7",
+				"ALT" : 209.56,
+				"LONG" : 11.2218714,
+				"LAT" : 46.2722646
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 664166.9982098641, 5169320.921856726 ]
+			},
+			"properties" : {
+				"SCODE" : "23570PG",
+				"NAME_D" : "Etsch - Marling",
+				"NAME_I" : "Adige - Marlengo",
+				"NAME_L" : "Etsch - Marling",
+				"NAME_E" : "Etsch - Marling",
+				"ALT" : 286.44,
+				"LONG" : 11.1457138,
+				"LAT" : 46.657323
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ 669931.9948717328, 5201981.996871538 ]
+			},
+			"properties" : {
+				"SCODE" : "34150PG",
+				"NAME_D" : "Bodenbach - Grohmannhuette",
+				"NAME_I" : "Rio Piana - Rifugio Vedretta Piana",
+				"NAME_L" : "Bodenbach - Grohmannhuette",
+				"NAME_E" : "Bodenbach - Grohmannhuette",
+				"ALT" : 2121,
+				"LONG" : 11.2331331,
+				"LAT" : 46.9495827
+			}
+		}
+	]
+}

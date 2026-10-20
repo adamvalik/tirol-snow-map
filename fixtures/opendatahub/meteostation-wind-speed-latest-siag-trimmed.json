@@ -1,0 +1,2317 @@
+{
+ "offset": 0,
+ "limit": -1,
+ "data": [
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:22:23.826+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "89190MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.2525,
+    "y": 46.4423
+   },
+   "smetadata": {
+    "name_de": "Kaltern Oberplanitzing",
+    "name_en": "Kaltern Oberplanitzing",
+    "name_it": "Caldaro Pianizza di Sopra"
+   },
+   "sname": "Caldaro Pianizza di Sopra",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:22:26.829+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.8,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "22210MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.2294,
+    "y": 46.7822
+   },
+   "smetadata": {
+    "name_de": "St. Martin in Passeier",
+    "name_en": "St. Martin in Passeier",
+    "name_it": "S. Martino in Passiria"
+   },
+   "sname": "S. Martino in Passiria",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:22:32.442+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "25900MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.9898,
+    "y": 46.5417
+   },
+   "smetadata": {
+    "name_de": "St. Walburg",
+    "name_en": "St. Walburg",
+    "name_it": "S. Valburga"
+   },
+   "sname": "S. Valburga",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:22:36.812+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.9,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "68600MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6272,
+    "y": 46.8483
+   },
+   "smetadata": {
+    "name_de": "Vals",
+    "name_en": "Vals",
+    "name_it": "Valles"
+   },
+   "sname": "Valles",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:22:39.930+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 4.8,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "02200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.5289,
+    "y": 46.7759
+   },
+   "smetadata": {
+    "name_de": "St. Valentin a.d. Haide",
+    "name_en": "St. Valentin a.d. Haide",
+    "name_it": "S. Valentino alla Muta"
+   },
+   "sname": "S. Valentino alla Muta",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:22:42.659+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.2,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "41000MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.2191,
+    "y": 46.7299
+   },
+   "smetadata": {
+    "name_de": "Toblach",
+    "name_en": "Toblach",
+    "name_it": "Dobbiaco"
+   },
+   "sname": "Dobbiaco",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:22:45.719+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.1,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "75600MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.506,
+    "y": 46.5134
+   },
+   "smetadata": {
+    "name_de": "Völs am Schlern",
+    "name_en": "Völs am Schlern",
+    "name_it": "Fie' allo Sciliar"
+   },
+   "sname": "Fie' allo Sciliar",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:22:48.719+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "62600MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.8979,
+    "y": 46.6792
+   },
+   "smetadata": {
+    "name_de": "St. Martin in Thurn",
+    "name_en": "S. Martin de Tor",
+    "name_it": "S. Martino in Badia"
+   },
+   "sname": "S. Martino in Badia",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:22:52.160+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.7,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "74200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6888,
+    "y": 46.5119
+   },
+   "smetadata": {
+    "name_de": "Seiser Alm Zallinger",
+    "name_en": "Seiser Alm Zallinger",
+    "name_it": "Alpe di Siusi Zallinger"
+   },
+   "sname": "Alpe di Siusi Zallinger",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:22:55.236+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.3,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "11400MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.7269,
+    "y": 46.5169
+   },
+   "smetadata": {
+    "name_de": "Hintermartell",
+    "name_en": "Hintermartell",
+    "name_it": "Alta Val Martello"
+   },
+   "sname": "Alta Val Martello",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:00.416+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.9,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "33500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.5981,
+    "y": 46.9656
+   },
+   "smetadata": {
+    "name_de": "Pfitsch St. Jakob",
+    "name_en": "Pfitsch St. Jakob",
+    "name_it": "Val di Vizze San Giacomo"
+   },
+   "sname": "Val di Vizze San Giacomo",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:03.547+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "44500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.2427,
+    "y": 46.8353
+   },
+   "smetadata": {
+    "name_de": "St. Magdalena in Gsies",
+    "name_en": "St. Magdalena in Gsies",
+    "name_it": "S. Maddalena in Casies"
+   },
+   "sname": "S. Maddalena in Casies",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:08.595+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.1,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "65600MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.7856,
+    "y": 46.8345
+   },
+   "smetadata": {
+    "name_de": "Terenten",
+    "name_en": "Terenten",
+    "name_it": "Terento"
+   },
+   "sname": "Terento",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:13.793+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "43200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.1289,
+    "y": 46.7431
+   },
+   "smetadata": {
+    "name_de": "Welsberg",
+    "name_en": "Welsberg",
+    "name_it": "Monguelfo"
+   },
+   "sname": "Monguelfo",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:21.758+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.8,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "07740WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.5397,
+    "y": 46.5556
+   },
+   "smetadata": {
+    "name_de": "Trafoi Zaufenkofel",
+    "name_en": "Trafoi Zaufenkofel",
+    "name_it": "Trafoi Zaufenkofel"
+   },
+   "sname": "Trafoi Zaufenkofel",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:34.134+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.7,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "65350MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.7534,
+    "y": 46.8111
+   },
+   "smetadata": {
+    "name_de": "Obervintl",
+    "name_en": "Obervintl",
+    "name_it": "Vandoies"
+   },
+   "sname": "Vandoies",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:38.821+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "01080SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.6247,
+    "y": 46.8468
+   },
+   "smetadata": {
+    "name_de": "Melag Pratznerberg",
+    "name_en": "Melag Pratznerberg",
+    "name_it": "Melago Monte Pratzen"
+   },
+   "sname": "Melago Monte Pratzen",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:41.027+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.9,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "20050SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.1487,
+    "y": 46.9136
+   },
+   "smetadata": {
+    "name_de": "Timmelsalm",
+    "name_en": "Timmelsalm",
+    "name_it": "Alpe del Tumulo"
+   },
+   "sname": "Alpe del Tumulo",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:44.067+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.7,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "82910MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3319,
+    "y": 46.5304
+   },
+   "smetadata": {
+    "name_de": "Jenesien",
+    "name_en": "Jenesien",
+    "name_it": "San Genesio"
+   },
+   "sname": "San Genesio",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:47.438+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.8,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "35205SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.2987,
+    "y": 46.8456
+   },
+   "smetadata": {
+    "name_de": "Ratschings Wasserfaller Alm",
+    "name_en": "Ratschings Wasserfaller Alm",
+    "name_it": "Racines Malga Wasserfaller"
+   },
+   "sname": "Racines Malga Wasserfaller",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:49.177+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 2.5,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "24170WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.774,
+    "y": 46.494
+   },
+   "smetadata": {
+    "name_de": "Ulten Weißbrunnspitz",
+    "name_en": "Ulten Weißbrunnspitz",
+    "name_it": "Ultimo Cima di Fontana Bianca"
+   },
+   "sname": "Ultimo Cima di Fontana Bianca",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:51.314+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.8,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "53200SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.8614,
+    "y": 46.9256
+   },
+   "smetadata": {
+    "name_de": "Weissenbach Fadner Alm",
+    "name_en": "Weissenbach Fadner Alm",
+    "name_it": "Rio Bianco Malga Fadner"
+   },
+   "sname": "Rio Bianco Malga Fadner",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:53.343+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.3,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "42830SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.1115,
+    "y": 46.6712
+   },
+   "smetadata": {
+    "name_de": "Prags Rossalm",
+    "name_en": "Prags Rossalm",
+    "name_it": "Braies Alpe Cavallo"
+   },
+   "sname": "Braies Alpe Cavallo",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:23:56.391+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.9,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "27100MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.2008,
+    "y": 46.5767
+   },
+   "smetadata": {
+    "name_de": "Gargazon",
+    "name_en": "Gargazon",
+    "name_it": "Gargazzone"
+   },
+   "sname": "Gargazzone",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:24:00.899+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.8,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "85700MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3111,
+    "y": 46.4065
+   },
+   "smetadata": {
+    "name_de": "Branzoll",
+    "name_en": "Bronzolo",
+    "name_it": "Bronzolo"
+   },
+   "sname": "Bronzolo",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:24:16.709+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "87300MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3968,
+    "y": 46.3465
+   },
+   "smetadata": {
+    "name_de": "Radein",
+    "name_en": "Radein",
+    "name_it": "Redagno"
+   },
+   "sname": "Redagno",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:24:21.792+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "66500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.7029,
+    "y": 46.8872
+   },
+   "smetadata": {
+    "name_de": "Pfunders",
+    "name_en": "Pfunders",
+    "name_it": "Fundres"
+   },
+   "sname": "Fundres",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:24:30.703+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 2.3,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "90200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.209,
+    "y": 46.4939
+   },
+   "smetadata": {
+    "name_de": "Gantkofel",
+    "name_en": "Gantkofel",
+    "name_it": "Macaion"
+   },
+   "sname": "Macaion",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:24:40.115+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "20910MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.1762,
+    "y": 46.8215
+   },
+   "smetadata": {
+    "name_de": "Platt in Passeier",
+    "name_en": "Platt in Passeier",
+    "name_it": "Plata in Passiria"
+   },
+   "sname": "Plata in Passiria",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:24:45.620+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.2,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "78110MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6017,
+    "y": 46.4092
+   },
+   "smetadata": {
+    "name_de": "Karerpass",
+    "name_en": "Karerpass",
+    "name_it": "Passo di Costalunga"
+   },
+   "sname": "Passo di Costalunga",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:24:48.644+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.1,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "61300MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.8733,
+    "y": 46.5504
+   },
+   "smetadata": {
+    "name_de": "Corvara",
+    "name_en": "Corvara",
+    "name_it": "Corvara"
+   },
+   "sname": "Corvara",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:24:51.435+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.3,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "54100SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.1069,
+    "y": 46.9209
+   },
+   "smetadata": {
+    "name_de": "Rein i.T. Tristenboden",
+    "name_en": "Rein i.T. Tristenboden",
+    "name_it": "Rein i.T. Tristenboden"
+   },
+   "sname": "Rein i.T. Tristenboden",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:25:03.555+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.7,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "01110MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.633,
+    "y": 46.8365
+   },
+   "smetadata": {
+    "name_de": "Langtaufers Grub",
+    "name_en": "Langtaufers Grub",
+    "name_it": "Vallelunga Grub"
+   },
+   "sname": "Vallelunga Grub",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:25:06.590+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.9,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "71510MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6894,
+    "y": 46.6479
+   },
+   "smetadata": {
+    "name_de": "Villnöss",
+    "name_en": "Villnöss",
+    "name_it": "Funes"
+   },
+   "sname": "Funes",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:25:09.648+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.9,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "79300MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.4638,
+    "y": 46.529
+   },
+   "smetadata": {
+    "name_de": "Ritten Siffian",
+    "name_en": "Ritten Siffian",
+    "name_it": "Renon Siffian"
+   },
+   "sname": "Renon Siffian",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:25:18.149+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 2.6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "91510MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.3577,
+    "y": 46.6915
+   },
+   "smetadata": {
+    "name_de": "Sexten",
+    "name_en": "Sexten",
+    "name_it": "Sesto"
+   },
+   "sname": "Sesto",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:25:20.430+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 1.3,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "62270SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.8122,
+    "y": 46.6377
+   },
+   "smetadata": {
+    "name_de": "Campill Kreuzkofeljoch",
+    "name_en": "Campill Kreuzkofeljoch",
+    "name_it": "Longiarù Passo Poma"
+   },
+   "sname": "Longiarù Passo Poma",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:25:22.853+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0.6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "02700SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.4324,
+    "y": 46.7004
+   },
+   "smetadata": {
+    "name_de": "Schleis Kloangruebes",
+    "name_en": "Schleis Kloangruebes",
+    "name_it": "Clusio Kloangruebes"
+   },
+   "sname": "Clusio Kloangruebes",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:05.556+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 1,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "45200SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.2096,
+    "y": 46.8417
+   },
+   "smetadata": {
+    "name_de": "Gsies Pfinnalm",
+    "name_en": "Gsies Pfinnalm",
+    "name_it": "Casies Malga Pfinn"
+   },
+   "sname": "Casies Malga Pfinn",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:07.255+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 4.9,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "82500WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.4604,
+    "y": 46.6156
+   },
+   "smetadata": {
+    "name_de": "Rittner Horn",
+    "name_en": "Rittner Horn",
+    "name_it": "Corno del Renon"
+   },
+   "sname": "Corno del Renon",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:11.056+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 9.9,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "00700WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.4878,
+    "y": 46.7767
+   },
+   "smetadata": {
+    "name_de": "Graun Elferspitze",
+    "name_en": "Graun Elferspitze",
+    "name_it": "Curon Cima Undici"
+   },
+   "sname": "Curon Cima Undici",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:13.079+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.2,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "00390SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.4979,
+    "y": 46.8064
+   },
+   "smetadata": {
+    "name_de": "Graun Schöneben",
+    "name_en": "Graun Schöneben",
+    "name_it": "Curon Belpiano"
+   },
+   "sname": "Curon Belpiano",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:16.936+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 3.2,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "06090SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.6144,
+    "y": 46.4938
+   },
+   "smetadata": {
+    "name_de": "Sulden Madritsch",
+    "name_en": "Sulden Madritsch",
+    "name_it": "Solda Madriccio"
+   },
+   "sname": "Solda Madriccio",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:18.651+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "35100WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3184,
+    "y": 46.8401
+   },
+   "smetadata": {
+    "name_de": "Jaufenkamm",
+    "name_en": "Jaufenkamm",
+    "name_it": "Cresta del Giovo"
+   },
+   "sname": "Cresta del Giovo",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:20.508+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "50400WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.131,
+    "y": 47.0159
+   },
+   "smetadata": {
+    "name_de": "Prettau Lengspitze",
+    "name_en": "Prettau Lengspitze",
+    "name_it": "Predoi Pizzo Lungo"
+   },
+   "sname": "Predoi Pizzo Lungo",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:22.586+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 2,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "50360SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.1221,
+    "y": 47.0362
+   },
+   "smetadata": {
+    "name_de": "Prettau Merbalm",
+    "name_en": "Prettau Merbalm",
+    "name_it": "Predoi Malga Merbe"
+   },
+   "sname": "Predoi Malga Merbe",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:24.764+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "61690SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.9036,
+    "y": 46.565
+   },
+   "smetadata": {
+    "name_de": "Abtei Piz La Ila",
+    "name_en": "Abtei Piz la Ila",
+    "name_it": "Badia Piz La Ila"
+   },
+   "sname": "Badia Piz La Ila",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:26.476+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 4.8,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "61720WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.825,
+    "y": 46.5314
+   },
+   "smetadata": {
+    "name_de": "Abtei Piz Pisciadù",
+    "name_en": "Abtei Piz Pisciadù",
+    "name_it": "Badia Cima Pisciadù"
+   },
+   "sname": "Badia Cima Pisciadù",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:37.830+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 1.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "20720WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.1146,
+    "y": 46.8289
+   },
+   "smetadata": {
+    "name_de": "Pfelders Rauhjoch",
+    "name_en": "Pfelders Rauhjoch",
+    "name_it": "Monte Scabro di Plan"
+   },
+   "sname": "Monte Scabro di Plan",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:39.957+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.3,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "20690SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.1016,
+    "y": 46.792
+   },
+   "smetadata": {
+    "name_de": "Pfelders Grünboden",
+    "name_en": "Pfelders Grünboden",
+    "name_it": "Prati di Plan"
+   },
+   "sname": "Prati di Plan",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:42.754+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 4.6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "91210WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.2573,
+    "y": 46.6802
+   },
+   "smetadata": {
+    "name_de": "Toblach Hochebenkofel",
+    "name_en": "Toblach Hochebenkofel",
+    "name_it": "Dobbiaco Cima Piatta Alta"
+   },
+   "sname": "Dobbiaco Cima Piatta Alta",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:48.820+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "78480SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.5467,
+    "y": 46.3636
+   },
+   "smetadata": {
+    "name_de": "Deutschnofen Obereggen",
+    "name_en": "Deutschnofen Obereggen",
+    "name_it": "Nova Ponente Obereggen"
+   },
+   "sname": "Nova Ponente Obereggen",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:51.668+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 4.8,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "34200WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.1929,
+    "y": 46.9684
+   },
+   "smetadata": {
+    "name_de": "Signalgipfel Wilder Freiger",
+    "name_en": "Signalgipfel Wilder Freiger",
+    "name_it": "Anticima Cima Libera"
+   },
+   "sname": "Anticima Cima Libera",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:53.692+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.3,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "31810SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3663,
+    "y": 46.9348
+   },
+   "smetadata": {
+    "name_de": "Ladurns",
+    "name_en": "Ladurns",
+    "name_it": "Ladurns"
+   },
+   "sname": "Ladurns",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:55.406+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 3.5,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "66000WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6871,
+    "y": 46.9434
+   },
+   "smetadata": {
+    "name_de": "Pfunders Dannelspitz",
+    "name_en": "Pfunders Dannelspitz",
+    "name_it": "Fundres Punta di Dan"
+   },
+   "sname": "Fundres Punta di Dan",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:30:57.730+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "66100SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6882,
+    "y": 46.9254
+   },
+   "smetadata": {
+    "name_de": "Pfunders Stutzenalm",
+    "name_en": "Pfunders Stutzenalm",
+    "name_it": "Fundres Malga Stutzen"
+   },
+   "sname": "Fundres Malga Stutzen",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:01.264+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 2.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "80100SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.4774,
+    "y": 46.795
+   },
+   "smetadata": {
+    "name_de": "Pens Tramintal",
+    "name_en": "Pens Tramintal",
+    "name_it": "Pennes Val Tramin"
+   },
+   "sname": "Pennes Val Tramin",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:04.403+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.7,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "90005SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.9987,
+    "y": 46.4956
+   },
+   "smetadata": {
+    "name_de": "Proveis Samerberg",
+    "name_en": "Proveis Samerberg",
+    "name_it": "Proves Alpe di Brez"
+   },
+   "sname": "Proves Alpe di Brez",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:07.104+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 2.5,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "15050WS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.7966,
+    "y": 46.7703
+   },
+   "smetadata": {
+    "name_de": "Schnals Grawand",
+    "name_en": "Schnals Grawand",
+    "name_it": "Senales Croda d. Cornacchie"
+   },
+   "sname": "Senales Croda d. Cornacchie",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:11.369+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "37100MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.4386,
+    "y": 46.885
+   },
+   "smetadata": {
+    "name_de": "Sterzing",
+    "name_en": "Sterzing",
+    "name_it": "Vipiteno"
+   },
+   "sname": "Vipiteno",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:14.488+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 1.6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "20500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.0883,
+    "y": 46.7965
+   },
+   "smetadata": {
+    "name_de": "Pfelders",
+    "name_en": "Pfelders",
+    "name_it": "Plan"
+   },
+   "sname": "Plan",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:17.547+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 1.2,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "19300MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.9912,
+    "y": 46.6477
+   },
+   "smetadata": {
+    "name_de": "Naturns",
+    "name_en": "Naturns",
+    "name_it": "Naturno"
+   },
+   "sname": "Naturno",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:22.031+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "50500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.0991,
+    "y": 47.0366
+   },
+   "smetadata": {
+    "name_de": "Prettau",
+    "name_en": "Prettau",
+    "name_it": "Predoi"
+   },
+   "sname": "Predoi",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:26.407+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "56900MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.9474,
+    "y": 46.9003
+   },
+   "smetadata": {
+    "name_de": "Sand i.T. Mühlen",
+    "name_en": "Sand i.T. Mühlen",
+    "name_it": "Campo Tures Molini"
+   },
+   "sname": "Campo Tures Molini",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:29.451+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "54500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.0825,
+    "y": 46.9428
+   },
+   "smetadata": {
+    "name_de": "Rein in Taufers",
+    "name_en": "Rein in Taufers",
+    "name_it": "Riva di Tures"
+   },
+   "sname": "Riva di Tures",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:32.162+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 6.7,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "69900MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.7338,
+    "y": 46.6986
+   },
+   "smetadata": {
+    "name_de": "Plose",
+    "name_en": "Plose",
+    "name_it": "Plose"
+   },
+   "sname": "Plose",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:35.261+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 1.3,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "09700MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.7803,
+    "y": 46.6238
+   },
+   "smetadata": {
+    "name_de": "Schlanders",
+    "name_en": "Schlanders",
+    "name_it": "Silandro"
+   },
+   "sname": "Silandro",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:38.445+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 1.5,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "82200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3551,
+    "y": 46.6406
+   },
+   "smetadata": {
+    "name_de": "Sarnthein",
+    "name_en": "Sarnthein",
+    "name_it": "Sarentino"
+   },
+   "sname": "Sarentino",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:41.608+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.9,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "88820MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.1855,
+    "y": 46.2362
+   },
+   "smetadata": {
+    "name_de": "Salurn",
+    "name_en": "Salurn",
+    "name_it": "Salorno"
+   },
+   "sname": "Salorno",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:44.685+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "59700MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.9315,
+    "y": 46.8043
+   },
+   "smetadata": {
+    "name_de": "Bruneck",
+    "name_en": "Bruneck",
+    "name_it": "Brunico"
+   },
+   "sname": "Brunico",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:50.973+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "83200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3128,
+    "y": 46.4977
+   },
+   "smetadata": {
+    "name_de": "Bozen",
+    "name_en": "Bolzano",
+    "name_it": "Bolzano"
+   },
+   "sname": "Bolzano",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:56.162+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "39100MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6451,
+    "y": 46.731
+   },
+   "smetadata": {
+    "name_de": "Brixen - Vahrn",
+    "name_en": "Brixen",
+    "name_it": "Bressanone"
+   },
+   "sname": "Bressanone",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:31:59.208+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 1.2,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "08200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.6496,
+    "y": 46.6249
+   },
+   "smetadata": {
+    "name_de": "Laas Eyrs",
+    "name_en": "Laas Eyrs",
+    "name_it": "Lasa Oris"
+   },
+   "sname": "Lasa Oris",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:32:02.562+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.6,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "23200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.1366,
+    "y": 46.688
+   },
+   "smetadata": {
+    "name_de": "Meran",
+    "name_en": "Meran",
+    "name_it": "Merano"
+   },
+   "sname": "Merano",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:32:08.843+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "86600MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.2887,
+    "y": 46.3825
+   },
+   "smetadata": {
+    "name_de": "Laimburg",
+    "name_en": "Laimburg",
+    "name_it": "Laimburg"
+   },
+   "sname": "Laimburg",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:32:11.415+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 2.2,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "37700MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.5488,
+    "y": 46.8125
+   },
+   "smetadata": {
+    "name_de": "Franzensfeste Grasstein",
+    "name_en": "Franzensfeste Grasstein",
+    "name_it": "Fortezza Le Cave"
+   },
+   "sname": "Fortezza Le Cave",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Velocità del vento",
+   "tmetadata": {},
+   "tname": "wind-speed",
+   "tunit": "m/s",
+   "mperiod": 600,
+   "mtransactiontime": "2026-10-20 11:32:15.267+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0.4,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "74900MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.5291,
+    "y": 46.5951
+   },
+   "smetadata": {
+    "name_de": "Barbian Kollmann",
+    "name_en": "Barbian Kollmann",
+    "name_it": "Barbiano Colma"
+   },
+   "sname": "Barbiano Colma",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  }
+ ],
+ "_note": "Trimmed by spike: only SIAG records with mvalidtime on 2026-10-20 kept"
+}

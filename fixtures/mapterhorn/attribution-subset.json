@@ -1,0 +1,80 @@
+[
+ {
+  "source": "at1",
+  "name": "Digitales Geländehöhenmodell (ALS-DGM) - Höhenraster",
+  "website": "https://www.bev.gv.at/Services/Produkte/Digitales-Gelaendehoehenmodell/ALS-Hoehenraster.html",
+  "license": "CC-BY-4.0",
+  "producer": "BEV - Bundesamt für Eich- und Vermessungswesen",
+  "license_pdf": "https://github.com/mapterhorn/mapterhorn/blob/main/source-catalog/at1/LICENSE.pdf",
+  "resolution": 1.0,
+  "access_year": 2025,
+  "tarball_size": 117623275520,
+  "tarball_md5sum": "5fb10eee3b3141d1432617222f2ca42c",
+  "tarball_url": "https://download.mapterhorn.com/sources/at1.tar"
+ },
+ {
+  "source": "at10",
+  "name": "Digital Elevation Modell (DEM) Austria",
+  "website": "https://www.data.gv.at/datasets/b5de6975-417b-4320-afdb-eb2a9e2a1dbf?locale=de",
+  "license": "CC-BY-4.0: Land Kärnten - data.gv.at",
+  "producer": "geoland.at, Land Kärnten.",
+  "license_pdf": "https://github.com/mapterhorn/mapterhorn/blob/main/source-catalog/at10/LICENSE.pdf",
+  "resolution": 10.0,
+  "access_year": 2025,
+  "tarball_size": 1536133120,
+  "tarball_md5sum": "c2baf830fdee1b620fcc37e616c36bd9",
+  "tarball_url": "https://download.mapterhorn.com/sources/at10.tar"
+ },
+ {
+  "source": "glo30",
+  "name": "COPERNICUS GLO-30",
+  "website": "https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM",
+  "license": "COPERNICUS full, free and open license",
+  "producer": "DLR e.V. 2010-2014, Airbus Defence and Space GmbH 2014-2018, provided under COPERNICUS by the European Union and ESA. All rights reserved. Accessed via OpenTopography and AWS Open Data.",
+  "license_pdf": "https://github.com/mapterhorn/mapterhorn/blob/main/source-catalog/glo30/LICENSE.pdf",
+  "resolution": 30.0,
+  "access_year": 2025,
+  "tarball_size": 306375178240,
+  "tarball_md5sum": "133453b85b63c4a04538d77956c314d3",
+  "tarball_url": "https://download.mapterhorn.com/sources/glo30.tar"
+ },
+ {
+  "source": "itbozen",
+  "name": "Digitales Geländemodell (DGM 2,5m)",
+  "website": "https://natur-raum.provinz.bz.it/de/digitale-hohenmodelle",
+  "license": "Creative Commons CCZero",
+  "producer": "Amt für Landesplanung und Kartografie, Autonome Provinz Bozen",
+  "license_pdf": "https://github.com/mapterhorn/mapterhorn/blob/main/source-catalog/itbozen/LICENSE.pdf",
+  "resolution": 2.5,
+  "access_year": 2025,
+  "tarball_size": 1805137920,
+  "tarball_md5sum": "c25769925024d7d9aff38b1155e1bb99",
+  "tarball_url": "https://download.mapterhorn.com/sources/itbozen.tar"
+ },
+ {
+  "source": "ittrentino",
+  "name": "LiDAR PAT 2014 integrato con voli 2018 ed il LiDAR 2011 di Campolongo",
+  "website": "http://www.territorio.provincia.tn.it/portal/server.pt?open=514&objID=23954&mode=2",
+  "license": "CC BY 2.5",
+  "producer": "Provincia Autonoma di Trento - Ufficio Sistemi Informativi - Servizio autorizzazioni e valutazioni ambientali",
+  "license_pdf": "https://github.com/mapterhorn/mapterhorn/blob/main/source-catalog/ittrentino/LICENSE.pdf",
+  "resolution": 5.0,
+  "access_year": 2026,
+  "tarball_size": 452362240,
+  "tarball_md5sum": "6eea3a4a6732f27e8d4c3601095b93b8",
+  "tarball_url": "https://download.mapterhorn.com/sources/ittrentino.tar"
+ },
+ {
+  "source": "tinitaly",
+  "name": "TINITALY, a digital elevation model of Italy with a 10 meters cell size (Version 1.1)",
+  "website": "https://tinitaly.pi.ingv.it/Download_Area1_1.html",
+  "license": "Creative Commons Namensnennung 4.0 International (CC BY 4.0)",
+  "producer": "Istituto Nazionale di Geofisica e Vulcanologia (INGV)",
+  "license_pdf": "https://github.com/mapterhorn/mapterhorn/blob/main/source-catalog/tinitaly/LICENSE.pdf",
+  "resolution": 10.0,
+  "access_year": 2025,
+  "tarball_size": 5104998400,
+  "tarball_md5sum": "446ea41ea34d1cf3619c251642c4df3a",
+  "tarball_url": "https://download.mapterhorn.com/sources/tinitaly.tar"
+ }
+]

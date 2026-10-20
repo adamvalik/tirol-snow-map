@@ -1,0 +1,9880 @@
+[
+{
+"SCODE":"66500MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-07-30T15:20:00CEST",
+"VALUE":600.0
+},
+{
+"SCODE":"20910MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-07-30T15:20:00CEST",
+"VALUE":599.0
+},
+{
+"SCODE":"31410MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-07-30T15:20:00CEST",
+"VALUE":478.0
+},
+{
+"SCODE":"78110MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-07-30T15:20:00CEST",
+"VALUE":85.0
+},
+{
+"SCODE":"01110MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-07-30T15:20:00CEST",
+"VALUE":600.0
+},
+{
+"SCODE":"71510MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-07-30T15:20:00CEST",
+"VALUE":600.0
+},
+{
+"SCODE":"79300MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-07-30T15:20:00CEST",
+"VALUE":598.0
+},
+{
+"SCODE":"61300MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-07-30T15:20:00CEST",
+"VALUE":600.0
+},
+{
+"SCODE":"90200MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-07-30T15:20:00CEST",
+"VALUE":600.0
+},
+{
+"SCODE":"19850PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":29.3
+},
+{
+"SCODE":"29850PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":50.1
+},
+{
+"SCODE":"59450PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.82
+},
+{
+"SCODE":"64550PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-19T20:50:00CEST",
+"VALUE":3.98
+},
+{
+"SCODE":"67350PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":29.1
+},
+{
+"SCODE":"69790PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":30.7
+},
+{
+"SCODE":"85550PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":72.1
+},
+{
+"SCODE":"05950PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":16.4
+},
+{
+"SCODE":"73950PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.41
+},
+{
+"SCODE":"37230PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.37
+},
+{
+"SCODE":"61050PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.56
+},
+{
+"SCODE":"82910PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.98
+},
+{
+"SCODE":"83450PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":38.5
+},
+{
+"SCODE":"22950PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.785
+},
+{
+"SCODE":"03750PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.33
+},
+{
+"SCODE":"42850PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.731
+},
+{
+"SCODE":"51450PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":2.13
+},
+{
+"SCODE":"20750PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.515
+},
+{
+"SCODE":"26950PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.825
+},
+{
+"SCODE":"32470PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.51
+},
+{
+"SCODE":"07770PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.4
+},
+{
+"SCODE":"57150PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.12
+},
+{
+"SCODE":"89940PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":77.713
+},
+{
+"SCODE":"08155PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":20.2
+},
+{
+"SCODE":"10750PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":0.896
+},
+{
+"SCODE":"91950PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.67
+},
+{
+"SCODE":"36770PG",
+"TYPE":"Q",
+"DESC_D":"Durchfluss",
+"DESC_I":"Portata",
+"DESC_L":"Ega passeda",
+"UNIT":"m³/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.21
+},
+{
+"SCODE":"15590SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.6
+},
+{
+"SCODE":"35205SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.9
+},
+{
+"SCODE":"01080SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.7
+},
+{
+"SCODE":"20050SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.6
+},
+{
+"SCODE":"82910MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":11.8
+},
+{
+"SCODE":"07740WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.1
+},
+{
+"SCODE":"27100MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":16.0
+},
+{
+"SCODE":"65350MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.4
+},
+{
+"SCODE":"87300MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.9
+},
+{
+"SCODE":"91510MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":11.0
+},
+{
+"SCODE":"66500MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.7
+},
+{
+"SCODE":"20910MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.8
+},
+{
+"SCODE":"31410MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.8
+},
+{
+"SCODE":"78110MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.0
+},
+{
+"SCODE":"62270SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.7
+},
+{
+"SCODE":"01110MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.0
+},
+{
+"SCODE":"71510MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.7
+},
+{
+"SCODE":"79300MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.0
+},
+{
+"SCODE":"61300MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.4
+},
+{
+"SCODE":"61300MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.4
+},
+{
+"SCODE":"02700SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:10:00CEST",
+"VALUE":2.0
+},
+{
+"SCODE":"54100SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.0
+},
+{
+"SCODE":"90200MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.9
+},
+{
+"SCODE":"02500MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":11.0
+},
+{
+"SCODE":"33500MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.9
+},
+{
+"SCODE":"44500MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":11.5
+},
+{
+"SCODE":"06400MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.6
+},
+{
+"SCODE":"65600MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.5
+},
+{
+"SCODE":"24400MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.5
+},
+{
+"SCODE":"43200MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":13.5
+},
+{
+"SCODE":"78305MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":11.4
+},
+{
+"SCODE":"56500MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.3
+},
+{
+"SCODE":"42700MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":11.5
+},
+{
+"SCODE":"15800MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.4
+},
+{
+"SCODE":"89190MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":13.7
+},
+{
+"SCODE":"22210MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.8
+},
+{
+"SCODE":"82500WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.4
+},
+{
+"SCODE":"00700WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.6
+},
+{
+"SCODE":"00390SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.4
+},
+{
+"SCODE":"06040WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":-1.9
+},
+{
+"SCODE":"06090SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.1
+},
+{
+"SCODE":"35100WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.1
+},
+{
+"SCODE":"50400WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":-1.0
+},
+{
+"SCODE":"50360SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.9
+},
+{
+"SCODE":"61690SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.2
+},
+{
+"SCODE":"61720WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.7
+},
+{
+"SCODE":"20720WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":0.1
+},
+{
+"SCODE":"20690SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":5.4
+},
+{
+"SCODE":"91210WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":0.6
+},
+{
+"SCODE":"91180SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.4
+},
+{
+"SCODE":"24300SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.1
+},
+{
+"SCODE":"15050WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":-0.2
+},
+{
+"SCODE":"15000SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":-0.3
+},
+{
+"SCODE":"34200WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":-1.9
+},
+{
+"SCODE":"31810SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":5.7
+},
+{
+"SCODE":"66000WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.4
+},
+{
+"SCODE":"66100SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.4
+},
+{
+"SCODE":"80100SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.1
+},
+{
+"SCODE":"45200SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.0
+},
+{
+"SCODE":"45100WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T12:30:00CEST",
+"VALUE":1.2
+},
+{
+"SCODE":"78480SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.6
+},
+{
+"SCODE":"90005SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.2
+},
+{
+"SCODE":"24170WS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":-1.0
+},
+{
+"SCODE":"53200SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.5
+},
+{
+"SCODE":"42830SF",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.1
+},
+{
+"SCODE":"37100MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.6
+},
+{
+"SCODE":"85700MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":15.1
+},
+{
+"SCODE":"59700MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.5
+},
+{
+"SCODE":"85120MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.7
+},
+{
+"SCODE":"83200MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":15.2
+},
+{
+"SCODE":"86900MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":15.3
+},
+{
+"SCODE":"39100MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":13.7
+},
+{
+"SCODE":"08200MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":14.2
+},
+{
+"SCODE":"23200MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":14.6
+},
+{
+"SCODE":"47400MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":11.3
+},
+{
+"SCODE":"86600MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":14.8
+},
+{
+"SCODE":"37700MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.7
+},
+{
+"SCODE":"74900MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":13.7
+},
+{
+"SCODE":"20500MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.5
+},
+{
+"SCODE":"19300MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":13.9
+},
+{
+"SCODE":"80300MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.9
+},
+{
+"SCODE":"50500MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.2
+},
+{
+"SCODE":"34500MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.6
+},
+{
+"SCODE":"56900MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.0
+},
+{
+"SCODE":"54500MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.4
+},
+{
+"SCODE":"69900MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.6
+},
+{
+"SCODE":"09700MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":14.3
+},
+{
+"SCODE":"82200MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.0
+},
+{
+"SCODE":"88820MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":15.4
+},
+{
+"SCODE":"25900MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.6
+},
+{
+"SCODE":"73500MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.8
+},
+{
+"SCODE":"68600MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.1
+},
+{
+"SCODE":"02200MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.2
+},
+{
+"SCODE":"41000MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":13.1
+},
+{
+"SCODE":"75600MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.7
+},
+{
+"SCODE":"62600MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.9
+},
+{
+"SCODE":"74200MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.5
+},
+{
+"SCODE":"11400MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.0
+},
+{
+"SCODE":"37100MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"85700MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"59700MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"85120MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"83200MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"86900MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"39100MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"08200MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"23200MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"47400MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"86600MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"37700MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"74900MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"20500MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"19300MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"80300MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"50500MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"34500MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"56900MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"54500MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"09700MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"82200MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"88820MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"25900MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"73500MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"68600MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"02200MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"41000MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"75600MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"62600MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"74200MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"11400MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"02500MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"33500MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"44500MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"06400MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"65600MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"24400MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"43200MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"78305MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"56500MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"42700MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"15800MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"89190MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"22210MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"82910MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"27100MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"65350MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"87300MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"91510MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"66500MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"20910MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"31410MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"78110MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"01110MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"71510MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"79300MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"61300MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"02700SF",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:15:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"90200MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"54650PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.0
+},
+{
+"SCODE":"86550PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":-2.0
+},
+{
+"SCODE":"87910PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":80.0
+},
+{
+"SCODE":"19850PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":144.0
+},
+{
+"SCODE":"29850PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":200.0
+},
+{
+"SCODE":"43350PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":74.0
+},
+{
+"SCODE":"59450PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":82.0
+},
+{
+"SCODE":"64550PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-19T20:50:00CEST",
+"VALUE":100.0
+},
+{
+"SCODE":"67350PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":65.0
+},
+{
+"SCODE":"69790PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":115.0
+},
+{
+"SCODE":"85550PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":119.1
+},
+{
+"SCODE":"05950PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":81.0
+},
+{
+"SCODE":"73950PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":23.0
+},
+{
+"SCODE":"37230PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":93.0
+},
+{
+"SCODE":"61050PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":115.0
+},
+{
+"SCODE":"82910PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":22.0
+},
+{
+"SCODE":"83450PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":127.0
+},
+{
+"SCODE":"22950PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":20.0
+},
+{
+"SCODE":"03750PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":18.0
+},
+{
+"SCODE":"42850PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":14.0
+},
+{
+"SCODE":"51450PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":53.4
+},
+{
+"SCODE":"20750PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":32.0
+},
+{
+"SCODE":"26950PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":43.0
+},
+{
+"SCODE":"45750PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":60.0
+},
+{
+"SCODE":"31950PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":15.0
+},
+{
+"SCODE":"71550PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.0
+},
+{
+"SCODE":"35850PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":13.0
+},
+{
+"SCODE":"36250PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":14.0
+},
+{
+"SCODE":"32470PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":49.0
+},
+{
+"SCODE":"48750PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":25.0
+},
+{
+"SCODE":"54970PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":19.0
+},
+{
+"SCODE":"78970PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.3
+},
+{
+"SCODE":"61750PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":37.0
+},
+{
+"SCODE":"07770PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":90.0
+},
+{
+"SCODE":"87550PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":41.0
+},
+{
+"SCODE":"91350PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":27.8
+},
+{
+"SCODE":"63870PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":25.0
+},
+{
+"SCODE":"57150PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":72.0
+},
+{
+"SCODE":"30350PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":29.5
+},
+{
+"SCODE":"23570PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":32.0
+},
+{
+"SCODE":"47150SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":52.7
+},
+{
+"SCODE":"89155SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm"
+},
+{
+"SCODE":"89355SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm"
+},
+{
+"SCODE":"89055SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-19T19:00:00CEST",
+"VALUE":69.0
+},
+{
+"SCODE":"42150SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":-20.3
+},
+{
+"SCODE":"39050SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm"
+},
+{
+"SCODE":"79450SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm"
+},
+{
+"SCODE":"89950SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm"
+},
+{
+"SCODE":"02250SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm"
+},
+{
+"SCODE":"78150SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":630.1
+},
+{
+"SCODE":"89357PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":489.9
+},
+{
+"SCODE":"89940PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":158.0
+},
+{
+"SCODE":"08155PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":102.0
+},
+{
+"SCODE":"10750PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":61.4
+},
+{
+"SCODE":"15570PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":27.9
+},
+{
+"SCODE":"75510SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T12:00:00CEST",
+"VALUE":-0.02
+},
+{
+"SCODE":"90150SE",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":396.0
+},
+{
+"SCODE":"14750PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":159.2
+},
+{
+"SCODE":"91950PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":31.0
+},
+{
+"SCODE":"36770PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":167.0
+},
+{
+"SCODE":"04450PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":31.0
+},
+{
+"SCODE":"23750PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T12:00:00CEST",
+"VALUE":9.0
+},
+{
+"SCODE":"34150PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":3.3
+},
+{
+"SCODE":"33550PG",
+"TYPE":"W",
+"DESC_D":"Wasserstand",
+"DESC_I":"Livello idrometrico",
+"DESC_L":"Livel dl’ega",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":59.0
+},
+{
+"SCODE":"35205SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":258.0
+},
+{
+"SCODE":"01080SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":231.0
+},
+{
+"SCODE":"20050SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":275.0
+},
+{
+"SCODE":"82910MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":91.0
+},
+{
+"SCODE":"07740WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":250.0
+},
+{
+"SCODE":"27100MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":91.7
+},
+{
+"SCODE":"65350MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":280.3
+},
+{
+"SCODE":"87300MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":220.7
+},
+{
+"SCODE":"91510MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":152.3
+},
+{
+"SCODE":"66500MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.7
+},
+{
+"SCODE":"20910MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":45.3
+},
+{
+"SCODE":"78110MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":222.2
+},
+{
+"SCODE":"62270SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":269.0
+},
+{
+"SCODE":"01110MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":243.0
+},
+{
+"SCODE":"71510MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":324.8
+},
+{
+"SCODE":"79300MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":165.1
+},
+{
+"SCODE":"61300MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":171.1
+},
+{
+"SCODE":"02700SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:10:00CEST",
+"VALUE":141.0
+},
+{
+"SCODE":"54100SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":352.0
+},
+{
+"SCODE":"90200MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":217.7
+},
+{
+"SCODE":"82500WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":221.0
+},
+{
+"SCODE":"00700WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":164.0
+},
+{
+"SCODE":"00390SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":137.0
+},
+{
+"SCODE":"06040WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":189.0
+},
+{
+"SCODE":"06090SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":239.0
+},
+{
+"SCODE":"35100WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":208.0
+},
+{
+"SCODE":"50400WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":225.0
+},
+{
+"SCODE":"50360SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":183.0
+},
+{
+"SCODE":"61690SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":200.0
+},
+{
+"SCODE":"61720WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":215.0
+},
+{
+"SCODE":"20720WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":158.0
+},
+{
+"SCODE":"20690SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":187.0
+},
+{
+"SCODE":"91210WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":239.9
+},
+{
+"SCODE":"91180SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":122.4
+},
+{
+"SCODE":"24300SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":19.0
+},
+{
+"SCODE":"15050WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":285.0
+},
+{
+"SCODE":"34200WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":189.0
+},
+{
+"SCODE":"31810SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":50.5
+},
+{
+"SCODE":"66000WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":96.0
+},
+{
+"SCODE":"66100SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":235.0
+},
+{
+"SCODE":"80100SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":324.0
+},
+{
+"SCODE":"45200SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":133.0
+},
+{
+"SCODE":"45100WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T12:30:00CEST",
+"VALUE":229.0
+},
+{
+"SCODE":"78480SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":118.0
+},
+{
+"SCODE":"90005SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":161.0
+},
+{
+"SCODE":"24170WS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":63.0
+},
+{
+"SCODE":"53200SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":184.0
+},
+{
+"SCODE":"42830SF",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":213.0
+},
+{
+"SCODE":"37100MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":174.0
+},
+{
+"SCODE":"85700MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":236.0
+},
+{
+"SCODE":"59700MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":322.4
+},
+{
+"SCODE":"85120MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":265.5
+},
+{
+"SCODE":"83200MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":184.9
+},
+{
+"SCODE":"39100MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":152.0
+},
+{
+"SCODE":"08200MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":114.9
+},
+{
+"SCODE":"23200MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":134.0
+},
+{
+"SCODE":"47400MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":227.4
+},
+{
+"SCODE":"86600MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":99.8
+},
+{
+"SCODE":"37700MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":37.7
+},
+{
+"SCODE":"74900MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":226.0
+},
+{
+"SCODE":"20500MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":44.3
+},
+{
+"SCODE":"19300MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":120.7
+},
+{
+"SCODE":"50500MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":108.0
+},
+{
+"SCODE":"56900MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":342.6
+},
+{
+"SCODE":"54500MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":307.1
+},
+{
+"SCODE":"69900MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":236.3
+},
+{
+"SCODE":"09700MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":93.7
+},
+{
+"SCODE":"82200MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":193.4
+},
+{
+"SCODE":"88820MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":235.7
+},
+{
+"SCODE":"25900MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":57.1
+},
+{
+"SCODE":"68600MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.1
+},
+{
+"SCODE":"02200MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":128.8
+},
+{
+"SCODE":"41000MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":94.4
+},
+{
+"SCODE":"75600MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":105.9
+},
+{
+"SCODE":"62600MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":336.7
+},
+{
+"SCODE":"74200MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":268.2
+},
+{
+"SCODE":"11400MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":64.1
+},
+{
+"SCODE":"33500MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":261.8
+},
+{
+"SCODE":"44500MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":209.4
+},
+{
+"SCODE":"65600MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":293.8
+},
+{
+"SCODE":"43200MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":298.4
+},
+{
+"SCODE":"89190MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":162.5
+},
+{
+"SCODE":"22210MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":15.2
+},
+{
+"SCODE":"35205SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.5
+},
+{
+"SCODE":"01080SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.6
+},
+{
+"SCODE":"20050SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.3
+},
+{
+"SCODE":"82910MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.2
+},
+{
+"SCODE":"07740WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.7
+},
+{
+"SCODE":"27100MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.4
+},
+{
+"SCODE":"65350MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.4
+},
+{
+"SCODE":"87300MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.9
+},
+{
+"SCODE":"91510MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.0
+},
+{
+"SCODE":"66500MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.4
+},
+{
+"SCODE":"20910MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.7
+},
+{
+"SCODE":"78110MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.0
+},
+{
+"SCODE":"62270SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.8
+},
+{
+"SCODE":"01110MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.4
+},
+{
+"SCODE":"71510MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.2
+},
+{
+"SCODE":"79300MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.6
+},
+{
+"SCODE":"61300MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.9
+},
+{
+"SCODE":"02700SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:10:00CEST",
+"VALUE":1.6
+},
+{
+"SCODE":"54100SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.9
+},
+{
+"SCODE":"90200MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.5
+},
+{
+"SCODE":"82500WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.4
+},
+{
+"SCODE":"00700WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.5
+},
+{
+"SCODE":"00390SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.5
+},
+{
+"SCODE":"06040WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.9
+},
+{
+"SCODE":"06090SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.0
+},
+{
+"SCODE":"35100WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.6
+},
+{
+"SCODE":"50400WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"50360SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.7
+},
+{
+"SCODE":"61690SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.7
+},
+{
+"SCODE":"61720WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.3
+},
+{
+"SCODE":"20720WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":3.4
+},
+{
+"SCODE":"20690SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":0.1
+},
+{
+"SCODE":"91210WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":2.7
+},
+{
+"SCODE":"91180SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.4
+},
+{
+"SCODE":"24300SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.5
+},
+{
+"SCODE":"15050WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.7
+},
+{
+"SCODE":"34200WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.0
+},
+{
+"SCODE":"31810SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":0.1
+},
+{
+"SCODE":"66000WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.9
+},
+{
+"SCODE":"66100SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.6
+},
+{
+"SCODE":"80100SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.2
+},
+{
+"SCODE":"45200SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.5
+},
+{
+"SCODE":"45100WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T12:30:00CEST",
+"VALUE":3.2
+},
+{
+"SCODE":"78480SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.9
+},
+{
+"SCODE":"90005SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.5
+},
+{
+"SCODE":"24170WS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":1.8
+},
+{
+"SCODE":"53200SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.4
+},
+{
+"SCODE":"42830SF",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.7
+},
+{
+"SCODE":"37100MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.3
+},
+{
+"SCODE":"85700MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.4
+},
+{
+"SCODE":"59700MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.1
+},
+{
+"SCODE":"85120MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.1
+},
+{
+"SCODE":"83200MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.5
+},
+{
+"SCODE":"39100MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.8
+},
+{
+"SCODE":"08200MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.5
+},
+{
+"SCODE":"23200MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.5
+},
+{
+"SCODE":"47400MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.2
+},
+{
+"SCODE":"86600MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.4
+},
+{
+"SCODE":"37700MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.2
+},
+{
+"SCODE":"74900MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.4
+},
+{
+"SCODE":"20500MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.0
+},
+{
+"SCODE":"19300MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.7
+},
+{
+"SCODE":"50500MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.4
+},
+{
+"SCODE":"56900MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.6
+},
+{
+"SCODE":"54500MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.5
+},
+{
+"SCODE":"69900MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.3
+},
+{
+"SCODE":"09700MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.1
+},
+{
+"SCODE":"82200MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.1
+},
+{
+"SCODE":"88820MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.3
+},
+{
+"SCODE":"25900MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.7
+},
+{
+"SCODE":"68600MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.1
+},
+{
+"SCODE":"02200MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.6
+},
+{
+"SCODE":"41000MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.0
+},
+{
+"SCODE":"75600MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.5
+},
+{
+"SCODE":"62600MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.2
+},
+{
+"SCODE":"74200MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.2
+},
+{
+"SCODE":"11400MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.8
+},
+{
+"SCODE":"33500MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.8
+},
+{
+"SCODE":"44500MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.9
+},
+{
+"SCODE":"65600MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.8
+},
+{
+"SCODE":"43200MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.8
+},
+{
+"SCODE":"89190MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.3
+},
+{
+"SCODE":"22210MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.2
+},
+{
+"SCODE":"35205SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.9
+},
+{
+"SCODE":"01080SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.2
+},
+{
+"SCODE":"20050SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.4
+},
+{
+"SCODE":"82910MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.4
+},
+{
+"SCODE":"07740WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.3
+},
+{
+"SCODE":"27100MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.6
+},
+{
+"SCODE":"65350MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.1
+},
+{
+"SCODE":"87300MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.4
+},
+{
+"SCODE":"91510MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.9
+},
+{
+"SCODE":"66500MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.1
+},
+{
+"SCODE":"20910MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.8
+},
+{
+"SCODE":"78110MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.5
+},
+{
+"SCODE":"62270SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.6
+},
+{
+"SCODE":"01110MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.0
+},
+{
+"SCODE":"71510MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.4
+},
+{
+"SCODE":"79300MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.6
+},
+{
+"SCODE":"61300MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.7
+},
+{
+"SCODE":"02700SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:10:00CEST",
+"VALUE":2.3
+},
+{
+"SCODE":"54100SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.5
+},
+{
+"SCODE":"90200MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.7
+},
+{
+"SCODE":"82500WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":11.1
+},
+{
+"SCODE":"00700WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":16.3
+},
+{
+"SCODE":"00390SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.6
+},
+{
+"SCODE":"06040WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.4
+},
+{
+"SCODE":"06090SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.4
+},
+{
+"SCODE":"35100WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.0
+},
+{
+"SCODE":"50400WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"50360SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.3
+},
+{
+"SCODE":"61690SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.0
+},
+{
+"SCODE":"61720WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.6
+},
+{
+"SCODE":"20720WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":5.5
+},
+{
+"SCODE":"20690SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":0.6
+},
+{
+"SCODE":"91210WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":6.6
+},
+{
+"SCODE":"91180SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.5
+},
+{
+"SCODE":"24300SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.5
+},
+{
+"SCODE":"15050WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.8
+},
+{
+"SCODE":"34200WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.0
+},
+{
+"SCODE":"31810SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":3.0
+},
+{
+"SCODE":"66000WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.5
+},
+{
+"SCODE":"66100SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.8
+},
+{
+"SCODE":"80100SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.0
+},
+{
+"SCODE":"45200SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.6
+},
+{
+"SCODE":"45100WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T12:30:00CEST",
+"VALUE":5.4
+},
+{
+"SCODE":"78480SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.7
+},
+{
+"SCODE":"90005SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.7
+},
+{
+"SCODE":"24170WS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":4.8
+},
+{
+"SCODE":"53200SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.6
+},
+{
+"SCODE":"42830SF",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.5
+},
+{
+"SCODE":"37100MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.3
+},
+{
+"SCODE":"85700MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.9
+},
+{
+"SCODE":"59700MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.1
+},
+{
+"SCODE":"85120MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.3
+},
+{
+"SCODE":"83200MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.3
+},
+{
+"SCODE":"39100MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.4
+},
+{
+"SCODE":"08200MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.3
+},
+{
+"SCODE":"23200MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.3
+},
+{
+"SCODE":"47400MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.9
+},
+{
+"SCODE":"86600MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.0
+},
+{
+"SCODE":"37700MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.4
+},
+{
+"SCODE":"74900MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.9
+},
+{
+"SCODE":"20500MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.0
+},
+{
+"SCODE":"19300MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.8
+},
+{
+"SCODE":"50500MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.8
+},
+{
+"SCODE":"56900MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.3
+},
+{
+"SCODE":"54500MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.3
+},
+{
+"SCODE":"69900MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.8
+},
+{
+"SCODE":"09700MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.1
+},
+{
+"SCODE":"82200MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.2
+},
+{
+"SCODE":"88820MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.8
+},
+{
+"SCODE":"25900MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.5
+},
+{
+"SCODE":"68600MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.9
+},
+{
+"SCODE":"02200MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.8
+},
+{
+"SCODE":"41000MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.4
+},
+{
+"SCODE":"75600MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.4
+},
+{
+"SCODE":"62600MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.9
+},
+{
+"SCODE":"74200MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.7
+},
+{
+"SCODE":"11400MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.5
+},
+{
+"SCODE":"33500MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.4
+},
+{
+"SCODE":"44500MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.7
+},
+{
+"SCODE":"65600MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.0
+},
+{
+"SCODE":"43200MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.3
+},
+{
+"SCODE":"89190MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.7
+},
+{
+"SCODE":"22210MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.8
+},
+{
+"SCODE":"82500WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":99.9
+},
+{
+"SCODE":"00700WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":96.8
+},
+{
+"SCODE":"00390SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":85.1
+},
+{
+"SCODE":"06040WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":99.8
+},
+{
+"SCODE":"06090SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":80.7
+},
+{
+"SCODE":"35100WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":99.9
+},
+{
+"SCODE":"50400WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.4
+},
+{
+"SCODE":"50360SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":89.0
+},
+{
+"SCODE":"61690SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":89.4
+},
+{
+"SCODE":"61720WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":99.7
+},
+{
+"SCODE":"20720WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":99.7
+},
+{
+"SCODE":"20690SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":99.5
+},
+{
+"SCODE":"91210WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":100.0
+},
+{
+"SCODE":"91180SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":99.0
+},
+{
+"SCODE":"24300SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":98.2
+},
+{
+"SCODE":"15050WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.6
+},
+{
+"SCODE":"15000SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.0
+},
+{
+"SCODE":"34200WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":97.2
+},
+{
+"SCODE":"31810SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":96.0
+},
+{
+"SCODE":"66000WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":99.8
+},
+{
+"SCODE":"66100SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":98.0
+},
+{
+"SCODE":"80100SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.0
+},
+{
+"SCODE":"45200SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":93.2
+},
+{
+"SCODE":"45100WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T12:30:00CEST",
+"VALUE":100.3
+},
+{
+"SCODE":"78480SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":87.0
+},
+{
+"SCODE":"90005SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.5
+},
+{
+"SCODE":"24170WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":99.6
+},
+{
+"SCODE":"53200SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":89.4
+},
+{
+"SCODE":"42830SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":92.2
+},
+{
+"SCODE":"37100MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":88.5
+},
+{
+"SCODE":"85700MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":84.8
+},
+{
+"SCODE":"59700MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":74.8
+},
+{
+"SCODE":"85120MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.1
+},
+{
+"SCODE":"83200MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":73.2
+},
+{
+"SCODE":"86900MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":88.5
+},
+{
+"SCODE":"39100MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":75.8
+},
+{
+"SCODE":"08200MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":76.4
+},
+{
+"SCODE":"23200MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":74.2
+},
+{
+"SCODE":"47400MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":75.8
+},
+{
+"SCODE":"86600MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":81.1
+},
+{
+"SCODE":"37700MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":80.9
+},
+{
+"SCODE":"74900MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":78.1
+},
+{
+"SCODE":"20500MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":97.2
+},
+{
+"SCODE":"19300MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":72.7
+},
+{
+"SCODE":"80300MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.0
+},
+{
+"SCODE":"50500MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":82.5
+},
+{
+"SCODE":"34500MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":91.7
+},
+{
+"SCODE":"56900MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":78.8
+},
+{
+"SCODE":"54500MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":81.3
+},
+{
+"SCODE":"69900MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.0
+},
+{
+"SCODE":"09700MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":90.5
+},
+{
+"SCODE":"82200MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.0
+},
+{
+"SCODE":"88820MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":79.6
+},
+{
+"SCODE":"25900MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.0
+},
+{
+"SCODE":"73500MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":88.9
+},
+{
+"SCODE":"68600MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":89.0
+},
+{
+"SCODE":"02200MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":79.6
+},
+{
+"SCODE":"41000MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":72.2
+},
+{
+"SCODE":"75600MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":81.4
+},
+{
+"SCODE":"62600MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":69.0
+},
+{
+"SCODE":"74200MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":98.2
+},
+{
+"SCODE":"11400MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":81.2
+},
+{
+"SCODE":"02500MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":74.0
+},
+{
+"SCODE":"33500MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":79.5
+},
+{
+"SCODE":"44500MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":83.1
+},
+{
+"SCODE":"06400MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":90.5
+},
+{
+"SCODE":"65600MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":86.8
+},
+{
+"SCODE":"24400MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":95.8
+},
+{
+"SCODE":"43200MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":66.5
+},
+{
+"SCODE":"78305MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":81.5
+},
+{
+"SCODE":"56500MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":82.6
+},
+{
+"SCODE":"42700MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":88.4
+},
+{
+"SCODE":"15800MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":91.9
+},
+{
+"SCODE":"89190MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":80.7
+},
+{
+"SCODE":"22210MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":90.3
+},
+{
+"SCODE":"15590SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":80.9
+},
+{
+"SCODE":"35205SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":99.9
+},
+{
+"SCODE":"01080SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":77.8
+},
+{
+"SCODE":"20050SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":99.9
+},
+{
+"SCODE":"82910MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":79.8
+},
+{
+"SCODE":"07740WS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":98.7
+},
+{
+"SCODE":"27100MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":65.7
+},
+{
+"SCODE":"65350MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":86.0
+},
+{
+"SCODE":"87300MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":92.8
+},
+{
+"SCODE":"91510MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":87.0
+},
+{
+"SCODE":"66500MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":92.1
+},
+{
+"SCODE":"20910MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":91.5
+},
+{
+"SCODE":"31410MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":87.1
+},
+{
+"SCODE":"78110MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":93.0
+},
+{
+"SCODE":"62270SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":99.6
+},
+{
+"SCODE":"01110MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":88.3
+},
+{
+"SCODE":"71510MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":90.8
+},
+{
+"SCODE":"79300MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":83.1
+},
+{
+"SCODE":"61300MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":81.0
+},
+{
+"SCODE":"02700SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:10:00CEST",
+"VALUE":99.9
+},
+{
+"SCODE":"54100SF",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":96.8
+},
+{
+"SCODE":"90200MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.1
+},
+{
+"SCODE":"37100MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.5
+},
+{
+"SCODE":"85700MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.1
+},
+{
+"SCODE":"59700MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.2
+},
+{
+"SCODE":"85120MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.4
+},
+{
+"SCODE":"83200MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.0
+},
+{
+"SCODE":"86900MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.7
+},
+{
+"SCODE":"39100MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.9
+},
+{
+"SCODE":"08200MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.7
+},
+{
+"SCODE":"23200MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.7
+},
+{
+"SCODE":"47400MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.9
+},
+{
+"SCODE":"86600MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1019.4
+},
+{
+"SCODE":"37700MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.2
+},
+{
+"SCODE":"74900MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.2
+},
+{
+"SCODE":"20500MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.0
+},
+{
+"SCODE":"19300MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1018.1
+},
+{
+"SCODE":"80300MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.2
+},
+{
+"SCODE":"50500MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.0
+},
+{
+"SCODE":"34500MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1019.6
+},
+{
+"SCODE":"56900MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.4
+},
+{
+"SCODE":"54500MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.5
+},
+{
+"SCODE":"09700MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.9
+},
+{
+"SCODE":"82200MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.1
+},
+{
+"SCODE":"88820MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1018.6
+},
+{
+"SCODE":"25900MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.4
+},
+{
+"SCODE":"73500MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.4
+},
+{
+"SCODE":"68600MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1018.1
+},
+{
+"SCODE":"02200MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.3
+},
+{
+"SCODE":"41000MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.9
+},
+{
+"SCODE":"75600MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1020.4
+},
+{
+"SCODE":"62600MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.8
+},
+{
+"SCODE":"74200MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.9
+},
+{
+"SCODE":"11400MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1019.2
+},
+{
+"SCODE":"02500MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.6
+},
+{
+"SCODE":"33500MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.9
+},
+{
+"SCODE":"44500MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1018.9
+},
+{
+"SCODE":"06400MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.4
+},
+{
+"SCODE":"65600MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.7
+},
+{
+"SCODE":"24400MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.9
+},
+{
+"SCODE":"43200MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.8
+},
+{
+"SCODE":"78305MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1018.1
+},
+{
+"SCODE":"56500MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.8
+},
+{
+"SCODE":"42700MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.4
+},
+{
+"SCODE":"15800MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.1
+},
+{
+"SCODE":"89190MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1018.4
+},
+{
+"SCODE":"22210MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1019.0
+},
+{
+"SCODE":"82910MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.5
+},
+{
+"SCODE":"27100MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.9
+},
+{
+"SCODE":"65350MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.7
+},
+{
+"SCODE":"87300MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.3
+},
+{
+"SCODE":"91510MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1014.1
+},
+{
+"SCODE":"66500MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.3
+},
+{
+"SCODE":"20910MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.6
+},
+{
+"SCODE":"31410MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.2
+},
+{
+"SCODE":"78110MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.3
+},
+{
+"SCODE":"01110MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1014.0
+},
+{
+"SCODE":"71510MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.9
+},
+{
+"SCODE":"79300MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1016.9
+},
+{
+"SCODE":"61300MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.2
+},
+{
+"SCODE":"90200MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1017.5
+},
+{
+"SCODE":"00390SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.3
+},
+{
+"SCODE":"06090SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"50360SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.0
+},
+{
+"SCODE":"61690SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.7
+},
+{
+"SCODE":"20690SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":-2.4
+},
+{
+"SCODE":"91180SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.2
+},
+{
+"SCODE":"24300SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.7
+},
+{
+"SCODE":"15000SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.3
+},
+{
+"SCODE":"31810SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":0.3
+},
+{
+"SCODE":"66100SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":-1.1
+},
+{
+"SCODE":"80100SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":-2.0
+},
+{
+"SCODE":"45200SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":5.1
+},
+{
+"SCODE":"78480SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.4
+},
+{
+"SCODE":"90005SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.3
+},
+{
+"SCODE":"53200SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":-0.1
+},
+{
+"SCODE":"42830SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.9
+},
+{
+"SCODE":"74200MS",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.0
+},
+{
+"SCODE":"15590SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.4
+},
+{
+"SCODE":"35205SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.6
+},
+{
+"SCODE":"01080SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.9
+},
+{
+"SCODE":"20050SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":4.3
+},
+{
+"SCODE":"78110MS",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.0
+},
+{
+"SCODE":"62270SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.3
+},
+{
+"SCODE":"02700SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:10:00CEST",
+"VALUE":-0.5
+},
+{
+"SCODE":"54100SF",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":-0.1
+},
+{
+"SCODE":"90200MS",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.9
+},
+{
+"SCODE":"37100MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":57.9
+},
+{
+"SCODE":"85700MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":153.1
+},
+{
+"SCODE":"59700MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":74.7
+},
+{
+"SCODE":"85120MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":100.6
+},
+{
+"SCODE":"83200MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":69.6
+},
+{
+"SCODE":"86900MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":180.0
+},
+{
+"SCODE":"39100MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":51.2
+},
+{
+"SCODE":"08200MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":345.0
+},
+{
+"SCODE":"23200MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":71.9
+},
+{
+"SCODE":"47400MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":135.0
+},
+{
+"SCODE":"86600MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":129.3
+},
+{
+"SCODE":"74900MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":81.3
+},
+{
+"SCODE":"20500MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":59.7
+},
+{
+"SCODE":"19300MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":153.5
+},
+{
+"SCODE":"50500MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":101.4
+},
+{
+"SCODE":"56900MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":70.9
+},
+{
+"SCODE":"54500MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":121.3
+},
+{
+"SCODE":"69900MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":90.7
+},
+{
+"SCODE":"09700MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":192.1
+},
+{
+"SCODE":"82200MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":68.7
+},
+{
+"SCODE":"88820MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":150.8
+},
+{
+"SCODE":"25900MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":109.6
+},
+{
+"SCODE":"68600MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":48.9
+},
+{
+"SCODE":"02200MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":216.5
+},
+{
+"SCODE":"75600MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":94.0
+},
+{
+"SCODE":"62600MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":92.5
+},
+{
+"SCODE":"74200MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":86.5
+},
+{
+"SCODE":"11400MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":113.0
+},
+{
+"SCODE":"02500MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":282.6
+},
+{
+"SCODE":"33500MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":87.5
+},
+{
+"SCODE":"44500MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":409.0
+},
+{
+"SCODE":"06400MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":93.2
+},
+{
+"SCODE":"65600MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":38.3
+},
+{
+"SCODE":"24400MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":129.4
+},
+{
+"SCODE":"43200MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":246.3
+},
+{
+"SCODE":"78305MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":160.9
+},
+{
+"SCODE":"89190MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":51.8
+},
+{
+"SCODE":"22210MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":43.1
+},
+{
+"SCODE":"82910MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":76.2
+},
+{
+"SCODE":"27100MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":108.0
+},
+{
+"SCODE":"65350MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":40.1
+},
+{
+"SCODE":"87300MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":224.8
+},
+{
+"SCODE":"91510MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":179.2
+},
+{
+"SCODE":"66500MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":36.8
+},
+{
+"SCODE":"20910MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":67.5
+},
+{
+"SCODE":"31410MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":48.9
+},
+{
+"SCODE":"78110MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":64.7
+},
+{
+"SCODE":"01110MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":250.7
+},
+{
+"SCODE":"71510MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":68.6
+},
+{
+"SCODE":"79300MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":95.2
+},
+{
+"SCODE":"61300MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":112.2
+},
+{
+"SCODE":"90200MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":77.6
+},
+{
+"SCODE":"47150SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":9.5
+},
+{
+"SCODE":"89155SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"89355SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"89055SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-19T19:00:00CEST",
+"VALUE":17.5
+},
+{
+"SCODE":"42150SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":9.6
+},
+{
+"SCODE":"39050SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"79450SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"89950SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"02250SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"78150SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":5.7
+},
+{
+"SCODE":"89357PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":16.4
+},
+{
+"SCODE":"89940PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.5
+},
+{
+"SCODE":"89940GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":14.0
+},
+{
+"SCODE":"08155PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.8
+},
+{
+"SCODE":"10750PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":4.1
+},
+{
+"SCODE":"15570PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":6.2
+},
+{
+"SCODE":"75510SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T12:00:00CEST",
+"VALUE":13.1
+},
+{
+"SCODE":"90150SE",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":9.9
+},
+{
+"SCODE":"14750PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":9.6
+},
+{
+"SCODE":"91950PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":8.4
+},
+{
+"SCODE":"36770PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.7
+},
+{
+"SCODE":"83314GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":10.9
+},
+{
+"SCODE":"27920GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":10.4
+},
+{
+"SCODE":"27920GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":10.4
+},
+{
+"SCODE":"28630GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"29180GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":11.4
+},
+{
+"SCODE":"29190GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":10.0
+},
+{
+"SCODE":"29310GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":11.1
+},
+{
+"SCODE":"29320GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":11.6
+},
+{
+"SCODE":"83042GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":12.3
+},
+{
+"SCODE":"77860GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"79862GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":10.8
+},
+{
+"SCODE":"83005GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":10.6
+},
+{
+"SCODE":"83015GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":12.1
+},
+{
+"SCODE":"83030GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":11.4
+},
+{
+"SCODE":"83045GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":16.2
+},
+{
+"SCODE":"83050GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":16.3
+},
+{
+"SCODE":"83060GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":14.9
+},
+{
+"SCODE":"83075GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":19.4
+},
+{
+"SCODE":"83325GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":9.6
+},
+{
+"SCODE":"83330GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":14.7
+},
+{
+"SCODE":"83365GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T12:00:00CEST",
+"VALUE":15.0
+},
+{
+"SCODE":"83370GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T08:00:00CEST",
+"VALUE":11.7
+},
+{
+"SCODE":"84405GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":14.3
+},
+{
+"SCODE":"84430GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"84445GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":13.1
+},
+{
+"SCODE":"85900GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":12.8
+},
+{
+"SCODE":"87925GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":14.2
+},
+{
+"SCODE":"87935GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"88815GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":12.5
+},
+{
+"SCODE":"89560GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":12.0
+},
+{
+"SCODE":"89725GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":12.6
+},
+{
+"SCODE":"89730GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T07:00:00CEST",
+"VALUE":13.6
+},
+{
+"SCODE":"89750GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":13.4
+},
+{
+"SCODE":"04450PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":5.3
+},
+{
+"SCODE":"23750PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T12:00:00CEST",
+"VALUE":11.1
+},
+{
+"SCODE":"34150PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":3.4
+},
+{
+"SCODE":"33550PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.1
+},
+{
+"SCODE":"86550PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":12.6
+},
+{
+"SCODE":"87910PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.6
+},
+{
+"SCODE":"19850PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":9.5
+},
+{
+"SCODE":"29850PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":11.1
+},
+{
+"SCODE":"43350PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.7
+},
+{
+"SCODE":"59450PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.0
+},
+{
+"SCODE":"64550PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-19T20:50:00CEST",
+"VALUE":8.5
+},
+{
+"SCODE":"67350PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.0
+},
+{
+"SCODE":"69790PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.7
+},
+{
+"SCODE":"85550PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.9
+},
+{
+"SCODE":"05950PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.6
+},
+{
+"SCODE":"73950PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.0
+},
+{
+"SCODE":"37230PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.0
+},
+{
+"SCODE":"61050PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.5
+},
+{
+"SCODE":"82910PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.7
+},
+{
+"SCODE":"83450PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.8
+},
+{
+"SCODE":"22950PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":10.8
+},
+{
+"SCODE":"03750PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.0
+},
+{
+"SCODE":"42850PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.0
+},
+{
+"SCODE":"51450PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":7.3
+},
+{
+"SCODE":"20750PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.9
+},
+{
+"SCODE":"26950PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":12.4
+},
+{
+"SCODE":"45750PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":3.6
+},
+{
+"SCODE":"71550PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.0
+},
+{
+"SCODE":"36250PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.0
+},
+{
+"SCODE":"32470PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.0
+},
+{
+"SCODE":"48750PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.1
+},
+{
+"SCODE":"54970PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.8
+},
+{
+"SCODE":"61750PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":7.1
+},
+{
+"SCODE":"07770PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":6.0
+},
+{
+"SCODE":"87550PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.2
+},
+{
+"SCODE":"91350PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":6.9
+},
+{
+"SCODE":"63870PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":7.8
+},
+{
+"SCODE":"57150PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":8.2
+},
+{
+"SCODE":"30350PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":10.3
+},
+{
+"SCODE":"23570PG",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":9.7
+},
+{
+"SCODE":"83310GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":14.7
+},
+{
+"SCODE":"83360GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":14.6
+},
+{
+"SCODE":"79865GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":10.8
+},
+{
+"SCODE":"83380GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":10.3
+},
+{
+"SCODE":"83250GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":17.0
+},
+{
+"SCODE":"79875GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T08:00:00CEST",
+"VALUE":10.7
+},
+{
+"SCODE":"79770GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":12.5
+},
+{
+"SCODE":"83025GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":13.0
+},
+{
+"SCODE":"79870GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":10.6
+},
+{
+"SCODE":"83070GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":16.5
+},
+{
+"SCODE":"83320GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":13.8
+},
+{
+"SCODE":"69420GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-19T15:00:00CEST",
+"VALUE":12.9
+},
+{
+"SCODE":"27020GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":13.5
+},
+{
+"SCODE":"27025GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":12.8
+},
+{
+"SCODE":"89720GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"89740GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":12.7
+},
+{
+"SCODE":"27001GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":10.2
+},
+{
+"SCODE":"27010GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":13.2
+},
+{
+"SCODE":"84415GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":14.5
+},
+{
+"SCODE":"23350GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"27930GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":12.6
+},
+{
+"SCODE":"27935GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":12.5
+},
+{
+"SCODE":"19350GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":10.1
+},
+{
+"SCODE":"87940GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":14.3
+},
+{
+"SCODE":"08105GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":9.7
+},
+{
+"SCODE":"89935GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":13.3
+},
+{
+"SCODE":"23605GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":13.4
+},
+{
+"SCODE":"59500GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C"
+},
+{
+"SCODE":"32615GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":10.1
+},
+{
+"SCODE":"27890GW",
+"TYPE":"WT",
+"DESC_D":"Wassertemperatur",
+"DESC_I":"Temperatura acqua",
+"DESC_L":"Temperatura dl’ega",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":11.1
+},
+{
+"SCODE":"89560GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":6.8
+},
+{
+"SCODE":"89725GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":2.6
+},
+{
+"SCODE":"89730GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T07:00:00CEST",
+"VALUE":2.09
+},
+{
+"SCODE":"89750GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":1.65
+},
+{
+"SCODE":"86315GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":24.67
+},
+{
+"SCODE":"83310GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":4.93
+},
+{
+"SCODE":"83360GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":5.25
+},
+{
+"SCODE":"79865GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":24.13
+},
+{
+"SCODE":"83380GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":1.32
+},
+{
+"SCODE":"83250GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":3.85
+},
+{
+"SCODE":"79875GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T08:00:00CEST",
+"VALUE":21.5
+},
+{
+"SCODE":"79770GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":11.54
+},
+{
+"SCODE":"83025GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":20.91
+},
+{
+"SCODE":"79870GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":31.22
+},
+{
+"SCODE":"83070GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":1.23
+},
+{
+"SCODE":"83320GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":12.65
+},
+{
+"SCODE":"84435GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":3.14
+},
+{
+"SCODE":"69420GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-19T15:00:00CEST",
+"VALUE":5.48
+},
+{
+"SCODE":"27020GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":1.28
+},
+{
+"SCODE":"27025GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":0.95
+},
+{
+"SCODE":"89720GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m"
+},
+{
+"SCODE":"89740GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":3.15
+},
+{
+"SCODE":"27001GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":35.79
+},
+{
+"SCODE":"27010GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":1.8
+},
+{
+"SCODE":"84415GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":7.77
+},
+{
+"SCODE":"23250GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":24.12
+},
+{
+"SCODE":"23350GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m"
+},
+{
+"SCODE":"27930GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":3.57
+},
+{
+"SCODE":"27935GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":2.14
+},
+{
+"SCODE":"19350GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":7.55
+},
+{
+"SCODE":"87940GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":1.48
+},
+{
+"SCODE":"08105GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":2.37
+},
+{
+"SCODE":"89935GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":3.71
+},
+{
+"SCODE":"23605GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":10.15
+},
+{
+"SCODE":"59500GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m"
+},
+{
+"SCODE":"32615GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":5.99
+},
+{
+"SCODE":"28620GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":2.84
+},
+{
+"SCODE":"27890GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":28.5
+},
+{
+"SCODE":"89940GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":6.79
+},
+{
+"SCODE":"86310GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":10.93
+},
+{
+"SCODE":"83314GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":16.34
+},
+{
+"SCODE":"27920GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":17.36
+},
+{
+"SCODE":"28630GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m"
+},
+{
+"SCODE":"29180GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":7.89
+},
+{
+"SCODE":"29190GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":59.03
+},
+{
+"SCODE":"29310GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":49.46
+},
+{
+"SCODE":"29320GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":17.48
+},
+{
+"SCODE":"83042GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":12.76
+},
+{
+"SCODE":"77860GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m"
+},
+{
+"SCODE":"79862GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":22.93
+},
+{
+"SCODE":"83005GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":41.45
+},
+{
+"SCODE":"83015GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":30.06
+},
+{
+"SCODE":"83030GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":17.37
+},
+{
+"SCODE":"83045GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":9.42
+},
+{
+"SCODE":"83050GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":5.67
+},
+{
+"SCODE":"83060GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":8.7
+},
+{
+"SCODE":"83075GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":1.84
+},
+{
+"SCODE":"83325GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":9.87
+},
+{
+"SCODE":"83330GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":8.32
+},
+{
+"SCODE":"83365GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T12:00:00CEST",
+"VALUE":5.35
+},
+{
+"SCODE":"83370GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T08:00:00CEST",
+"VALUE":3.59
+},
+{
+"SCODE":"84405GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":1.83
+},
+{
+"SCODE":"84430GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m"
+},
+{
+"SCODE":"84445GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":1.53
+},
+{
+"SCODE":"85900GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T01:00:00CEST",
+"VALUE":6.79
+},
+{
+"SCODE":"87925GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":8.28
+},
+{
+"SCODE":"87935GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m"
+},
+{
+"SCODE":"88815GW",
+"TYPE":"W.ABST",
+"DESC_D":"Grundwasserstand",
+"DESC_I":"Altezza freatimetrica ",
+"DESC_L":"Livel dl''ega de sofonz",
+"UNIT":"m",
+"DATE":"2026-10-20T13:00:00CEST",
+"VALUE":3.04
+},
+{
+"SCODE":"29850PG",
+"TYPE":"SSTF",
+"DESC_D":"Schwebstoffkonzentration",
+"DESC_I":"concentrazione solidi sospesi ",
+"DESC_L":"Schwebstoffkonzentration",
+"UNIT":"mg/l",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":126.0
+},
+{
+"SCODE":"59450PG",
+"TYPE":"SSTF",
+"DESC_D":"Schwebstoffkonzentration",
+"DESC_I":"concentrazione solidi sospesi ",
+"DESC_L":"Schwebstoffkonzentration",
+"UNIT":"mg/l",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":2.0
+},
+{
+"SCODE":"64550PG",
+"TYPE":"SSTF",
+"DESC_D":"Schwebstoffkonzentration",
+"DESC_I":"concentrazione solidi sospesi ",
+"DESC_L":"Schwebstoffkonzentration",
+"UNIT":"mg/l",
+"DATE":"2026-10-19T20:50:00CEST",
+"VALUE":945.0
+},
+{
+"SCODE":"67350PG",
+"TYPE":"SSTF",
+"DESC_D":"Schwebstoffkonzentration",
+"DESC_I":"concentrazione solidi sospesi ",
+"DESC_L":"Schwebstoffkonzentration",
+"UNIT":"mg/l",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":87.0
+},
+{
+"SCODE":"37230PG",
+"TYPE":"SSTF",
+"DESC_D":"Schwebstoffkonzentration",
+"DESC_I":"concentrazione solidi sospesi ",
+"DESC_L":"Schwebstoffkonzentration",
+"UNIT":"mg/l",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":21.3
+},
+{
+"SCODE":"83450PG",
+"TYPE":"SSTF",
+"DESC_D":"Schwebstoffkonzentration",
+"DESC_I":"concentrazione solidi sospesi ",
+"DESC_L":"Schwebstoffkonzentration",
+"UNIT":"mg/l",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.0
+},
+{
+"SCODE":"07770PG",
+"TYPE":"SSTF",
+"DESC_D":"Schwebstoffkonzentration",
+"DESC_I":"concentrazione solidi sospesi ",
+"DESC_L":"Schwebstoffkonzentration",
+"UNIT":"mg/l",
+"DATE":"2026-10-20T13:20:00CEST",
+"VALUE":1372.5
+},
+{
+"SCODE":"89940PG",
+"TYPE":"SSTF",
+"DESC_D":"Schwebstoffkonzentration",
+"DESC_I":"concentrazione solidi sospesi ",
+"DESC_L":"Schwebstoffkonzentration",
+"UNIT":"mg/l",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":13.0
+},
+{
+"SCODE":"37100MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"85700MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"59700MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"85120MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"83200MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"86900MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"39100MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"08200MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":326.0
+},
+{
+"SCODE":"23200MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"47400MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"86600MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"74900MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"20500MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"19300MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"50500MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"56900MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"54500MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"69900MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"09700MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"82200MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"88820MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"25900MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"68600MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"02200MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"41000MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"75600MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"62600MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"74200MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"11400MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"02500MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":40.0
+},
+{
+"SCODE":"33500MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"44500MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":196.0
+},
+{
+"SCODE":"06400MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"65600MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"24400MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"43200MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"78305MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"89190MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"22210MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"82910MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"27100MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"65350MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"87300MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"66500MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"20910MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"31410MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"78110MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"01110MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"71510MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"79300MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"61300MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"90200MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+}
+]

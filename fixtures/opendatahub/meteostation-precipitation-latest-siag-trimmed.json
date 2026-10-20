@@ -1,0 +1,1777 @@
+{
+ "offset": 0,
+ "limit": -1,
+ "data": [
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:23.826+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "89190MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.2525,
+    "y": 46.4423
+   },
+   "smetadata": {
+    "name_de": "Kaltern Oberplanitzing",
+    "name_en": "Kaltern Oberplanitzing",
+    "name_it": "Caldaro Pianizza di Sopra"
+   },
+   "sname": "Caldaro Pianizza di Sopra",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:26.829+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "22210MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.2294,
+    "y": 46.7822
+   },
+   "smetadata": {
+    "name_de": "St. Martin in Passeier",
+    "name_en": "St. Martin in Passeier",
+    "name_it": "S. Martino in Passiria"
+   },
+   "sname": "S. Martino in Passiria",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:32.442+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "25900MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.9898,
+    "y": 46.5417
+   },
+   "smetadata": {
+    "name_de": "St. Walburg",
+    "name_en": "St. Walburg",
+    "name_it": "S. Valburga"
+   },
+   "sname": "S. Valburga",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:33.812+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "73500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.7684,
+    "y": 46.5456
+   },
+   "smetadata": {
+    "name_de": "Wolkenstein",
+    "name_en": "Sëlva",
+    "name_it": "Selva di V. Gardena"
+   },
+   "sname": "Selva di V. Gardena",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:36.812+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "68600MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6272,
+    "y": 46.8483
+   },
+   "smetadata": {
+    "name_de": "Vals",
+    "name_en": "Vals",
+    "name_it": "Valles"
+   },
+   "sname": "Valles",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:39.930+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "02200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.5289,
+    "y": 46.7759
+   },
+   "smetadata": {
+    "name_de": "St. Valentin a.d. Haide",
+    "name_en": "St. Valentin a.d. Haide",
+    "name_it": "S. Valentino alla Muta"
+   },
+   "sname": "S. Valentino alla Muta",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:42.659+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "41000MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.2191,
+    "y": 46.7299
+   },
+   "smetadata": {
+    "name_de": "Toblach",
+    "name_en": "Toblach",
+    "name_it": "Dobbiaco"
+   },
+   "sname": "Dobbiaco",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:45.719+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "75600MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.506,
+    "y": 46.5134
+   },
+   "smetadata": {
+    "name_de": "Völs am Schlern",
+    "name_en": "Völs am Schlern",
+    "name_it": "Fie' allo Sciliar"
+   },
+   "sname": "Fie' allo Sciliar",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:48.719+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "62600MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.8979,
+    "y": 46.6792
+   },
+   "smetadata": {
+    "name_de": "St. Martin in Thurn",
+    "name_en": "S. Martin de Tor",
+    "name_it": "S. Martino in Badia"
+   },
+   "sname": "S. Martino in Badia",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:52.160+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "74200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6888,
+    "y": 46.5119
+   },
+   "smetadata": {
+    "name_de": "Seiser Alm Zallinger",
+    "name_en": "Seiser Alm Zallinger",
+    "name_it": "Alpe di Siusi Zallinger"
+   },
+   "sname": "Alpe di Siusi Zallinger",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:22:57.254+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "02500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.5213,
+    "y": 46.7057
+   },
+   "smetadata": {
+    "name_de": "Marienberg",
+    "name_en": "Marienberg",
+    "name_it": "Monte Maria"
+   },
+   "sname": "Monte Maria",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:00.416+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "33500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.5981,
+    "y": 46.9656
+   },
+   "smetadata": {
+    "name_de": "Pfitsch St. Jakob",
+    "name_en": "Pfitsch St. Jakob",
+    "name_it": "Val di Vizze San Giacomo"
+   },
+   "sname": "Val di Vizze San Giacomo",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:03.547+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "44500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.2427,
+    "y": 46.8353
+   },
+   "smetadata": {
+    "name_de": "St. Magdalena in Gsies",
+    "name_en": "St. Magdalena in Gsies",
+    "name_it": "S. Maddalena in Casies"
+   },
+   "sname": "S. Maddalena in Casies",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:05.600+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "06400MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.5953,
+    "y": 46.5159
+   },
+   "smetadata": {
+    "name_de": "Sulden",
+    "name_en": "Sulden",
+    "name_it": "Solda"
+   },
+   "sname": "Solda",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:08.595+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "65600MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.7856,
+    "y": 46.8345
+   },
+   "smetadata": {
+    "name_de": "Terenten",
+    "name_en": "Terenten",
+    "name_it": "Terento"
+   },
+   "sname": "Terento",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:10.770+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "24400MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.8318,
+    "y": 46.4868
+   },
+   "smetadata": {
+    "name_de": "Ulten Weißbrunn",
+    "name_en": "Ulten Weißbrunn",
+    "name_it": "Ultimo Fontana Bianca"
+   },
+   "sname": "Ultimo Fontana Bianca",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:13.793+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "43200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.1289,
+    "y": 46.7431
+   },
+   "smetadata": {
+    "name_de": "Welsberg",
+    "name_en": "Welsberg",
+    "name_it": "Monguelfo"
+   },
+   "sname": "Monguelfo",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:15.846+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "78305MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.5366,
+    "y": 46.4289
+   },
+   "smetadata": {
+    "name_de": "Welschnofen",
+    "name_en": "Welschnofen",
+    "name_it": "Nova Levante"
+   },
+   "sname": "Nova Levante",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:17.176+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "56500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.8744,
+    "y": 46.8901
+   },
+   "smetadata": {
+    "name_de": "Mühlwald",
+    "name_en": "Mühlwald",
+    "name_it": "Selva dei Molini"
+   },
+   "sname": "Selva dei Molini",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:18.539+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "42700MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.1,
+    "y": 46.7119
+   },
+   "smetadata": {
+    "name_de": "St. Veit in Prags",
+    "name_en": "St. Veit in Prags",
+    "name_it": "S. Vito di Braies"
+   },
+   "sname": "S. Vito di Braies",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:19.968+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "15800MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.8493,
+    "y": 46.7357
+   },
+   "smetadata": {
+    "name_de": "Schnals Vernagt",
+    "name_en": "Schnals Vernagt",
+    "name_it": "Senales Vernago"
+   },
+   "sname": "Senales Vernago",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:34.134+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "65350MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.7534,
+    "y": 46.8111
+   },
+   "smetadata": {
+    "name_de": "Obervintl",
+    "name_en": "Obervintl",
+    "name_it": "Vandoies"
+   },
+   "sname": "Vandoies",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:44.067+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "82910MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3319,
+    "y": 46.5304
+   },
+   "smetadata": {
+    "name_de": "Jenesien",
+    "name_en": "Jenesien",
+    "name_it": "San Genesio"
+   },
+   "sname": "San Genesio",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:23:56.391+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "27100MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.2008,
+    "y": 46.5767
+   },
+   "smetadata": {
+    "name_de": "Gargazon",
+    "name_en": "Gargazon",
+    "name_it": "Gargazzone"
+   },
+   "sname": "Gargazzone",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:24:00.899+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "85700MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3111,
+    "y": 46.4065
+   },
+   "smetadata": {
+    "name_de": "Branzoll",
+    "name_en": "Bronzolo",
+    "name_it": "Bronzolo"
+   },
+   "sname": "Bronzolo",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:24:16.709+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "87300MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3968,
+    "y": 46.3465
+   },
+   "smetadata": {
+    "name_de": "Radein",
+    "name_en": "Radein",
+    "name_it": "Redagno"
+   },
+   "sname": "Redagno",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:24:21.792+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "66500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.7029,
+    "y": 46.8872
+   },
+   "smetadata": {
+    "name_de": "Pfunders",
+    "name_en": "Pfunders",
+    "name_it": "Fundres"
+   },
+   "sname": "Fundres",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:24:30.703+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "90200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.209,
+    "y": 46.4939
+   },
+   "smetadata": {
+    "name_de": "Gantkofel",
+    "name_en": "Gantkofel",
+    "name_it": "Macaion"
+   },
+   "sname": "Macaion",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:24:40.115+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "20910MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.1762,
+    "y": 46.8215
+   },
+   "smetadata": {
+    "name_de": "Platt in Passeier",
+    "name_en": "Platt in Passeier",
+    "name_it": "Plata in Passiria"
+   },
+   "sname": "Plata in Passiria",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:24:42.206+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "31410MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3793,
+    "y": 46.9557
+   },
+   "smetadata": {
+    "name_de": "Pflersch",
+    "name_en": "Pflersch",
+    "name_it": "Fleres"
+   },
+   "sname": "Fleres",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:24:45.620+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "78110MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6017,
+    "y": 46.4092
+   },
+   "smetadata": {
+    "name_de": "Karerpass",
+    "name_en": "Karerpass",
+    "name_it": "Passo di Costalunga"
+   },
+   "sname": "Passo di Costalunga",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:20:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:24:48.644+0000",
+   "mvalidtime": "2026-10-20 09:20:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "61300MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.8733,
+    "y": 46.5504
+   },
+   "smetadata": {
+    "name_de": "Corvara",
+    "name_en": "Corvara",
+    "name_it": "Corvara"
+   },
+   "sname": "Corvara",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:25:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:25:03.555+0000",
+   "mvalidtime": "2026-10-20 09:25:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "01110MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.633,
+    "y": 46.8365
+   },
+   "smetadata": {
+    "name_de": "Langtaufers Grub",
+    "name_en": "Langtaufers Grub",
+    "name_it": "Vallelunga Grub"
+   },
+   "sname": "Vallelunga Grub",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:25:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:25:06.590+0000",
+   "mvalidtime": "2026-10-20 09:25:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "71510MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6894,
+    "y": 46.6479
+   },
+   "smetadata": {
+    "name_de": "Villnöss",
+    "name_en": "Villnöss",
+    "name_it": "Funes"
+   },
+   "sname": "Funes",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:25:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:25:09.648+0000",
+   "mvalidtime": "2026-10-20 09:25:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "79300MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.4638,
+    "y": 46.529
+   },
+   "smetadata": {
+    "name_de": "Ritten Siffian",
+    "name_en": "Ritten Siffian",
+    "name_it": "Renon Siffian"
+   },
+   "sname": "Renon Siffian",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:25:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:25:18.149+0000",
+   "mvalidtime": "2026-10-20 09:25:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "91510MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.3577,
+    "y": 46.6915
+   },
+   "smetadata": {
+    "name_de": "Sexten",
+    "name_en": "Sexten",
+    "name_it": "Sesto"
+   },
+   "sname": "Sesto",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:25:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:25:22.853+0000",
+   "mvalidtime": "2026-10-20 09:25:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "02700SF",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.4324,
+    "y": 46.7004
+   },
+   "smetadata": {
+    "name_de": "Schleis Kloangruebes",
+    "name_en": "Schleis Kloangruebes",
+    "name_it": "Clusio Kloangruebes"
+   },
+   "sname": "Clusio Kloangruebes",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:11.369+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "37100MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.4386,
+    "y": 46.885
+   },
+   "smetadata": {
+    "name_de": "Sterzing",
+    "name_en": "Sterzing",
+    "name_it": "Vipiteno"
+   },
+   "sname": "Vipiteno",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:14.488+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "20500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.0883,
+    "y": 46.7965
+   },
+   "smetadata": {
+    "name_de": "Pfelders",
+    "name_en": "Pfelders",
+    "name_it": "Plan"
+   },
+   "sname": "Plan",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:17.547+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "19300MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.9912,
+    "y": 46.6477
+   },
+   "smetadata": {
+    "name_de": "Naturns",
+    "name_en": "Naturns",
+    "name_it": "Naturno"
+   },
+   "sname": "Naturno",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:18.910+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "80300MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.4166,
+    "y": 46.78078
+   },
+   "smetadata": {
+    "name_de": "Pens",
+    "name_en": "Pens",
+    "name_it": "Pennes"
+   },
+   "sname": "Pennes",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:22.031+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "50500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.0991,
+    "y": 47.0366
+   },
+   "smetadata": {
+    "name_de": "Prettau",
+    "name_en": "Prettau",
+    "name_it": "Predoi"
+   },
+   "sname": "Predoi",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:23.395+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "34500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3068,
+    "y": 46.9091
+   },
+   "smetadata": {
+    "name_de": "Ridnaun",
+    "name_en": "Ridnaun",
+    "name_it": "Ridanna"
+   },
+   "sname": "Ridanna",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:26.407+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "56900MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.9474,
+    "y": 46.9003
+   },
+   "smetadata": {
+    "name_de": "Sand i.T. Mühlen",
+    "name_en": "Sand i.T. Mühlen",
+    "name_it": "Campo Tures Molini"
+   },
+   "sname": "Campo Tures Molini",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:29.451+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "54500MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.0825,
+    "y": 46.9428
+   },
+   "smetadata": {
+    "name_de": "Rein in Taufers",
+    "name_en": "Rein in Taufers",
+    "name_it": "Riva di Tures"
+   },
+   "sname": "Riva di Tures",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:35.261+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "09700MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.7803,
+    "y": 46.6238
+   },
+   "smetadata": {
+    "name_de": "Schlanders",
+    "name_en": "Schlanders",
+    "name_it": "Silandro"
+   },
+   "sname": "Silandro",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:38.445+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "82200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3551,
+    "y": 46.6406
+   },
+   "smetadata": {
+    "name_de": "Sarnthein",
+    "name_en": "Sarnthein",
+    "name_it": "Sarentino"
+   },
+   "sname": "Sarentino",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:41.608+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "88820MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.1855,
+    "y": 46.2362
+   },
+   "smetadata": {
+    "name_de": "Salurn",
+    "name_en": "Salurn",
+    "name_it": "Salorno"
+   },
+   "sname": "Salorno",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:44.685+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "59700MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.9315,
+    "y": 46.8043
+   },
+   "smetadata": {
+    "name_de": "Bruneck",
+    "name_en": "Bruneck",
+    "name_it": "Brunico"
+   },
+   "sname": "Brunico",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:47.886+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "85120MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.4269,
+    "y": 46.4205
+   },
+   "smetadata": {
+    "name_de": "Deutschnofen",
+    "name_en": "Deutschnofen",
+    "name_it": "Nova Ponente"
+   },
+   "sname": "Nova Ponente",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:50.973+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "83200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.3128,
+    "y": 46.4977
+   },
+   "smetadata": {
+    "name_de": "Bozen",
+    "name_en": "Bolzano",
+    "name_it": "Bolzano"
+   },
+   "sname": "Bolzano",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:53.085+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "86900MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.305,
+    "y": 46.3469
+   },
+   "smetadata": {
+    "name_de": "Auer",
+    "name_en": "Auer",
+    "name_it": "Ora"
+   },
+   "sname": "Ora",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:56.162+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "39100MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.6451,
+    "y": 46.731
+   },
+   "smetadata": {
+    "name_de": "Brixen - Vahrn",
+    "name_en": "Brixen",
+    "name_it": "Bressanone"
+   },
+   "sname": "Bressanone",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:31:59.208+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "08200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 10.6496,
+    "y": 46.6249
+   },
+   "smetadata": {
+    "name_de": "Laas Eyrs",
+    "name_en": "Laas Eyrs",
+    "name_it": "Lasa Oris"
+   },
+   "sname": "Lasa Oris",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:32:02.562+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "23200MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.1366,
+    "y": 46.688
+   },
+   "smetadata": {
+    "name_de": "Meran",
+    "name_en": "Meran",
+    "name_it": "Merano"
+   },
+   "sname": "Merano",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:32:05.710+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "47400MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 12.1166,
+    "y": 46.8704
+   },
+   "smetadata": {
+    "name_de": "Antholz Obertal",
+    "name_en": "Antholz Obertal",
+    "name_it": "Anterselva di Sopra"
+   },
+   "sname": "Anterselva di Sopra",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:32:08.843+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "86600MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.2887,
+    "y": 46.3825
+   },
+   "smetadata": {
+    "name_de": "Laimburg",
+    "name_en": "Laimburg",
+    "name_it": "Laimburg"
+   },
+   "sname": "Laimburg",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:32:11.415+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "37700MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.5488,
+    "y": 46.8125
+   },
+   "smetadata": {
+    "name_de": "Franzensfeste Grasstein",
+    "name_en": "Franzensfeste Grasstein",
+    "name_it": "Fortezza Le Cave"
+   },
+   "sname": "Fortezza Le Cave",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  },
+  {
+   "_timestamp": "2026-10-20 09:30:00.000+0000",
+   "tdescription": "Precipitazioni",
+   "tmetadata": {},
+   "tname": "precipitation",
+   "tunit": "mm",
+   "mperiod": 300,
+   "mtransactiontime": "2026-10-20 11:32:15.267+0000",
+   "mvalidtime": "2026-10-20 09:30:00.000+0000",
+   "mvalue": 0,
+   "prlineage": "SIAG",
+   "prname": "odh-mobility-dc-meteorology-bz",
+   "prversion": "dc7777855e286a4c26c9b3164b7ccdce9d6f559b",
+   "sactive": true,
+   "savailable": true,
+   "scode": "74900MS",
+   "scoordinate": {
+    "srid": 4326,
+    "x": 11.5291,
+    "y": 46.5951
+   },
+   "smetadata": {
+    "name_de": "Barbian Kollmann",
+    "name_en": "Barbian Kollmann",
+    "name_it": "Barbiano Colma"
+   },
+   "sname": "Barbiano Colma",
+   "sorigin": "SIAG",
+   "stype": "MeteoStation"
+  }
+ ],
+ "_note": "Trimmed by spike: only SIAG records with mvalidtime on 2026-10-20 kept"
+}

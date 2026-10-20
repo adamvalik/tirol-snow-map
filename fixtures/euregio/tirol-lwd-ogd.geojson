@@ -1,0 +1,6904 @@
+{
+  "features": [
+    {
+      "id": "028f3167-5aa0-3ca4-b63b-52e0621f3a32",
+      "geometry": {
+        "coordinates": [
+          11.1109,
+          46.9772,
+          3160.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2012",
+        "LT": -0.400,
+        "LT_MAX": 4.000,
+        "LT_MIN": -2.200,
+        "LWD-Nummer": "NSGS1",
+        "LWD-Region": "AT-07-22 Stubaier Alpen Mitte",
+        "RH": 99.500,
+        "TD": -0.469,
+        "WG": 24.404,
+        "WG_BOE": 50.400,
+        "WR": 300.591,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Schaufeljoch",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "schaufeljoch"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "02cc5845-5c98-46fb-04e2-d9b2a7678a53",
+      "geometry": {
+        "coordinates": [
+          11.751717,
+          47.181266,
+          2020.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1994",
+        "HS": 9.300,
+        "HSD24": 0.572,
+        "HSD48": 1.531,
+        "HSD72": 0.934,
+        "LT": 10.600,
+        "LT_MAX": 12.000,
+        "LT_MIN": 3.800,
+        "LWD-Nummer": "TLAE2",
+        "LWD-Region": "AT-07-16 Tuxer Alpen Ost",
+        "OFT": 16.700,
+        "RH": 62.400,
+        "TD": 3.724,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Lämmerbichlalm",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "laemmerbichlalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "034270c2-12eb-4d7c-6a54-510d9cd97a1c",
+      "geometry": {
+        "coordinates": [
+          12.3749783181498,
+          47.0175648750152,
+          1340.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1895",
+        "LT": 10.533,
+        "LT_MAX": 15.333,
+        "LT_MIN": 3.900,
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "TD": 9.662,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Prägraten am Großvenediger",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "praegraten"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "03c7082d-58b8-235e-8824-771427b02cc5",
+      "geometry": {
+        "coordinates": [
+          10.46958,
+          47.085668,
+          1027.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1993",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 15.900,
+        "LT_MAX": 17.500,
+        "LT_MIN": 3.500,
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 73.000,
+        "TD": 8.900,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "See im Paznaun",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "see_im_paznaun"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "0541f1ca-e329-9bf9-09e0-a67ad313b535",
+      "geometry": {
+        "coordinates": [
+          10.928658,
+          46.923988,
+          3370.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1999",
+        "LT": 1.000,
+        "LT_MAX": 4.100,
+        "LT_MIN": -0.600,
+        "LWD-Nummer": "SRET1",
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "RH": 79.300,
+        "TD": -2.171,
+        "WG": 10.922,
+        "WG_BOE": 44.280,
+        "WR": 156.717,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Schwarze Schneid",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rettenbach"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "089a933f-6efd-4c92-822b-fa65fef32380",
+      "geometry": {
+        "coordinates": [
+          10.190156,
+          46.984781,
+          2431.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2000",
+        "HS": 6.300,
+        "HSD24": 0.799,
+        "HSD48": 0.860,
+        "HSD72": 0.940,
+        "LT": 10.000,
+        "LT_MAX": 12.100,
+        "LT_MIN": 5.000,
+        "LWD-Nummer": "GADA2",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "RH": 61.700,
+        "TD": 2.998,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Adamsberg",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "adamsberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "092dabe3-a4b7-db2d-6b29-e66cba4f4485",
+      "geometry": {
+        "coordinates": [
+          11.383623,
+          47.312079,
+          2270.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1993",
+        "LT": 5.900,
+        "LT_MAX": 11.100,
+        "LT_MIN": 3.200,
+        "LWD-Nummer": "ISEE1",
+        "LWD-Region": "AT-07-04-01 Karwendel West",
+        "RH": 85.800,
+        "TD": 3.709,
+        "WG": 28.616,
+        "WG_BOE": 52.884,
+        "WR": 152.811,
+        "date": "2026-10-20T12:30:00+02:00",
+        "name": "Hafelekar",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "seegrube"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "0ad1005b-cdc9-ac51-78a7-66e08538c4d1",
+      "geometry": {
+        "coordinates": [
+          12.5553,
+          47.4275,
+          1880.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2009",
+        "LT": 12.600,
+        "LT_MAX": 13.900,
+        "LT_MIN": 8.300,
+        "LWD-Nummer": "FHOC1",
+        "LWD-Region": "AT-07-18 Kitzbüheler Alpen Wildseeloder",
+        "RH": 54.000,
+        "TD": 3.550,
+        "WG": 24.128,
+        "WG_BOE": 38.844,
+        "WR": 128.821,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Reckmoos",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "hochhoerndl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "0e406140-1150-8698-6eaa-0dbd53ec6d79",
+      "geometry": {
+        "coordinates": [
+          10.309403,
+          46.950206,
+          2864.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1997",
+        "LT": 2.900,
+        "LT_MAX": 6.800,
+        "LT_MIN": 0.400,
+        "LWD-Nummer": "INAC1",
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "RH": 80.400,
+        "TD": -0.133,
+        "WG": 25.184,
+        "WG_BOE": 54.936,
+        "WR": 173.785,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Palinkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "nachtweide"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "0ed904cd-c269-93a7-e23d-b88f663e5040",
+      "geometry": {
+        "coordinates": [
+          12.436775,
+          47.464569,
+          1710.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2023",
+        "GS_O": 528.000,
+        "GS_U": 110.000,
+        "HS": 9.600,
+        "HSD24": 0.000,
+        "HSD48": 1.950,
+        "HSD72": -1.200,
+        "LT": 12.700,
+        "LT_MAX": 12.800,
+        "LT_MIN": 5.600,
+        "LWD-Nummer": "KHOR2",
+        "LWD-Region": "AT-07-18 Kitzbüheler Alpen Wildseeloder",
+        "OFT": 15.100,
+        "RH": 57.900,
+        "TD": 4.635,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kitzbüheler Horn Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kitzbuehler_horn"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "105f6005-e911-73cb-e07a-a24fa9e5bb26",
+      "geometry": {
+        "coordinates": [
+          12.504909256833,
+          47.1179042178878,
+          1637.2
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1979",
+        "LT": 10.250,
+        "LT_MAX": 14.667,
+        "LT_MIN": 5.600,
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "N24": 0.000,
+        "N48": 0.050,
+        "N6": 0.000,
+        "N72": 0.050,
+        "date": "2026-10-20T13:15:00+02:00",
+        "name": "Felbertauerntunnel-Südportal",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "felbertauerntunnel_suedportal_hd"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "10a47067-a104-52f7-8daf-486b67b7ad06",
+      "geometry": {
+        "coordinates": [
+          12.4719505,
+          46.8055189,
+          2217.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "GS_O": 200.000,
+        "HS": 6.100,
+        "HSD24": 6.100,
+        "HSD48": 6.100,
+        "HSD72": 6.100,
+        "LT": 5.400,
+        "LT_MAX": 9.700,
+        "LT_MIN": 4.000,
+        "LWD-Nummer": "ARAU2",
+        "LWD-Region": "AT-07-27 Deferegger Alpen Ost",
+        "OFT": 9.600,
+        "RH": 93.200,
+        "TD": 4.392,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Raucheggen Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "raucheggen"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "113bf1de-e458-72f0-5938-dd58ed78a8dc",
+      "geometry": {
+        "coordinates": [
+          10.983463,
+          46.961931,
+          2104.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1999",
+        "HS": 6.700,
+        "HSD24": 0.953,
+        "HSD48": -0.284,
+        "HSD72": 1.850,
+        "LT": 8.100,
+        "LT_MAX": 11.600,
+        "LT_MIN": 4.200,
+        "LWD-Nummer": "SBAR2",
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "RH": 69.600,
+        "TD": 2.888,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Bartiges Bödele",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "bartigesboedele"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "120595de-15f0-2e43-35c3-6b4124fb086c",
+      "geometry": {
+        "coordinates": [
+          11.5058020557356,
+          47.1296147313939,
+          1473.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2013",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 13.700,
+        "LT_MAX": 17.800,
+        "LT_MIN": 10.000,
+        "LWD-Region": "AT-07-15 Tuxer Alpen West",
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Navis Kerschbaumsiedlung",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "navis_kerschbaumsiedlung"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "143da112-d21c-9b88-e7fc-41a1d55b83f1",
+      "geometry": {
+        "coordinates": [
+          10.849554,
+          47.344376,
+          1750.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "GS_O": 499.000,
+        "HS": 10.800,
+        "HSD24": -2.450,
+        "HSD48": 0.100,
+        "HSD72": -4.941,
+        "LT": 12.400,
+        "LT_MAX": 13.900,
+        "LT_MIN": 7.200,
+        "LWD-Nummer": "NASS2",
+        "LWD-Region": "AT-07-03 Mieminger Gebirge",
+        "OFT": 11.600,
+        "RH": 51.700,
+        "TD": 2.751,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Nassereither Alm",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "nassereith"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "17924ad7-8236-ec88-eebf-3060ba9c1b5f",
+      "geometry": {
+        "coordinates": [
+          12.3227777777778,
+          46.8175,
+          2235.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2018",
+        "GS_O": 314.000,
+        "HS": 14.600,
+        "HSD24": 1.200,
+        "HSD48": -1.103,
+        "HSD72": -1.263,
+        "LT": 5.100,
+        "LT_MAX": 10.100,
+        "LT_MIN": 3.800,
+        "LWD-Nummer": "IMOS2",
+        "LWD-Region": "AT-07-27 Deferegger Alpen Ost",
+        "OFT": 13.200,
+        "RH": 93.600,
+        "TD": 4.155,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Mosesgipfel Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "mosesgipfel"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "1815f7c5-ff44-8e8a-4790-1d2a9285401d",
+      "geometry": {
+        "coordinates": [
+          11.083694,
+          47.346612,
+          2585.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2009",
+        "LT": 5.100,
+        "LT_MAX": 7.900,
+        "LT_MIN": 1.000,
+        "LWD-Nummer": "TRAU1",
+        "LWD-Region": "AT-07-03 Mieminger Gebirge",
+        "RH": 79.100,
+        "TD": 1.784,
+        "WG": 18.054,
+        "WG_BOE": 40.320,
+        "WR": 177.050,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Hohe Munde Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rauthhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "1958bb55-85f4-9b5a-f793-2ed983954bd6",
+      "geometry": {
+        "coordinates": [
+          10.325499,
+          47.060638,
+          2403.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "LT": 10.700,
+        "LT_MAX": 11.100,
+        "LT_MIN": 5.500,
+        "LWD-Nummer": "KSIN1",
+        "LWD-Region": "AT-07-11 Verwallgruppe Ost",
+        "RH": 53.200,
+        "TD": 1.577,
+        "WG": 23.569,
+        "WG_BOE": 40.860,
+        "WR": 244.287,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kappl Kapplerkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kappl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "1a35b9cd-02a3-a457-5c14-1be3592d7930",
+      "geometry": {
+        "coordinates": [
+          12.7935406321408,
+          46.8669244322635,
+          1902.9
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1988",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 7.500,
+        "LT_MAX": 12.600,
+        "LT_MIN": 4.300,
+        "LWD-Region": "AT-07-28 Schobergruppe West",
+        "N24": 0.320,
+        "N48": 0.320,
+        "N6": 0.100,
+        "N72": 0.320,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Zettersfeld",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "zettersfeld"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "1c5b6df5-2ce8-99e1-30f0-d89feaf1c668",
+      "geometry": {
+        "coordinates": [
+          10.3658997900123,
+          47.2732347127007,
+          1697.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1995",
+        "GS_O": 564.000,
+        "HS": 5.200,
+        "HSD24": -1.250,
+        "HSD48": -2.950,
+        "HSD72": -0.650,
+        "LT": 16.800,
+        "LT_MAX": 16.800,
+        "LT_MIN": 6.500,
+        "LWD-Nummer": "BJOE2",
+        "LWD-Region": "AT-07-01 Allgäuer Alpen Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.240,
+        "OFT": 24.250,
+        "RH": 43.700,
+        "TD": 4.394,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Jöchelspitze",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "joechelspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "1d29e5a8-8afe-911a-1818-ae6513f22da7",
+      "geometry": {
+        "coordinates": [
+          10.190435,
+          46.896034,
+          2997.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "LT": 2.200,
+        "LT_MAX": 6.600,
+        "LT_MIN": -0.600,
+        "LWD-Nummer": "GJAM1",
+        "LWD-Region": "AT-07-12 Silvretta Ost",
+        "RH": 82.700,
+        "TD": -0.430,
+        "WG": 20.149,
+        "WG_BOE": 51.192,
+        "WR": 161.410,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Westliches Gamshorn",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "jamtalhuette_gamshorn"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "1d3d74bd-05ee-6423-730c-162756d5a01b",
+      "geometry": {
+        "coordinates": [
+          10.5731347,
+          47.0878037,
+          1855.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2023",
+        "GS_O": 41.000,
+        "HS": 7.100,
+        "HSD24": 0.000,
+        "HSD48": 1.100,
+        "HSD72": -1.900,
+        "LT": 11.900,
+        "LT_MAX": 12.000,
+        "LT_MIN": 5.100,
+        "LWD-Nummer": "FURG2",
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "OFT": 5.200,
+        "RH": 52.900,
+        "TD": 2.610,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Fiss Urgtal Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "fiss_urgtal"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "1ddf88f1-fcb6-e959-62eb-52475ee5df75",
+      "geometry": {
+        "coordinates": [
+          11.4078806273342,
+          47.1289123500339,
+          1590.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1994",
+        "HS": -1.000,
+        "HSD24": -1.000,
+        "HSD48": -1.000,
+        "HSD72": 0.000,
+        "LT": 12.600,
+        "LT_MAX": 14.500,
+        "LT_MIN": 7.200,
+        "LWD-Region": "AT-07-14-05 Serleskamm",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "WG": 12.662,
+        "WR": 117.990,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Maria Waldrast",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "maria_waldrast"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "1e7e3a6b-efc3-5a7f-ea95-741c9aa0fd28",
+      "geometry": {
+        "coordinates": [
+          10.359234,
+          47.281714,
+          2226.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1995",
+        "LT": 11.600,
+        "LT_MAX": 11.800,
+        "LT_MIN": 6.300,
+        "LWD-Nummer": "BJOE1",
+        "LWD-Region": "AT-07-01 Allgäuer Alpen Ost",
+        "RH": 51.000,
+        "TD": 1.821,
+        "WG": 4.701,
+        "WG_BOE": 27.072,
+        "WR": 169.153,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Jöchelspitze Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "joechelspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "22631732-c60b-2912-11d1-df478521f848",
+      "geometry": {
+        "coordinates": [
+          10.6688387774755,
+          47.2619589979091,
+          1935.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2004",
+        "GS_O": 592.000,
+        "HS": 3.200,
+        "LT": 12.400,
+        "LT_MAX": 12.400,
+        "LT_MIN": 10.900,
+        "LWD-Nummer": "IMUT2",
+        "LWD-Region": "AT-07-02-02 Lechtaler Alpen Ost",
+        "OFT": 19.100,
+        "RH": 52.000,
+        "TD": 2.832,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Muttekopfhütte",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "muttekopfhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "22688125-5a8c-f666-fac3-4bbc3e6c31a3",
+      "geometry": {
+        "coordinates": [
+          10.7950000100758,
+          47.1000000304375,
+          2097.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2015",
+        "GS_O": 479.000,
+        "HS": 17.100,
+        "HSD24": 1.350,
+        "HSD48": 2.450,
+        "HSD72": 0.950,
+        "LT": 11.800,
+        "LT_MAX": 12.100,
+        "LT_MIN": 6.500,
+        "LWD-Nummer": "SLBU2",
+        "LWD-Region": "AT-07-14-01 Kaunergrat",
+        "OFT": 14.100,
+        "RH": 46.100,
+        "TD": 0.602,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Burgbach Mauchele",
+        "operator": "LWD Tirol/WLV",
+        "plot": "burgbach"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "233e540e-5ea7-132b-3caa-7115ae058a8c",
+      "geometry": {
+        "coordinates": [
+          11.765384,
+          47.299459,
+          1674.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 11.400,
+        "LT_MAX": 12.600,
+        "LT_MIN": 6.700,
+        "LWD-Region": "AT-07-16 Tuxer Alpen Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 67.000,
+        "TD": 5.100,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Loassattel",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "loassattel"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "2381e9d6-9010-f8b5-1369-848f44d9724a",
+      "geometry": {
+        "coordinates": [
+          10.216496,
+          46.963487,
+          2354.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2019",
+        "GS_O": 416.900,
+        "HS": 5.600,
+        "HSD24": 0.295,
+        "HSD48": 0.018,
+        "HSD72": 0.141,
+        "LT": 8.000,
+        "LT_MAX": 10.300,
+        "LT_MIN": 3.500,
+        "LWD-Nummer": "GPRE2",
+        "LWD-Region": "AT-07-12 Silvretta Ost",
+        "OFT": 13.200,
+        "RH": 55.300,
+        "TD": -0.400,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Predigberg Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "predigberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "24b5baaf-e94e-118e-e5e9-6f7b9343486c",
+      "geometry": {
+        "coordinates": [
+          10.862306,
+          47.069889,
+          2330.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LT": 11.100,
+        "LT_MAX": 12.000,
+        "LT_MIN": 6.000,
+        "LWD-Nummer": "SLAG1",
+        "LWD-Region": "AT-07-14-02 Kühtai - Geigenkamm",
+        "RH": 52.900,
+        "TD": 1.869,
+        "WG": 5.443,
+        "WG_BOE": 29.844,
+        "WR": 182.034,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Agetwoad",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "agetwoad"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "25905bb4-dcf4-a50b-344d-6073c95802c2",
+      "geometry": {
+        "coordinates": [
+          11.133717,
+          47.387131,
+          2350.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2002",
+        "LT": 7.000,
+        "LT_MAX": 9.600,
+        "LT_MIN": 3.700,
+        "LWD-Nummer": "LPUI1",
+        "LWD-Region": "AT-07-03 Mieminger Gebirge",
+        "RH": 83.600,
+        "TD": 4.419,
+        "WG": 10.663,
+        "WG_BOE": 28.116,
+        "WR": 193.822,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Gehrenspitze",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "puitegg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "27592f32-7b7c-76e3-e063-40900a0a757c",
+      "geometry": {
+        "coordinates": [
+          10.2587777777778,
+          47.1474888888889,
+          2098.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2024",
+        "GS_O": 355.000,
+        "HS": 4.900,
+        "HSD24": 0.250,
+        "HSD48": 0.180,
+        "HSD72": 0.455,
+        "LT": 10.400,
+        "LT_MAX": 12.000,
+        "LT_MIN": 5.200,
+        "LWD-Nummer": "SKAP2",
+        "LWD-Region": "AT-07-07 Lechtaler Alpen West",
+        "OFT": 15.800,
+        "RH": 60.700,
+        "TD": 3.145,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Kapall Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kapall"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "27592f32-7b7d-76e3-e063-40900a0a757c",
+      "geometry": {
+        "coordinates": [
+          10.2479416666667,
+          47.1490805555556,
+          2332.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2024",
+        "LT": 8.600,
+        "LT_MAX": 9.900,
+        "LT_MIN": 4.700,
+        "LWD-Nummer": "SKAP1",
+        "LWD-Region": "AT-07-07 Lechtaler Alpen West",
+        "RH": 57.300,
+        "TD": 0.649,
+        "WG": 15.777,
+        "WG_BOE": 32.616,
+        "WR": 203.962,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Kapall Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kapall"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "29c0d9ac-1f25-713b-9e13-a18a4906171f",
+      "geometry": {
+        "coordinates": [
+          12.5509971361432,
+          47.5866678023487,
+          775.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1895",
+        "LT": 19.200,
+        "LT_MAX": 19.200,
+        "LT_MIN": 8.400,
+        "LWD-Region": "AT-07-06 Kaisergebirge - Waidringer Alpen",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 58.000,
+        "TD": 10.400,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Waidring",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "waidring"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "29cbb850-b1d0-27aa-0861-ec2ecfe8a372",
+      "geometry": {
+        "coordinates": [
+          11.751511,
+          47.448514,
+          2140.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2000",
+        "LT": 8.200,
+        "LT_MAX": 11.000,
+        "LT_MIN": 4.600,
+        "LWD-Nummer": "EERF1",
+        "LWD-Region": "AT-07-05 Brandenberger Alpen",
+        "RH": 66.500,
+        "TD": 2.343,
+        "WG": 10.144,
+        "WG_BOE": 34.812,
+        "WR": 133.720,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Dalfazkamm",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "erfurterhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "2b005a96-569d-79fc-69de-07b60710c25a",
+      "geometry": {
+        "coordinates": [
+          10.2970775209446,
+          47.212706332042,
+          1380.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "LT": 18.500,
+        "LT_MAX": 18.500,
+        "LT_MIN": 4.500,
+        "LWD-Region": "AT-07-08 Lechtaler Alpen Mitte",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.100,
+        "RH": 44.000,
+        "TD": 6.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kaisers",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "kaisers"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "2b478a84-b291-4a7f-d163-933a2d4b313c",
+      "geometry": {
+        "coordinates": [
+          12.5120892240774,
+          46.919123307801,
+          1096.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1978",
+        "LT": 11.333,
+        "LT_MAX": 12.467,
+        "LT_MIN": 4.400,
+        "LWD-Region": "AT-07-25 Lasörlinggruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Hopfgarten in Defereggen",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "hopfgartenindefereggen"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "2c91e838-a3ae-9040-636e-22abeff8c524",
+      "geometry": {
+        "coordinates": [
+          10.340337,
+          47.060636,
+          2012.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "GS_O": 675.000,
+        "HS": 18.200,
+        "HSD24": -0.316,
+        "HSD48": -0.200,
+        "HSD72": 0.928,
+        "LT": 13.500,
+        "LT_MAX": 13.500,
+        "LT_MIN": 6.200,
+        "LWD-Nummer": "KSIN2",
+        "LWD-Region": "AT-07-11 Verwallgruppe Ost",
+        "OFT": 19.500,
+        "RH": 65.900,
+        "TD": 7.258,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kappl Sinsenergampen",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kappl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "2da72e5f-3c5e-643c-feb7-7d040630e43c",
+      "geometry": {
+        "coordinates": [
+          10.4273765143155,
+          46.9603364376315,
+          1674.6
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1911",
+        "HS": -1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 11.000,
+        "LT_MAX": 15.700,
+        "LT_MIN": 4.000,
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 65.000,
+        "TD": 6.200,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Spiss",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "spiss"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "2e6819b8-3d00-2a8c-ba7a-31b057f1f9dc",
+      "geometry": {
+        "coordinates": [
+          10.6493525395978,
+          47.474961414608,
+          1745.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1986",
+        "GS_O": 36.000,
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 14.500,
+        "LT_MAX": 14.800,
+        "LT_MIN": 8.500,
+        "LWD-Nummer": "RHAN2",
+        "LWD-Region": "AT-07-01 Allgäuer Alpen Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 1.520,
+        "OFT": 10.700,
+        "RH": 52.000,
+        "TD": 4.773,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Hahnenkamm (Reutte)",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "hahnenkamm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "2fc7f2ad-ecdd-46ec-41bf-baa6d0d90961",
+      "geometry": {
+        "coordinates": [
+          11.4259406862189,
+          47.0178147451894,
+          1360.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1946",
+        "LT": 11.800,
+        "LT_MAX": 17.200,
+        "LT_MIN": 6.200,
+        "LWD-Region": "AT-07-22 Stubaier Alpen Mitte",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Obernberg am Brenner",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "obernberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "30cd03a2-4ea9-4a68-38a5-e4eea02caea9",
+      "geometry": {
+        "coordinates": [
+          11.051768,
+          46.853977,
+          3035.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2008",
+        "LT": 1.700,
+        "LT_MAX": 6.000,
+        "LT_MIN": -1.800,
+        "LWD-Nummer": "SFES1",
+        "LWD-Region": "AT-07-21 Gurgler Gruppe",
+        "RH": 100.400,
+        "TD": 1.756,
+        "WG": 8.180,
+        "WG_BOE": 24.084,
+        "WR": 140.462,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Festkogel",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rosskar"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "3483eb90-878b-fbb2-64c9-2cda6fca1c7d",
+      "geometry": {
+        "coordinates": [
+          12.5554371637672,
+          46.8272665192323,
+          1953.6
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2002",
+        "LWD-Region": "AT-07-27 Deferegger Alpen Ost",
+        "name": "Villfurtalm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "villfurtalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "348c77a0-6811-b8f1-e063-40900a0a4c40",
+      "geometry": {
+        "coordinates": [
+          10.5890528,
+          47.4796083,
+          1523.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2025",
+        "GS_O": 58.000,
+        "HS": 3.500,
+        "HSD24": 1.733,
+        "HSD48": 0.819,
+        "HSD72": -2.100,
+        "LT": 13.800,
+        "LT_MAX": 15.200,
+        "LT_MIN": 6.100,
+        "LWD-Nummer": "NKRI2",
+        "LWD-Region": "AT-07-01 Allgäuer Alpen Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 1.061,
+        "OFT": 8.410,
+        "RH": 52.000,
+        "TD": 4.126,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Krinnenalpe Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "krinnenalpe"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "348c77a0-6812-b8f1-e063-40900a0a4c40",
+      "geometry": {
+        "coordinates": [
+          10.5845722,
+          47.4742722,
+          1990.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2025",
+        "LT": 14.100,
+        "LT_MAX": 14.100,
+        "LT_MIN": 7.600,
+        "LWD-Nummer": "NKRI1",
+        "LWD-Region": "AT-07-02-02 Lechtaler Alpen Ost",
+        "RH": 48.200,
+        "TD": 3.327,
+        "WG": 23.590,
+        "WG_BOE": 39.348,
+        "WR": 197.187,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Krinnenspitze",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "krinnenalpe"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "350c1242-c300-a18d-7b4d-8485db715e34",
+      "geometry": {
+        "coordinates": [
+          10.561746,
+          46.89963,
+          2800.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LT": 2.600,
+        "LT_MAX": 7.100,
+        "LT_MIN": -0.300,
+        "LWD-Nummer": "NGAM1",
+        "LWD-Region": "AT-07-19 Glockturmgruppe",
+        "RH": 92.300,
+        "TD": 1.480,
+        "WG": 31.251,
+        "WG_BOE": 54.576,
+        "WR": 183.796,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Schartlkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "gamoarbach"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "3890bb91-383b-ff3b-2016-f8f544f4bad4",
+      "geometry": {
+        "coordinates": [
+          10.6409611111111,
+          47.4765333333333,
+          1884.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2016",
+        "LT": 14.300,
+        "LT_MAX": 14.300,
+        "LT_MIN": 8.600,
+        "LWD-Nummer": "HHAH1",
+        "LWD-Region": "AT-07-01 Allgäuer Alpen Ost",
+        "RH": 47.300,
+        "TD": 3.244,
+        "WG": 14.171,
+        "WG_BOE": 30.240,
+        "WR": 260.333,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Hahnenkamm Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "hahnenkamm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "39c2ee72-9f31-5100-ce10-e682541df3d1",
+      "geometry": {
+        "coordinates": [
+          11.3779335010812,
+          47.3063819943737,
+          1921.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1993",
+        "GS_O": 816.000,
+        "HS": 4.800,
+        "HSD24": -0.523,
+        "HSD48": -0.108,
+        "HSD72": -0.284,
+        "LT": 9.400,
+        "LT_MAX": 11.200,
+        "LT_MIN": 5.300,
+        "LWD-Nummer": "ISEE2",
+        "LWD-Region": "AT-07-04-01 Karwendel West",
+        "OFT": 16.800,
+        "RH": 72.200,
+        "TD": 4.656,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Seegrube",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "seegrube"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "3b92e34e-c454-f449-e5f2-24cf30d83f56",
+      "geometry": {
+        "coordinates": [
+          12.426271241501,
+          47.3821117522466,
+          950.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1894",
+        "LT": 19.200,
+        "LT_MAX": 19.200,
+        "LT_MIN": 4.700,
+        "LWD-Region": "AT-07-18 Kitzbüheler Alpen Wildseeloder",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Jochberg",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "jochberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "3cf49312-6efe-d567-5cb1-8735907f219d",
+      "geometry": {
+        "coordinates": [
+          12.4124920215843,
+          46.7217673049261,
+          1920.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1997",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 7.800,
+        "LT_MAX": 11.700,
+        "LT_MIN": 5.100,
+        "LWD-Region": "AT-07-29-01 Karnische Alpen Osttirol",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 91.000,
+        "TD": 6.200,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Leckfeldalm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "leckfeldalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "405b6232-36b2-9e3b-a750-da2a45a0d6a6",
+      "geometry": {
+        "coordinates": [
+          12.6097,
+          46.8047,
+          2180.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2011",
+        "LT": 4.700,
+        "LT_MAX": 9.200,
+        "LT_MIN": 3.400,
+        "LWD-Nummer": "ACOM1",
+        "LWD-Region": "AT-07-27 Deferegger Alpen Ost",
+        "RH": 100.500,
+        "TD": 4.771,
+        "WG": 15.683,
+        "WG_BOE": 28.800,
+        "WR": 235.154,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Assling Compedal Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "compedal"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "40683bfe-dbc9-3389-884a-74c8a1988483",
+      "geometry": {
+        "coordinates": [
+          12.5589,
+          47.4253,
+          1769.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2009",
+        "GS_O": 591.000,
+        "HS": 3.500,
+        "HSD24": 0.683,
+        "HSD48": 0.350,
+        "HSD72": 0.940,
+        "LT": 14.600,
+        "LT_MAX": 15.200,
+        "LT_MIN": 8.400,
+        "LWD-Nummer": "FHOC2",
+        "LWD-Region": "AT-07-18 Kitzbüheler Alpen Wildseeloder",
+        "OFT": 28.900,
+        "RH": 53.200,
+        "TD": 5.193,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Hochhörndl",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "hochhoerndl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "43dd7dc6-62ae-b649-09f9-877cdd59adf6",
+      "geometry": {
+        "coordinates": [
+          12.0769966807791,
+          47.4327928131594,
+          1405.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2006",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 12.700,
+        "LT_MAX": 12.700,
+        "LT_MIN": 6.700,
+        "LWD-Region": "AT-07-17-01 Kitzbüheler Alpen Brixental",
+        "N24": 0.110,
+        "N48": 0.160,
+        "N6": 0.000,
+        "N72": 0.160,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Norderbergalm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "norderbergalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "44adf205-aa1d-3169-b4fc-c449cff8318b",
+      "geometry": {
+        "coordinates": [
+          10.667904,
+          47.275091,
+          2580.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2004",
+        "LT": 5.800,
+        "LT_MAX": 7.800,
+        "LT_MIN": 2.300,
+        "LWD-Nummer": "IMUT1",
+        "LWD-Region": "AT-07-02-02 Lechtaler Alpen Ost",
+        "RH": 71.700,
+        "TD": 1.095,
+        "WG": 23.205,
+        "WG_BOE": 45.252,
+        "WR": 135.138,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Vorderer Maldonkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "muttekopfhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "45868281-809d-7913-e063-40900a0afd0f",
+      "geometry": {
+        "coordinates": [
+          12.535925,
+          47.1604028,
+          1607.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2025",
+        "LT": 12.900,
+        "LT_MAX": 13.400,
+        "LT_MIN": 6.200,
+        "LWD-Nummer": "MIOF1",
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "RH": 49.300,
+        "TD": 2.544,
+        "WG": 30.020,
+        "WG_BOE": 52.308,
+        "WR": 153.798,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Felbertauerntunnel-Nordportal",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "felbertauerntunnel_nordportal"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "46f149e9-fd17-3354-836f-b18724221911",
+      "geometry": {
+        "coordinates": [
+          10.411902,
+          47.09232,
+          2205.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2019",
+        "GS_O": 617.800,
+        "HS": 4.900,
+        "HSD24": 0.253,
+        "HSD48": -0.577,
+        "HSD72": -0.100,
+        "LT": 10.300,
+        "LT_MAX": 11.600,
+        "LT_MIN": 5.900,
+        "LWD-Nummer": "KSPI2",
+        "LWD-Region": "AT-07-11 Verwallgruppe Ost",
+        "OFT": 13.100,
+        "RH": 54.500,
+        "TD": 1.541,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kappl Spidur Alpe",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kappl_spidur_alpe"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "47c0bf5e-59ef-313b-b589-aca0a65d7686",
+      "geometry": {
+        "coordinates": [
+          10.472944,
+          47.012741,
+          2824.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "LT": 2.900,
+        "LT_MAX": 6.000,
+        "LT_MIN": -1.400,
+        "LWD-Nummer": "SMAS1",
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "RH": 80.400,
+        "TD": -0.133,
+        "WG": 7.592,
+        "WG_BOE": 39.816,
+        "WR": 118.828,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Serfaus Masnerkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "serfaus"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "47ddab7e-836b-7ce0-1d97-45d9721d669e",
+      "geometry": {
+        "coordinates": [
+          11.0273833333333,
+          47.0839527777778,
+          2385.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2016",
+        "GS_O": 564.000,
+        "HS": 9.400,
+        "HSD24": 1.500,
+        "HSD48": 1.050,
+        "HSD72": 1.150,
+        "LT": 9.900,
+        "LT_MAX": 9.900,
+        "LT_MIN": 4.100,
+        "LWD-Nummer": "LBRE2",
+        "LWD-Region": "AT-07-14-02 Kühtai - Geigenkamm",
+        "OFT": 19.700,
+        "RH": 46.100,
+        "TD": -1.132,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Breiter Grieskogel Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "breiter_grieskogel"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "485428b1-c2e2-2b25-5f3e-b81672b49c0c",
+      "geometry": {
+        "coordinates": [
+          12.5427164614116,
+          47.002755991701,
+          1001.4
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1886",
+        "LT": 11.900,
+        "LT_MAX": 16.500,
+        "LT_MIN": 5.300,
+        "LWD-Region": "AT-07-26-02 Goldried",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 71.000,
+        "TD": 6.816,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Matrei in Osttirol",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "matrei"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "48601f7e-7e54-c452-fe27-934b1bef1c4d",
+      "geometry": {
+        "coordinates": [
+          11.1746533,
+          47.0368417,
+          3092.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2021",
+        "LT": 2.600,
+        "LT_MAX": 6.300,
+        "LT_MIN": 0.400,
+        "LWD-Nummer": "NNOW1",
+        "LWD-Region": "AT-07-22 Stubaier Alpen Mitte",
+        "RH": 77.600,
+        "TD": -0.909,
+        "WG": 16.067,
+        "WG_BOE": 33.048,
+        "WR": 150.326,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Nockwand Wind",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "nockwand"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "486961d0-4ef5-5dd5-220a-c680206624a7",
+      "geometry": {
+        "coordinates": [
+          11.030122,
+          47.231557,
+          2678.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1994",
+        "LT": 6.000,
+        "LT_MAX": 7.400,
+        "LT_MIN": 3.400,
+        "LWD-Nummer": "KUET1",
+        "LWD-Region": "AT-07-09 Grieskogelgruppe",
+        "RH": 87.600,
+        "TD": 4.103,
+        "WG": 16.154,
+        "WG_BOE": 27.036,
+        "WR": 170.689,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kühtai Hochalter",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "laengental"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "4944118d-eb3c-0a0f-d6f5-39789cda6d5e",
+      "geometry": {
+        "coordinates": [
+          10.6052033477463,
+          47.2841492143689,
+          1355.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1957",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 16.800,
+        "LT_MAX": 17.100,
+        "LT_MIN": 4.900,
+        "LWD-Region": "AT-07-02-02 Lechtaler Alpen Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Boden",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "pfafflar_boden"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "4b2b654d-1c7f-becd-e0a1-ca26324d1d30",
+      "geometry": {
+        "coordinates": [
+          10.198715,
+          46.988531,
+          2303.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2000",
+        "GS_O": 505.000,
+        "HS": 12.400,
+        "HSD24": 6.400,
+        "HSD48": 2.500,
+        "HSD72": 2.550,
+        "LT": 9.400,
+        "LT_MAX": 10.200,
+        "LT_MIN": 5.000,
+        "LWD-Nummer": "GAMA2",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "OFT": 13.900,
+        "RH": 56.400,
+        "TD": 1.178,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Am Adamsberg (Hauptstation)",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "amadamsberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "4c6b9d87-b804-735b-765f-e6b786099eb2",
+      "geometry": {
+        "coordinates": [
+          12.2259811143605,
+          46.9357311776597,
+          1739.7
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2017",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 11.200,
+        "LT_MAX": 15.800,
+        "LT_MIN": 2.400,
+        "LWD-Region": "AT-07-25 Lasörlinggruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Oberhausalm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "oberhausalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "4cd4fb11-94e5-d990-83d1-0ff67654013a",
+      "geometry": {
+        "coordinates": [
+          10.554773,
+          46.901942,
+          2581.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "GS_O": 225.000,
+        "HS": 2.800,
+        "HSD24": 0.021,
+        "HSD48": -0.800,
+        "HSD72": -0.715,
+        "LT": 4.600,
+        "LT_MAX": 8.400,
+        "LT_MIN": 1.300,
+        "LWD-Nummer": "NGAM2",
+        "LWD-Region": "AT-07-19 Glockturmgruppe",
+        "OFT": 6.200,
+        "RH": 77.900,
+        "TD": 1.086,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Gamoarbach",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "gamoarbach"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "4d5421ba-37fa-3899-5e88-1b6a0dca6127",
+      "geometry": {
+        "coordinates": [
+          11.1562443546046,
+          47.1950084456261,
+          1200.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1907",
+        "HS": -1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 15.400,
+        "LT_MAX": 15.900,
+        "LT_MIN": 5.600,
+        "LWD-Region": "AT-07-09 Grieskogelgruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.050,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Gries im Sellrain",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "gries_im_sellrain"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "4d6ece93-0b3f-3ec6-a51f-00a8ae8be3e0",
+      "geometry": {
+        "coordinates": [
+          11.8950135920223,
+          47.4897175664567,
+          920.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1967",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 14.400,
+        "LT_MAX": 14.800,
+        "LT_MIN": 6.700,
+        "LWD-Region": "AT-07-05 Brandenberger Alpen",
+        "N24": 0.160,
+        "N48": 0.160,
+        "N6": 0.160,
+        "N72": 0.160,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Brandenberg",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "brandenberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "4f3056f6-8d54-88be-5abd-1cdbbda66c0b",
+      "geometry": {
+        "coordinates": [
+          11.2880109778398,
+          47.1801049847685,
+          2103.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2019",
+        "GS_O": 607.000,
+        "HS": 6.700,
+        "HSD24": 0.103,
+        "HSD48": -0.357,
+        "HSD72": 1.756,
+        "LT": 8.800,
+        "LT_MAX": 9.500,
+        "LT_MIN": 3.200,
+        "LWD-Nummer": "AXLIZ1",
+        "LWD-Region": "AT-07-14-04 Kalkkögel",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "OFT": 12.730,
+        "RH": 64.500,
+        "TD": 2.486,
+        "WG": 3.790,
+        "WG_BOE": 6.590,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Speicherteich Axamer Lizum",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "axamer_lizum"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "50a7fa20-7dd8-77ca-c376-b591f6fd611b",
+      "geometry": {
+        "coordinates": [
+          12.4312742511795,
+          47.1214327695029,
+          1729.6
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 8.800,
+        "LT_MAX": 11.500,
+        "LT_MIN": 5.100,
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Gschlössboden",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "gschloessboden"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "50de3eb5-72d0-daca-452a-5daa44786d3c",
+      "geometry": {
+        "coordinates": [
+          10.277611,
+          47.109912,
+          2401.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2000",
+        "LT": 8.800,
+        "LT_MAX": 9.900,
+        "LT_MIN": 4.000,
+        "LWD-Nummer": "SAGA1",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "RH": 55.000,
+        "TD": 0.271,
+        "WG": 17.473,
+        "WG_BOE": 34.020,
+        "WR": 199.936,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Gampberg Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "gampberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "524d0fb1-f539-5684-9c91-a00aeaf2baba",
+      "geometry": {
+        "coordinates": [
+          11.8104482720656,
+          47.1000604756226,
+          987.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1911",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 17.200,
+        "LT_MAX": 17.200,
+        "LT_MIN": 4.400,
+        "LWD-Region": "AT-07-23-01 Zillertaler Alpen Nordwest",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 47.000,
+        "TD": 5.500,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Ginzling",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "ginzling"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "52bf69d9-b4fb-befe-fedc-7367b3dd55aa",
+      "geometry": {
+        "coordinates": [
+          11.8625263077145,
+          47.3073586482856,
+          553.9
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1966",
+        "LT": 18.300,
+        "LT_MAX": 18.300,
+        "LT_MIN": 6.700,
+        "LWD-Region": "AT-07-16 Tuxer Alpen Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Ried im Zillertal",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "ried"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "54064850-9123-f1c1-21f7-aef5710ee3a2",
+      "geometry": {
+        "coordinates": [
+          12.584813,
+          46.983181,
+          2419.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2009",
+        "LT": 4.400,
+        "LT_MAX": 9.400,
+        "LT_MIN": 2.800,
+        "LWD-Nummer": "MIOG1",
+        "LWD-Region": "AT-07-26-02 Goldried",
+        "RH": 83.800,
+        "TD": 1.907,
+        "WG": 11.457,
+        "WG_BOE": 19.800,
+        "WR": 163.881,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Bunköpfl",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "goldriedkessel"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "55f47645-ff8e-b24e-13a0-ce624c17118a",
+      "geometry": {
+        "coordinates": [
+          10.207991,
+          46.960398,
+          2340.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2000",
+        "LT": 8.100,
+        "LT_MAX": 10.000,
+        "LT_MIN": 4.500,
+        "LWD-Nummer": "GPRE1",
+        "LWD-Region": "AT-07-12 Silvretta Ost",
+        "RH": 58.800,
+        "TD": 0.537,
+        "WG": 19.955,
+        "WG_BOE": 43.308,
+        "WR": 207.057,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Predigberg Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "predigberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "575dd5ff-9cdb-b2a6-7935-aee880d7653b",
+      "geometry": {
+        "coordinates": [
+          11.466038,
+          47.47312,
+          927.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1895",
+        "HS": 1.000,
+        "HSD24": 0.000,
+        "HSD48": -5.000,
+        "HSD72": -7.000,
+        "LT": 14.700,
+        "LT_MAX": 15.700,
+        "LT_MIN": 3.100,
+        "LWD-Region": "AT-07-04-01 Karwendel West",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 80.000,
+        "TD": 10.500,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Hinterriß",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "hinterriss"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "5769e2d4-77f2-4a97-c521-f7929db270ae",
+      "geometry": {
+        "coordinates": [
+          10.966994,
+          46.972983,
+          2532.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1999",
+        "HS": 3.900,
+        "HSD24": 0.692,
+        "HSD48": 0.170,
+        "HSD72": 0.384,
+        "LT": 4.500,
+        "LT_MAX": 8.500,
+        "LT_MIN": 0.600,
+        "LWD-Nummer": "SGIG2",
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "OFT": 16.100,
+        "RH": 85.000,
+        "TD": 2.203,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Giggijoch",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "giggijoch"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "59820adb-de60-6ef9-e665-47f2b21e034a",
+      "geometry": {
+        "coordinates": [
+          12.701532,
+          47.069906,
+          3454.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2020",
+        "LT": -1.900,
+        "LT_MAX": 5.300,
+        "LT_MIN": -3.600,
+        "LWD-Nummer": "KADL1",
+        "LWD-Region": "AT-07-26-01 Glocknergruppe Süd",
+        "RH": 99.000,
+        "TD": -2.036,
+        "WG": 25.496,
+        "WG_BOE": 51.948,
+        "WR": 255.651,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kals Adlersruhe (Erzherzog-Johann-Hütte)",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kals_adlershoehe"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "5bb204bf-6eed-38b0-294e-a403b2704549",
+      "geometry": {
+        "coordinates": [
+          12.5630099737331,
+          47.4382389911689,
+          1379.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2022",
+        "HS": -1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 14.900,
+        "LT_MAX": 15.300,
+        "LT_MIN": 7.000,
+        "LWD-Region": "AT-07-18 Kitzbüheler Alpen Wildseeloder",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 53.000,
+        "TD": 5.500,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Fieberbrunn-Reckmoos",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "fieberbrunn_reckmoos"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "5deb00af-4c28-6b53-f6ac-9ebbfc1dfccd",
+      "geometry": {
+        "coordinates": [
+          11.2929470260768,
+          47.2314920251323,
+          853.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1984",
+        "LT": 18.300,
+        "LT_MAX": 18.400,
+        "LT_MIN": 4.600,
+        "LWD-Region": "AT-07-14-04 Kalkkögel",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Axams",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "axams"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "5df4ee35-7ba1-624e-e063-40900a0a99ea",
+      "geometry": {
+        "coordinates": [
+          12.504722,
+          47.118611,
+          1632.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2026",
+        "LT": 9.600,
+        "LT_MAX": 13.800,
+        "LT_MIN": 5.800,
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "RH": 77.600,
+        "TD": 5.884,
+        "WG": 6.732,
+        "WG_BOE": 21.528,
+        "WR": 138.815,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Felbertauerntunnel-Südportal (LWD)",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "felbertauerntunnel_suedportal_lwd"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "5e41ac0b-ac37-680d-772e-f013f236b343",
+      "geometry": {
+        "coordinates": [
+          12.422188,
+          46.937354,
+          2115.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "GS_O": 175.000,
+        "HS": 8.700,
+        "HSD24": 0.942,
+        "HSD48": 1.150,
+        "HSD72": 0.731,
+        "LT": 7.000,
+        "LT_MAX": 12.800,
+        "LT_MIN": 3.600,
+        "LWD-Nummer": "SVZI2",
+        "LWD-Region": "AT-07-25 Lasörlinggruppe",
+        "OFT": 9.600,
+        "RH": 76.000,
+        "TD": 3.068,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "St Veit Zischke",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "stveit_zischke"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "5e7427a3-e651-46d2-5990-4faa39aded72",
+      "geometry": {
+        "coordinates": [
+          10.8409894745507,
+          47.5271828239462,
+          1090.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1992",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 20.300,
+        "LT_MAX": 20.300,
+        "LT_MIN": 2.500,
+        "LWD-Region": "AT-07-02-01 Ammergauer Alpen Süd",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 6.060,
+        "RH": 54.000,
+        "TD": 8.800,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Ammerwald",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "ammerwald"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "61b9e2fd-48f5-43dc-bcf2-b92c210cc153",
+      "geometry": {
+        "coordinates": [
+          12.6139663887681,
+          46.7985114336738,
+          1918.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2011",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 9.700,
+        "LT_MAX": 14.300,
+        "LT_MIN": 5.400,
+        "LWD-Region": "AT-07-27 Deferegger Alpen Ost",
+        "N24": 0.150,
+        "N48": 0.150,
+        "N6": 0.100,
+        "N72": 0.150,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Assling Compedal",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "compedal"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "61c8a351-399e-4731-72a1-71584f5b953c",
+      "geometry": {
+        "coordinates": [
+          11.4798412418738,
+          47.420571279784,
+          1307.6
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2006",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "LT": 18.500,
+        "LT_MAX": 18.800,
+        "LT_MIN": 2.800,
+        "LWD-Region": "AT-07-04-01 Karwendel West",
+        "N24": 0.000,
+        "N6": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Johannestal",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "johannestal"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "632ed9e3-7423-0e5e-7b55-f2366b2b49b4",
+      "geometry": {
+        "coordinates": [
+          11.936640844402,
+          47.1741924851254,
+          1845.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1979",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 13.500,
+        "LT_MAX": 16.100,
+        "LT_MIN": 6.700,
+        "LWD-Region": "AT-07-23-02 Zillertaler Alpen Nordost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Brandberg Kolmhaus",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "brandberg_kolmhaus"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "633d3c4b-e7e9-d4ee-fcec-4187d2ccbff2",
+      "geometry": {
+        "coordinates": [
+          11.0230388888889,
+          47.1010555555556,
+          3282.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2016",
+        "LT": 2.200,
+        "LT_MAX": 3.800,
+        "LT_MIN": -1.200,
+        "LWD-Nummer": "LBRE1",
+        "LWD-Region": "AT-07-14-03 Sellrain - Alpeiner Berge",
+        "RH": 71.600,
+        "TD": -2.387,
+        "WG": 10.717,
+        "WG_BOE": 20.700,
+        "WR": 214.486,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Breiter Grieskogel Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "breiter_grieskogel"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "6611ee4d-3230-9397-7b63-c21de2073a54",
+      "geometry": {
+        "coordinates": [
+          10.8284827187352,
+          46.8565653451251,
+          2640.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2010",
+        "LT": 5.500,
+        "LT_MAX": 10.900,
+        "LT_MIN": 1.200,
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.060,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Vernagt (Pegel)",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "vernagt"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "66a3b220-3356-8ef1-d572-72da9cd84e5c",
+      "geometry": {
+        "coordinates": [
+          10.900159274577,
+          47.3424839214443,
+          1640.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1992",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 13.300,
+        "LT_MAX": 14.333,
+        "LT_MIN": 6.567,
+        "LWD-Region": "AT-07-03 Mieminger Gebirge",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.050,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Marienbergalm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "marienbergalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "66d322a5-d80e-2b4e-e214-7adefeb2873c",
+      "geometry": {
+        "coordinates": [
+          11.648053,
+          47.093149,
+          2380.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2012",
+        "GS_O": 126.000,
+        "HS": 11.400,
+        "HSD24": -1.606,
+        "HSD48": -2.862,
+        "HSD72": -4.200,
+        "LT": 3.100,
+        "LT_MAX": 6.500,
+        "LT_MIN": 0.700,
+        "LWD-Nummer": "TTUX2",
+        "LWD-Region": "AT-07-15 Tuxer Alpen West",
+        "OFT": 6.800,
+        "RH": 92.800,
+        "TD": 2.051,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Tuxerjoch Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "tuxerjoch"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "67d1e564-9092-49cd-1f76-6bd868b8181b",
+      "geometry": {
+        "coordinates": [
+          12.6242392618044,
+          46.7245773200739,
+          2070.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2011",
+        "LT": 7.100,
+        "LT_MAX": 13.300,
+        "LT_MIN": 3.900,
+        "LWD-Region": "AT-07-29-02 Lienzer Dolomiten",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Conny Alm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "connyalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "6a37c75d-3498-a7f6-049a-85f195a28100",
+      "geometry": {
+        "coordinates": [
+          12.3261039873844,
+          47.4506569638435,
+          799.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1896",
+        "HS": -1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 17.000,
+        "LT_MAX": 17.000,
+        "LT_MIN": 6.700,
+        "LWD-Region": "AT-07-17-02 Kitzbüheler Alpen Wildschönau",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 91.000,
+        "TD": 8.300,
+        "date": "2026-10-20T01:00:00+02:00",
+        "name": "Kirchberg in Tirol",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "kirchberg_in_tirol"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "6a8ef4aa-55f2-7f24-d732-fc8b381a550d",
+      "geometry": {
+        "coordinates": [
+          11.3780816795332,
+          47.306378758316,
+          1921.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1995",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 10.900,
+        "LT_MAX": 12.900,
+        "LT_MIN": 5.500,
+        "LWD-Nummer": "ISEE3",
+        "LWD-Region": "AT-07-04-01 Karwendel West",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.110,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Innsbruck Seegrube",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "seegrube_hd"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "6bcc6bd3-3d04-fb38-f485-2fe21cfc8eb8",
+      "geometry": {
+        "coordinates": [
+          10.852025,
+          46.96259,
+          2227.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2012",
+        "GS_O": 610.000,
+        "HS": 5.100,
+        "HSD24": 0.250,
+        "HSD48": 0.460,
+        "HSD72": 0.450,
+        "LT": 10.400,
+        "LT_MAX": 11.700,
+        "LT_MIN": 4.400,
+        "LWD-Nummer": "SLRI2",
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "OFT": 48.700,
+        "RH": 44.700,
+        "TD": -1.096,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Rifflsee Talstation Grubenkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rifflsee"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "6c67a0c0-13ca-2382-5363-dfa78b1f4bf4",
+      "geometry": {
+        "coordinates": [
+          10.271353,
+          47.11174,
+          2153.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2000",
+        "HS": 0.100,
+        "HSD24": -0.440,
+        "HSD48": -1.544,
+        "HSD72": -0.781,
+        "LT": 11.000,
+        "LT_MAX": 12.100,
+        "LT_MIN": 5.100,
+        "LWD-Nummer": "SAGA2",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "OFT": 16.500,
+        "RH": 51.000,
+        "TD": 1.267,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Gampberg Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "gampberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "6cb4697c-2e0a-7214-6f8c-9af46ee648f3",
+      "geometry": {
+        "coordinates": [
+          11.335489,
+          47.052267,
+          2180.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2008",
+        "GS_O": 669.000,
+        "HS": 1.500,
+        "HSD24": 0.505,
+        "HSD48": -1.273,
+        "HSD72": -0.268,
+        "LT": 7.400,
+        "LT_MAX": 9.900,
+        "LT_MIN": 3.900,
+        "LWD-Nummer": "GGAL2",
+        "LWD-Region": "AT-07-22 Stubaier Alpen Mitte",
+        "OFT": 14.800,
+        "RH": 69.200,
+        "TD": 2.136,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Gallreideschrofen",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "gallreideschrofen"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "6d82fc87-4bbf-be41-c380-060fc8f78d56",
+      "geometry": {
+        "coordinates": [
+          12.415529,
+          46.945841,
+          2630.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "LT": 2.000,
+        "LT_MAX": 6.700,
+        "LT_MIN": 0.400,
+        "LWD-Nummer": "SVZI1",
+        "LWD-Region": "AT-07-25 Lasörlinggruppe",
+        "RH": 92.500,
+        "TD": 0.916,
+        "WG": 27.003,
+        "WG_BOE": 44.172,
+        "WR": 191.429,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "St Veit Speikboden",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "stveit_zischke"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "6e3c63ec-2123-375d-a452-e2aa54941ba8",
+      "geometry": {
+        "coordinates": [
+          11.755802,
+          47.271989,
+          2244.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LT": 9.200,
+        "LT_MAX": 10.100,
+        "LT_MIN": 5.300,
+        "LWD-Nummer": "FSON1",
+        "LWD-Region": "AT-07-16 Tuxer Alpen Ost",
+        "RH": 57.900,
+        "TD": 1.355,
+        "WG": 20.307,
+        "WG_BOE": 34.344,
+        "WR": 182.369,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Sonntagsköpfl Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "sonntagskoepfl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "6e87686f-669a-f44c-dd1a-373a20b69602",
+      "geometry": {
+        "coordinates": [
+          12.358958,
+          47.046708,
+          3155.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LT": -1.200,
+        "LT_MAX": 3.800,
+        "LT_MIN": -2.700,
+        "LWD-Nummer": "PESE1",
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "RH": 99.800,
+        "TD": -1.227,
+        "WG": 14.036,
+        "WG_BOE": 25.020,
+        "WR": 236.107,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Kreuzspitze",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "eselruecken"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "705adf6e-aba2-d49f-bee1-cfee5b847dd2",
+      "geometry": {
+        "coordinates": [
+          10.7475399463825,
+          47.4109540226524,
+          1338.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1895",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 16.800,
+        "LT_MAX": 16.800,
+        "LT_MIN": 5.300,
+        "LWD-Region": "AT-07-02-02 Lechtaler Alpen Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.660,
+        "RH": 45.000,
+        "TD": 4.500,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Berwang",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "berwang"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "707b4417-4828-e0a3-c590-4dadf5573291",
+      "geometry": {
+        "coordinates": [
+          10.7143950117534,
+          46.8729059674426,
+          2480.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2015",
+        "HS": 4.000,
+        "HSD24": 0.345,
+        "HSD48": 0.900,
+        "HSD72": 0.259,
+        "LT": 6.400,
+        "LT_MAX": 9.600,
+        "LT_MIN": 3.900,
+        "LWD-Nummer": "KWEL2",
+        "LWD-Region": "AT-07-19 Glockturmgruppe",
+        "RH": 67.900,
+        "TD": 0.916,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Weisssee LWD",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "weisssee_lwd"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "71512121-d2a9-5d1e-95ea-ea1d4d6195a3",
+      "geometry": {
+        "coordinates": [
+          11.142068841086,
+          47.3705430418914,
+          1135.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1900",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LWD-Region": "AT-07-03 Mieminger Gebirge",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "TD": 7.200,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Leutasch Kirchplatzl",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "leutasch"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "72e43789-7f32-05ab-b35e-a1a6aa46353a",
+      "geometry": {
+        "coordinates": [
+          11.1623888694066,
+          47.0960000187559,
+          2503.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2015",
+        "GS_O": 236.000,
+        "HS": -4.700,
+        "HSD48": -4.700,
+        "HSD72": -4.700,
+        "LT": 7.300,
+        "LT_MAX": 7.300,
+        "LT_MIN": 2.700,
+        "LWD-Nummer": "NFRA2",
+        "LWD-Region": "AT-07-14-03 Sellrain - Alpeiner Berge",
+        "OFT": 16.500,
+        "RH": 65.800,
+        "TD": 1.338,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Franz-Senn-Hütte Kl Horntal",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "franz_senn_huette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "72fc661e-b86f-8569-e4c8-9ad2ab8452ef",
+      "geometry": {
+        "coordinates": [
+          11.639487253969,
+          47.5805327207742,
+          900.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1997",
+        "LT": 16.700,
+        "LT_MAX": 16.700,
+        "LT_MIN": 7.800,
+        "LWD-Region": "AT-07-05 Brandenberger Alpen",
+        "N24": 0.140,
+        "N48": 0.140,
+        "N6": 0.140,
+        "N72": 0.140,
+        "RH": 59.333,
+        "TD": 8.400,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Achenkirch-Mühleggerköpfl",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "muehleggerkoepfl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "736ce3c6-fcaf-c465-94c4-2b7babac27ae",
+      "geometry": {
+        "coordinates": [
+          12.4790204,
+          46.8033721,
+          2484.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LT": 4.100,
+        "LT_MAX": 7.000,
+        "LT_MIN": 1.900,
+        "LWD-Nummer": "ARAU1",
+        "LWD-Region": "AT-07-27 Deferegger Alpen Ost",
+        "RH": 99.000,
+        "TD": 3.957,
+        "WG": 6.427,
+        "WG_BOE": 16.668,
+        "WR": 201.587,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Raucheggen Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "raucheggen"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "75daf284-2a54-f56c-e50c-55eeb3e6392b",
+      "geometry": {
+        "coordinates": [
+          11.010845,
+          47.190165,
+          2988.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2020",
+        "LT": 3.800,
+        "LT_MAX": 6.200,
+        "LT_MIN": 0.600,
+        "LWD-Nummer": "KZWO1",
+        "LWD-Region": "AT-07-14-02 Kühtai - Geigenkamm",
+        "RH": 61.800,
+        "TD": -2.839,
+        "date": "2026-10-20T12:50:00+02:00",
+        "name": "Zwölferkogel",
+        "operator": "LWD Tirol/TIWAG",
+        "plot": "zwoelferkogel"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "7841c4d4-4c9e-6ce4-4960-36992fe0643f",
+      "geometry": {
+        "coordinates": [
+          10.621605,
+          47.059508,
+          1506.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2023",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 16.300,
+        "LT_MAX": 16.300,
+        "LT_MIN": 6.900,
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 47.000,
+        "TD": 4.400,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Fiss",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "fiss_hd"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "7a0fbd74-0656-8f50-97d6-06907b5ba7fc",
+      "geometry": {
+        "coordinates": [
+          11.119766,
+          46.994833,
+          2620.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1995",
+        "HS": 0.300,
+        "HSD24": 0.300,
+        "HSD48": -0.249,
+        "HSD72": 0.135,
+        "LT": 7.100,
+        "LT_MAX": 10.500,
+        "LT_MIN": 4.300,
+        "LWD-Nummer": "NSGE2",
+        "LWD-Region": "AT-07-22 Stubaier Alpen Mitte",
+        "RH": 76.900,
+        "TD": 3.331,
+        "WG": 21.267,
+        "WG_BOE": 44.460,
+        "WR": 204.818,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Eissee",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "stubaiergletscher"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "7f0426f5-2031-5127-e44c-25b83e71205c",
+      "geometry": {
+        "coordinates": [
+          12.2979457861093,
+          47.0548394780051,
+          2208.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2011",
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "name": "Essener-Rostocker-Hütte",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "essenerrostockerhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "7f3092fd-5739-6d11-ade4-4c9713bcdd03",
+      "geometry": {
+        "coordinates": [
+          11.6389576259771,
+          47.1714140167163,
+          1970.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1982",
+        "HS": 1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 1.000,
+        "LT": 10.800,
+        "LT_MAX": 11.700,
+        "LT_MIN": 4.000,
+        "LWD-Region": "AT-07-15 Tuxer Alpen West",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Wattener Lizum",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "wattener_lizum"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "8038fa24-c247-8691-8bf9-8e658acfd95e",
+      "geometry": {
+        "coordinates": [
+          12.5474580231716,
+          47.0877740451217,
+          1705.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2018",
+        "HS": -1.000,
+        "HSD24": -4.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 8.600,
+        "LT_MAX": 10.300,
+        "LT_MIN": 3.200,
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "N24": 0.050,
+        "N48": 0.050,
+        "N6": 0.000,
+        "N72": 0.200,
+        "WG": 4.823,
+        "WR": 290.954,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Landeggalm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "landeggalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "80b5d623-5fb3-4abe-ed2e-ad5cfe789785",
+      "geometry": {
+        "coordinates": [
+          11.0128949897827,
+          46.961489010678,
+          1382.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1911",
+        "HS": -1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 15.100,
+        "LT_MAX": 16.300,
+        "LT_MIN": 5.300,
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Sölden",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "soelden_hd"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "81500c11-6a2e-d8f2-7e38-ef2550d8ec41",
+      "geometry": {
+        "coordinates": [
+          11.1395921042623,
+          46.9969756302505,
+          2290.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1978",
+        "HS": 2.000,
+        "HSD24": 0.000,
+        "HSD48": 1.000,
+        "HSD72": 0.000,
+        "LT": 7.700,
+        "LT_MAX": 10.300,
+        "LT_MIN": 2.500,
+        "LWD-Region": "AT-07-22 Stubaier Alpen Mitte",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Dresdner Hütte",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "dresdnerhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "81d24a39-1d27-7cfd-4057-e6a6772f1c2e",
+      "geometry": {
+        "coordinates": [
+          10.171564,
+          46.982889,
+          2750.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2000",
+        "LT": 5.000,
+        "LT_MAX": 8.100,
+        "LT_MIN": 1.400,
+        "LWD-Nummer": "GAMA1",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "RH": 70.400,
+        "TD": 0.074,
+        "WG": 13.516,
+        "WG_BOE": 31.248,
+        "WR": 196.762,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Grieskopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "amadamsberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "82ba39f9-ecaa-1d72-5a1d-d26b674f7227",
+      "geometry": {
+        "coordinates": [
+          11.1465206411256,
+          47.2405584231424,
+          1790.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2002",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 12.600,
+        "LT_MAX": 13.800,
+        "LT_MIN": 6.000,
+        "LWD-Region": "AT-07-09 Grieskogelgruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Inzinger Alm [Kaserboden]",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "inzinger_alm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "8766d854-57e3-7431-b2b6-4b7f038cd1f6",
+      "geometry": {
+        "coordinates": [
+          10.306146,
+          46.982623,
+          2030.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2009",
+        "GS_O": 748.000,
+        "HS": 4.500,
+        "HSD24": -0.188,
+        "HSD48": 0.457,
+        "HSD72": 0.300,
+        "LT": 12.200,
+        "LT_MAX": 12.900,
+        "LT_MIN": 5.500,
+        "LWD-Nummer": "INAC2",
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "OFT": 23.900,
+        "RH": 47.200,
+        "TD": 1.294,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Nachtweide",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "nachtweide"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "8827e37f-e940-2da7-e089-92e2b55c75d2",
+      "geometry": {
+        "coordinates": [
+          12.3115329742414,
+          47.6484949866677,
+          656.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1904",
+        "HS": 1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 19.100,
+        "LT_MAX": 19.200,
+        "LT_MIN": 7.400,
+        "LWD-Region": "AT-07-06 Kaisergebirge - Waidringer Alpen",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Walchsee-Kaiserwinkl",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "walchsee-kaiserwinkl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "88e60e0d-fbf8-d339-7d6d-57e38be130d3",
+      "geometry": {
+        "coordinates": [
+          10.855198,
+          46.963654,
+          2293.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2012",
+        "LT": 10.400,
+        "LT_MAX": 11.900,
+        "LT_MIN": 6.700,
+        "LWD-Nummer": "SLRI1",
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "RH": 44.300,
+        "TD": -1.218,
+        "WG": 20.773,
+        "WG_BOE": 53.496,
+        "WR": 209.824,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Rifflsee Muttenkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rifflsee"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "8905c945-2a61-3b9a-653e-3925753cee35",
+      "geometry": {
+        "coordinates": [
+          10.544345,
+          46.863224,
+          2150.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2019",
+        "GS_O": 300.000,
+        "HS": 6.600,
+        "HSD24": -5.250,
+        "HSD48": 1.000,
+        "HSD72": -2.134,
+        "LT": 8.000,
+        "LT_MAX": 10.800,
+        "LT_MIN": 2.900,
+        "LWD-Nummer": "NGAN2",
+        "LWD-Region": "AT-07-19 Glockturmgruppe",
+        "OFT": 8.200,
+        "RH": 62.400,
+        "TD": 1.265,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Nauders Ganderbild",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "nauders_ganderbild"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "8d9b9e85-af82-44bb-cd25-a5fc2127e7a4",
+      "geometry": {
+        "coordinates": [
+          12.3295,
+          47.5808888888889,
+          1025.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2022",
+        "GS_O": 0.000,
+        "HS": 7.500,
+        "HSD24": -1.116,
+        "HSD48": -1.200,
+        "HSD72": 0.072,
+        "LT": 13.900,
+        "LT_MAX": 14.600,
+        "LT_MIN": 5.900,
+        "LWD-Nummer": "KGRI2",
+        "LWD-Region": "AT-07-06 Kaisergebirge - Waidringer Alpen",
+        "OFT": -0.200,
+        "RH": 63.600,
+        "TD": 7.120,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Griesneralm LWD",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "griesneralm_lwd"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "8fa8ea03-9873-a52f-a6d7-b4d6ecb4763f",
+      "geometry": {
+        "coordinates": [
+          10.8883502545857,
+          46.8008534935225,
+          2470.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2010",
+        "LT": 3.800,
+        "LT_MAX": 11.500,
+        "LT_MIN": 3.100,
+        "LWD-Region": "AT-07-21 Gurgler Gruppe",
+        "N24": 0.000,
+        "N48": 0.180,
+        "N6": 0.000,
+        "N72": 0.750,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Martin-Busch-Hütte",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "martinbuschhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "904d629f-a5e3-5ce8-cba9-9fd45e2c905d",
+      "geometry": {
+        "coordinates": [
+          10.76282,
+          47.071488,
+          2038.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2006",
+        "GS_O": 618.000,
+        "HS": 11.200,
+        "HSD24": 1.210,
+        "HSD48": 2.338,
+        "HSD72": 2.048,
+        "LT": 12.100,
+        "LT_MAX": 12.800,
+        "LT_MIN": 3.300,
+        "LWD-Nummer": "KAUN2",
+        "LWD-Region": "AT-07-14-01 Kaunergrat",
+        "OFT": 13.840,
+        "RH": 56.000,
+        "TD": 3.599,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Falkaunsalpe",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "falkaunsalpe"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "91c3c894-a75c-0580-1d12-61a46fb063e7",
+      "geometry": {
+        "coordinates": [
+          11.658062,
+          47.120752,
+          2580.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1999",
+        "LT": 4.700,
+        "LT_MAX": 8.600,
+        "LT_MIN": 1.300,
+        "LWD-Nummer": "TWAN1",
+        "LWD-Region": "AT-07-15 Tuxer Alpen West",
+        "RH": 87.200,
+        "TD": 2.758,
+        "WG": 5.281,
+        "WG_BOE": 36.072,
+        "WR": 260.921,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Wandspitze Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "wandspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "92aec241-eab0-9402-7dfc-c9a1972ed6d6",
+      "geometry": {
+        "coordinates": [
+          11.767481,
+          47.192132,
+          2538.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1994",
+        "LT": 6.000,
+        "LT_MAX": 8.600,
+        "LT_MIN": 2.000,
+        "LWD-Nummer": "TLAE1",
+        "LWD-Region": "AT-07-16 Tuxer Alpen Ost",
+        "RH": 79.200,
+        "TD": 2.678,
+        "WG": 17.334,
+        "WG_BOE": 31.644,
+        "WR": 150.770,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Rastkogel Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "laemmerbichlalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "942f599b-88d4-2734-ed52-e497385d472f",
+      "geometry": {
+        "coordinates": [
+          11.733761,
+          47.158386,
+          1261.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1895",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 15.200,
+        "LT_MAX": 15.200,
+        "LT_MIN": 4.500,
+        "LWD-Region": "AT-07-23-01 Zillertaler Alpen Nordwest",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 65.000,
+        "TD": 6.600,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Lanersbach",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "lanersbach"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "94847e60-bd4c-9ddd-f2e5-6aee95b9f670",
+      "geometry": {
+        "coordinates": [
+          12.336998,
+          46.820923,
+          2550.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2018",
+        "LT": 3.500,
+        "LT_MAX": 6.400,
+        "LT_MIN": 1.700,
+        "LWD-Nummer": "IMOS1",
+        "LWD-Region": "AT-07-27 Deferegger Alpen Ost",
+        "RH": 99.600,
+        "TD": 3.443,
+        "WG": 16.987,
+        "WG_BOE": 32.472,
+        "WR": 270.506,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Mosesgipfel Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "mosesgipfel"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "94d82287-7e64-6bd0-178b-ea7211897cc4",
+      "geometry": {
+        "coordinates": [
+          10.6485770384695,
+          47.0967090651098,
+          1425.8
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1911",
+        "LT": 16.800,
+        "LT_MAX": 17.500,
+        "LT_MIN": 6.300,
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Ladis Neuegg",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "ladis"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "95ae660f-fa3a-43df-a50a-bc8710fb380f",
+      "geometry": {
+        "coordinates": [
+          12.5175,
+          47.1475,
+          2850.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1994",
+        "GS_O": 594.000,
+        "HS": 2.800,
+        "HSD24": 0.369,
+        "HSD48": 0.022,
+        "HSD72": -0.300,
+        "LT": 2.400,
+        "LT_MAX": 6.600,
+        "LT_MIN": -0.300,
+        "LWD-Nummer": "MIOH2",
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "OFT": 7.000,
+        "RH": 93.000,
+        "TD": 1.387,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Hochgasser Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "hochgasser"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "96492e38-a3e5-6301-2d7c-18f417213b80",
+      "geometry": {
+        "coordinates": [
+          11.0238831825025,
+          47.070984629771,
+          1585.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1992",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 15.000,
+        "LT_MAX": 15.300,
+        "LT_MIN": 3.200,
+        "LWD-Region": "AT-07-14-03 Sellrain - Alpeiner Berge",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Gries im Sulztal",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "gries_im_sulztal"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "964b3e66-d290-98ca-f855-f3225438e567",
+      "geometry": {
+        "coordinates": [
+          10.545645,
+          47.052584,
+          2660.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LT": 6.100,
+        "LT_MAX": 7.600,
+        "LT_MIN": 0.700,
+        "LWD-Nummer": "SPLO1",
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "RH": 70.900,
+        "TD": 1.228,
+        "WG": 38.060,
+        "WG_BOE": 57.852,
+        "WR": 139.590,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Planskopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "plojen"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "964bd33f-3bd9-e5db-23fe-c3be1326486e",
+      "geometry": {
+        "coordinates": [
+          12.3761051007859,
+          46.7678719221654,
+          1985.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2002",
+        "LT": 7.700,
+        "LT_MAX": 13.900,
+        "LT_MIN": 3.900,
+        "LWD-Region": "AT-07-27 Deferegger Alpen Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Sillianberger Alm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "sillianbergeralm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "967ea24f-9d9d-fc98-a40e-154f479f735c",
+      "geometry": {
+        "coordinates": [
+          10.225528,
+          47.133236,
+          2150.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LT": 10.700,
+        "LT_MAX": 12.700,
+        "LT_MIN": 5.400,
+        "LWD-Nummer": "SAYO1",
+        "LWD-Region": "AT-07-07 Lechtaler Alpen West",
+        "RH": 50.600,
+        "TD": 0.881,
+        "WG": 5.564,
+        "WG_BOE": 26.100,
+        "WR": 196.552,
+        "date": "2026-10-20T12:40:00+02:00",
+        "name": "Osthangbahn Young",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "ulmerhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "96c66981-9a97-d8f5-0b19-5bda9dc87f96",
+      "geometry": {
+        "coordinates": [
+          12.3077069348208,
+          47.3830000297653,
+          1005.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1979",
+        "LT": 16.600,
+        "LT_MAX": 16.600,
+        "LT_MIN": 1.600,
+        "LWD-Region": "AT-07-17-02 Kitzbüheler Alpen Wildschönau",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 56.000,
+        "TD": 7.795,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Aschau",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "aschau"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "986e2d4a-7058-c335-9102-b1289ce99288",
+      "geometry": {
+        "coordinates": [
+          10.267623,
+          47.018201,
+          2292.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1996",
+        "GS_O": 752.400,
+        "HS": 3.900,
+        "HSD24": -1.144,
+        "HSD48": -0.942,
+        "HSD72": -0.900,
+        "LT": 10.600,
+        "LT_MAX": 10.600,
+        "LT_MIN": 5.600,
+        "LWD-Nummer": "IPIS2",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "OFT": 24.300,
+        "RH": 53.500,
+        "TD": 1.562,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Pischgraben",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "pischgraben"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "9a708855-b6c7-b1af-0e07-ae9116abfc91",
+      "geometry": {
+        "coordinates": [
+          11.296132,
+          47.137671,
+          2230.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2010",
+        "LT": 7.600,
+        "LT_MAX": 9.500,
+        "LT_MIN": 4.600,
+        "LWD-Nummer": "FSEE1",
+        "LWD-Region": "AT-07-14-04 Kalkkögel",
+        "RH": 68.000,
+        "TD": 2.083,
+        "WG": 16.533,
+        "WG_BOE": 29.664,
+        "WR": 111.443,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Sennjoch",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "schlickeralm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "9f2faaa5-9c72-71df-8820-4cda2eab7932",
+      "geometry": {
+        "coordinates": [
+          11.0103777777778,
+          46.87435,
+          2529.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2016",
+        "GS_O": 455.000,
+        "HS": 4.500,
+        "HSD24": -0.066,
+        "HSD48": 0.509,
+        "HSD72": 0.355,
+        "LT": 5.000,
+        "LT_MAX": 9.000,
+        "LT_MIN": 1.800,
+        "LWD-Nummer": "SSON2",
+        "LWD-Region": "AT-07-21 Gurgler Gruppe",
+        "OFT": 11.900,
+        "RH": 79.000,
+        "TD": 1.669,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Sonnbergalm",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "obergurgl_sonn"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "9fbd7571-5e62-3728-4851-2441f0e8f743",
+      "geometry": {
+        "coordinates": [
+          11.095642,
+          47.156075,
+          2870.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2008",
+        "LT": 6.500,
+        "LT_MAX": 6.600,
+        "LT_MIN": 2.000,
+        "LWD-Nummer": "SSLA1",
+        "LWD-Region": "AT-07-14-03 Sellrain - Alpeiner Berge",
+        "RH": 55.200,
+        "TD": -1.824,
+        "WG": 10.382,
+        "WG_BOE": 33.804,
+        "WR": 134.717,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Lampsenspitze Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "lampsenspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "a0875cf6-cc8b-fa56-3bd0-b2ded1bf1370",
+      "geometry": {
+        "coordinates": [
+          10.9887833333333,
+          46.8813861111111,
+          3274.31
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2016",
+        "LT": 1.500,
+        "LT_MAX": 5.100,
+        "LT_MIN": -1.100,
+        "LWD-Nummer": "SSON1",
+        "LWD-Region": "AT-07-21 Gurgler Gruppe",
+        "RH": 79.100,
+        "TD": -1.719,
+        "WG": 8.254,
+        "WG_BOE": 27.072,
+        "WR": 159.309,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Zirmkogel Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "obergurgl_sonn"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "a0d72b32-48f7-c4c2-c62f-47f637f8de9c",
+      "geometry": {
+        "coordinates": [
+          10.5662528047355,
+          47.1846749878816,
+          1941.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2016",
+        "GS_O": 56.000,
+        "HS": 10.400,
+        "HSD24": 0.300,
+        "HSD48": 0.655,
+        "HSD72": -0.551,
+        "LT": 9.500,
+        "LT_MAX": 11.000,
+        "LT_MIN": 6.100,
+        "LWD-Nummer": "ZSIL2",
+        "LWD-Region": "AT-07-08 Lechtaler Alpen Mitte",
+        "OFT": 7.600,
+        "RH": 60.400,
+        "TD": 2.227,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Silberspitze Schneemessung",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "silberspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "a10ecab9-f1ec-05d2-928e-d1931fb051a2",
+      "geometry": {
+        "coordinates": [
+          10.938308,
+          46.918511,
+          2898.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2018",
+        "GS_O": 633.000,
+        "HS": 1.600,
+        "HSD24": 0.524,
+        "HSD48": -0.650,
+        "HSD72": 0.220,
+        "LT": 3.700,
+        "LT_MAX": 5.500,
+        "LT_MIN": 0.800,
+        "LWD-Nummer": "SSPE2",
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "OFT": 10.800,
+        "RH": 70.000,
+        "TD": -1.251,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Speicherteich Panorama",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "speicherteich_panorama"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "a6c3d1ea-88e1-6c7b-eea4-834f5fc6fc8a",
+      "geometry": {
+        "coordinates": [
+          12.316122,
+          47.588411,
+          1694.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2023",
+        "LT": 13.100,
+        "LT_MAX": 13.800,
+        "LT_MIN": 6.700,
+        "LWD-Nummer": "KTRI1",
+        "LWD-Region": "AT-07-06 Kaisergebirge - Waidringer Alpen",
+        "RH": 56.600,
+        "TD": 4.684,
+        "WG": 1.349,
+        "WG_BOE": 14.112,
+        "WR": 155.938,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Tristecken Griesneralm Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "griesneralm_lwd"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "a6caebb4-9a9c-140f-d51e-9541ecdb1a00",
+      "geometry": {
+        "coordinates": [
+          10.472974893372,
+          47.1661461006238,
+          2968.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2002",
+        "LT": 4.100,
+        "LT_MAX": 5.500,
+        "LT_MIN": -1.200,
+        "LWD-Nummer": "SDAW1",
+        "LWD-Region": "AT-07-08 Lechtaler Alpen Mitte",
+        "RH": 77.000,
+        "TD": 0.440,
+        "WG": 18.482,
+        "WG_BOE": 39.960,
+        "WR": 125.115,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Dawinkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "dawinalpe"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "a825ba6a-5dcb-a73a-3006-e9429db4f75b",
+      "geometry": {
+        "coordinates": [
+          11.080385,
+          47.346295,
+          2580.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2009",
+        "HS": 7.000,
+        "HSD24": -0.297,
+        "HSD48": -0.200,
+        "HSD72": -0.176,
+        "LWD-Nummer": "THOH1",
+        "LWD-Region": "AT-07-03 Mieminger Gebirge",
+        "WG": 31.401,
+        "WG_BOE": 49.176,
+        "WR": 218.120,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Hohe Munde Gipfel",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "hohemunde"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "a8f7c4a2-e47d-c51e-338a-f2e054302037",
+      "geometry": {
+        "coordinates": [
+          10.796,
+          47.0944,
+          2359.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2015",
+        "LT": 8.300,
+        "LT_MAX": 10.100,
+        "LT_MIN": 5.100,
+        "LWD-Nummer": "SLBU1",
+        "LWD-Region": "AT-07-14-01 Kaunergrat",
+        "RH": 86.600,
+        "TD": 6.200,
+        "WG": 7.248,
+        "WG_BOE": 42.264,
+        "WR": 212.577,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Burgbach Brechgrad",
+        "operator": "LWD Tirol/WLV",
+        "plot": "burgbach"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "ab789cdc-b907-4570-8537-e43148604406",
+      "geometry": {
+        "coordinates": [
+          11.227903,
+          47.342025,
+          1745.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2013",
+        "LT": 11.300,
+        "LT_MAX": 13.100,
+        "LT_MIN": 7.100,
+        "LWD-Nummer": "SROS1",
+        "LWD-Region": "AT-07-04-01 Karwendel West",
+        "RH": 59.700,
+        "TD": 3.757,
+        "WG": 0.957,
+        "WG_BOE": 20.160,
+        "WR": 240.047,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Rosshütte Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rosshuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "ac2fc592-5366-a6a7-50ce-7cd8f0e5cf0f",
+      "geometry": {
+        "coordinates": [
+          10.31545,
+          47.129698,
+          1935.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2012",
+        "GS_O": 662.000,
+        "HS": 5.900,
+        "HSD24": -0.103,
+        "HSD48": -0.550,
+        "HSD72": -0.427,
+        "LT": 13.000,
+        "LT_MAX": 13.000,
+        "LT_MIN": 4.900,
+        "LWD-Nummer": "SAAU2",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "OFT": 18.200,
+        "RH": 39.700,
+        "TD": -0.369,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Äußere Rendlalpe",
+        "operator": "LWD Tirol/ÖBB",
+        "plot": "stanton_hochkar"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b1036815-e880-d61f-8e98-a4262b7b86d5",
+      "geometry": {
+        "coordinates": [
+          10.177635,
+          46.885912,
+          2172.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "GS_O": 719.000,
+        "HS": 1.100,
+        "HSD24": -0.360,
+        "HSD48": 0.992,
+        "HSD72": 0.437,
+        "LT": 10.000,
+        "LT_MAX": 12.100,
+        "LT_MIN": 5.900,
+        "LWD-Nummer": "GJAM2",
+        "LWD-Region": "AT-07-12 Silvretta Ost",
+        "OFT": 12.400,
+        "RH": 54.300,
+        "TD": 1.211,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Jamtalhütte Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "jamtalhuette_gamshorn"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b1c359e1-74d7-cf01-4b56-6040722db375",
+      "geometry": {
+        "coordinates": [
+          10.558773,
+          47.041396,
+          2065.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "GS_O": 746.000,
+        "HS": 7.500,
+        "HSD24": 0.462,
+        "HSD48": -0.849,
+        "HSD72": 0.281,
+        "LT": 11.700,
+        "LT_MAX": 13.300,
+        "LT_MIN": 5.100,
+        "LWD-Nummer": "SPLO2",
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "OFT": 15.800,
+        "RH": 51.200,
+        "TD": 1.968,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Plojen",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "plojen"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b27f27e9-5616-4477-0d9c-fb825a3df992",
+      "geometry": {
+        "coordinates": [
+          12.622713069675,
+          46.7243364999473,
+          2105.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2011",
+        "LT": 5.500,
+        "LT_MAX": 11.500,
+        "LT_MIN": 3.400,
+        "LWD-Nummer": "OCON1",
+        "LWD-Region": "AT-07-29-02 Lienzer Dolomiten",
+        "RH": 100.400,
+        "TD": 5.557,
+        "WG": 5.996,
+        "WG_BOE": 20.988,
+        "WR": 139.758,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Connyalm Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "connyalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b36a4506-23e8-bc0e-72e1-809bec2f69b6",
+      "geometry": {
+        "coordinates": [
+          10.851829,
+          47.387088,
+          1871.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LT": 10.300,
+        "LT_MAX": 11.200,
+        "LT_MIN": 5.800,
+        "LWD-Nummer": "LGRU1",
+        "LWD-Region": "AT-07-02-02 Lechtaler Alpen Ost",
+        "RH": 54.400,
+        "TD": 1.515,
+        "WG": 22.736,
+        "WG_BOE": 59.184,
+        "WR": 223.803,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Grubigstein Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "grubigstein"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b4762934-0d51-3f56-9e0b-b4cad3213f78",
+      "geometry": {
+        "coordinates": [
+          10.4828,
+          47.0725,
+          1985.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2011",
+        "GS_O": 635.000,
+        "HS": 3.400,
+        "HSD24": -0.400,
+        "HSD48": -0.600,
+        "HSD72": 0.004,
+        "LT": 12.600,
+        "LT_MAX": 13.400,
+        "LT_MIN": 5.700,
+        "LWD-Nummer": "SMED2",
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "OFT": 8.500,
+        "RH": 49.800,
+        "TD": 2.409,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Medrig-Zeinis",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "medrig"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b52b4a83-f262-1ee6-3087-9432fd17424f",
+      "geometry": {
+        "coordinates": [
+          11.762127,
+          47.441861,
+          1824.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2000",
+        "GS_O": 111.000,
+        "HS": -2.000,
+        "HSD24": -2.000,
+        "HSD48": -2.000,
+        "HSD72": -2.000,
+        "LT": 14.200,
+        "LT_MAX": 14.900,
+        "LT_MIN": 7.800,
+        "LWD-Nummer": "EERF2",
+        "LWD-Region": "AT-07-05 Brandenberger Alpen",
+        "OFT": 6.540,
+        "RH": 55.900,
+        "TD": 5.532,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Erfurter Hütte",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "erfurterhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b53a3f24-fc5c-5e61-b062-f9d982f9db03",
+      "geometry": {
+        "coordinates": [
+          12.5927578681143,
+          47.5104836417173,
+          868.3
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1986",
+        "HS": 1.000,
+        "HSD24": 0.000,
+        "HSD48": -1.000,
+        "HSD72": 0.000,
+        "LT": 17.183,
+        "LT_MAX": 17.183,
+        "LT_MIN": 5.683,
+        "LWD-Region": "AT-07-06 Kaisergebirge - Waidringer Alpen",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "St Ulrich am Pillersee",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "stulrichampillersee"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b560e2b4-c967-c3af-9f00-7fdf74289c2d",
+      "geometry": {
+        "coordinates": [
+          11.303207,
+          47.154432,
+          1645.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1991",
+        "GS_O": 123.000,
+        "HS": 3.600,
+        "HSD24": -0.071,
+        "HSD48": -0.650,
+        "HSD72": 0.550,
+        "LT": 11.100,
+        "LT_MAX": 13.600,
+        "LT_MIN": 5.000,
+        "LWD-Nummer": "FSEE2",
+        "LWD-Region": "AT-07-14-04 Kalkkögel",
+        "OFT": 2.600,
+        "RH": 63.500,
+        "TD": 4.445,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Schlicker Alm",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "schlickeralm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b6f81ac4-6c76-abcb-fec0-2121ba9321df",
+      "geometry": {
+        "coordinates": [
+          10.8528,
+          47.0339,
+          2410.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LT": 10.300,
+        "LT_MAX": 10.700,
+        "LT_MIN": 5.800,
+        "LWD-Nummer": "SLSE1",
+        "LWD-Region": "AT-07-14-01 Kaunergrat",
+        "RH": 52.700,
+        "TD": 1.074,
+        "WG": 14.091,
+        "WG_BOE": 41.508,
+        "WR": 131.878,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Seirlöcher Kogel",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "seirloecherkogel"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b95dc411-d3dd-6d86-1f5e-0623ff6c8c90",
+      "geometry": {
+        "coordinates": [
+          11.015948,
+          47.343031,
+          1510.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1988",
+        "HS": -1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 13.200,
+        "LT_MAX": 13.400,
+        "LT_MIN": 5.200,
+        "LWD-Region": "AT-07-03 Mieminger Gebirge",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Alplhütte",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "alplhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b982f75a-a197-ac99-13f2-52cea3f0d77e",
+      "geometry": {
+        "coordinates": [
+          12.00693,
+          47.365126,
+          1957.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2003",
+        "LT": 12.000,
+        "LT_MAX": 12.000,
+        "LT_MIN": 7.100,
+        "LWD-Nummer": "AKLE1",
+        "LWD-Region": "AT-07-17-01 Kitzbüheler Alpen Brixental",
+        "RH": 54.900,
+        "TD": 3.226,
+        "WG": 19.468,
+        "WG_BOE": 42.912,
+        "WR": 232.508,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Saupanzen",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kleinerbeil"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "b9b23e67-c13a-eab8-3c72-b4be145fd166",
+      "geometry": {
+        "coordinates": [
+          10.870003,
+          46.816395,
+          3453.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "LT": -1.200,
+        "LT_MAX": 3.500,
+        "LT_MIN": -2.500,
+        "LWD-Nummer": "SKRE1",
+        "LWD-Region": "AT-07-21 Gurgler Gruppe",
+        "RH": 96.300,
+        "TD": -1.712,
+        "WG": 16.026,
+        "WG_BOE": 52.812,
+        "WR": 98.727,
+        "date": "2026-10-20T13:10:00+02:00",
+        "name": "Sölden Kreuzspitze",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "soelden_kreuzspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "bd2022cc-2da4-61f3-4fb2-10959981e0b1",
+      "geometry": {
+        "coordinates": [
+          11.925,
+          47.3683333333333,
+          1834.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2007",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 12.300,
+        "LT_MAX": 12.500,
+        "LT_MIN": 7.400,
+        "LWD-Nummer": "ABRA2",
+        "LWD-Region": "AT-07-17-01 Kitzbüheler Alpen Brixental",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 46.000,
+        "TD": 1.028,
+        "WG": 9.855,
+        "WG_BOE": 40.320,
+        "WR": 225.701,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Alpbach Wiedersberger Horn",
+        "operator": "LWD Tirol/GeoSphere Austria",
+        "plot": "alpbach_wiedersberger_horn"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "bd4a6606-6f78-78bd-5a23-3b9001b78b27",
+      "geometry": {
+        "coordinates": [
+          10.6896588085713,
+          47.2556034175354,
+          1564.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2013",
+        "HS": -1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 14.700,
+        "LT_MAX": 14.700,
+        "LT_MIN": 5.100,
+        "LWD-Region": "AT-07-02-02 Lechtaler Alpen Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 56.167,
+        "TD": 5.787,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Imst-Obermarkter Alm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "imst_obermarkteralm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "bdbb5f4b-f0f6-75fa-52c0-84bf63aca6e6",
+      "geometry": {
+        "coordinates": [
+          12.791295,
+          46.766428,
+          2077.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1994",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 5.800,
+        "LT_MAX": 10.800,
+        "LT_MIN": 2.300,
+        "LWD-Nummer": "KABD1",
+        "LWD-Region": "AT-07-29-02 Lienzer Dolomiten",
+        "N24": 0.490,
+        "N48": 0.490,
+        "N6": 0.100,
+        "N72": 0.490,
+        "RH": 77.000,
+        "TD": 2.700,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Karlsbader Hütte",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "karlsbader_huette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "bff84a72-07fc-93f0-1037-e44a5487a255",
+      "geometry": {
+        "coordinates": [
+          10.313718,
+          47.114241,
+          2745.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2012",
+        "LT": 7.100,
+        "LT_MAX": 7.100,
+        "LT_MIN": -0.100,
+        "LWD-Nummer": "SAAU1",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "RH": 54.900,
+        "TD": -1.339,
+        "WG": 13.470,
+        "WG_BOE": 38.268,
+        "WR": 160.129,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Hochkar",
+        "operator": "LWD Tirol/ÖBB",
+        "plot": "stanton_hochkar"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "c0a88d28-211d-3258-5e4f-b38dfcbabd4c",
+      "geometry": {
+        "coordinates": [
+          10.890501,
+          47.11516,
+          1960.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1994",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 11.700,
+        "LT_MAX": 13.100,
+        "LT_MIN": 4.100,
+        "LWD-Region": "AT-07-14-02 Kühtai - Geigenkamm",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 56.000,
+        "TD": 3.900,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Hintere Fundusalm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "hintere_fundusalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "c171c088-3f7b-824d-7932-10071432374b",
+      "geometry": {
+        "coordinates": [
+          11.5611810709815,
+          47.3211164570119,
+          875.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1895",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 19.600,
+        "LT_MAX": 19.600,
+        "LT_MIN": 6.600,
+        "LWD-Region": "AT-07-04-01 Karwendel West",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 51.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "St Martin in Gnadenwald",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "st_martin_in_gnadenwald"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "c4820567-57ce-c41f-78c6-7aae7ffcbaa0",
+      "geometry": {
+        "coordinates": [
+          10.7531618024833,
+          47.0429236224031,
+          1269.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1895",
+        "HS": 0.000,
+        "HSD24": -2.000,
+        "HSD48": -2.000,
+        "HSD72": -2.000,
+        "LT": 16.700,
+        "LT_MAX": 17.700,
+        "LT_MIN": 4.400,
+        "LWD-Region": "AT-07-14-01 Kaunergrat",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 57.000,
+        "TD": 7.800,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Kaunertal Vergötschen",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "kaunertal_vergoetschen"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "c5147dfa-75a0-d095-7b4e-f0e36a5abb89",
+      "geometry": {
+        "coordinates": [
+          10.547479,
+          47.367126,
+          954.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1896",
+        "LT": 20.500,
+        "LT_MAX": 20.500,
+        "LT_MIN": 3.300,
+        "LWD-Region": "AT-07-01 Allgäuer Alpen Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:35:00+02:00",
+        "name": "Vorderhornbach",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "vorderhornbach"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "c652a401-1a25-b7bb-6311-463e35b30f30",
+      "geometry": {
+        "coordinates": [
+          12.1381931165776,
+          47.3857231850044,
+          801.4
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1895",
+        "LT": 17.200,
+        "LT_MAX": 17.200,
+        "LT_MIN": 3.900,
+        "LWD-Region": "AT-07-17-02 Kitzbüheler Alpen Wildschönau",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kelchsau",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "kelchsau"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "c67b905f-bd74-4796-42a3-c53c2e895601",
+      "geometry": {
+        "coordinates": [
+          11.316349,
+          47.194818,
+          2098.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2019",
+        "LT": 8.400,
+        "LT_MAX": 11.000,
+        "LT_MIN": 4.800,
+        "LWD-Nummer": "ABIR1",
+        "LWD-Region": "AT-07-14-04 Kalkkögel",
+        "RH": 63.300,
+        "TD": 1.843,
+        "WG": 2.525,
+        "WG_BOE": 24.300,
+        "WR": 154.536,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Birgitzköpfl",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "birgitzkoepfl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "c7090291-4792-77cd-d84c-25bce6b29118",
+      "geometry": {
+        "coordinates": [
+          10.3452388917927,
+          47.0791083428996,
+          2380.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1993",
+        "GS_O": 826.000,
+        "HS": 1.700,
+        "HSD24": 1.406,
+        "HSD48": 0.750,
+        "HSD72": 1.000,
+        "LT": 8.400,
+        "LT_MAX": 9.400,
+        "LT_MIN": 2.700,
+        "LWD-Nummer": "KDIA2",
+        "LWD-Region": "AT-07-11 Verwallgruppe Ost",
+        "OFT": 18.200,
+        "RH": 57.500,
+        "TD": 0.510,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Dias",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "dias"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "c72efd36-989f-f755-af01-e8a0794255f1",
+      "geometry": {
+        "coordinates": [
+          10.9211000089129,
+          46.8735999798742,
+          2200.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2003",
+        "GS_O": 249.000,
+        "HS": 1.200,
+        "HSD24": -0.308,
+        "HSD48": -0.394,
+        "HSD72": 0.800,
+        "LT": 10.000,
+        "LT_MAX": 11.000,
+        "LT_MIN": 3.800,
+        "LWD-Nummer": "SVVO2",
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "OFT": -75.000,
+        "RH": 54.400,
+        "TD": 1.236,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Vorderegg",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "vorderegg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "c73a2c8a-5d74-0933-e906-53c40e2fd6c5",
+      "geometry": {
+        "coordinates": [
+          11.9951885117421,
+          47.2632337937377,
+          2123.6
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2011",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 6.700,
+        "LT_MAX": 7.400,
+        "LT_MIN": 2.000,
+        "LWD-Region": "AT-07-17-01 Kitzbüheler Alpen Brixental",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Wilde Krimml",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "wildekrimml"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "c88961a6-b408-d881-4593-0c2ed8198453",
+      "geometry": {
+        "coordinates": [
+          12.522012,
+          47.14963,
+          2910.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1994",
+        "LT": 0.000,
+        "LT_MAX": 5.100,
+        "LT_MIN": -1.200,
+        "LWD-Nummer": "MIOH1",
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "RH": 79.700,
+        "TD": -3.077,
+        "WG": 42.297,
+        "WG_BOE": 59.652,
+        "WR": 185.538,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Hochgasser Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "hochgasser"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "cc6b06f1-9cd9-6eb4-b2ac-426f988029ca",
+      "geometry": {
+        "coordinates": [
+          10.266202,
+          47.077738,
+          1895.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2000",
+        "GS_O": 511.000,
+        "HS": 6.100,
+        "HSD24": 1.010,
+        "HSD48": 0.157,
+        "HSD72": 0.409,
+        "LT": 13.400,
+        "LT_MAX": 14.300,
+        "LT_MIN": 4.700,
+        "LWD-Nummer": "SARE2",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "RH": 53.600,
+        "TD": 4.187,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Rendl Riffel 1",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rendl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "cdeb7dcc-739b-62ab-b1d2-4cd0396f6eab",
+      "geometry": {
+        "coordinates": [
+          10.1754252357467,
+          46.8870426863789,
+          2141.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2013",
+        "GS_O": 740.088,
+        "GS_U": 108.611,
+        "HS": 6.000,
+        "HSD24": 6.000,
+        "HSD48": -13.000,
+        "HSD72": 6.000,
+        "LT": 10.300,
+        "LT_MAX": 13.000,
+        "LT_MIN": 5.900,
+        "LWD-Nummer": "GJAA1",
+        "LWD-Region": "AT-07-12 Silvretta Ost",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "OFT": 11.200,
+        "RH": 56.000,
+        "TD": 1.453,
+        "WG": 19.526,
+        "WG_BOE": 51.480,
+        "WR": 159.215,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Jamtalhütte",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "jamtalhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "ceaee63b-8f00-9082-05c2-8e658bc1669a",
+      "geometry": {
+        "coordinates": [
+          11.178164,
+          47.027353,
+          2520.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1995",
+        "GS_O": 641.700,
+        "HS": 12.100,
+        "HSD24": 1.750,
+        "HSD48": -1.862,
+        "HSD72": 3.304,
+        "LT": 6.300,
+        "LT_MAX": 8.400,
+        "LT_MIN": 4.300,
+        "LWD-Nummer": "NSCH1",
+        "LWD-Region": "AT-07-22 Stubaier Alpen Mitte",
+        "OFT": 9.200,
+        "RH": 64.100,
+        "TD": 0.026,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Schöckbichl",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "schoeckbichl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "cfef49d8-13bf-e174-335c-4513c431424d",
+      "geometry": {
+        "coordinates": [
+          11.9556069009091,
+          47.5853638335261,
+          1323.6
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2011",
+        "HS": -1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 15.100,
+        "LT_MAX": 15.200,
+        "LT_MIN": 4.200,
+        "LWD-Region": "AT-07-05 Brandenberger Alpen",
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Ackernalm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "ackernalm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "d0280b1d-3236-4601-e7de-e209287a3199",
+      "geometry": {
+        "coordinates": [
+          12.4566865147535,
+          47.4786176466881,
+          1215.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2006",
+        "LT": 15.000,
+        "LT_MAX": 15.000,
+        "LT_MIN": 5.200,
+        "LWD-Region": "AT-07-18 Kitzbüheler Alpen Wildseeloder",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Raintalquelle",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "raintalquelle_spa"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "d02a7117-369b-6fa4-9fca-ff1a7684d831",
+      "geometry": {
+        "coordinates": [
+          10.248778,
+          47.01712,
+          2907.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1996",
+        "LT": 5.300,
+        "LT_MAX": 7.000,
+        "LT_MIN": 0.200,
+        "LWD-Nummer": "IPIS1",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "RH": 67.900,
+        "TD": -0.135,
+        "WG": 0.000,
+        "WG_BOE": 0.000,
+        "WR": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Madleinkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "pischgraben"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "d1ba9959-d227-a173-a3ea-be150c514940",
+      "geometry": {
+        "coordinates": [
+          12.2375760601739,
+          47.6719863645385,
+          980.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1979",
+        "LT": 16.600,
+        "LT_MAX": 17.000,
+        "LT_MIN": 7.100,
+        "LWD-Region": "AT-07-06 Kaisergebirge - Waidringer Alpen",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.080,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Niederndorferberg",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "niederndorferberg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "d1f421c4-d4d3-0cde-44b5-6302e2f801e8",
+      "geometry": {
+        "coordinates": [
+          11.7520860065085,
+          47.2750109996503,
+          2060.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "GS_O": 589.000,
+        "HS": 6.100,
+        "HSD24": 1.275,
+        "HSD48": 0.427,
+        "HSD72": 1.400,
+        "LT": 10.700,
+        "LT_MAX": 10.700,
+        "LT_MIN": 5.300,
+        "LWD-Nummer": "FSON2",
+        "LWD-Region": "AT-07-16 Tuxer Alpen Ost",
+        "OFT": 15.000,
+        "RH": 55.700,
+        "TD": 2.218,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Sonntagsköpfl",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "sonntagskoepfl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "d23dbf74-1f6b-5c37-337e-0875ba456823",
+      "geometry": {
+        "coordinates": [
+          10.9367555890495,
+          46.9325583979892,
+          2970.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1999",
+        "HS": 48.700,
+        "HSD24": 1.650,
+        "HSD48": -0.700,
+        "HSD72": 1.100,
+        "LT": 4.000,
+        "LT_MAX": 5.700,
+        "LT_MIN": 0.400,
+        "LWD-Nummer": "SRET2",
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "RH": 68.600,
+        "TD": -1.239,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Rettenbachferner",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rettenbach"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "d3146059-2c19-907c-6b04-ef180da3d316",
+      "geometry": {
+        "coordinates": [
+          11.325632,
+          47.053101,
+          2444.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2008",
+        "LT": -39.700,
+        "LT_MAX": -39.700,
+        "LT_MIN": -39.700,
+        "LWD-Nummer": "GGAL1",
+        "LWD-Region": "AT-07-22 Stubaier Alpen Mitte",
+        "RH": 0.000,
+        "WG": 36.873,
+        "WG_BOE": 47.520,
+        "WR": 122.858,
+        "date": "2026-10-18T12:10:00+02:00",
+        "name": "Kalkwand",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "gallreideschrofen"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "d76794f6-f8bd-72ab-a449-99b347e88103",
+      "geometry": {
+        "coordinates": [
+          10.495924,
+          47.063004,
+          2680.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2012",
+        "LT": 6.000,
+        "LT_MAX": 9.100,
+        "LT_MIN": 3.200,
+        "LWD-Nummer": "SMED1",
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "RH": 65.300,
+        "TD": -0.004,
+        "WG": 14.321,
+        "WG_BOE": 46.728,
+        "WR": 178.444,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Medrigkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "medrig"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "d82537c4-be19-a0f7-204b-497c4ae094c3",
+      "geometry": {
+        "coordinates": [
+          12.2180939987614,
+          47.5805629631644,
+          1166.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1994",
+        "HS": -1.000,
+        "HSD24": -1.000,
+        "HSD48": -1.000,
+        "HSD72": 0.000,
+        "LT": 15.800,
+        "LT_MAX": 15.800,
+        "LT_MIN": 6.100,
+        "LWD-Region": "AT-07-06 Kaisergebirge - Waidringer Alpen",
+        "N24": 0.120,
+        "N48": 0.120,
+        "N6": 0.000,
+        "N72": 0.290,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Brentenjoch",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "brentenjoch"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "db29086f-9e3a-f6d1-dfc9-7c46ec741e95",
+      "geometry": {
+        "coordinates": [
+          10.7181,
+          47.04,
+          2700.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2004",
+        "LT": 6.200,
+        "LT_MAX": 8.700,
+        "LT_MIN": 1.900,
+        "LWD-Nummer": "KAUN1",
+        "LWD-Region": "AT-07-14-01 Kaunergrat",
+        "RH": 68.000,
+        "TD": 0.745,
+        "WG": 19.942,
+        "WG_BOE": 47.160,
+        "WR": 152.758,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Roter Schrofen",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "falkaunsalpe"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "dbe2a457-0c46-33bb-eb32-30b50566313c",
+      "geometry": {
+        "coordinates": [
+          12.584625,
+          46.9900139,
+          2081.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2009",
+        "GS_O": 224.000,
+        "HS": 6.500,
+        "HSD24": -6.100,
+        "HSD48": -6.233,
+        "HSD72": -6.155,
+        "LT": 8.200,
+        "LT_MAX": 12.100,
+        "LT_MIN": 2.100,
+        "LWD-Nummer": "MIOG2",
+        "LWD-Region": "AT-07-26-02 Goldried",
+        "OFT": 10.800,
+        "RH": 59.200,
+        "TD": 0.725,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Goldried Kessel",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "goldriedkessel"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "dcbb3a84-a763-9035-c78d-18ee7f598853",
+      "geometry": {
+        "coordinates": [
+          12.2573661641908,
+          47.4101938749676,
+          1450.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2006",
+        "LT": 16.600,
+        "LT_MAX": 17.000,
+        "LT_MIN": 6.300,
+        "LWD-Region": "AT-07-17-02 Kitzbüheler Alpen Wildschönau",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Talkaser Alm",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "talkaseralm"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "dcbc7240-35aa-02c1-5c74-2320363ff551",
+      "geometry": {
+        "coordinates": [
+          11.282456,
+          47.178144,
+          2275.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2023",
+        "LT": 7.600,
+        "LT_MAX": 9.300,
+        "LT_MIN": 3.500,
+        "LWD-Nummer": "AXLIZ3",
+        "LWD-Region": "AT-07-14-04 Kalkkögel",
+        "RH": 78.100,
+        "TD": 4.035,
+        "WG": 5.348,
+        "WG_BOE": 28.584,
+        "WR": 212.766,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Axams Hoadlsattel",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "axamer_lizum"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "dd449fb2-84b5-7e0a-c3be-1e7e07fd04f6",
+      "geometry": {
+        "coordinates": [
+          11.661969,
+          47.121858,
+          2490.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2000",
+        "GS_O": 615.000,
+        "HS": 10.000,
+        "HSD24": -3.250,
+        "HSD48": -2.600,
+        "HSD72": 4.150,
+        "LT": 6.100,
+        "LT_MAX": 9.800,
+        "LT_MIN": 2.500,
+        "LWD-Nummer": "TWAN2",
+        "LWD-Region": "AT-07-15 Tuxer Alpen West",
+        "OFT": 11.300,
+        "RH": 75.200,
+        "TD": 2.048,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Wandspitze Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "wandspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "dd47ae8b-054e-e7f0-4013-bad33013c3ba",
+      "geometry": {
+        "coordinates": [
+          12.6017,
+          47.0164,
+          2335.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2004",
+        "LT": 2.900,
+        "LT_MAX": 8.400,
+        "LT_MIN": 1.000,
+        "LWD-Nummer": "KFIG1",
+        "LWD-Region": "AT-07-26-02 Goldried",
+        "RH": 89.900,
+        "TD": 1.410,
+        "WG": 14.604,
+        "WG_BOE": 28.692,
+        "WR": 230.180,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Ganotzkogel",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "figol"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "dd797d9a-6801-fdbc-c124-fc74649cffa8",
+      "geometry": {
+        "coordinates": [
+          11.152817,
+          47.394844,
+          1539.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2002",
+        "GS_O": 616.000,
+        "HS": 9.400,
+        "HSD24": 1.629,
+        "HSD48": 1.200,
+        "HSD72": -1.000,
+        "LT": 12.800,
+        "LT_MAX": 13.300,
+        "LT_MIN": 6.800,
+        "LWD-Nummer": "LPUI2",
+        "LWD-Region": "AT-07-03 Mieminger Gebirge",
+        "OFT": 18.300,
+        "RH": 53.100,
+        "TD": 3.498,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Puitegg",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "puitegg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "deaa2fb0-36d6-00c5-0bb3-0d97b91dbe2c",
+      "geometry": {
+        "coordinates": [
+          10.338597,
+          47.084584,
+          2620.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1993",
+        "LT": 5.400,
+        "LT_MAX": 7.600,
+        "LT_MIN": 1.600,
+        "LWD-Nummer": "KDIA1",
+        "LWD-Region": "AT-07-11 Verwallgruppe Ost",
+        "RH": 68.600,
+        "TD": 0.101,
+        "WG": 37.539,
+        "WG_BOE": 56.196,
+        "WR": 157.866,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Lattejoch",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "dias"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "df9b94ea-ef1a-3be4-1c72-8477183f3f27",
+      "geometry": {
+        "coordinates": [
+          11.0098790477659,
+          47.2278819676826,
+          2427.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1996",
+        "HS": 0.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 9.100,
+        "LT_MAX": 10.700,
+        "LT_MIN": 4.000,
+        "LWD-Region": "AT-07-09 Grieskogelgruppe",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Gossenkölle",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "gossenkoelle"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "e092fc9b-53a2-02af-87b7-88c2c88df7de",
+      "geometry": {
+        "coordinates": [
+          10.211916,
+          47.147023,
+          2205.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LWD-Nummer": "SAUL2",
+        "LWD-Region": "AT-07-07 Lechtaler Alpen West",
+        "name": "Ulmerhütte",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "ulmerhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "e1506f47-cf55-bc14-286d-ac987a24d58a",
+      "geometry": {
+        "coordinates": [
+          11.044191,
+          46.859532,
+          2680.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2008",
+        "GS_O": 744.000,
+        "HS": 28.500,
+        "HSD24": -1.225,
+        "HSD48": -2.511,
+        "HSD72": -1.771,
+        "LT": 4.700,
+        "LT_MAX": 8.900,
+        "LT_MIN": 1.100,
+        "LWD-Nummer": "SFES2",
+        "LWD-Region": "AT-07-21 Gurgler Gruppe",
+        "OFT": 15.800,
+        "RH": 80.200,
+        "TD": 1.587,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Rosskar",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rosskar"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "e1c51131-f5af-1eed-5de9-5da126167b9e",
+      "geometry": {
+        "coordinates": [
+          11.2909055472649,
+          47.0732500118197,
+          2142.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2016",
+        "GS_O": 705.000,
+        "HS": 2.600,
+        "HSD24": -0.220,
+        "HSD48": -0.233,
+        "HSD72": 0.049,
+        "LT": 8.200,
+        "LT_MAX": 10.400,
+        "LT_MIN": 4.300,
+        "LWD-Nummer": "NELF2",
+        "LWD-Region": "AT-07-22 Stubaier Alpen Mitte",
+        "OFT": 10.700,
+        "RH": 60.300,
+        "TD": 0.979,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Elferspitze Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "elferspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "e271dcc5-3d2f-7d95-f1de-45fbcc6d7de6",
+      "geometry": {
+        "coordinates": [
+          12.432546,
+          47.46706,
+          1760.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2023",
+        "LT": 11.600,
+        "LT_MAX": 11.700,
+        "LT_MIN": 5.800,
+        "LWD-Nummer": "KHOR1",
+        "LWD-Region": "AT-07-18 Kitzbüheler Alpen Wildseeloder",
+        "RH": 57.300,
+        "TD": 3.457,
+        "WG": 18.104,
+        "WG_BOE": 34.560,
+        "WR": 164.571,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kitzbühel Hornköpfl",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kitzbuehler_horn"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "e33b094c-95e9-2cea-ea31-a1479147e94a",
+      "geometry": {
+        "coordinates": [
+          10.862333,
+          47.336922,
+          2484.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "LT": 6.400,
+        "LT_MAX": 8.600,
+        "LT_MIN": 2.000,
+        "LWD-Nummer": "NASS1",
+        "LWD-Region": "AT-07-03 Mieminger Gebirge",
+        "RH": 72.700,
+        "TD": 1.865,
+        "WG": 30.003,
+        "WG_BOE": 50.940,
+        "WR": 172.303,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Nassereith Wannig",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "nassereith"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "e61a455b-e516-aa50-779f-bf773995a23f",
+      "geometry": {
+        "coordinates": [
+          12.5823631916506,
+          46.6600159329678,
+          1935.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1997",
+        "HS": -1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 6.300,
+        "LT_MAX": 11.900,
+        "LT_MIN": 5.000,
+        "LWD-Region": "AT-07-29-01 Karnische Alpen Osttirol",
+        "N24": 0.640,
+        "N48": 0.640,
+        "N6": 0.110,
+        "N72": 0.640,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Porzehütte",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "obertilliach_porzehuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "e70716ec-b868-f46d-633a-e4d2542b7c14",
+      "geometry": {
+        "coordinates": [
+          10.938071,
+          46.89172,
+          2540.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2003",
+        "LT": 8.200,
+        "LT_MAX": 8.300,
+        "LT_MIN": 3.300,
+        "LWD-Nummer": "SVVO1",
+        "LWD-Region": "AT-07-20 Weißkugelgruppe",
+        "RH": 58.500,
+        "TD": 0.560,
+        "WG": 18.931,
+        "WG_BOE": 48.996,
+        "WR": 208.429,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Marchkofel",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "vorderegg"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "e7a432ea-8b7b-a6e5-d52c-22fb2e8ef6d0",
+      "geometry": {
+        "coordinates": [
+          10.572525,
+          47.1841972222222,
+          2457.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2016",
+        "LT": 8.400,
+        "LT_MAX": 9.600,
+        "LT_MIN": 3.700,
+        "LWD-Nummer": "ZSIL1",
+        "LWD-Region": "AT-07-08 Lechtaler Alpen Mitte",
+        "RH": 60.800,
+        "TD": 1.282,
+        "WG": 3.447,
+        "WG_BOE": 19.764,
+        "WR": 155.313,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Silberspitze Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "silberspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "e8b42ce4-3fc3-5c3a-c16f-7429f7350b78",
+      "geometry": {
+        "coordinates": [
+          12.3836,
+          46.775,
+          2408.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1995",
+        "LT": 2.500,
+        "LT_MAX": 7.200,
+        "LT_MIN": 1.300,
+        "LWD-Nummer": "STHU1",
+        "LWD-Region": "AT-07-27 Deferegger Alpen Ost",
+        "RH": 98.000,
+        "TD": 2.217,
+        "WG": 8.905,
+        "WG_BOE": 22.392,
+        "WR": 305.232,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Thurntaler Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "thurntaler"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "e970db33-6681-c703-3d1f-9d6b99d6d234",
+      "geometry": {
+        "coordinates": [
+          10.570519,
+          46.889031,
+          2668.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "LT": 3.600,
+        "LT_MAX": 6.300,
+        "LT_MIN": 0.400,
+        "LWD-Nummer": "NVAL1",
+        "LWD-Region": "AT-07-19 Glockturmgruppe",
+        "RH": 79.000,
+        "TD": 0.308,
+        "WG": 28.316,
+        "WG_BOE": 58.140,
+        "WR": 188.738,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Tscheyegg",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "valdafur"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "eac20279-e2fe-0e71-4dc0-fd2b57e6846f",
+      "geometry": {
+        "coordinates": [
+          11.104943,
+          47.345909,
+          1605.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2009",
+        "GS_O": 535.000,
+        "HS": 9.800,
+        "HSD24": 0.270,
+        "HSD48": 1.500,
+        "HSD72": 0.667,
+        "LT": 12.100,
+        "LT_MAX": 13.100,
+        "LT_MIN": 7.300,
+        "LWD-Nummer": "TRAU2",
+        "LWD-Region": "AT-07-03 Mieminger Gebirge",
+        "OFT": 15.670,
+        "RH": 64.000,
+        "TD": 5.505,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Rauthhütte",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rauthhuette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "eadf72b0-3690-83a1-4261-eb7cf53401c3",
+      "geometry": {
+        "coordinates": [
+          10.4884777380654,
+          47.0201111538738,
+          2491.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "GS_O": 259.000,
+        "HS": 5.200,
+        "HSD24": 1.418,
+        "HSD48": -0.226,
+        "HSD72": 1.058,
+        "LT": 5.000,
+        "LT_MAX": 8.100,
+        "LT_MIN": 1.100,
+        "LWD-Nummer": "SMAS2",
+        "LWD-Region": "AT-07-13 Samnaungruppe",
+        "OFT": 6.200,
+        "RH": 86.300,
+        "TD": 2.907,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Serfaus Masner",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "serfaus"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "ec2c92a6-6a06-df84-aca2-f6a7fcad8df8",
+      "geometry": {
+        "coordinates": [
+          10.462350017993,
+          47.1503195001747,
+          1910.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2002",
+        "GS_O": 141.000,
+        "HS": 5.600,
+        "HSD24": 0.495,
+        "HSD48": -1.100,
+        "HSD72": -0.131,
+        "LT": 11.700,
+        "LT_MAX": 13.200,
+        "LT_MIN": 2.900,
+        "LWD-Nummer": "SDAW2",
+        "LWD-Region": "AT-07-08 Lechtaler Alpen Mitte",
+        "OFT": 11.420,
+        "RH": 56.000,
+        "TD": 3.226,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Dawinalpe",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "dawinalpe"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "ed127db2-aa38-9c3b-e2c2-26fcc2ff726f",
+      "geometry": {
+        "coordinates": [
+          12.01605,
+          47.351489,
+          1880.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2003",
+        "GS_O": 588.000,
+        "HS": 12.100,
+        "HSD24": 1.047,
+        "HSD48": 0.596,
+        "HSD72": 2.949,
+        "LT": 12.000,
+        "LT_MAX": 12.000,
+        "LT_MIN": 6.500,
+        "LWD-Nummer": "AKLE2",
+        "LWD-Region": "AT-07-17-01 Kitzbüheler Alpen Brixental",
+        "OFT": 13.280,
+        "RH": 56.900,
+        "TD": 3.732,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kleiner Beil",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kleinerbeil"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "edee7151-0f19-94ed-9e04-d455177dd851",
+      "geometry": {
+        "coordinates": [
+          12.4176138418407,
+          47.0228555816836,
+          2450.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "GS_O": 281.000,
+        "HS": 4.900,
+        "HSD24": 0.747,
+        "HSD48": 0.052,
+        "HSD72": 0.454,
+        "LT": 6.800,
+        "LT_MAX": 11.000,
+        "LT_MIN": 3.300,
+        "LWD-Nummer": "PESE2",
+        "LWD-Region": "AT-07-24 Venedigergruppe Süd",
+        "OFT": 14.000,
+        "RH": 74.400,
+        "TD": 2.575,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Eselrücken",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "eselruecken"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "ee6b4ef0-cea0-d7ad-291f-dd4ecaa0cc50",
+      "geometry": {
+        "coordinates": [
+          11.106927,
+          46.987323,
+          3010.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2014",
+        "LT": 1.100,
+        "LT_MAX": 4.800,
+        "LT_MIN": -1.300,
+        "LWD-Nummer": "NSGR1",
+        "LWD-Region": "AT-07-22 Stubaier Alpen Mitte",
+        "RH": 81.100,
+        "TD": -1.770,
+        "WG": 3.642,
+        "WG_BOE": 39.348,
+        "WR": 159.180,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Rotadl",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "stubaiergletscher_eisgrat"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "efdd3176-17d4-6e3d-f6fa-3f3a0da95412",
+      "geometry": {
+        "coordinates": [
+          12.6260810225391,
+          47.0148340300872,
+          1742.73
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2004",
+        "GS_O": 147.000,
+        "HS": 11.200,
+        "HSD24": -1.000,
+        "HSD48": -1.700,
+        "HSD72": -3.500,
+        "LT": 9.200,
+        "LT_MAX": 11.700,
+        "LT_MIN": 4.100,
+        "LWD-Nummer": "KFIG2",
+        "LWD-Region": "AT-07-26-02 Goldried",
+        "OFT": 9.850,
+        "RH": 72.000,
+        "TD": 4.424,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kals am Großglockner-Figol",
+        "operator": "LWD Tirol/HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasser/wasserkreislauf/",
+        "plot": "figol"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "f0b75c71-589c-9450-65bd-9e292e9f7c4b",
+      "geometry": {
+        "coordinates": [
+          11.3134638888889,
+          47.0827111111111,
+          2440.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2016",
+        "LT": 4.500,
+        "LT_MAX": 7.400,
+        "LT_MIN": 2.100,
+        "LWD-Nummer": "NELF1",
+        "LWD-Region": "AT-07-14-05 Serleskamm",
+        "RH": 77.700,
+        "TD": 0.953,
+        "WG": 41.815,
+        "WG_BOE": 78.444,
+        "WR": 204.604,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Elferspitze Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "elferspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "f11d27b6-1baa-52da-9a8b-e17af22e711d",
+      "geometry": {
+        "coordinates": [
+          12.621001113774,
+          47.4697854069781,
+          960.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1895",
+        "LT": 13.400,
+        "LT_MAX": 14.800,
+        "LT_MIN": 7.000,
+        "LWD-Region": "AT-07-06 Kaisergebirge - Waidringer Alpen",
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Hochfilzen",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "hochfilzen2"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "f419eaa5-1b35-229a-ab81-919b01b2a4b0",
+      "geometry": {
+        "coordinates": [
+          10.408832,
+          47.101683,
+          2636.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2019",
+        "LT": 6.500,
+        "LT_MAX": 8.100,
+        "LT_MIN": 2.100,
+        "LWD-Nummer": "KGRO1",
+        "LWD-Region": "AT-07-11 Verwallgruppe Ost",
+        "RH": 64.900,
+        "TD": 0.387,
+        "WG": 23.574,
+        "WG_BOE": 46.368,
+        "WR": 163.223,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Kappl Großgfallkopf",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "kappl_spidur_alpe"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "f4abe0b6-f787-51b0-4e1a-9cf19b907f0f",
+      "geometry": {
+        "coordinates": [
+          11.120722,
+          47.153491,
+          2111.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2008",
+        "GS_O": 597.000,
+        "HS": 7.400,
+        "HSD24": 0.100,
+        "HSD48": 0.009,
+        "HSD72": 0.000,
+        "LT": 8.700,
+        "LT_MAX": 10.000,
+        "LT_MIN": 3.800,
+        "LWD-Nummer": "SSLA2",
+        "LWD-Region": "AT-07-14-03 Sellrain - Alpeiner Berge",
+        "OFT": 14.300,
+        "RH": 69.800,
+        "TD": 3.503,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Lampsenspitze Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "lampsenspitze"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "f52c0d53-744e-50b3-397e-479d507d9145",
+      "geometry": {
+        "coordinates": [
+          11.0936658639412,
+          46.9055411326866,
+          2443.4
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2010",
+        "LT": 1.800,
+        "LT_MAX": 6.300,
+        "LT_MIN": 1.500,
+        "LWD-Region": "AT-07-21 Gurgler Gruppe",
+        "N24": 1.310,
+        "N48": 3.010,
+        "N6": 1.260,
+        "N72": 5.220,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Timmelsjoch",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "timmelsjoch"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "f754edd8-821c-3833-dee7-5ce2b2535dcf",
+      "geometry": {
+        "coordinates": [
+          10.267085,
+          47.101676,
+          1985.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2015",
+        "LT": 12.900,
+        "LT_MAX": 13.400,
+        "LT_MIN": 5.500,
+        "LWD-Nummer": "SARE1",
+        "LWD-Region": "AT-07-10 Verwallgruppe Mitte",
+        "RH": 47.000,
+        "TD": 1.875,
+        "WG": 3.622,
+        "WG_BOE": 29.268,
+        "WR": 223.998,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Salzboden",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "rendl"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "f84aa6cb-8482-27d0-6461-ba971394c7d8",
+      "geometry": {
+        "coordinates": [
+          11.648987,
+          47.089717,
+          2518.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2012",
+        "LT": 1.700,
+        "LT_MAX": 6.800,
+        "LT_MIN": 0.900,
+        "LWD-Nummer": "TTUX1",
+        "LWD-Region": "AT-07-15 Tuxer Alpen West",
+        "RH": 99.700,
+        "TD": 1.658,
+        "WG": 26.188,
+        "WG_BOE": 42.192,
+        "WR": 254.598,
+        "date": "2026-10-20T11:40:00+02:00",
+        "name": "Tuxerjoch Windstation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "tuxerjoch"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "f9e3a1c9-b52c-7cc2-2851-7647c6bd4cdc",
+      "geometry": {
+        "coordinates": [
+          12.6185694825979,
+          46.7082238283966,
+          1400.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1895",
+        "HS": -1.000,
+        "HSD24": 0.000,
+        "HSD48": 0.000,
+        "HSD72": 0.000,
+        "LT": 11.300,
+        "LT_MAX": 13.700,
+        "LT_MIN": 6.000,
+        "LWD-Region": "AT-07-29-02 Lienzer Dolomiten",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Obertilliach",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "obertilliach"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "fc7b4126-7c6b-109d-75ad-a3b9eff3da44",
+      "geometry": {
+        "coordinates": [
+          11.15541667,
+          47.099611,
+          2846.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2015",
+        "LT": 5.500,
+        "LT_MAX": 6.800,
+        "LT_MIN": 3.000,
+        "LWD-Nummer": "NFRA1",
+        "LWD-Region": "AT-07-14-03 Sellrain - Alpeiner Berge",
+        "RH": 61.400,
+        "TD": -1.320,
+        "WG": 2.943,
+        "WG_BOE": 18.288,
+        "WR": 138.516,
+        "date": "2026-10-20T13:20:00+02:00",
+        "name": "Franz-Senn-Hütte Horntaler Spitzl",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "franz_senn_huette"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "fd2869c0-9370-7a92-55f3-b6c7e41df9e4",
+      "geometry": {
+        "coordinates": [
+          12.324461001009,
+          47.5494860272274,
+          1265.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1998",
+        "HS": -1.000,
+        "HSD24": -1.000,
+        "HSD48": -1.000,
+        "HSD72": -1.000,
+        "LT": 16.600,
+        "LT_MAX": 16.600,
+        "LT_MIN": 4.900,
+        "LWD-Region": "AT-07-06 Kaisergebirge - Waidringer Alpen",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Gaudeamushütte",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "gaudeamushutte"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "fe199fdd-f537-3afe-ae58-363e843c3957",
+      "geometry": {
+        "coordinates": [
+          10.565901,
+          46.891628,
+          2500.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "GS_O": 243.000,
+        "HS": 2.600,
+        "HSD24": -3.002,
+        "HSD48": -1.655,
+        "HSD72": 1.505,
+        "LT": 4.700,
+        "LT_MAX": 8.000,
+        "LT_MIN": 0.400,
+        "LWD-Nummer": "NVAL2",
+        "LWD-Region": "AT-07-19 Glockturmgruppe",
+        "OFT": 7.700,
+        "RH": 76.100,
+        "TD": 0.859,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Valdafur",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "valdafur"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "ff171235-3d0f-cadc-9630-d5419649c86c",
+      "geometry": {
+        "coordinates": [
+          10.853352,
+          47.386114,
+          1841.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "2001",
+        "GS_O": 611.000,
+        "HS": 3.700,
+        "HSD24": 1.050,
+        "HSD48": -1.600,
+        "HSD72": -0.096,
+        "LT": 10.200,
+        "LT_MAX": 12.700,
+        "LT_MIN": 4.900,
+        "LWD-Nummer": "LGRU2",
+        "LWD-Region": "AT-07-02-02 Lechtaler Alpen Ost",
+        "OFT": 21.900,
+        "RH": 54.100,
+        "TD": 1.346,
+        "date": "2026-10-20T13:30:00+02:00",
+        "name": "Grubigstein Schneestation",
+        "operator": "LWD Tirol",
+        "operatorLink": "https://lawine.tirol.gv.at/",
+        "plot": "grubigstein"
+      },
+      "type": "Feature"
+    },
+    {
+      "id": "ffb0041e-a1d1-7426-483b-5107883b7868",
+      "geometry": {
+        "coordinates": [
+          11.359316,
+          47.159592,
+          920.0
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "Beobachtungsbeginn": "1958",
+        "HS": 2.000,
+        "HSD24": -1.000,
+        "HSD48": -1.000,
+        "HSD72": -2.000,
+        "LT": 19.500,
+        "LT_MAX": 19.500,
+        "LT_MIN": 4.200,
+        "LWD-Region": "AT-07-14-04 Kalkkögel",
+        "N24": 0.000,
+        "N48": 0.000,
+        "N6": 0.000,
+        "N72": 0.000,
+        "RH": 53.000,
+        "TD": 8.700,
+        "date": "2026-10-20T13:00:00+02:00",
+        "name": "Telfes im Stubai",
+        "operator": "HD Tirol",
+        "operatorLink": "https://www.tirol.gv.at/umwelt/wasserwirtschaft/wasserkreislauf/",
+        "plot": "telfes_im_stubai"
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}

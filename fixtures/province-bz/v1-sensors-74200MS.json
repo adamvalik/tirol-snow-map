@@ -1,0 +1,102 @@
+[
+{
+"SCODE":"74200MS",
+"TYPE":"LT",
+"DESC_D":"Lufttemperatur",
+"DESC_I":"Temperatura dell´aria",
+"DESC_L":"Temperatura dl’aria",
+"UNIT":"°C",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":6.5
+},
+{
+"SCODE":"74200MS",
+"TYPE":"N",
+"DESC_D":"Niederschlag",
+"DESC_I":"Precipitazioni",
+"DESC_L":"plueia",
+"UNIT":"mm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+},
+{
+"SCODE":"74200MS",
+"TYPE":"WR",
+"DESC_D":"Windrichtung",
+"DESC_I":"Direzione del vento",
+"DESC_L":"Direzion dl vënt",
+"UNIT":"° ",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":268.2
+},
+{
+"SCODE":"74200MS",
+"TYPE":"WG",
+"DESC_D":"Windgeschwindigkeit",
+"DESC_I":"Velocità del vento",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1.2
+},
+{
+"SCODE":"74200MS",
+"TYPE":"WG.BOE",
+"DESC_D":"Windgeschwindigkeit Böe",
+"DESC_I":"Velocitá raffica",
+"DESC_L":"Slune dl vënt",
+"UNIT":"m/s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":3.7
+},
+{
+"SCODE":"74200MS",
+"TYPE":"LF",
+"DESC_D":"relative Luftfeuchte",
+"DESC_I":"Umidità relativa",
+"DESC_L":"Tume relatif",
+"UNIT":"%",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":98.2
+},
+{
+"SCODE":"74200MS",
+"TYPE":"LD.RED",
+"DESC_D":"Luftdruck",
+"DESC_I":"Pressione atmosferica",
+"DESC_L":"Druch dl’aria",
+"UNIT":"hPa",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":1015.9
+},
+{
+"SCODE":"74200MS",
+"TYPE":"HS",
+"DESC_D":"Schneehöhe",
+"DESC_I":"Altezza neve al suolo",
+"DESC_L":"Autëza dla nëif",
+"UNIT":"cm",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":7.0
+},
+{
+"SCODE":"74200MS",
+"TYPE":"GS",
+"DESC_D":"Globalstrahlung",
+"DESC_I":"Radiazione globale ",
+"DESC_L":"Nraiazion globala ",
+"UNIT":"W/m²",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":86.5
+},
+{
+"SCODE":"74200MS",
+"TYPE":"SD",
+"DESC_D":"Sonnenscheindauer",
+"DESC_I":"Durata soleggiamento",
+"DESC_L":"Dureda dl surëdl",
+"UNIT":"s",
+"DATE":"2026-10-20T13:30:00CEST",
+"VALUE":0.0
+}
+]
