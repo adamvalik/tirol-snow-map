@@ -13,6 +13,7 @@ import { FIXTURES, STATION_BBOX, URLS } from './config.ts';
 import { mergeStations } from './merge.ts';
 import type { RawStation } from './raw.ts';
 import { parseLinea } from './sources/linea.ts';
+import { runSnowStep } from './snow/run-snow.ts';
 import { parseProvince } from './sources/provinceBz.ts';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -149,6 +150,22 @@ async function main() {
   );
   for (const r of results) console.log(`  ${r.status.id}: ${r.status.ok ? `${r.status.stationCount} records` : `FAILED ${r.status.error}`}`);
   if (!results.every((r) => r.status.ok)) process.exitCode = 2;
+
+  // Snow cover and depth estimate. A failure here must not take the station data down with it.
+  try {
+    const t0 = Date.now();
+    const snow = await runSnowStep({
+      outDir,
+      now,
+      stations: file.stations,
+      offline: useFixtures,
+      log: (msg) => console.log(`  ${msg}`),
+    });
+    console.log(`[pipeline] wrote snow.json in ${((Date.now() - t0) / 1000).toFixed(1)} s (cover ${snow.cover.available ? snow.cover.date : 'unavailable'})`);
+  } catch (e) {
+    console.error(`[pipeline] snow step failed: ${e instanceof Error ? e.stack : String(e)}`);
+    process.exitCode = 2;
+  }
 }
 
 await main();

@@ -1,0 +1,45 @@
+// The model grid shared by the pipeline (which writes rasters on it) and the app (which drapes
+// them on the map and reads values on click). Rows are evenly spaced in Web Mercator, so an
+// image on this grid lines up exactly when MapLibre places it by its four corners.
+
+export interface GridSpec {
+  west: number;
+  south: number;
+  east: number;
+  north: number;
+  width: number;
+  height: number;
+}
+
+const R = 6378137;
+export const mercY = (lat: number): number => R * Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));
+export const latFromMercY = (y: number): number => (360 / Math.PI) * Math.atan(Math.exp(y / R)) - 90;
+
+/** South Tyrol with a margin, ~250 m cells (764 × 512). */
+export const MODEL_GRID: GridSpec = { west: 10.2, south: 46.1, east: 12.7, north: 47.25, width: 764, height: 512 };
+
+/** Longitude/latitude of the centre of cell (col, row); row 0 is the northern edge. */
+export function cellCenter(g: GridSpec, col: number, row: number): { lon: number; lat: number } {
+  const lon = g.west + ((col + 0.5) / g.width) * (g.east - g.west);
+  const yN = mercY(g.north);
+  const yS = mercY(g.south);
+  const lat = latFromMercY(yN - ((row + 0.5) / g.height) * (yN - yS));
+  return { lon, lat };
+}
+
+/** Cell containing a point, or null outside the grid. */
+export function cellAt(g: GridSpec, lon: number, lat: number): { col: number; row: number } | null {
+  if (lon < g.west || lon >= g.east || lat <= g.south || lat > g.north) return null;
+  const col = Math.floor(((lon - g.west) / (g.east - g.west)) * g.width);
+  const yN = mercY(g.north);
+  const row = Math.floor(((yN - mercY(lat)) / (yN - mercY(g.south))) * g.height);
+  return { col: Math.min(col, g.width - 1), row: Math.min(row, g.height - 1) };
+}
+
+/** Image corners in MapLibre's order: top-left, top-right, bottom-right, bottom-left. */
+export const gridCorners = (g: GridSpec): [[number, number], [number, number], [number, number], [number, number]] => [
+  [g.west, g.north],
+  [g.east, g.north],
+  [g.east, g.south],
+  [g.west, g.south],
+];

@@ -13,7 +13,8 @@
     "test": "vitest run",
     "smoke": "node scripts/smoke.mjs",
     "basemap": "tsx pipeline/src/basemap/run.ts",
-    "basemap:assets": "tsx pipeline/src/basemap/assets.ts"
+    "basemap:assets": "tsx pipeline/src/basemap/assets.ts",
+    "dem": "tsx pipeline/src/dem-run.ts"
   },
   "dependencies": {
     "@protomaps/basemaps": "5.7.2",
@@ -23,7 +24,9 @@
   "devDependencies": {
     "@types/geojson": "7946.0.16",
     "@types/node": "26.6.5",
+    "geotiff": "3.0.5",
     "playwright": "1.56.1",
+    "sharp": "0.35.5",
     "tsx": "4.23.15",
     "typescript": "7.0.2",
     "vite": "8.3.2",

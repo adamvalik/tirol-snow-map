@@ -1,0 +1,44 @@
+# Runs the live data pipeline (stations, Copernicus snow cover, snow depth estimate) and uploads
+# the generated files. Used to verify the Copernicus access with the repository secrets before
+# the scheduled production workflow exists (V3). Start it from the Actions tab or by pushing.
+name: Snow data check
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths:
+      - 'pipeline/src/**'
+      - 'shared/**'
+      - '.github/workflows/snow-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Run pipeline against live sources
+        env:
+          CDSE_USERNAME: ${{ secrets.CDSE_USERNAME }}
+          CDSE_PASSWORD: ${{ secrets.CDSE_PASSWORD }}
+        run: npm run pipeline
+      - name: Show snow.json
+        if: always()
+        run: |
+          node -e "const s=require('./web/public/data/snow.json'); delete s.grid; console.log(JSON.stringify(s, null, 2))" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pipeline-output
+          path: web/public/data/
+          retention-days: 7

@@ -47,3 +47,42 @@ export interface StationsFile {
   sources: SourceStatus[];
   stations: Station[];
 }
+
+/** snow.json: metadata for the snow cover and estimated depth layers (PNG files on MODEL_GRID). */
+export interface SnowFile {
+  schemaVersion: number;
+  generatedAt: string;
+  grid: import('./grid.ts').GridSpec;
+  cover:
+    | {
+        available: true;
+        /** Observation day of the satellite product, YYYY-MM-DD. */
+        date: string;
+        sensor: 'VIIRS' | 'MODIS';
+        product: string;
+        fetchedAt: string;
+        /** Cell counts inside the grid. */
+        stats: { snow: number; bare: number; cloud: number; nodata: number };
+        /** Elevation (m) above which most clear ground is snow-covered, or null if unclear. */
+        snowLineM: number | null;
+        source: string;
+        licence: string;
+        attribution: string;
+      }
+    | { available: false; reason: string };
+  depth: {
+    method: 'trend' | 'trend+residuals';
+    /** depth = a + b·elevation (cm, elevation in m) before residual correction. */
+    trend: { a: number; b: number };
+    stationCount: number;
+    /** Newest station reading used. */
+    stationsObservedAt: string | null;
+    stationElevationRange: [number, number];
+    validation: {
+      maeCm: { trend: number; 'trend+residuals': number };
+      byBand: { label: string; n: number; maeCm: number }[];
+    };
+    stats: { cells: number; maskedBySatellite: number; cloudy: number; noCover: number; high: number; medium: number; low: number };
+  } | null;
+  files: { cover: string | null; depth: string | null; confidence: string | null; data: string | null };
+}
