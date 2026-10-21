@@ -2,9 +2,9 @@ import { mkdtemp, readdir, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
-import { afterAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { buildPyramid, mercatorBox, tileRange } from '../src/satellite/tiles.ts';
-import { chooseDay, processRequest, type Scene, scenesFromStac } from '../src/sources/sentinel2.ts';
+import { chooseDay, PROCESS_RETRY, postProcess, processRequest, type Scene, scenesFromStac } from '../src/sources/sentinel2.ts';
 
 const REGION = { west: 10.2, south: 46.1, east: 12.7, north: 47.25 };
 const box = (w: number, s: number, e: number, n: number): [number, number][] => [
@@ -109,5 +109,42 @@ describe('tile pyramid', () => {
     const { data } = await sharp(path.join(dir, String(z), String(r.minX), `${r.minY}.webp`)).raw().toBuffer({ resolveWithObject: true });
     expect(Math.abs(data[0] - 40)).toBeLessThan(6); // painted by chunk 1 (lossy WebP)
     expect((await readdir(path.join(dir, '10'))).length).toBeGreaterThan(0);
+  });
+});
+
+describe('postProcess retries', () => {
+  const png = () => new Response(new Uint8Array([1, 2, 3]), { status: 200 });
+  const run = async (answers: (() => Response | Promise<never>)[]) => {
+    let calls = 0;
+    vi.stubGlobal('fetch', () => answers[Math.min(calls++, answers.length - 1)]());
+    try {
+      const result = await postProcess('t', {}, '').then(
+        (b) => new Uint8Array(b).length,
+        (e: Error) => e.message,
+      );
+      return { result, calls };
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  };
+  const saved = { ...PROCESS_RETRY };
+  beforeAll(() => void (PROCESS_RETRY.waitMs = 1));
+  afterAll(() => void Object.assign(PROCESS_RETRY, saved));
+
+  it('retries a dropped connection and a 503', async () => {
+    const drop = () => Promise.reject(new TypeError('fetch failed'));
+    expect(await run([drop, () => new Response('busy', { status: 503 }), png])).toEqual({ result: 3, calls: 3 });
+  });
+
+  it('gives up after two failed retries', async () => {
+    const drop = () => Promise.reject(new TypeError('fetch failed'));
+    expect(await run([drop])).toEqual({ result: 'Sentinel Hub process: fetch failed', calls: 3 });
+  });
+
+  it('fails at once on a client error', async () => {
+    expect(await run([() => new Response('bad request', { status: 400 })])).toEqual({
+      result: 'Sentinel Hub process: HTTP 400 bad request',
+      calls: 1,
+    });
   });
 });
