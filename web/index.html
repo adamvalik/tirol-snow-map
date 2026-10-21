@@ -34,6 +34,7 @@
           <label class="row"><span class="row-label">Weather stations</span><input type="checkbox" class="switch" id="toggle-stations" checked /></label>
           <label class="row"><span class="row-label">Bivouacs <span id="bivouac-keys" class="keys"></span></span><input type="checkbox" class="switch" id="toggle-bivouacs" checked /></label>
           <label class="row sub-row"><span class="row-label"><span class="fav-mark" aria-hidden="true">♥</span> Only favourites <span id="fav-count" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-favourites" /></label>
+          <label class="row"><span class="row-label">Via ferratas</span><input type="checkbox" class="switch" id="toggle-ferratas" /></label>
           <label class="row"><span class="row-label">Estimated snow depth</span><input type="checkbox" class="switch" id="toggle-depth" /></label>
           <label class="row"><span class="row-label">Forecast new snow <span class="chip">3 days</span></span><input type="checkbox" class="switch" id="toggle-forecast" /></label>
           <label class="row"><span class="row-label">Satellite photo <span id="satellite-date" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-satellite" /></label>
@@ -46,6 +47,12 @@
             <span><span class="swatch" id="no-sensor-swatch"></span>No snow sensor</span>
             <span>Dots measured, layers estimated</span>
           </div>
+        </div>
+        <div id="ferrata-legend" class="legend" aria-label="Via ferrata legend" hidden>
+          <div class="legend-title">Via ferrata grade, hardest section</div>
+          <div id="ferrata-keys" class="ferrata-keys"></div>
+          <p class="legend-note muted">Wider lines are harder. Faded: marked closed in OSM. From OpenStreetMap volunteers, so it may be
+          incomplete, wrong or out of date: check the route and conditions locally. Not for navigation.</p>
         </div>
         <details id="more" class="more">
           <summary>More layers and map style</summary>
@@ -62,7 +69,7 @@
             <input type="range" id="exaggeration" min="1" max="3" step="0.1" value="1.5" />
           </label>
         </details>
-        <p class="hint">Tap a station, a bivouac or the terrain for details. Right-drag or two fingers to tilt.</p>
+        <p class="hint">Tap a station, a bivouac, a via ferrata or the terrain for details. Right-drag or two fingers to tilt.</p>
       </div>
     </section>
 

@@ -28,3 +28,4 @@ These are real API responses captured during the spike on 2026-10-20, between ab
 | `mapterhorn/tilejson.json` | `https://tiles.mapterhorn.com/tilejson.json` |
 | `mapterhorn/12-2177-1449-bolzano.webp` | terrain tile z12 over Bolzano (terrarium encoding) |
 | `mapterhorn/attribution-subset.json` | entries for this region from `https://download.mapterhorn.com/attribution.json` |
+| `osm/overpass-ferratas-sample.json` | Overpass API (`maps.mail.ru` mirror) answer to `OVERPASS_QUERY` in `pipeline/src/ferratas.ts`, fetched 2026-10-21 about 14:23 UTC and **trimmed** to 35 elements (Tajakante, Zimmereben, Hans Kammerlander, Salt de Val Gelada, Laurenzi, two closed routes and a few others; `bounds` removed). OpenStreetMap data, ODbL. Used by the via ferrata tests |
