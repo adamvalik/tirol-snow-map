@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { snowColor, SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from '../src/colors.ts';
 import { forecastUrl } from '../src/forecast.ts';
-import { compass, formatAge, weatherText } from '../src/format.ts';
+import { compass, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
 import { frameLabel } from '../src/forecastAnim.ts';
 import { parseHash, toHash, type ViewState } from '../src/viewState.ts';
 import type { ForecastFile } from '../../shared/types.ts';
@@ -35,6 +35,8 @@ describe('format helpers', () => {
     const now = Date.parse('2026-10-20T12:00:00Z');
     expect(formatAge('2026-10-20T11:45:00Z', now)).toBe('15 min ago');
     expect(formatAge('2026-10-20T07:00:00Z', now)).toBe('5 h ago');
+    expect(formatTimeShort('2026-10-20T07:21:00Z', now)).toBe('09:21');
+    expect(formatTimeShort('2026-10-18T07:21:00Z', now)).toBe('18 Oct, 09:21');
     expect(compass(350)).toBe('N');
     expect(compass(135)).toBe('SE');
     expect(weatherText(73)).toBe('Snow');

@@ -126,8 +126,8 @@ The app opens on a tilted 3D view of Bolzano and the surrounding peaks, with one
 
 - Default camera: centred near Bolzano, pitch 60 degrees, bearing facing north toward the Dolomites
 - Snow depth uses a sequential colour ramp that stays readable on hillshaded terrain, and is colour-blind safe
-- On phones the layer panel collapses into a bottom sheet, and the details panel replaces it on tap
-- A permanent footer line states data sources, update times and the "not for avalanche decisions" notice
+- The layer card holds the main layers as switches, with the rest folded under "More layers and map style"; a timeline dock at the bottom holds the day slider and forecast playback. On phones the card collapses into a top bar and details open as a bottom sheet
+- A permanent line in the dock states the "not for avalanche decisions" notice and opens the "About the data" dialog with sources and update times
 - Every layer shows its own timestamp, because the satellite, station and model data all have different ages
 
 ## Build plan

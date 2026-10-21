@@ -13,6 +13,15 @@ export function formatTime(iso: string | null | undefined): string {
   });
 }
 
+/** "09:21" for a time today (Europe/Rome), otherwise like formatTime. */
+export function formatTimeShort(iso: string | null | undefined, now = Date.now()): string {
+  if (!iso) return 'unknown';
+  const day = (t: number) => new Date(t).toLocaleDateString('en-GB', { timeZone: TZ });
+  const t = Date.parse(iso);
+  if (Number.isNaN(t) || day(t) !== day(now)) return formatTime(iso);
+  return new Date(t).toLocaleTimeString('en-GB', { timeZone: TZ, hour: '2-digit', minute: '2-digit' });
+}
+
 /** "12 min ago", "3 h ago", "2 days ago". */
 export function formatAge(iso: string | null | undefined, now = Date.now()): string {
   if (!iso) return '';

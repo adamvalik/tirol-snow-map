@@ -5,7 +5,7 @@ import './style.css';
 import { SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from './colors.ts';
 import { getForecast } from './forecast.ts';
 import { FORECAST_LAYER, ForecastAnimation, forecastInfoHtml, frameLabel, loadForecast } from './forecastAnim.ts';
-import { ageHours, escapeHtml, formatAge, formatTime } from './format.ts';
+import { ageHours, escapeHtml, formatAge, formatTime, formatTimeShort } from './format.ts';
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
 import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
@@ -53,6 +53,8 @@ function setWarning(key: string, text: string | null) {
   const el = $('data-warning');
   el.hidden = warnings.size === 0;
   el.textContent = [...warnings.values()].join(' ');
+  // A dot on the layers button tells a collapsed panel that something is worth a look.
+  document.body.classList.toggle('has-warning', warnings.size > 0);
 }
 
 // --- Layer panel -------------------------------------------------------------
@@ -67,9 +69,14 @@ const setLayersCollapsed = (collapsed: boolean) => {
 setLayersCollapsed(isLowPowerDevice() && window.innerWidth <= 700);
 layersToggle.addEventListener('click', () => setLayersCollapsed(!layersPanel.classList.contains('collapsed')));
 
-$('legend-items').innerHTML =
-  SNOW_CLASSES.map((c) => `<li><span class="swatch" style="background:${c.color}"></span>${c.label}</li>`).join('') +
-  `<li><span class="swatch" style="background:${NO_SNOW_SENSOR_COLOR}"></span>No snow sensor</li>`;
+// The map's corner controls sit above the timeline dock, whose height changes with its rows.
+const dock = $('dock');
+new ResizeObserver(() => document.body.style.setProperty('--dock-h', `${dock.offsetHeight}px`)).observe(dock);
+
+// One bar of the depth classes, with the class boundaries in cm underneath.
+$('legend-bar').innerHTML = SNOW_CLASSES.map((c) => `<span style="background:${c.color}" title="${c.label}"></span>`).join('');
+$('legend-ticks').innerHTML = SNOW_CLASSES.map((c) => `<span>${parseInt(c.label, 10)}</span>`).join('');
+$('no-sensor-swatch').style.background = NO_SNOW_SENSOR_COLOR;
 
 const exaggerationInput = $<HTMLInputElement>('exaggeration');
 const showExaggeration = () => {
@@ -228,13 +235,16 @@ $('sources-btn').addEventListener('click', () => {
 function showStationsStatus() {
   const time = $('stations-time');
   if (!stationsFile) {
-    time.textContent = `Stations: ${stationsError ?? 'loading…'}`;
+    time.textContent = stationsError ? 'Stations unavailable' : 'Loading stations…';
     setWarning('stations', stationsError ? 'Station data could not be loaded. Terrain and forecasts still work.' : null);
     return;
   }
   const f = stationsFile;
   const withSnow = f.stations.filter((s) => s.snowDepthCm !== null).length;
-  if (!selectedDay) time.textContent = `Stations: ${f.stations.length} (${withSnow} with snow depth), updated ${formatTime(f.generatedAt)}.`;
+  if (!selectedDay) {
+    time.textContent = `${f.stations.length} stations · updated ${formatTimeShort(f.generatedAt)}`;
+    time.title = `${withSnow} of them measure snow depth`;
+  }
   const failed = f.sources.filter((s) => !s.ok);
   const messages: string[] = [];
   if (f.stale || ageHours(f.generatedAt) > STALE_AFTER_HOURS) {
@@ -256,7 +266,7 @@ const snowPromise = loadSnow().then(
     return f;
   },
   (e: unknown) => {
-    $('snow-info').textContent = `Snow layers unavailable (${e instanceof Error ? e.message : String(e)}).`;
+    setWarning('snow', `Snow layers are unavailable (${e instanceof Error ? e.message : String(e)}).`);
     return null;
   },
 );
@@ -265,8 +275,7 @@ let satelliteFile: SatelliteFile | null = null;
 const satellitePromise = loadSatellite().then(
   (f) => {
     satelliteFile = f;
-    $('satellite-info').innerHTML = satelliteInfoHtml(f);
-    if (f.available && f.date) $('satellite-date').textContent = `(${shortDate(f.date)})`;
+    if (f.available && f.date) $('satellite-date').textContent = shortDate(f.date);
     return f;
   },
   () => null,
@@ -290,7 +299,6 @@ let forecastFile: ForecastFile | null = null;
 const forecastPromise = loadForecast().then(
   (f) => {
     forecastFile = f;
-    $('forecast-info').innerHTML = forecastInfoHtml(f);
     if (f.available && (f.stale || ageHours(f.fetchedAt) > FORECAST_STALE_AFTER_HOURS)) {
       setWarning('forecast', `Forecast snowfall is from ${formatAge(f.fetchedAt)}; newer forecasts could not be fetched.`);
     }
@@ -341,8 +349,7 @@ async function showSnow(file: SnowFile | null) {
     input.disabled = !present.has(layer);
     input.parentElement!.title = input.disabled ? (selectedDay ? 'Not available for this day' : 'Not available in the current data') : '';
   }
-  $('snow-date').textContent = file?.cover.available ? `(${shortDate(file.cover.date)})` : '';
-  $('snow-info').innerHTML = file ? snowInfoHtml(file) : 'Snow layers: no data for this day.';
+  $('snow-date').textContent = file?.cover.available ? shortDate(file.cover.date) : '';
   if (file) snowValues = await SnowValues.load(file).catch(() => null);
 }
 
@@ -351,7 +358,7 @@ let days: HistoryDay[] = [];
 let dayRequest = 0;
 
 const dayLabel = (d: HistoryDay, latest: boolean) =>
-  `${new Date(`${d.date}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })}${latest ? ' (latest)' : ''}`;
+  `${new Date(`${d.date}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })}${latest ? ' · latest' : ''}`;
 
 async function showDay(i: number) {
   const day = days[i];
@@ -378,11 +385,11 @@ async function showDay(i: number) {
   } else {
     note.hidden = false;
     note.textContent = day.backfilled
-      ? `Snow seen from space as of ${shortDate(day.date)}, rebuilt from the satellite passes up to that day. The app kept no depth estimate or station readings for it.`
-      : `Snow layers and station readings as of the last update on ${shortDate(day.date)} (${formatTime(snow?.generatedAt)}).`;
+      ? 'Only snow seen from space, rebuilt from the satellite passes up to that day.'
+      : `Snow layers and stations as of ${formatTime(snow?.generatedAt)}.`;
     $('stations-time').textContent = stations
-      ? `Stations on ${shortDate(day.date)}: ${stations.stations.length} (${stations.stations.filter((s) => s.snowDepthCm !== null).length} with snow depth).`
-      : `Stations: no readings stored for ${shortDate(day.date)}.`;
+      ? `${stations.stations.length} stations · ${shortDate(day.date)}`
+      : `No station readings for ${shortDate(day.date)}`;
   }
   syncHash();
 }
@@ -410,6 +417,10 @@ function setupDaySlider(h: HistoryFile | null) {
 
 // --- Forecast animation --------------------------------------------------------
 
+const PLAY_ICON = '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>';
+const PAUSE_ICON =
+  '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16"><path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor"/></svg>';
+
 function setupForecast(file: ForecastFile | null) {
   const input = toggle('forecast');
   const player = $('forecast-player');
@@ -422,8 +433,9 @@ function setupForecast(file: ForecastFile | null) {
   const frameInput = $<HTMLInputElement>('forecast-frame');
   const playBtn = $('forecast-play');
   frameInput.max = String(file.frames.length - 1);
+  playBtn.innerHTML = PLAY_ICON;
   const showPlaying = (playing: boolean) => {
-    playBtn.querySelector('span')!.textContent = playing ? '❚❚' : '▶';
+    playBtn.innerHTML = playing ? PAUSE_ICON : PLAY_ICON;
     playBtn.setAttribute('aria-label', playing ? 'Pause the forecast' : 'Play the forecast');
   };
   const anim = new ForecastAnimation(map, file, basemap.lines[0]?.id, input.checked, (k) => {
