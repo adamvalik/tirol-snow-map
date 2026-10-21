@@ -18,8 +18,14 @@ async function fetchOsm(): Promise<unknown> {
     for (const url of URLS) {
       try {
         const res = await fetch(url, { method: 'POST', headers: HEADERS, body: new URLSearchParams({ data: OVERPASS_QUERY }) });
-        if (res.ok) return await res.json();
-        errors.push(`${url}: HTTP ${res.status}`);
+        if (!res.ok) {
+          errors.push(`${url}: HTTP ${res.status}`);
+        } else {
+          // A busy instance can answer 200 with no elements and a `remark` saying why.
+          const json = (await res.json()) as { elements?: unknown[]; remark?: string };
+          if (json.elements?.length) return json;
+          errors.push(`${url}: no elements${json.remark ? ` (${json.remark})` : ''}`);
+        }
       } catch (e) {
         errors.push(`${url}: ${e instanceof Error ? e.message : String(e)}`);
       }
@@ -37,6 +43,8 @@ const file = {
   attribution: '© OpenStreetMap contributors',
   bivouacs,
 };
+// Never replace the committed list with an empty or nearly empty one.
+if (bivouacs.length < 100) throw new Error(`Only ${bivouacs.length} bivouacs found; ${OUT} left unchanged.`);
 await writeFile(OUT, `${JSON.stringify(file, null, 1)}\n`);
 const wood = bivouacs.filter((b) => b.kind === 'wood').length;
 console.log(`[bivouacs] ${bivouacs.length} (${wood} wooden) -> ${OUT}`);
