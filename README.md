@@ -1,6 +1,6 @@
 # South Tyrol Snow Map
 
-A read-only 3D miniature of South Tyrol, centred on Bolzano: terrain with OpenStreetMap towns, roads, rivers and 3D buildings, live weather station readings (snow depth, temperature, wind), snow seen by Sentinel-2, an estimated snow depth layer, a day slider over the last 14 days, an animated 3-day snowfall forecast and a 7-day point forecast. Every view can be shared as a link (see [`plan.md`](plan.md)).
+A read-only 3D miniature of South Tyrol, centred on Bolzano: terrain with OpenStreetMap towns, roads, rivers and 3D buildings, live weather station readings (snow depth, temperature, wind), snow seen by Sentinel-2, an estimated snow depth layer, a day slider over the last 14 days, an animated 3-day snowfall forecast, a 7-day point forecast and the bivouacs (bivacchi, Biwaks) of the region. Every view can be shared as a link (see [`plan.md`](plan.md)).
 
 > **Not for avalanche decisions.** This is a visualisation for orientation only. Always check the official bulletin at [avalanche.report](https://avalanche.report).
 
@@ -27,6 +27,7 @@ Other scripts:
 | `npm test` | Unit tests (parsers, merge, PMTiles extractor, web helpers) against `fixtures/` |
 | `npm run dem` | Rebuild `pipeline/assets/dem-grid.bin`, the 250 m elevation grid the snow model uses (static; only when the grid changes) |
 | `npm run basemap` | Re-cut the OSM basemap from the newest Protomaps daily build (monthly is plenty) |
+| `npm run bivouacs` | Refresh `web/src/data/bivouacs.json` from OpenStreetMap via the Overpass API (static; `OVERPASS_URL` picks another Overpass instance when the main one is busy) |
 | `npm run basemap:assets` | Re-download the fonts and icon sprites the basemap style needs (committed in `web/public/basemap-assets/`) |
 | `npm run typecheck` | TypeScript check of app, pipeline and tests |
 | `npm run build` | Typecheck and production build into `dist/` (includes whatever is in `web/public/data`) |
@@ -117,6 +118,7 @@ GitHub disables scheduled workflows in a public repository after 60 days without
 - **Open-Meteo rate limits are per IP**, with a free non-commercial tier. Normal use is far below them. A shared IP (CI, some networks) can hit them, and the panel then shows the error.
 - **Terrain download is heavy.** The first view loads about 50 DEM tiles (about 8 MB, cached by the browser for 7 days). On phones the 3D mesh uses coarser tiles and a capped pixel ratio.
 - **Basemap** is a snapshot of OpenStreetMap, refreshed only when `npm run basemap` runs. Zoom 15 is left out to keep the file under 100 MB; closer views over-zoom zoom-14 tiles. Building heights are estimates where OSM has none.
+- **Bivouacs** are a static OpenStreetMap list (`web/src/data/bivouacs.json`, ODbL), refreshed only when `npm run bivouacs` runs. It holds the huts and shelters inside the station box whose name says bivacco, Biwak, bivak or bivouac (unnamed or differently named emergency huts are missed), without the ones marked private or disused. Red cabins are metal boxes, brown ones wooden; OSM rarely records the material, so a hut is drawn wooden only when `building:material=wood` or its description says it is built of wood, and most are drawn red. Whether a bivouac is open, equipped or still standing is not checked. Clicking one opens the point forecast at its surveyed elevation.
 - **Major summit labels** are a curated static list from OpenStreetMap (`web/src/data/summits.json`, ODbL); other peaks come from the basemap.
 - **Euregio feed quirk:** some providers publish local time with a `Z` suffix. The pipeline reinterprets future timestamps as Europe/Rome local time.
 - **The forecast animation is a sketch of where snow will fall,** not a snow depth forecast. Precipitation comes from about 10 km apart and is spread smoothly between the points; the snow share uses a fixed rule (snowfall limit 300 m below the freezing level, 10:1 snow) that misses heavy-precipitation cooling, wet snow and wind. Settling and melting of the new snow are ignored.
@@ -137,6 +139,6 @@ Other sources:
 - **Satellite picture:** contains modified Copernicus Sentinel data, processed by Sentinel Hub (Copernicus Data Space Ecosystem).
 - **Snow cover:** Copernicus Land Monitoring Service, Snow Cover Extent Europe 500 m (European Union), free and open access.
 - **Forecast:** [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0).
-- **Basemap and summits:** © OpenStreetMap contributors (ODbL), via a Protomaps build. Fonts: Noto Sans (OFL).
+- **Basemap, summits and bivouacs:** © OpenStreetMap contributors (ODbL), via a Protomaps build. Fonts: Noto Sans (OFL).
 
 The app shows all of these in its "Data sources and attribution" dialog.

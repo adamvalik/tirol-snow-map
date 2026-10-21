@@ -8,6 +8,7 @@
 export const LAYER_KEYS = [
   'snow',
   'stations',
+  'bivouacs',
   'satellite',
   'cover',
   'depth',
