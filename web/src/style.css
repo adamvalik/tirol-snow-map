@@ -429,6 +429,44 @@ input[type='range']::-moz-range-thumb {
   color: var(--fg);
 }
 
+.sub-row {
+  padding-left: 14px;
+}
+
+.fav-mark {
+  color: #e11d48;
+}
+
+.fav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
+  padding: 6px 12px 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--soft);
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.fav-btn svg path {
+  fill: none;
+  stroke: #e11d48;
+  stroke-width: 2;
+}
+
+.fav-btn[aria-pressed='true'] {
+  border-color: #fda4af;
+  background: #fff1f2;
+}
+
+.fav-btn[aria-pressed='true'] svg path {
+  fill: #e11d48;
+}
+
 .bivouac-icon {
   height: 14px;
   vertical-align: -2px;
