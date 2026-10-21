@@ -1,0 +1,2410 @@
+{
+ "source": "OpenStreetMap huts and shelters named bivacco/Biwak via Overpass API, 2026-10-21",
+ "licence": "ODbL 1.0",
+ "attribution": "© OpenStreetMap contributors",
+ "bivouacs": [
+  {
+   "name": "Hochjochbiwak - Bivacco Città di Cantù",
+   "lat": 46.49601,
+   "lon": 10.54812,
+   "ele": 3535,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "node/1777819985"
+  },
+  {
+   "name": "Bivacco Colombo",
+   "lat": 46.42971,
+   "lon": 10.61633,
+   "ele": 3495,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/253873689"
+  },
+  {
+   "name": "Bivacco Seveso",
+   "lat": 46.38658,
+   "lon": 10.54025,
+   "ele": 3420,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "node/394924262"
+  },
+  {
+   "name": "Bivacco Brigata Orobica",
+   "lat": 46.21704,
+   "lon": 10.66726,
+   "ele": 3382,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/1311011229"
+  },
+  {
+   "name": "Lombardi-Biwakhütte - Bivacco Lombardi",
+   "lat": 46.51848,
+   "lon": 10.54121,
+   "ele": 3316,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/291949621"
+  },
+  {
+   "name": "Bivacco Meneghello",
+   "lat": 46.37724,
+   "lon": 10.58884,
+   "ele": 3303,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "node/13888833601"
+  },
+  {
+   "name": "Bivacco Ugolino Ugolini",
+   "lat": 46.14964,
+   "lon": 10.49154,
+   "ele": 3290,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/264819993"
+  },
+  {
+   "name": "Bivacco L. Pellicioli",
+   "lat": 46.50249,
+   "lon": 10.51983,
+   "ele": 3230,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "node/3730641870"
+  },
+  {
+   "name": "Glocknerbiwak",
+   "lat": 47.08265,
+   "lon": 12.69432,
+   "ele": 3205,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/393767001"
+  },
+  {
+   "name": "Bivacco Gualtiero Laeng",
+   "lat": 46.13955,
+   "lon": 10.58736,
+   "ele": 3191,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/334299055"
+  },
+  {
+   "name": "Bivacco Arrigo Giannantonj",
+   "lat": 46.13902,
+   "lon": 10.51963,
+   "ele": 3169,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/264894248"
+  },
+  {
+   "name": "Bivacco Del Piero Giampaolo",
+   "lat": 46.44832,
+   "lon": 10.51182,
+   "ele": 3166,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/307338899"
+  },
+  {
+   "name": "Bivacco Zanon Morelli",
+   "lat": 46.17206,
+   "lon": 10.51465,
+   "ele": 3144,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/965428017"
+  },
+  {
+   "name": "Bivacco Battaglione skiatori monte Ortles",
+   "lat": 46.35861,
+   "lon": 10.54351,
+   "ele": 3130,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/288489252"
+  },
+  {
+   "name": "Bivacco Reginaldo Giuliani al Sassolungo",
+   "lat": 46.52404,
+   "lon": 11.73582,
+   "ele": 3100,
+   "capacity": 5,
+   "kind": "metal",
+   "osm": "node/4831216732"
+  },
+  {
+   "name": "Gruberscharten-Biwak",
+   "lat": 47.13784,
+   "lon": 12.73331,
+   "ele": 3100,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/598074412"
+  },
+  {
+   "name": "Bivacco Provolino",
+   "lat": 46.49114,
+   "lon": 10.43228,
+   "ele": 3051,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "node/3730705286"
+  },
+  {
+   "name": "Bivacco Eugenio Segalla",
+   "lat": 46.09886,
+   "lon": 10.59451,
+   "ele": 3050,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/442474994"
+  },
+  {
+   "name": "Bivacco Fiamme Gialle",
+   "lat": 46.28392,
+   "lon": 11.82739,
+   "ele": 3005,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/713601860"
+  },
+  {
+   "name": "Bivacco Francesco Regosa",
+   "lat": 46.20109,
+   "lon": 10.51371,
+   "ele": 2958,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "node/496502038"
+  },
+  {
+   "name": "Gernot-Röhr-Biwak",
+   "lat": 46.99926,
+   "lon": 12.73239,
+   "ele": 2940,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "node/5937430593"
+  },
+  {
+   "name": "Bivacco Baracca degli Alpini",
+   "lat": 46.56312,
+   "lon": 12.06801,
+   "ele": 2922,
+   "capacity": 7,
+   "kind": "metal",
+   "osm": "way/200336480"
+  },
+  {
+   "name": "Bivacco Tomè",
+   "lat": 46.3777,
+   "lon": 12.04431,
+   "ele": 2880,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/183195965"
+  },
+  {
+   "name": "Notbiwak",
+   "lat": 46.9752,
+   "lon": 11.07088,
+   "ele": 2874,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/88227085"
+  },
+  {
+   "name": "Bivacco Cavinato",
+   "lat": 46.17678,
+   "lon": 11.60476,
+   "ele": 2840,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/438431197"
+  },
+  {
+   "name": "Bivacco Involt da li Resa",
+   "lat": 46.49787,
+   "lon": 10.09574,
+   "ele": 2830,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/5197982672"
+  },
+  {
+   "name": "Goldbiwak",
+   "lat": 46.84834,
+   "lon": 10.55519,
+   "ele": 2810,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/12111204924"
+  },
+  {
+   "name": "Gösnitzkopf-Biwak",
+   "lat": 46.96182,
+   "lon": 12.74652,
+   "ele": 2800,
+   "capacity": 10,
+   "kind": "metal",
+   "osm": "node/389785938"
+  },
+  {
+   "name": "Bivacco Fratelli Bonvecchio",
+   "lat": 46.25382,
+   "lon": 10.8922,
+   "ele": 2780,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/1992861127"
+  },
+  {
+   "name": "Bivacco Ceco Baroni",
+   "lat": 46.12788,
+   "lon": 10.54782,
+   "ele": 2775,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/264893326"
+  },
+  {
+   "name": "Bivacco Ricovero Buffa di Perrero",
+   "lat": 46.58472,
+   "lon": 12.18267,
+   "ele": 2760,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/3647862037"
+  },
+  {
+   "name": "Bivacco della Pace",
+   "lat": 46.5683,
+   "lon": 12.02882,
+   "ele": 2758,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "node/7823748585"
+  },
+  {
+   "name": "Bivacco Marco Dal Bianco",
+   "lat": 46.42918,
+   "lon": 11.84528,
+   "ele": 2721,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/199505920"
+  },
+  {
+   "name": "Rauhjoch Biwak",
+   "lat": 46.8207,
+   "lon": 11.09977,
+   "ele": 2708,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "node/4390073444"
+  },
+  {
+   "name": "Dr.-Eugen-Guido-Lammer-Biwak",
+   "lat": 46.72621,
+   "lon": 11.06842,
+   "ele": 2707,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/1779402684"
+  },
+  {
+   "name": "Bivacco Davide Salvadori",
+   "lat": 46.08778,
+   "lon": 10.22381,
+   "ele": 2667,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/240319880"
+  },
+  {
+   "name": "Bivacco Fratelli Fanton",
+   "lat": 46.50573,
+   "lon": 12.34286,
+   "ele": 2667,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/9486198662"
+  },
+  {
+   "name": "Bivacco Giancarlo Biasin",
+   "lat": 46.27471,
+   "lon": 11.95129,
+   "ele": 2650,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/199056228"
+  },
+  {
+   "name": "Bivacco Renato Reali",
+   "lat": 46.24728,
+   "lon": 11.92349,
+   "ele": 2650,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/199053150"
+  },
+  {
+   "name": "Bivacco Giorgio Brunner",
+   "lat": 46.29373,
+   "lon": 11.83809,
+   "ele": 2632,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/514981409"
+  },
+  {
+   "name": "Bivacco M. Cantoni",
+   "lat": 46.42962,
+   "lon": 10.27622,
+   "ele": 2625,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/369266407"
+  },
+  {
+   "name": "Bivacco Baccon-Barborka",
+   "lat": 46.5818,
+   "lon": 12.04419,
+   "ele": 2620,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/12229506690"
+  },
+  {
+   "name": "Bivacco Mario Rigatti",
+   "lat": 46.38159,
+   "lon": 11.58064,
+   "ele": 2620,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/1259738821"
+  },
+  {
+   "name": "Roland-Ritter-Biwak",
+   "lat": 47.16719,
+   "lon": 10.44747,
+   "ele": 2614,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "node/517874760"
+  },
+  {
+   "name": "Bivacco A.E.M.",
+   "lat": 46.08797,
+   "lon": 10.08012,
+   "ele": 2606,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/4374884482"
+  },
+  {
+   "name": "Bivacco Ghedini",
+   "lat": 46.33855,
+   "lon": 12.05436,
+   "ele": 2601,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/291662157"
+  },
+  {
+   "name": "Arnsteiger Biwakschachtel",
+   "lat": 46.85147,
+   "lon": 12.52479,
+   "ele": 2600,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/3064560083"
+  },
+  {
+   "name": "Bivacco Capanna Mattia",
+   "lat": 45.98748,
+   "lon": 10.45305,
+   "ele": 2600,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/297029624"
+  },
+  {
+   "name": "Bivacco Slataper",
+   "lat": 46.50011,
+   "lon": 12.21632,
+   "ele": 2600,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/200789480"
+  },
+  {
+   "name": "Bivacco A.E.S.",
+   "lat": 46.08674,
+   "lon": 10.08122,
+   "ele": 2591,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/2464385629"
+  },
+  {
+   "name": "Bivacco C.A.I. Macherio",
+   "lat": 46.02129,
+   "lon": 10.43671,
+   "ele": 2590,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/198370181"
+  },
+  {
+   "name": "Gabler Biwak - Bivacco Gabler",
+   "lat": 46.68955,
+   "lon": 11.76285,
+   "ele": 2570,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/371110242"
+  },
+  {
+   "name": "Bivacco Aldo Moro",
+   "lat": 46.26465,
+   "lon": 11.72344,
+   "ele": 2565,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/478895566"
+  },
+  {
+   "name": "Bivacco De Toni",
+   "lat": 46.6069,
+   "lon": 12.36179,
+   "ele": 2560,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "node/4498112739"
+  },
+  {
+   "name": "Bivacco Forcella Bocche",
+   "lat": 46.35304,
+   "lon": 11.746,
+   "ele": 2543,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/374966784"
+  },
+  {
+   "name": "Schüsselkar-Biwak",
+   "lat": 47.39703,
+   "lon": 11.11955,
+   "ele": 2536,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/530194208"
+  },
+  {
+   "name": "Bivacco Strambini",
+   "lat": 46.37655,
+   "lon": 10.14147,
+   "ele": 2534,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/304415583"
+  },
+  {
+   "name": "Bivacco Caldarini",
+   "lat": 46.40241,
+   "lon": 10.19454,
+   "ele": 2501,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "node/6443219817"
+  },
+  {
+   "name": "Bivacco Caldarini",
+   "lat": 46.40242,
+   "lon": 10.19451,
+   "ele": 2501,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/369270794"
+  },
+  {
+   "name": "Biwakschachtel Schwarzsee",
+   "lat": 46.85719,
+   "lon": 12.29511,
+   "ele": 2500,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/807334500"
+  },
+  {
+   "name": "Biwakschachtel Schwarzsee",
+   "lat": 46.85717,
+   "lon": 12.29501,
+   "ele": 2500,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/807334501"
+  },
+  {
+   "name": "Lalidererspitzen-Biwak",
+   "lat": 47.39014,
+   "lon": 11.50342,
+   "ele": 2495,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/1566474945"
+  },
+  {
+   "name": "Bivacco Jack Canali",
+   "lat": 46.24834,
+   "lon": 10.70419,
+   "ele": 2480,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/368282820"
+  },
+  {
+   "name": "Hochferner-Biwak",
+   "lat": 46.98617,
+   "lon": 11.70541,
+   "ele": 2428,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "node/2284467437"
+  },
+  {
+   "name": "Bivacco Capanna Meden",
+   "lat": 46.22306,
+   "lon": 10.05912,
+   "ele": 2427,
+   "capacity": 2,
+   "kind": "metal",
+   "osm": "way/1173004519"
+  },
+  {
+   "name": "Bivacco Serodoli",
+   "lat": 46.24649,
+   "lon": 10.77826,
+   "ele": 2385,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/119930961"
+  },
+  {
+   "name": "Bivacco Claudio Costanzi Albasini",
+   "lat": 46.27895,
+   "lon": 10.89566,
+   "ele": 2365,
+   "capacity": 15,
+   "kind": "metal",
+   "osm": "way/234881372"
+  },
+  {
+   "name": "Bivacco Casina Dosson",
+   "lat": 46.08319,
+   "lon": 10.60772,
+   "ele": 2360,
+   "capacity": 10,
+   "kind": "metal",
+   "osm": "way/228420324"
+  },
+  {
+   "name": "Bivacco P. Ferrario",
+   "lat": 46.43443,
+   "lon": 10.26416,
+   "ele": 2340,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/369268360"
+  },
+  {
+   "name": "Bivacco Sandro Redolf",
+   "lat": 46.34636,
+   "lon": 11.73391,
+   "ele": 2335,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/120195062"
+  },
+  {
+   "name": "Bivacco Malghera m.2319",
+   "lat": 46.33405,
+   "lon": 10.11904,
+   "ele": 2330,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/151630598"
+  },
+  {
+   "name": "Bivacco Pian del Lago",
+   "lat": 46.35552,
+   "lon": 10.16108,
+   "ele": 2325,
+   "capacity": 4,
+   "kind": "wood",
+   "osm": "way/178867914"
+  },
+  {
+   "name": "Bivacco Ugo Dalla Bernardina",
+   "lat": 46.22823,
+   "lon": 12.18,
+   "ele": 2320,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/111825992"
+  },
+  {
+   "name": "Bivacco Valerio Festa",
+   "lat": 46.17961,
+   "lon": 10.41519,
+   "ele": 2320,
+   "capacity": 15,
+   "kind": "metal",
+   "osm": "way/179639108"
+  },
+  {
+   "name": "Bivacco Baita Lasteati",
+   "lat": 46.16417,
+   "lon": 11.57163,
+   "ele": 2310,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/378683231"
+  },
+  {
+   "name": "Bivacco Latemar Attilio Sieff",
+   "lat": 46.37459,
+   "lon": 11.5707,
+   "ele": 2306,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/4308975128"
+  },
+  {
+   "name": "Bivacco Carlo Minazio",
+   "lat": 46.24363,
+   "lon": 11.87818,
+   "ele": 2294,
+   "capacity": 12,
+   "kind": "metal",
+   "osm": "way/129947077"
+  },
+  {
+   "name": "bivacco Baracon de Varadega",
+   "lat": 46.27126,
+   "lon": 10.31171,
+   "ele": 2275,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/612781748"
+  },
+  {
+   "name": "Bivacco Linge",
+   "lat": 46.32792,
+   "lon": 10.46016,
+   "ele": 2275,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/198505429"
+  },
+  {
+   "name": "Bivacco del Marmol",
+   "lat": 46.23103,
+   "lon": 12.19068,
+   "ele": 2266,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/111826052"
+  },
+  {
+   "name": "Bivacco Dino e Plinio Toso",
+   "lat": 46.51473,
+   "lon": 12.3143,
+   "ele": 2246,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/200797150"
+  },
+  {
+   "name": "Bivacco Rifugio Tiziano",
+   "lat": 46.5148,
+   "lon": 12.3142,
+   "ele": 2246,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/200797188"
+  },
+  {
+   "name": "Bivacco Cunella",
+   "lat": 46.07078,
+   "lon": 10.625,
+   "ele": 2245,
+   "capacity": 3,
+   "kind": "metal",
+   "osm": "way/367464095"
+  },
+  {
+   "name": "Bivacco Gera",
+   "lat": 46.60162,
+   "lon": 12.42837,
+   "ele": 2240,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/1193404648"
+  },
+  {
+   "name": "Bivacco Aprica",
+   "lat": 46.11623,
+   "lon": 10.16079,
+   "ele": 2227,
+   "capacity": 15,
+   "kind": "metal",
+   "osm": "way/311027229"
+  },
+  {
+   "name": "Bivacco Armando Piva",
+   "lat": 46.65264,
+   "lon": 12.55299,
+   "ele": 2216,
+   "capacity": 12,
+   "kind": "metal",
+   "osm": "way/196587416"
+  },
+  {
+   "name": "Bivacco Valzaroten",
+   "lat": 46.29592,
+   "lon": 10.44091,
+   "ele": 2212,
+   "capacity": 5,
+   "kind": "metal",
+   "osm": "way/368790574"
+  },
+  {
+   "name": "Bivacco Plassa Gerù",
+   "lat": 46.26742,
+   "lon": 10.43267,
+   "ele": 2207,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/304025254"
+  },
+  {
+   "name": "Bivacco Roberti",
+   "lat": 46.1921,
+   "lon": 10.69592,
+   "ele": 2205,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/256167232"
+  },
+  {
+   "name": "Bivacco Crus de l'Alp",
+   "lat": 46.28229,
+   "lon": 10.30992,
+   "ele": 2203,
+   "capacity": 10,
+   "kind": "metal",
+   "osm": "way/1190784146"
+  },
+  {
+   "name": "Bivacco della Fasa",
+   "lat": 46.0081,
+   "lon": 10.40018,
+   "ele": 2200,
+   "capacity": 2,
+   "kind": "metal",
+   "osm": "node/10624486977"
+  },
+  {
+   "name": "Bivacco Voltolina",
+   "lat": 46.49196,
+   "lon": 12.25604,
+   "ele": 2165,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/3286404720"
+  },
+  {
+   "name": "Bivacco Forcella Coldosè",
+   "lat": 46.2596,
+   "lon": 11.62447,
+   "ele": 2163,
+   "capacity": 12,
+   "kind": "metal",
+   "osm": "way/373482275"
+  },
+  {
+   "name": "Walter-Brenninger-Biwak",
+   "lat": 46.93863,
+   "lon": 11.69556,
+   "ele": 2157,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/371850330"
+  },
+  {
+   "name": "Bivacco Antonio Marchi e Renzo Granzotto",
+   "lat": 46.41278,
+   "lon": 12.50378,
+   "ele": 2152,
+   "capacity": 12,
+   "kind": "metal",
+   "osm": "way/36658041"
+  },
+  {
+   "name": "Biwak Mintl",
+   "lat": 46.79713,
+   "lon": 11.38339,
+   "ele": 2144,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/43330269"
+  },
+  {
+   "name": "Bivacco Montirolo",
+   "lat": 46.24475,
+   "lon": 10.01278,
+   "ele": 2137,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/519118247"
+  },
+  {
+   "name": "Bivacco Lago di Bos",
+   "lat": 46.09496,
+   "lon": 10.45913,
+   "ele": 2130,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/177542596"
+  },
+  {
+   "name": "Bivacco Musatti",
+   "lat": 46.51315,
+   "lon": 12.28842,
+   "ele": 2111,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/200797161"
+  },
+  {
+   "name": "Bivacco Da Rin Chiaurei",
+   "lat": 46.51892,
+   "lon": 12.49471,
+   "ele": 2100,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/384573095"
+  },
+  {
+   "name": "Bivacco Donato Zeni",
+   "lat": 46.40435,
+   "lon": 11.70919,
+   "ele": 2100,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/152409700"
+  },
+  {
+   "name": "Bivacco Invernale Baita Adamè",
+   "lat": 46.10295,
+   "lon": 10.51904,
+   "ele": 2100,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/288535162"
+  },
+  {
+   "name": "Bivacco Casinello di Blumone",
+   "lat": 45.96069,
+   "lon": 10.4754,
+   "ele": 2099,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/230458586"
+  },
+  {
+   "name": "Bivacco al Manghenéto",
+   "lat": 46.16878,
+   "lon": 11.42384,
+   "ele": 2080,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/183361959"
+  },
+  {
+   "name": "Bivacco ANA Telve",
+   "lat": 46.16865,
+   "lon": 11.42375,
+   "ele": 2080,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/183361960"
+  },
+  {
+   "name": "Bivacco Case di Bles",
+   "lat": 46.26605,
+   "lon": 10.43979,
+   "ele": 2080,
+   "capacity": 12,
+   "kind": "metal",
+   "osm": "way/162769191"
+  },
+  {
+   "name": "Bivacco Giuliano Perugini",
+   "lat": 46.39735,
+   "lon": 12.48214,
+   "ele": 2070,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/36645820"
+  },
+  {
+   "name": "Bivacco Piovan",
+   "lat": 46.61466,
+   "lon": 12.42732,
+   "ele": 2070,
+   "capacity": 5,
+   "kind": "metal",
+   "osm": "way/1193404338"
+  },
+  {
+   "name": "Bivacco Malga Nana",
+   "lat": 46.30409,
+   "lon": 10.93099,
+   "ele": 2068,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/80307040"
+  },
+  {
+   "name": "Bivacco Massimo Nella",
+   "lat": 46.19098,
+   "lon": 10.73308,
+   "ele": 2068,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/809179361"
+  },
+  {
+   "name": "Bivacco Dino Marinelli",
+   "lat": 46.35644,
+   "lon": 10.86275,
+   "ele": 2056,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/96248145"
+  },
+  {
+   "name": "Bivacco Aldo e Miranda Vaccari",
+   "lat": 46.43144,
+   "lon": 12.49363,
+   "ele": 2050,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/383683105"
+  },
+  {
+   "name": "Bivacco Busa delle Dodese \"Roger Lenzi\"",
+   "lat": 46.00118,
+   "lon": 11.48057,
+   "ele": 2050,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/308903127"
+  },
+  {
+   "name": "Bivacco Città di Clusone",
+   "lat": 45.9508,
+   "lon": 10.06273,
+   "ele": 2050,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/120595369"
+  },
+  {
+   "name": "Bivacco Franco Marta",
+   "lat": 46.53419,
+   "lon": 12.61912,
+   "ele": 2048,
+   "capacity": 5,
+   "kind": "metal",
+   "osm": "way/201203622"
+  },
+  {
+   "name": "Bivacco Giovanni Spagnolli",
+   "lat": 46.50464,
+   "lon": 12.5275,
+   "ele": 2047,
+   "capacity": 11,
+   "kind": "metal",
+   "osm": "way/384572044"
+  },
+  {
+   "name": "Bivacco Cornon",
+   "lat": 46.52708,
+   "lon": 12.58867,
+   "ele": 2045,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/201203634"
+  },
+  {
+   "name": "Bivacco Saverio Occhi",
+   "lat": 46.31014,
+   "lon": 10.41345,
+   "ele": 2040,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/264822552"
+  },
+  {
+   "name": "Bivacco Don Giulio Corini",
+   "lat": 46.00972,
+   "lon": 10.23273,
+   "ele": 2016,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/608319869"
+  },
+  {
+   "name": "Bivacco Carnielli-DeMarchi",
+   "lat": 46.31473,
+   "lon": 12.1813,
+   "ele": 2010,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/201022556"
+  },
+  {
+   "name": "Bivacco Grisetti",
+   "lat": 46.348,
+   "lon": 12.07613,
+   "ele": 2007,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/183203170"
+  },
+  {
+   "name": "Bivacco Da Deppo Montanel",
+   "lat": 46.43373,
+   "lon": 12.4546,
+   "ele": 2006,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/201452741"
+  },
+  {
+   "name": "Bivacco Malga Baselga",
+   "lat": 46.27394,
+   "lon": 10.76141,
+   "ele": 2006,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/805586121"
+  },
+  {
+   "name": "Bivacco Angelo Ursella Mario Zandonella",
+   "lat": 46.51454,
+   "lon": 12.52514,
+   "ele": 2000,
+   "capacity": 5,
+   "kind": "metal",
+   "osm": "way/201203192"
+  },
+  {
+   "name": "Bivacco Comici",
+   "lat": 46.52257,
+   "lon": 12.24627,
+   "ele": 2000,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/152273223"
+  },
+  {
+   "name": "Bivacco Sperti",
+   "lat": 46.22353,
+   "lon": 12.178,
+   "ele": 2000,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/111825754"
+  },
+  {
+   "name": "Bivacco Pesciöla",
+   "lat": 46.1077,
+   "lon": 10.01628,
+   "ele": 1995,
+   "capacity": 3,
+   "kind": "metal",
+   "osm": "way/1110575436"
+  },
+  {
+   "name": "Bivacco Damiana del Gobbo",
+   "lat": 46.53375,
+   "lon": 12.67213,
+   "ele": 1991,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/186928596"
+  },
+  {
+   "name": "Bivacco Pozze",
+   "lat": 46.41469,
+   "lon": 10.92942,
+   "ele": 1989,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/123034726"
+  },
+  {
+   "name": "Bivacco Paolo Greselin",
+   "lat": 46.33365,
+   "lon": 12.41695,
+   "ele": 1988,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/211971467"
+  },
+  {
+   "name": "Mitterkar-Biwak",
+   "lat": 46.66418,
+   "lon": 12.6795,
+   "ele": 1973,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/389786152"
+  },
+  {
+   "name": "Bivacco",
+   "lat": 46.19114,
+   "lon": 11.36635,
+   "ele": 1972,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/80358268"
+  },
+  {
+   "name": "Bivacco Val Baione",
+   "lat": 46.01465,
+   "lon": 10.26698,
+   "ele": 1960,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/178840155"
+  },
+  {
+   "name": "Bivacco Spera (Zani Sperandio)",
+   "lat": 46.21231,
+   "lon": 10.4917,
+   "ele": 1953,
+   "capacity": 2,
+   "kind": "metal",
+   "osm": "node/496427659"
+  },
+  {
+   "name": "Bivacco Caseròte",
+   "lat": 46.14461,
+   "lon": 11.41503,
+   "ele": 1935,
+   "capacity": 0,
+   "kind": "metal",
+   "osm": "way/461447344"
+  },
+  {
+   "name": "Bivacco Feltre",
+   "lat": 46.16823,
+   "lon": 11.93951,
+   "ele": 1930,
+   "capacity": 15,
+   "kind": "metal",
+   "osm": "way/180142155"
+  },
+  {
+   "name": "Bivacco Walter Bodo",
+   "lat": 46.16826,
+   "lon": 11.93963,
+   "ele": 1930,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/180142164"
+  },
+  {
+   "name": "Malga Bivacco Monsampiano",
+   "lat": 46.09174,
+   "lon": 11.81238,
+   "ele": 1902,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/59721510"
+  },
+  {
+   "name": "Bivacco Pian di Campo",
+   "lat": 46.0442,
+   "lon": 10.39379,
+   "ele": 1895,
+   "capacity": 2,
+   "kind": "metal",
+   "osm": "way/1350611160"
+  },
+  {
+   "name": "bivacco Alpe Piana",
+   "lat": 46.31062,
+   "lon": 10.18955,
+   "ele": 1880,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/1286385244"
+  },
+  {
+   "name": "Bivacco Tre Fontane",
+   "lat": 45.96639,
+   "lon": 11.4944,
+   "ele": 1874,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/560460014"
+  },
+  {
+   "name": "Bivacco Malga Fratte Alta",
+   "lat": 46.40379,
+   "lon": 10.77796,
+   "ele": 1867,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/95540853"
+  },
+  {
+   "name": "Bivacco Baita Casentia",
+   "lat": 46.09947,
+   "lon": 10.41555,
+   "ele": 1849,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/249103096"
+  },
+  {
+   "name": "Bivacco Stalon De Bon",
+   "lat": 46.26172,
+   "lon": 10.72749,
+   "ele": 1848,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/436634231"
+  },
+  {
+   "name": "Bivacco Col Mandro",
+   "lat": 46.3721,
+   "lon": 12.00146,
+   "ele": 1844,
+   "capacity": 8,
+   "kind": "wood",
+   "osm": "way/183195976"
+  },
+  {
+   "name": "Bivacco Forestale",
+   "lat": 46.4667,
+   "lon": 10.97538,
+   "ele": 1830,
+   "capacity": 2,
+   "kind": "metal",
+   "osm": "way/1091683248"
+  },
+  {
+   "name": "Bivacco Casera Pramaggiore",
+   "lat": 46.35995,
+   "lon": 12.56694,
+   "ele": 1812,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/36021608"
+  },
+  {
+   "name": "Bivacco Anita Goitan",
+   "lat": 46.32166,
+   "lon": 12.58729,
+   "ele": 1810,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/36021788"
+  },
+  {
+   "name": "Bivacco Campoluzzo",
+   "lat": 45.99061,
+   "lon": 11.51788,
+   "ele": 1780,
+   "capacity": 5,
+   "kind": "metal",
+   "osm": "node/597642273"
+  },
+  {
+   "name": "Bivacco Casarotte",
+   "lat": 46.09985,
+   "lon": 11.5391,
+   "ele": 1760,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/1159313873"
+  },
+  {
+   "name": "Bivacco Cason di Brica",
+   "lat": 46.38908,
+   "lon": 12.53153,
+   "ele": 1745,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/36021609"
+  },
+  {
+   "name": "Bivacco Menegazzi al Pianlonch",
+   "lat": 46.22954,
+   "lon": 11.92731,
+   "ele": 1737,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/199053117"
+  },
+  {
+   "name": "Bivacco Elto",
+   "lat": 46.06201,
+   "lon": 10.31044,
+   "ele": 1734,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/412909991"
+  },
+  {
+   "name": "Bivacco Baita Reganel",
+   "lat": 46.17802,
+   "lon": 11.66158,
+   "ele": 1712,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/402615800"
+  },
+  {
+   "name": "Bivacco Chiansaveit",
+   "lat": 46.45212,
+   "lon": 12.62781,
+   "ele": 1698,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "node/7728648278"
+  },
+  {
+   "name": "Bivacco Baracca di Val Mattio",
+   "lat": 46.17474,
+   "lon": 11.36256,
+   "ele": 1697,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/765951395"
+  },
+  {
+   "name": "Bivacco Tovanella",
+   "lat": 46.30111,
+   "lon": 12.26514,
+   "ele": 1688,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/202044951"
+  },
+  {
+   "name": "Rifugio bivacco Vasoni Bassa",
+   "lat": 46.1866,
+   "lon": 11.36211,
+   "ele": 1663,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/80353794"
+  },
+  {
+   "name": "Bivacco Casamatta",
+   "lat": 46.38205,
+   "lon": 12.01339,
+   "ele": 1651,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/183195985"
+  },
+  {
+   "name": "Bivacco Casera Campestrin",
+   "lat": 46.34778,
+   "lon": 12.2781,
+   "ele": 1649,
+   "capacity": 12,
+   "kind": "metal",
+   "osm": "way/381142798"
+  },
+  {
+   "name": "Bivacco Raffaele Bailoni",
+   "lat": 46.02332,
+   "lon": 11.1813,
+   "ele": 1632,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/155511927"
+  },
+  {
+   "name": "Bivacco Zanette",
+   "lat": 46.27691,
+   "lon": 12.42157,
+   "ele": 1628,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/36022612"
+  },
+  {
+   "name": "Bivacco Groppa Pastour",
+   "lat": 46.17064,
+   "lon": 12.46895,
+   "ele": 1617,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/36052408"
+  },
+  {
+   "name": "Bivacco Palia",
+   "lat": 46.13209,
+   "lon": 12.01803,
+   "ele": 1577,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/199050486"
+  },
+  {
+   "name": "Bivacco Enzo Cozzolino",
+   "lat": 46.28212,
+   "lon": 11.95045,
+   "ele": 1545,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/199056006"
+  },
+  {
+   "name": "Bivacco Malga Sambuco",
+   "lat": 45.95153,
+   "lon": 10.35278,
+   "ele": 1530,
+   "capacity": 5,
+   "kind": "metal",
+   "osm": "way/297047141"
+  },
+  {
+   "name": "Bivacco Casera Bosc dei Boi",
+   "lat": 46.1125,
+   "lon": 11.97525,
+   "ele": 1501,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/180141554"
+  },
+  {
+   "name": "Bivacco Adamone",
+   "lat": 46.04885,
+   "lon": 10.31972,
+   "ele": 1458,
+   "capacity": 12,
+   "kind": "metal",
+   "osm": "way/174338869"
+  },
+  {
+   "name": "Le Prese Malga Bivacco",
+   "lat": 46.08003,
+   "lon": 11.79813,
+   "ele": 1442,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/148138360"
+  },
+  {
+   "name": "Bivacco Le Mandre",
+   "lat": 46.24487,
+   "lon": 12.04276,
+   "ele": 1378,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/180149675"
+  },
+  {
+   "name": "Bivacco dell'Asta",
+   "lat": 46.22789,
+   "lon": 12.60306,
+   "ele": 1370,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/330662137"
+  },
+  {
+   "name": "Bivacco Silvio e Rudi",
+   "lat": 46.06334,
+   "lon": 12.45383,
+   "ele": 1347,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "node/3717356634"
+  },
+  {
+   "name": "Bivacco Medassa",
+   "lat": 46.21389,
+   "lon": 12.19825,
+   "ele": 1340,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/111825650"
+  },
+  {
+   "name": "Bivacco Pian dei Boi",
+   "lat": 46.30327,
+   "lon": 12.30526,
+   "ele": 1262,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/202049360"
+  },
+  {
+   "name": "Bivacco Salvedella Vecia",
+   "lat": 45.96822,
+   "lon": 12.06077,
+   "ele": 1245,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/198772173"
+  },
+  {
+   "name": "Bivacco Val Zea",
+   "lat": 46.19954,
+   "lon": 12.45451,
+   "ele": 1245,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/1148826159"
+  },
+  {
+   "name": "Bivacco Malga Nova",
+   "lat": 46.03309,
+   "lon": 11.1747,
+   "ele": 1210,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/1340810730"
+  },
+  {
+   "name": "Bivacco Col dei Gai",
+   "lat": 46.01393,
+   "lon": 12.18882,
+   "ele": 1187,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/1764223763"
+  },
+  {
+   "name": "Bivacco Pian della Valle",
+   "lat": 46.11312,
+   "lon": 10.03084,
+   "ele": 1187,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/307651026"
+  },
+  {
+   "name": "Bivacco Scalon",
+   "lat": 46.18894,
+   "lon": 12.32447,
+   "ele": 1150,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/461888445"
+  },
+  {
+   "name": "Bivacco Val Provagna",
+   "lat": 46.21841,
+   "lon": 12.46959,
+   "ele": 1124,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/36645178"
+  },
+  {
+   "name": "Bivacco Momi",
+   "lat": 45.97754,
+   "lon": 12.04975,
+   "ele": 1071,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/198774773"
+  },
+  {
+   "name": "Bivacco Nino Lot",
+   "lat": 46.02155,
+   "lon": 12.36809,
+   "ele": 1010,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/334089973"
+  },
+  {
+   "name": "Bivacco Molassa",
+   "lat": 46.22043,
+   "lon": 12.58628,
+   "ele": 699,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/36023309"
+  },
+  {
+   "name": "Bivacco Guglielmo Varnerin",
+   "lat": 46.27544,
+   "lon": 12.8302,
+   "ele": 660,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/240016726"
+  },
+  {
+   "name": "Bivacco col Maior",
+   "lat": 46.22732,
+   "lon": 12.74202,
+   "ele": 651,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/335043600"
+  },
+  {
+   "name": "Bivacco Palcoda",
+   "lat": 46.28821,
+   "lon": 12.84669,
+   "ele": 627,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/777333372"
+  },
+  {
+   "name": "Bivacco Frassaneit di Sotto",
+   "lat": 46.30373,
+   "lon": 12.7348,
+   "ele": 540,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/606404295"
+  },
+  {
+   "name": "AVS Notraum - AVS Bivacco di emergenza",
+   "lat": 46.70795,
+   "lon": 11.58041,
+   "ele": null,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/167189019"
+  },
+  {
+   "name": "Bivacco",
+   "lat": 46.48188,
+   "lon": 11.69775,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/211169012"
+  },
+  {
+   "name": "Bivacco \"Buso\"",
+   "lat": 46.02277,
+   "lon": 12.22086,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/148422217"
+  },
+  {
+   "name": "Bivacco Aldo e Mario",
+   "lat": 45.99437,
+   "lon": 11.43681,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/286955749"
+  },
+  {
+   "name": "Bivacco Alessio Toffolon",
+   "lat": 46.17647,
+   "lon": 12.45219,
+   "ele": null,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/36052409"
+  },
+  {
+   "name": "Bivacco Argentino Vanin",
+   "lat": 46.10766,
+   "lon": 11.54315,
+   "ele": null,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/183408222"
+  },
+  {
+   "name": "Bivacco Battaglione Cadore",
+   "lat": 46.61686,
+   "lon": 12.39884,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/283352130"
+  },
+  {
+   "name": "Bivacco Battaglione Ortles",
+   "lat": 46.35861,
+   "lon": 10.54354,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/11872141991"
+  },
+  {
+   "name": "Bivacco Bonafede Giustina",
+   "lat": 46.41806,
+   "lon": 12.14078,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/12192880691"
+  },
+  {
+   "name": "Bivacco Bontadini",
+   "lat": 46.46348,
+   "lon": 11.8883,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/425955532"
+  },
+  {
+   "name": "Bivacco Bordignon",
+   "lat": 45.99024,
+   "lon": 11.48855,
+   "ele": null,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "node/3141977446"
+  },
+  {
+   "name": "Bivacco Brigata Alpina \"Cadore\"",
+   "lat": 46.49631,
+   "lon": 11.95993,
+   "ele": null,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/200221569"
+  },
+  {
+   "name": "Bivacco Caldenave",
+   "lat": 46.13437,
+   "lon": 11.54418,
+   "ele": null,
+   "capacity": 8,
+   "kind": "metal",
+   "osm": "way/537436016"
+  },
+  {
+   "name": "Bivacco Casara Trentin",
+   "lat": 45.97612,
+   "lon": 11.45896,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/175901474"
+  },
+  {
+   "name": "Bivacco Casera Vissada",
+   "lat": 46.62077,
+   "lon": 12.58089,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/196586347"
+  },
+  {
+   "name": "Bivacco Costa Curta",
+   "lat": 46.00859,
+   "lon": 12.15462,
+   "ele": null,
+   "capacity": 3,
+   "kind": "metal",
+   "osm": "way/208630660"
+  },
+  {
+   "name": "Bivacco Crozolam",
+   "lat": 45.96532,
+   "lon": 10.90168,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/173349464"
+  },
+  {
+   "name": "bivacco Dal Mas",
+   "lat": 46.26198,
+   "lon": 12.17626,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/110977951"
+  },
+  {
+   "name": "Bivacco dei cacciatori di Toss",
+   "lat": 46.28116,
+   "lon": 11.12516,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/826132534"
+  },
+  {
+   "name": "Bivacco dei Dorsini",
+   "lat": 46.09686,
+   "lon": 10.90427,
+   "ele": null,
+   "capacity": 0,
+   "kind": "metal",
+   "osm": "node/440669848"
+  },
+  {
+   "name": "Bivacco dei Loff",
+   "lat": 46.00123,
+   "lon": 12.14849,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/4099883847"
+  },
+  {
+   "name": "Bivacco dei pastori",
+   "lat": 46.32674,
+   "lon": 11.84122,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/9914481084"
+  },
+  {
+   "name": "Bivacco dell'Amicizia",
+   "lat": 46.07592,
+   "lon": 11.35044,
+   "ele": null,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/1202709454"
+  },
+  {
+   "name": "Bivacco delle Salare",
+   "lat": 46.30787,
+   "lon": 10.92702,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/96109726"
+  },
+  {
+   "name": "Bivacco Detassis",
+   "lat": 46.17548,
+   "lon": 10.87595,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/1414138413"
+  },
+  {
+   "name": "Bivacco di Malga Nuova",
+   "lat": 46.23047,
+   "lon": 11.48804,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/176326595"
+  },
+  {
+   "name": "Bivacco Ettore Castiglioni",
+   "lat": 46.16123,
+   "lon": 10.86964,
+   "ele": null,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "node/7015155900"
+  },
+  {
+   "name": "Bivacco Giacomelli alla Madonnina",
+   "lat": 45.9711,
+   "lon": 11.18611,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/1287114357"
+  },
+  {
+   "name": "Bivacco Gianni Stanchina",
+   "lat": 46.37856,
+   "lon": 10.92381,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/6794598578"
+  },
+  {
+   "name": "Bivacco Gronton",
+   "lat": 46.35279,
+   "lon": 11.74225,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/601311705"
+  },
+  {
+   "name": "Bivacco Guide Alpine di San Martino",
+   "lat": 46.25354,
+   "lon": 11.85139,
+   "ele": null,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/213244240"
+  },
+  {
+   "name": "Bivacco Guido Pinamonti",
+   "lat": 46.30881,
+   "lon": 10.94244,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/231718876"
+  },
+  {
+   "name": "Bivacco Invernale Matteo Fiori",
+   "lat": 46.14689,
+   "lon": 11.91666,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/180141479"
+  },
+  {
+   "name": "Bivacco invernale Treviso",
+   "lat": 46.23675,
+   "lon": 11.90298,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/2535780572"
+  },
+  {
+   "name": "Bivacco Jellici",
+   "lat": 46.35219,
+   "lon": 11.7527,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/996209213"
+  },
+  {
+   "name": "Bivacco Juffman",
+   "lat": 46.32231,
+   "lon": 10.95243,
+   "ele": null,
+   "capacity": 7,
+   "kind": "metal",
+   "osm": "way/569244070"
+  },
+  {
+   "name": "Bivacco Lastè",
+   "lat": 46.13506,
+   "lon": 12.49088,
+   "ele": null,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/209017857"
+  },
+  {
+   "name": "Bivacco malga Alvis",
+   "lat": 46.14336,
+   "lon": 11.92836,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/180141536"
+  },
+  {
+   "name": "Bivacco malga Cap dei Gui",
+   "lat": 45.96064,
+   "lon": 10.75184,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/230358759"
+  },
+  {
+   "name": "Bivacco Malga Cavai",
+   "lat": 46.3031,
+   "lon": 10.91818,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/713785757"
+  },
+  {
+   "name": "Bivacco Malga Cima",
+   "lat": 46.10223,
+   "lon": 11.52338,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/9069984725"
+  },
+  {
+   "name": "Bivacco Malga Derocca",
+   "lat": 45.98035,
+   "lon": 11.16793,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/183483884"
+  },
+  {
+   "name": "Bivacco Malga Fassa",
+   "lat": 46.39006,
+   "lon": 10.7696,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/11407409873"
+  },
+  {
+   "name": "Bivacco Malga Fregasoga",
+   "lat": 46.18083,
+   "lon": 11.36529,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/765948541"
+  },
+  {
+   "name": "Bivacco Malga Moregna",
+   "lat": 46.26728,
+   "lon": 11.63546,
+   "ele": null,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/433017365"
+  },
+  {
+   "name": "Bivacco Malga Paludei",
+   "lat": 46.34051,
+   "lon": 10.58344,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/446639459"
+  },
+  {
+   "name": "Bivacco Malga Spruggio Bassa",
+   "lat": 46.16842,
+   "lon": 11.34168,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/5827401860"
+  },
+  {
+   "name": "Bivacco Malga Val",
+   "lat": 46.47619,
+   "lon": 10.98568,
+   "ele": null,
+   "capacity": 7,
+   "kind": "metal",
+   "osm": "node/9995425865"
+  },
+  {
+   "name": "Bivacco malgai Gui",
+   "lat": 45.96052,
+   "lon": 10.74229,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/4003093413"
+  },
+  {
+   "name": "Bivacco Mascabroni",
+   "lat": 46.63462,
+   "lon": 12.38092,
+   "ele": null,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/1193401388"
+  },
+  {
+   "name": "Bivacco Mont",
+   "lat": 45.97383,
+   "lon": 12.08117,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/989975101"
+  },
+  {
+   "name": "Bivacco Monte Col",
+   "lat": 46.54094,
+   "lon": 12.55827,
+   "ele": null,
+   "capacity": null,
+   "kind": "wood",
+   "osm": "way/201203189"
+  },
+  {
+   "name": "Bivacco Monte Miesna",
+   "lat": 45.99797,
+   "lon": 11.96145,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/13730050452"
+  },
+  {
+   "name": "Bivacco Nada Teatin",
+   "lat": 46.23196,
+   "lon": 11.56488,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/1865673014"
+  },
+  {
+   "name": "Bivacco Paolo e Nicola",
+   "lat": 46.25685,
+   "lon": 11.665,
+   "ele": null,
+   "capacity": 15,
+   "kind": "metal",
+   "osm": "way/492196974"
+  },
+  {
+   "name": "Bivacco Passo Lago Scuro (Museo)",
+   "lat": 46.22007,
+   "lon": 10.56678,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/361244996"
+  },
+  {
+   "name": "Bivacco pastori \"Le Celesti\"",
+   "lat": 46.17658,
+   "lon": 11.3952,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/1422138677"
+  },
+  {
+   "name": "Bivacco Pian dei Grassi",
+   "lat": 46.02705,
+   "lon": 12.26035,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/142006993"
+  },
+  {
+   "name": "Bivacco Pian delle Stelle",
+   "lat": 46.45007,
+   "lon": 11.97419,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/200227675"
+  },
+  {
+   "name": "Bivacco Pozze",
+   "lat": 46.34907,
+   "lon": 10.76186,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/95166066"
+  },
+  {
+   "name": "Bivacco Rifugio Consèria",
+   "lat": 46.16988,
+   "lon": 11.5386,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/103589597"
+  },
+  {
+   "name": "Bivacco Salvedella Nuova",
+   "lat": 45.96664,
+   "lon": 12.06821,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/198772221"
+  },
+  {
+   "name": "Bivacco Sergio Baroni",
+   "lat": 46.33888,
+   "lon": 12.39667,
+   "ele": null,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/381145445"
+  },
+  {
+   "name": "Bivacco Stecho",
+   "lat": 46.29921,
+   "lon": 11.86671,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/7927361435"
+  },
+  {
+   "name": "Bivacco Tadina",
+   "lat": 46.12365,
+   "lon": 11.53428,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/355435751"
+  },
+  {
+   "name": "Bivacco Valdo",
+   "lat": 46.21347,
+   "lon": 12.06279,
+   "ele": null,
+   "capacity": 9,
+   "kind": "metal",
+   "osm": "way/180149543"
+  },
+  {
+   "name": "Bivacco Valentino Ciotti",
+   "lat": 46.42228,
+   "lon": 12.41866,
+   "ele": null,
+   "capacity": 4,
+   "kind": "metal",
+   "osm": "way/201452736"
+  },
+  {
+   "name": "Bivacco Van de Pelenzana",
+   "lat": 46.31764,
+   "lon": 11.56974,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/479953181"
+  },
+  {
+   "name": "Bivacco Walter Bodo",
+   "lat": 46.16826,
+   "lon": 11.93964,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/9980013270"
+  },
+  {
+   "name": "Bivak Sarner Scharte - Bivacco Forcella Sarentina",
+   "lat": 46.64766,
+   "lon": 11.4125,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/284303326"
+  },
+  {
+   "name": "Das Biwak",
+   "lat": 47.18014,
+   "lon": 10.11054,
+   "ele": null,
+   "capacity": 6,
+   "kind": "metal",
+   "osm": "way/360347617"
+  },
+  {
+   "name": "Ex bivacco",
+   "lat": 46.51098,
+   "lon": 11.84176,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/14121877228"
+  },
+  {
+   "name": "Forchheimer Biwak",
+   "lat": 47.17008,
+   "lon": 10.82704,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/1501773510"
+  },
+  {
+   "name": "Malga Gelo Bivacco Invernale",
+   "lat": 46.00001,
+   "lon": 10.49668,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "node/5302481518"
+  },
+  {
+   "name": "Notunterkunft Aschaffenburger Biwak",
+   "lat": 47.08689,
+   "lon": 11.93262,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/1134083857"
+  },
+  {
+   "name": "Rheinland-Pfalz-Biwak",
+   "lat": 46.96695,
+   "lon": 10.90484,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/1324526164"
+  },
+  {
+   "name": "Rifugio Locatelli - Bivouac",
+   "lat": 46.63677,
+   "lon": 12.3113,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/84679345"
+  },
+  {
+   "name": "Romans Biwak",
+   "lat": 47.20991,
+   "lon": 11.52656,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/1330240625"
+  },
+  {
+   "name": "Trenser-Joch-Biwak",
+   "lat": 46.87997,
+   "lon": 11.51799,
+   "ele": null,
+   "capacity": null,
+   "kind": "metal",
+   "osm": "way/369013157"
+  }
+ ]
+}

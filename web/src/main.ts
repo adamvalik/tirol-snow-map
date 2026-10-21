@@ -7,6 +7,7 @@ import { getForecast } from './forecast.ts';
 import { FORECAST_LAYER, ForecastAnimation, forecastInfoHtml, frameLabel, loadForecast } from './forecastAnim.ts';
 import { ageHours, escapeHtml, formatAge, formatTime, formatTimeShort } from './format.ts';
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
+import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacHtml, bivouacIconUrl } from './bivouacs.ts';
 import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
@@ -77,6 +78,9 @@ new ResizeObserver(() => document.body.style.setProperty('--dock-h', `${dock.off
 $('legend-bar').innerHTML = SNOW_CLASSES.map((c) => `<span style="background:${c.color}" title="${c.label}"></span>`).join('');
 $('legend-ticks').innerHTML = SNOW_CLASSES.map((c) => `<span>${parseInt(c.label, 10)}</span>`).join('');
 $('no-sensor-swatch').style.background = NO_SNOW_SENSOR_COLOR;
+$('bivouac-keys').innerHTML = (['metal', 'wood'] as const)
+  .map((k) => `<img class="bivouac-icon" src="${bivouacIconUrl(k)}" alt="" title="${k === 'wood' ? 'Wooden' : 'Metal'}">`)
+  .join('');
 
 const exaggerationInput = $<HTMLInputElement>('exaggeration');
 const showExaggeration = () => {
@@ -216,6 +220,11 @@ function renderSources() {
     <p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL),
     via a <a href="https://protomaps.com/" target="_blank" rel="noopener">Protomaps</a> basemap build served from this site.
     Fonts: Noto Sans (OFL).</p>
+    <h3>Bivouacs</h3>
+    <p>${BIVOUACS.length} huts and shelters named bivacco, Biwak or bivouac in
+    © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL),
+    a static list taken with the Overpass API. Red = metal box, brown = wood where OSM says so (the build is rarely mapped,
+    so most are drawn red). Not checked for whether they are open, equipped or still standing.</p>
     <h3>Map library</h3>
     <p><a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a> (BSD-3-Clause).</p>
     <h3>Safety</h3>
@@ -473,15 +482,17 @@ function clearPoint() {
   pointMarker.remove();
 }
 
-async function showPoint(lngLat: maplibregl.LngLat) {
+/** `place` names a clicked map feature (a bivouac) and may bring its own surveyed elevation. */
+async function showPoint(lngLat: maplibregl.LngLat, place?: { title: string; html: string; elevation: number | null }) {
   clearPoint();
   const abort = (forecastAbort = new AbortController());
   // queryTerrainElevation includes the exaggeration, so divide it back out.
   const raw = map.queryTerrainElevation(lngLat);
-  const elevation = raw === null ? null : raw / exaggeration;
+  const elevation = place?.elevation ?? (raw === null ? null : raw / exaggeration);
   pointMarker.setLngLat(lngLat).addTo(map);
-  const snowHtml = snowFile && snowValues ? pointSnowHtml(snowFile, snowValues.at(lngLat.lng, lngLat.lat)) : '';
-  openPanel('Point forecast', loadingHtml(elevation, snowHtml), clearPoint);
+  const snowHtml =
+    (place?.html ?? '') + (snowFile && snowValues ? pointSnowHtml(snowFile, snowValues.at(lngLat.lng, lngLat.lat)) : '');
+  openPanel(place?.title ?? 'Point forecast', loadingHtml(elevation, snowHtml), clearPoint);
   let result;
   try {
     result = await getForecast(lngLat.lat, lngLat.lng, elevation, abort.signal);
@@ -538,6 +549,17 @@ map.on('load', async () => {
   // Above the snow cells, below roads and labels.
   setupForecast(await forecastPromise);
 
+  // Below the station dots, which are added next.
+  const bivouacLayer = await addBivouacLayer(
+    map,
+    (b) => void showPoint(new maplibregl.LngLat(b.lon, b.lat), { title: b.name, html: bivouacHtml(b), elevation: b.ele }),
+    toggle('bivouacs').checked,
+  ).catch((e: unknown) => {
+    console.warn('Bivouacs:', e);
+    return null;
+  });
+  if (bivouacLayer) bindToggle('toggle-bivouacs', (on) => bivouacLayer.setVisible(on));
+
   const file = await stationsPromise;
   if (file) {
     shownStations ??= file;
@@ -556,10 +578,9 @@ map.on('load', async () => {
   setupDaySlider(await historyPromise);
 
   map.on('click', (e: maplibregl.MapMouseEvent) => {
-    const onStation =
-      map.getLayer(STATION_LAYER_ID) &&
-      map.queryRenderedFeatures(e.point, { layers: [STATION_LAYER_ID] }).length > 0;
-    if (!onStation) void showPoint(e.lngLat);
+    // Stations and bivouacs open their own panels.
+    const layers = [STATION_LAYER_ID, ...BIVOUAC_LAYER_IDS].filter((id) => map.getLayer(id));
+    if (!map.queryRenderedFeatures(e.point, { layers }).length) void showPoint(e.lngLat);
   });
 });
 

@@ -429,6 +429,17 @@ input[type='range']::-moz-range-thumb {
   color: var(--fg);
 }
 
+.bivouac-icon {
+  height: 14px;
+  vertical-align: -2px;
+}
+
+#bivouac-keys {
+  display: inline-flex;
+  gap: 3px;
+  align-self: center;
+}
+
 .hint,
 .muted {
   color: var(--muted);

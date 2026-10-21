@@ -12,7 +12,7 @@
 
 import sharp from 'sharp';
 import { type GridSpec, mercY } from '../../../shared/grid.ts';
-import { PROCESS_URL } from './sentinel2.ts';
+import { postProcess } from './sentinel2.ts';
 
 export const S2_NODATA = 0;
 export const S2_CLOUD = 1;
@@ -73,27 +73,10 @@ export function snowRequest(date: string, box: [number, number, number, number],
 export async function classifyDay(token: string, date: string, grid: GridSpec): Promise<Uint8Array> {
   const out = new Uint8Array(grid.width * grid.height);
   for (const c of snowChunks(grid)) {
-    const png = await post(token, snowRequest(date, c.box, c.width, grid.height));
+    const png = await postProcess(token, snowRequest(date, c.box, c.width, grid.height), ' (snow)');
     const { data, info } = await sharp(Buffer.from(png)).extractChannel(0).raw().toBuffer({ resolveWithObject: true });
     if (info.width !== c.width || info.height !== grid.height) throw new Error(`snow chunk ${info.width}×${info.height}, expected ${c.width}×${grid.height}`);
     for (let row = 0; row < grid.height; row++) out.set(data.subarray(row * c.width, (row + 1) * c.width), row * grid.width + c.x0);
   }
   return out;
-}
-
-async function post(token: string, body: unknown): Promise<ArrayBuffer> {
-  for (let attempt = 0; ; attempt++) {
-    const res = await fetch(PROCESS_URL, {
-      method: 'POST',
-      headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json', accept: 'image/png' },
-      body: JSON.stringify(body),
-      signal: AbortSignal.timeout(180_000),
-    });
-    if (res.ok) return res.arrayBuffer();
-    if (res.status === 429 && attempt < 4) {
-      await new Promise((r) => setTimeout(r, 5000 * 2 ** attempt));
-      continue;
-    }
-    throw new Error(`Sentinel Hub process (snow): HTTP ${res.status} ${(await res.text()).slice(0, 300)}`);
-  }
 }

@@ -187,20 +187,42 @@ export function processRequest(date: string, mercBox: [number, number, number, n
   };
 }
 
-export async function renderChunk(token: string, date: string, mercBox: [number, number, number, number], size: number): Promise<ArrayBuffer> {
+/** Retries and waits for postProcess; tests shorten the waits. */
+export const PROCESS_RETRY = { rateLimited: 4, failed: 2, waitMs: 5000 };
+
+/**
+ * One Process API request, retried with growing pauses: up to PROCESS_RETRY.rateLimited times on
+ * 429, and PROCESS_RETRY.failed times when Sentinel Hub answers 5xx, drops the connection or takes
+ * longer than the timeout (it slows down a lot when busy). Other answers fail at once.
+ */
+export async function postProcess(token: string, body: unknown, label: string): Promise<ArrayBuffer> {
+  let failures = 0;
   for (let attempt = 0; ; attempt++) {
-    const res = await fetch(PROCESS_URL, {
-      method: 'POST',
-      headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json', accept: 'image/png' },
-      body: JSON.stringify(processRequest(date, mercBox, size)),
-      signal: AbortSignal.timeout(180_000),
-    });
+    const wait = () => new Promise((r) => setTimeout(r, PROCESS_RETRY.waitMs * 2 ** attempt));
+    let res: Response;
+    try {
+      res = await fetch(PROCESS_URL, {
+        method: 'POST',
+        headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json', accept: 'image/png' },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(180_000),
+      });
+    } catch (e) {
+      if (failures++ < PROCESS_RETRY.failed) {
+        await wait();
+        continue;
+      }
+      throw new Error(`Sentinel Hub process${label}: ${e instanceof Error ? e.message : String(e)}`, { cause: e });
+    }
     if (res.ok) return res.arrayBuffer();
-    // Rate limiting: back off and retry a few times.
-    if (res.status === 429 && attempt < 4) {
-      await new Promise((r) => setTimeout(r, 5000 * 2 ** attempt));
+    if ((res.status === 429 && attempt < PROCESS_RETRY.rateLimited) || (res.status >= 500 && failures++ < PROCESS_RETRY.failed)) {
+      await wait();
       continue;
     }
-    throw new Error(`Sentinel Hub process: HTTP ${res.status} ${(await res.text()).slice(0, 300)}`);
+    throw new Error(`Sentinel Hub process${label}: HTTP ${res.status} ${(await res.text()).slice(0, 300)}`);
   }
+}
+
+export function renderChunk(token: string, date: string, mercBox: [number, number, number, number], size: number): Promise<ArrayBuffer> {
+  return postProcess(token, processRequest(date, mercBox, size), '');
 }

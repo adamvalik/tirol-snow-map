@@ -2,10 +2,20 @@
 # forecast) and uploads the generated files, without deploying. Used to check pipeline changes on
 # a branch with the repository secrets; production runs in deploy.yml. Start it from the Actions
 # tab or by pushing.
+#
+# It starts from production's latest data (the deploy's Actions cache), so the satellite picture
+# and the classified Sentinel-2 days are only rendered again when a newer clear day has appeared,
+# not on every check. Run it by hand with "fresh" to render everything from scratch, for example
+# after changing the satellite code (that costs roughly 300–700 Copernicus processing units).
 name: Snow data check
 
 on:
   workflow_dispatch:
+    inputs:
+      fresh:
+        description: Ignore production's data and render everything again
+        type: boolean
+        default: false
   push:
     branches: ['claude/**']
     paths:
@@ -28,6 +38,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      # Read only: checks never save, so production keeps its own cache to itself.
+      - name: Start from production's data
+        if: ${{ !inputs.fresh }}
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            web/public/data
+            data/state
+          key: pipeline-data-none
+          restore-keys: pipeline-data-
       - name: Run pipeline against live sources
         env:
           CDSE_USERNAME: ${{ secrets.CDSE_USERNAME }}

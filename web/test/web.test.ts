@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { CABIN_COLORS, cabinBearing, cabinBlocks, cabinGeoJson } from '../src/cabins.ts';
 import { snowColor, SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from '../src/colors.ts';
 import { forecastUrl } from '../src/forecast.ts';
 import { compass, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
@@ -85,5 +86,39 @@ describe('forecast frame label', () => {
     };
     expect(frameLabel(file, 0)).toBe('Wed 21 Oct, 15:00 · +24 h · new snow up to 31 cm');
     expect(frameLabel(file, 3)).toBe('');
+  });
+});
+
+describe('3D bivouac cabins', () => {
+  it('builds a barrel that is highest in the middle, with a door in front', () => {
+    const blocks = cabinBlocks('metal');
+    const body = blocks.filter((b) => b.color === CABIN_COLORS.metal).map((b) => b.height);
+    expect(Math.max(...body)).toBe(body[Math.floor(body.length / 2)]);
+    expect(body[0]).toBeLessThan(body[Math.floor(body.length / 2)]);
+    const door = blocks.find((b) => b.color === CABIN_COLORS.metalDoor)!;
+    expect(door.y0).toBeLessThan(Math.min(...blocks.filter((b) => b !== door).map((b) => b.y0)));
+  });
+
+  it('puts the wooden roof on top of the walls', () => {
+    const blocks = cabinBlocks('wood');
+    const walls = blocks.find((b) => b.color === CABIN_COLORS.wood)!;
+    const roof = blocks.filter((b) => b.color === CABIN_COLORS.roof);
+    for (const r of roof) expect(r.height).toBeGreaterThan(walls.height);
+  });
+
+  it('places closed polygons a few metres around the site, the same way each time', () => {
+    const site = { lat: 46.5, lon: 11.3, kind: 'metal' as const, osm: 'node/1' };
+    const fc = cabinGeoJson([site, { ...site, osm: 'node/2' }]);
+    expect(fc.features.length).toBe(2 * cabinBlocks('metal').length);
+    for (const f of fc.features) {
+      const ring = f.geometry.coordinates[0];
+      expect(ring[0]).toEqual(ring[4]);
+      for (const [lon, lat] of ring) {
+        expect(Math.abs(lon - site.lon)).toBeLessThan(0.0003);
+        expect(Math.abs(lat - site.lat)).toBeLessThan(0.0002);
+      }
+    }
+    expect(cabinBearing('node/1')).toBe(cabinBearing('node/1'));
+    expect(cabinBearing('node/1')).not.toBe(cabinBearing('node/2'));
   });
 });
