@@ -9,11 +9,28 @@ import { ageHours, escapeHtml, formatAge, formatTime, formatTimeShort } from './
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
 import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacHtml, bivouacIconUrl, favButtonHtml } from './bivouacs.ts';
 import { Favourites } from './favourites.ts';
-import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice } from './map.ts';
+import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice, MAX_BOUNDS } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
 import { loadSnow, pointSnowHtml, SNOW_LAYERS, type SnowLayer, SnowLayers, snowInfoHtml, SnowValues } from './snow.ts';
 import { addStationLayer, loadStations, STATION_LAYER_ID } from './stations.ts';
+import {
+  clockTime,
+  DEFAULT_SKY,
+  dayGradient,
+  dayMinutes,
+  hillshadePaint,
+  type HillshadePaint,
+  localDate,
+  localMidnight,
+  NIGHT_COLOR,
+  nightOpacity,
+  skyFor,
+  sunDay,
+  sunLabel,
+  sunParam,
+  sunPosition,
+} from './sun.ts';
 import { LAYER_KEYS, type LayerKey, parseHash, toHash, type ViewState } from './viewState.ts';
 
 /** Station data older than this gets a visible warning (the pipeline runs every 30 minutes). */
@@ -147,6 +164,7 @@ function currentView(): ViewState {
     layers: LAYER_KEYS.filter((k) => toggle(k).checked),
     day: selectedDay,
     frame: toggle('forecast').checked ? forecastFrame : null,
+    sun: toggle('sun').checked ? sunParam(sunTime) : null,
   };
 }
 
@@ -246,7 +264,8 @@ function renderSources() {
     a static list taken with the Overpass API. Red = metal box, brown = wood where OSM says so (the build is rarely mapped,
     so most are drawn red). Not checked for whether they are open, equipped or still standing.</p>
     <h3>Map library</h3>
-    <p><a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a> (BSD-3-Clause).</p>
+    <p><a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a> (BSD-3-Clause).
+    Sun position: <a href="https://github.com/mourner/suncalc" target="_blank" rel="noopener">SunCalc</a> (BSD-2-Clause).</p>
     <h3>Safety</h3>
     <p><strong>This map is for orientation only and must not be used for avalanche decisions.</strong>
     Station values are point measurements and forecasts are model output. Always check the official avalanche bulletin at
@@ -492,6 +511,133 @@ function setupForecast(file: ForecastFile | null) {
   });
 }
 
+// --- Sun light -----------------------------------------------------------------
+
+const NIGHT_LAYER = 'sun-night';
+const MINUTE = 60_000;
+/** Play runs from a little before sunrise to a little after sunset. */
+const PLAY_MARGIN = 40 * MINUTE;
+
+let sunTime = initial.sun ? Date.parse(initial.sun) : Date.now();
+/** Set once the style has loaded and the light can be painted. */
+let lightReady = false;
+let sunTimer: number | undefined;
+
+const sunGroup = $('sun-group');
+const sunSlider = $<HTMLInputElement>('sun-time');
+const sunDateInput = $<HTMLInputElement>('sun-date');
+const sunPlayBtn = $('sun-play');
+
+/** Sun times for the shown day at the map centre. */
+const shownSunDay = () => {
+  const c = map.getCenter();
+  return sunDay(localDate(sunTime), c.lat, c.lng);
+};
+
+function showSunControls() {
+  const date = localDate(sunTime);
+  const start = localMidnight(date);
+  const minutes = dayMinutes(date);
+  const day = shownSunDay();
+  sunDateInput.value = date;
+  sunSlider.max = String(minutes);
+  sunSlider.value = String(Math.round((sunTime - start) / MINUTE));
+  sunSlider.style.setProperty('--sun-track', dayGradient(day, start, minutes));
+  $('sun-rise').textContent = day.sunrise === null ? '' : `☀ Sunrise ${clockTime(day.sunrise)}`;
+  $('sun-set').textContent = day.sunset === null ? '' : `Sunset ${clockTime(day.sunset)}`;
+}
+
+/** Light, sky and night overlay for the sun at the map centre, or the usual light when off. */
+function applyLight() {
+  if (!lightReady) return;
+  const c = map.getCenter();
+  const sun = toggle('sun').checked ? sunPosition(sunTime, c.lat, c.lng) : null;
+  const paint = hillshadePaint(sun, toggle('satellite').checked);
+  for (const k of Object.keys(paint) as (keyof HillshadePaint)[]) map.setPaintProperty('hillshade', k, paint[k]);
+  map.setSky(sun ? skyFor(sun.altitude) : DEFAULT_SKY);
+  map.setLayoutProperty(NIGHT_LAYER, 'visibility', sun ? 'visible' : 'none');
+  if (sun) {
+    map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
+    $('sun-label').textContent = sunLabel(sunTime, sun);
+  }
+}
+
+function setSunTime(t: number) {
+  sunTime = t;
+  showSunControls();
+  applyLight();
+  syncHash();
+}
+
+function showSunPlaying(playing: boolean) {
+  sunPlayBtn.innerHTML = playing ? PAUSE_ICON : PLAY_ICON;
+  sunPlayBtn.setAttribute('aria-label', playing ? 'Pause the day' : 'Play the day');
+}
+
+function pauseSun() {
+  window.clearInterval(sunTimer);
+  sunTimer = undefined;
+  showSunPlaying(false);
+}
+
+function playSun() {
+  const { sunrise, sunset } = shownSunDay();
+  if (sunrise === null || sunset === null) return;
+  const from = sunrise - PLAY_MARGIN;
+  const to = sunset + PLAY_MARGIN;
+  if (sunTime < from || sunTime >= to) setSunTime(from);
+  showSunPlaying(true);
+  // About ten seconds for a winter day, a little more in summer.
+  sunTimer = window.setInterval(() => {
+    const next = sunTime + 4 * MINUTE;
+    setSunTime(Math.min(next, to));
+    if (next >= to) pauseSun();
+  }, 60);
+}
+
+function setupSun() {
+  sunPlayBtn.innerHTML = PLAY_ICON;
+  sunGroup.hidden = !toggle('sun').checked;
+  showSunControls();
+  bindToggle('toggle-sun', (on) => {
+    sunGroup.hidden = !on;
+    if (!on) pauseSun();
+    // The light is drawn by the hillshade layer, so it has to be on.
+    if (on && !toggle('hillshade').checked) {
+      toggle('hillshade').checked = true;
+      toggle('hillshade').dispatchEvent(new Event('change'));
+    }
+    applyLight();
+  });
+  sunSlider.addEventListener('input', () => {
+    pauseSun();
+    setSunTime(localMidnight(localDate(sunTime)) + Number(sunSlider.value) * MINUTE);
+  });
+  sunDateInput.addEventListener('change', () => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(sunDateInput.value)) return;
+    pauseSun();
+    // Keep the time of day on the new date.
+    setSunTime(localMidnight(sunDateInput.value) + (sunTime - localMidnight(localDate(sunTime))));
+  });
+  const jump = (pick: () => number | null) => () => {
+    const t = pick();
+    if (t === null) return;
+    pauseSun();
+    setSunTime(t);
+  };
+  $('sun-rise').addEventListener('click', jump(() => shownSunDay().sunrise));
+  $('sun-set').addEventListener('click', jump(() => shownSunDay().sunset));
+  $('sun-now').addEventListener('click', jump(() => Date.now()));
+  sunPlayBtn.addEventListener('click', () => (sunTimer === undefined ? playSun() : pauseSun()));
+  // The sun is computed for the map centre; sunrise moves by about 8 minutes across the region.
+  map.on('moveend', () => {
+    if (!toggle('sun').checked) return;
+    showSunControls();
+    applyLight();
+  });
+}
+setupSun();
+
 // --- Point click: elevation + forecast ----------------------------------------
 
 const pointMarker = new maplibregl.Marker({ element: Object.assign(document.createElement('div'), { className: 'point-marker' }) });
@@ -532,16 +678,33 @@ map.on('load', async () => {
     if (!toggle(key).checked) toggle(key).dispatchEvent(new Event('change'));
   }
 
+  // Darkens the map while the sun is below the horizon; roads go under it, labels stay readable.
+  const [[w, s], [e, n]] = MAX_BOUNDS;
+  map.addLayer(
+    {
+      id: NIGHT_LAYER,
+      type: 'fill',
+      source: {
+        type: 'geojson',
+        data: { type: 'Polygon', coordinates: [[[w, s], [e, s], [e, n], [w, n], [w, s]]] },
+      },
+      layout: { visibility: 'none' },
+      paint: { 'fill-color': NIGHT_COLOR, 'fill-opacity': 0 },
+    },
+    basemap.labels[0]?.id,
+  );
+  lightReady = true;
+  applyLight();
+
   // The picture replaces the drawn land colours but keeps hillshade, roads and labels on top.
   const sat = await satellitePromise;
   const satToggle = toggle('satellite');
   if (sat && addSatelliteLayer(map, sat, 'hillshade', satToggle.checked)) {
     // The photo already has real light and shade, so the drawn hillshade is toned down over it.
-    const shade = (on: boolean) => map.setPaintProperty('hillshade', 'hillshade-exaggeration', on ? 0.12 : 0.3);
-    shade(satToggle.checked);
+    applyLight();
     bindToggle('toggle-satellite', (on) => {
       map.setLayoutProperty(SATELLITE_LAYER, 'visibility', on ? 'visible' : 'none');
-      shade(on);
+      applyLight();
     });
   } else {
     satToggle.checked = false;

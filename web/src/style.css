@@ -560,6 +560,50 @@ input[type='range']::-moz-range-thumb {
   display: none;
 }
 
+/* Sun: the date sits at the end of the head, the track shows night and day. */
+#sun-date {
+  margin-left: auto;
+  flex: none;
+  padding: 1px 4px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-solid);
+  font: inherit;
+  font-size: 12px;
+  color: var(--fg);
+}
+
+#sun-time::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--sun-track, #d9dee4);
+}
+
+#sun-time::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--sun-track, #d9dee4);
+}
+
+#sun-time::-moz-range-progress {
+  background: transparent;
+}
+
+#sun-time::-webkit-slider-thumb {
+  margin-top: -6px;
+}
+
+.sun-ends .link-btn {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+#sun-note {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
 .player {
   display: flex;
   align-items: center;
