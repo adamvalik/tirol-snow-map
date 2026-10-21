@@ -1,10 +1,12 @@
 // Bivouacs (bivacchi, Biwaks): unstaffed emergency huts, from a static OpenStreetMap list
 // (web/src/data/bivouacs.json, refreshed with `npm run bivouacs`). Drawn as little cabins:
 // the classic red/orange metal half-barrel, or a brown wooden hut where OSM says it is wood.
+// Zoomed in, the flat icons give way to small 3D cabins standing on the terrain (cabins.ts).
 
 import * as maplibregl from 'maplibre-gl';
 import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { FeatureCollection, Point } from 'geojson';
+import { cabinGeoJson } from './cabins.ts';
 import bivouacsData from './data/bivouacs.json';
 import { escapeHtml } from './format.ts';
 
@@ -19,8 +21,12 @@ export interface Bivouac {
 }
 
 export const BIVOUACS = bivouacsData.bivouacs as Bivouac[];
-export const BIVOUAC_LAYER_ID = 'bivouacs';
-const LAYER = BIVOUAC_LAYER_ID;
+const LAYER = 'bivouacs';
+const CABINS = 'bivouac-cabins';
+/** Both layers answer hover and click. */
+export const BIVOUAC_LAYER_IDS = [LAYER, CABINS];
+/** Zoom over which the icons hand over to the 3D cabins. */
+const CABIN_ZOOM = [13, 14.5] as const;
 
 // 32 × 28 icons, drawn at twice that size for sharp edges; the white outline keeps them visible on snow.
 const METAL_SHAPE = 'M3 25V15a13 12 0 0 1 26 0v10z';
@@ -95,6 +101,23 @@ export async function addBivouacLayer(
   map.addImage('bivouac-metal', metal, { pixelRatio: 2 });
   map.addImage('bivouac-wood', wood, { pixelRatio: 2 });
   map.addSource(LAYER, { type: 'geojson', data: toGeoJson(BIVOUACS) });
+  map.addSource(CABINS, { type: 'geojson', data: cabinGeoJson(BIVOUACS) });
+  map.addLayer(
+    {
+      id: CABINS,
+      type: 'fill-extrusion',
+      source: CABINS,
+      minzoom: CABIN_ZOOM[0],
+      layout: { visibility: visible ? 'visible' : 'none' },
+      paint: {
+        'fill-extrusion-color': ['get', 'color'],
+        'fill-extrusion-base': ['get', 'base'],
+        'fill-extrusion-height': ['get', 'height'],
+        'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], CABIN_ZOOM[0], 0, CABIN_ZOOM[0] + 0.7, 1],
+      },
+    },
+    beforeId,
+  );
   map.addLayer(
     {
       id: LAYER,
@@ -102,8 +125,9 @@ export async function addBivouacLayer(
       source: LAYER,
       layout: {
         visibility: visible ? 'visible' : 'none',
-        'icon-image': ['get', 'icon'],
         'icon-size': ['interpolate', ['linear'], ['zoom'], 8, 0.5, 12, 0.85, 14, 1],
+        // Fully faded icons still take space, so they stop drawing once the cabins are in.
+        'icon-image': ['step', ['zoom'], ['get', 'icon'], CABIN_ZOOM[1], ''],
         'icon-anchor': 'bottom',
         // Highest first, so the glacier bivouacs win when they crowd.
         'symbol-sort-key': ['-', ['get', 'ele']],
@@ -111,10 +135,12 @@ export async function addBivouacLayer(
         'text-font': ['Noto Sans Medium'],
         'text-size': 11,
         'text-anchor': 'top',
-        'text-offset': [0, 0.2],
+        // Zoomed in, the label moves clear of the cabin's front.
+        'text-offset': ['interpolate', ['linear'], ['zoom'], CABIN_ZOOM[0], ['literal', [0, 0.2]], 16, ['literal', [0, 1.6]]],
         'text-optional': true,
       },
       paint: {
+        'icon-opacity': ['interpolate', ['linear'], ['zoom'], CABIN_ZOOM[0] + 0.5, 1, CABIN_ZOOM[1], 0],
         'text-color': '#7a1f12',
         'text-halo-color': '#ffffff',
         'text-halo-width': 1.5,
@@ -145,26 +171,28 @@ export async function addBivouacLayer(
     const f = e.features?.[0];
     return f ? BIVOUACS[f.properties.index as number] : undefined;
   };
-  if (matchMedia('(hover: hover)').matches) {
-    map.on('mousemove', LAYER, (e: MapLayerMouseEvent) => {
+  for (const id of BIVOUAC_LAYER_IDS) {
+    if (matchMedia('(hover: hover)').matches) {
+      map.on('mousemove', id, (e: MapLayerMouseEvent) => {
+        const b = bivouacAt(e);
+        if (!b) return;
+        map.getCanvas().style.cursor = 'pointer';
+        popup.setLngLat([b.lon, b.lat]).setHTML(bivouacTooltipHtml(b)).addTo(map);
+      });
+      map.on('mouseleave', id, () => {
+        map.getCanvas().style.cursor = '';
+        popup.remove();
+      });
+    }
+    map.on('click', id, (e: MapLayerMouseEvent) => {
       const b = bivouacAt(e);
-      if (!b) return;
-      map.getCanvas().style.cursor = 'pointer';
-      popup.setLngLat([b.lon, b.lat]).setHTML(bivouacTooltipHtml(b)).addTo(map);
-    });
-    map.on('mouseleave', LAYER, () => {
-      map.getCanvas().style.cursor = '';
-      popup.remove();
+      if (b) onSelect(b);
     });
   }
-  map.on('click', LAYER, (e: MapLayerMouseEvent) => {
-    const b = bivouacAt(e);
-    if (b) onSelect(b);
-  });
 
   return {
     setVisible: (v) => {
-      map.setLayoutProperty(LAYER, 'visibility', v ? 'visible' : 'none');
+      for (const id of BIVOUAC_LAYER_IDS) map.setLayoutProperty(id, 'visibility', v ? 'visible' : 'none');
       if (!v) popup.remove();
     },
   };

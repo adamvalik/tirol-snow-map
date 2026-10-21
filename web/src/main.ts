@@ -7,7 +7,7 @@ import { getForecast } from './forecast.ts';
 import { FORECAST_LAYER, ForecastAnimation, forecastInfoHtml, frameLabel, loadForecast } from './forecastAnim.ts';
 import { ageHours, escapeHtml, formatAge, formatTime } from './format.ts';
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
-import { addBivouacLayer, BIVOUAC_LAYER_ID, BIVOUACS, bivouacHtml, bivouacIconUrl } from './bivouacs.ts';
+import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacHtml, bivouacIconUrl } from './bivouacs.ts';
 import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
@@ -567,7 +567,7 @@ map.on('load', async () => {
 
   map.on('click', (e: maplibregl.MapMouseEvent) => {
     // Stations and bivouacs open their own panels.
-    const layers = [STATION_LAYER_ID, BIVOUAC_LAYER_ID].filter((id) => map.getLayer(id));
+    const layers = [STATION_LAYER_ID, ...BIVOUAC_LAYER_IDS].filter((id) => map.getLayer(id));
     if (!map.queryRenderedFeatures(e.point, { layers }).length) void showPoint(e.lngLat);
   });
 });
