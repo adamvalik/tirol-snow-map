@@ -7,7 +7,8 @@ import { getForecast } from './forecast.ts';
 import { FORECAST_LAYER, ForecastAnimation, forecastInfoHtml, frameLabel, loadForecast } from './forecastAnim.ts';
 import { ageHours, escapeHtml, formatAge, formatTime, formatTimeShort } from './format.ts';
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
-import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacHtml, bivouacIconUrl } from './bivouacs.ts';
+import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacHtml, bivouacIconUrl, favButtonHtml } from './bivouacs.ts';
+import { Favourites } from './favourites.ts';
 import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
@@ -81,6 +82,25 @@ $('no-sensor-swatch').style.background = NO_SNOW_SENSOR_COLOR;
 $('bivouac-keys').innerHTML = (['metal', 'wood'] as const)
   .map((k) => `<img class="bivouac-icon" src="${bivouacIconUrl(k)}" alt="" title="${k === 'wood' ? 'Wooden' : 'Metal'}">`)
   .join('');
+
+// --- Favourite bivouacs --------------------------------------------------------
+
+const favourites = new Favourites();
+const showFavCount = () => {
+  $('fav-count').textContent = String(favourites.size);
+  $('fav-count').title = 'Saved in this browser';
+};
+showFavCount();
+favourites.onChange(showFavCount);
+// The heart in a bivouac's panel; the panel body is re-rendered when its forecast arrives.
+$('details-body').addEventListener('click', (e) => {
+  const btn = (e.target as Element).closest<HTMLButtonElement>('.fav-btn');
+  const b = btn && BIVOUACS.find((x) => x.osm === btn.dataset.osm);
+  if (!btn || !b) return;
+  const on = favourites.toggle(b.osm);
+  btn.outerHTML = favButtonHtml(b, on);
+  if (!on && toggle('favourites').checked) toast(`${b.name} left your favourites and is hidden by the filter.`);
+});
 
 const exaggerationInput = $<HTMLInputElement>('exaggeration');
 const showExaggeration = () => {
@@ -552,13 +572,26 @@ map.on('load', async () => {
   // Below the station dots, which are added next.
   const bivouacLayer = await addBivouacLayer(
     map,
-    (b) => void showPoint(new maplibregl.LngLat(b.lon, b.lat), { title: b.name, html: bivouacHtml(b), elevation: b.ele }),
+    favourites,
+    (b) =>
+      void showPoint(new maplibregl.LngLat(b.lon, b.lat), { title: b.name, html: bivouacHtml(b, favourites.has(b.osm)), elevation: b.ele }),
     toggle('bivouacs').checked,
+    toggle('favourites').checked,
   ).catch((e: unknown) => {
     console.warn('Bivouacs:', e);
     return null;
   });
-  if (bivouacLayer) bindToggle('toggle-bivouacs', (on) => bivouacLayer.setVisible(on));
+  if (bivouacLayer) {
+    bindToggle('toggle-bivouacs', (on) => bivouacLayer.setVisible(on));
+    bindToggle('toggle-favourites', (on) => {
+      bivouacLayer.setOnlyFavourites(on);
+      if (on && !toggle('bivouacs').checked) {
+        toggle('bivouacs').checked = true;
+        bivouacLayer.setVisible(true);
+      }
+      if (on && favourites.size === 0) toast('No favourites yet: open a bivouac and tap the heart.');
+    });
+  }
 
   const file = await stationsPromise;
   if (file) {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CABIN_COLORS, cabinBearing, cabinBlocks, cabinGeoJson } from '../src/cabins.ts';
+import { Favourites } from '../src/favourites.ts';
 import { snowColor, SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from '../src/colors.ts';
 import { forecastUrl } from '../src/forecast.ts';
 import { compass, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
@@ -120,5 +121,44 @@ describe('3D bivouac cabins', () => {
     }
     expect(cabinBearing('node/1')).toBe(cabinBearing('node/1'));
     expect(cabinBearing('node/1')).not.toBe(cabinBearing('node/2'));
+  });
+});
+
+describe('favourite bivouacs', () => {
+  const memory = (initial?: string) => {
+    const data = new Map<string, string>(initial === undefined ? [] : [['bivouac-favourites', initial]]);
+    return { getItem: (k: string) => data.get(k) ?? null, setItem: (k: string, v: string) => void data.set(k, v), data };
+  };
+
+  it('toggles, tells listeners and keeps the list across page loads', () => {
+    const storage = memory();
+    const favs = new Favourites(storage);
+    let changes = 0;
+    favs.onChange(() => changes++);
+    expect(favs.toggle('node/1')).toBe(true);
+    expect(favs.toggle('way/2')).toBe(true);
+    expect(favs.toggle('node/1')).toBe(false);
+    expect(changes).toBe(3);
+    const reloaded = new Favourites(storage);
+    expect(reloaded.has('way/2')).toBe(true);
+    expect(reloaded.has('node/1')).toBe(false);
+    expect(reloaded.size).toBe(1);
+  });
+
+  it('starts empty on broken or blocked storage and still works for the visit', () => {
+    expect(new Favourites(memory('not json')).size).toBe(0);
+    expect(new Favourites(memory('{"a":1}')).size).toBe(0);
+    const blocked = {
+      getItem: () => {
+        throw new Error('SecurityError');
+      },
+      setItem: () => {
+        throw new Error('QuotaExceededError');
+      },
+    };
+    const favs = new Favourites(blocked);
+    expect(favs.toggle('node/1')).toBe(true);
+    expect(favs.has('node/1')).toBe(true);
+    expect(new Favourites(null).size).toBe(0);
   });
 });
