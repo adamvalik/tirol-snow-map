@@ -14,6 +14,9 @@ import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from 
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
 import { loadSnow, pointSnowHtml, SNOW_LAYERS, type SnowLayer, SnowLayers, snowInfoHtml, SnowValues } from './snow.ts';
 import { addStationLayer, loadStations, STATION_LAYER_ID } from './stations.ts';
+import { horizonProfile } from '../../shared/horizon.ts';
+import { type SunHere, sunHereFor, sunHereHtml } from './sunHere.ts';
+import { NEAR_RADIUS, pointTerrain } from './terrainSampler.ts';
 import {
   clockTime,
   DEFAULT_SKY,
@@ -563,10 +566,57 @@ function applyLight() {
 }
 
 function setSunTime(t: number) {
+  const dayChanged = localDate(t) !== localDate(sunTime);
   sunTime = t;
   showSunControls();
   applyLight();
+  // The skyline stays; only the sun's path moves with the day.
+  if (dayChanged && isSunHere(sunHere)) sunHere = sunHereFor(sunHere.lon, sunHere.lat, sunHere.horizon, localDate(t), sunHere.sunAt);
+  showSunHere();
   syncHash();
+}
+
+// --- Sun at a clicked point -------------------------------------------------------
+
+/** The open point's skyline and sun: not asked for yet, being traced, failed, or ready. */
+let sunHere: 'off' | 'loading' | Error | SunHere = 'off';
+const isSunHere = (v: typeof sunHere): v is SunHere => typeof v === 'object' && !(v instanceof Error);
+
+function sunHereSection(): string {
+  let html: string;
+  if (sunHere === 'off') html = '<button id="sun-here-btn" class="link-btn">☀ When does the sun reach this point?</button>';
+  else if (sunHere === 'loading') html = '<h3>Sun here</h3><p class="muted">Tracing the skyline…</p>';
+  else if (sunHere instanceof Error) html = `<h3>Sun here</h3><p class="warning">Skyline unavailable: ${escapeHtml(sunHere.message)}</p>`;
+  else html = sunHereHtml(sunHere, sunTime);
+  return `<section id="sun-here" class="sun-here">${html}</section>`;
+}
+
+/** Re-renders the section in the open panel, if it is there. */
+function showSunHere() {
+  const el = document.getElementById('sun-here');
+  if (el) el.outerHTML = sunHereSection();
+}
+
+async function traceSunHere(lngLat: maplibregl.LngLat, signal: AbortSignal) {
+  sunHere = 'loading';
+  showSunHere();
+  const { lng: lon, lat } = lngLat;
+  try {
+    const terrain = await pointTerrain(lon, lat);
+    if (signal.aborted) return;
+    const horizon = horizonProfile(lon, lat, terrain.ground, {
+      bands: [
+        { sampler: terrain.near, until: NEAR_RADIUS, step: 20 },
+        { sampler: terrain.far, until: 100_000, step: 125 },
+      ],
+      zMax: terrain.zMax,
+    });
+    sunHere = sunHereFor(lon, lat, horizon, localDate(sunTime), (t) => sunPosition(t, lat, lon));
+  } catch (e) {
+    if (signal.aborted) return;
+    sunHere = e instanceof Error ? e : new Error(String(e));
+  }
+  showSunHere();
 }
 
 function showSunPlaying(playing: boolean) {
@@ -608,6 +658,7 @@ function setupSun() {
       toggle('hillshade').dispatchEvent(new Event('change'));
     }
     applyLight();
+    if (on && openPoint && sunHere === 'off') void traceSunHere(openPoint.lngLat, openPoint.signal);
   });
   sunSlider.addEventListener('input', () => {
     pauseSun();
@@ -642,11 +693,19 @@ setupSun();
 
 const pointMarker = new maplibregl.Marker({ element: Object.assign(document.createElement('div'), { className: 'point-marker' }) });
 let forecastAbort: AbortController | null = null;
+/** The point whose panel is open; its signal is aborted when the panel closes or another point opens. */
+let openPoint: { lngLat: maplibregl.LngLat; signal: AbortSignal } | null = null;
 
 function clearPoint() {
   forecastAbort?.abort();
   pointMarker.remove();
+  openPoint = null;
+  sunHere = 'off';
 }
+
+$('details-body').addEventListener('click', (e) => {
+  if (openPoint && (e.target as Element).closest('#sun-here-btn')) void traceSunHere(openPoint.lngLat, openPoint.signal);
+});
 
 /** `place` names a clicked map feature (a bivouac) and may bring its own surveyed elevation. */
 async function showPoint(lngLat: maplibregl.LngLat, place?: { title: string; html: string; elevation: number | null }) {
@@ -658,7 +717,11 @@ async function showPoint(lngLat: maplibregl.LngLat, place?: { title: string; htm
   pointMarker.setLngLat(lngLat).addTo(map);
   const snowHtml =
     (place?.html ?? '') + (snowFile && snowValues ? pointSnowHtml(snowFile, snowValues.at(lngLat.lng, lngLat.lat)) : '');
-  openPanel(place?.title ?? 'Point forecast', loadingHtml(elevation, snowHtml), clearPoint);
+  // The sun section sits under the elevation and snow, above the forecast.
+  openPanel(place?.title ?? 'Point forecast', loadingHtml(elevation, snowHtml + sunHereSection()), clearPoint);
+  openPoint = { lngLat, signal: abort.signal };
+  // With the sun light on, the skyline is traced straight away; otherwise on request.
+  if (toggle('sun').checked) void traceSunHere(lngLat, abort.signal);
   let result;
   try {
     result = await getForecast(lngLat.lat, lngLat.lng, elevation, abort.signal);
@@ -666,7 +729,7 @@ async function showPoint(lngLat: maplibregl.LngLat, place?: { title: string; htm
     if (abort.signal.aborted) return;
     result = e instanceof Error ? e : new Error(String(e));
   }
-  if (!abort.signal.aborted) updatePanelBody(pointHtml(lngLat.lat, lngLat.lng, elevation, result, snowHtml));
+  if (!abort.signal.aborted) updatePanelBody(pointHtml(lngLat.lat, lngLat.lng, elevation, result, snowHtml + sunHereSection()));
 }
 
 // --- Map setup -------------------------------------------------------------

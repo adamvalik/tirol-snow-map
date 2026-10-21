@@ -43,3 +43,21 @@ export const gridCorners = (g: GridSpec): [[number, number], [number, number], [
   [g.east, g.south],
   [g.west, g.south],
 ];
+
+/** Bilinear value at a point from grid cell values (row-major from the north-west), or null outside the grid. */
+export function sampleGrid(g: GridSpec, values: ArrayLike<number>, lon: number, lat: number): number | null {
+  if (lon < g.west || lon > g.east || lat < g.south || lat > g.north) return null;
+  const yN = mercY(g.north);
+  // Fractional cell coordinates measured between cell centres.
+  const x = Math.min(Math.max(((lon - g.west) / (g.east - g.west)) * g.width - 0.5, 0), g.width - 1);
+  const y = Math.min(Math.max(((yN - mercY(lat)) / (yN - mercY(g.south))) * g.height - 0.5, 0), g.height - 1);
+  const x0 = Math.floor(x);
+  const y0 = Math.floor(y);
+  const x1 = Math.min(x0 + 1, g.width - 1);
+  const y1 = Math.min(y0 + 1, g.height - 1);
+  const fx = x - x0;
+  const fy = y - y0;
+  const top = values[y0 * g.width + x0] * (1 - fx) + values[y0 * g.width + x1] * fx;
+  const bottom = values[y1 * g.width + x0] * (1 - fx) + values[y1 * g.width + x1] * fx;
+  return top * (1 - fy) + bottom * fy;
+}

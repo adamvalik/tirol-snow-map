@@ -6,13 +6,14 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { cellCenter, type GridSpec, MODEL_GRID } from '../../shared/grid.ts';
+import { lonLatToPixel, TERRARIUM_TILE, terrarium } from '../../shared/terrarium.ts';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const DEM_FILE = path.join(ROOT, 'pipeline/assets/dem-grid.bin');
 export const MAPTERHORN = 'https://tiles.mapterhorn.com/{z}/{x}/{y}.webp';
 /** z10 terrarium tiles have ~52 m pixels here; each 250 m cell averages about 5 × 5 of them. */
 export const DEM_ZOOM = 10;
-const TILE = 512;
+const TILE = TERRARIUM_TILE;
 
 export interface ElevationGrid {
   grid: GridSpec;
@@ -28,16 +29,6 @@ export async function loadDemGrid(file = DEM_FILE): Promise<ElevationGrid> {
   }
   return { grid: MODEL_GRID, values: Float32Array.from(ints) };
 }
-
-/** Global pixel coordinates at `zoom` for 512 px tiles. */
-export function lonLatToPixel(lon: number, lat: number, zoom: number): { px: number; py: number } {
-  const n = TILE * 2 ** zoom;
-  const r = (lat * Math.PI) / 180;
-  return { px: ((lon + 180) / 360) * n, py: ((1 - Math.asinh(Math.tan(r)) / Math.PI) / 2) * n };
-}
-
-/** Decodes terrarium RGB into metres. */
-export const terrarium = (r: number, g: number, b: number): number => r * 256 + g + b / 256 - 32768;
 
 /**
  * Builds the grid by averaging terrain pixels inside each cell.

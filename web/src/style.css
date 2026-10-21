@@ -937,3 +937,87 @@ dialog form button:hover {
     display: none;
   }
 }
+
+/* --- Sun at a clicked point -------------------------------------------------- */
+
+.sun-here {
+  margin: 0 0 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sun-here h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.sun-here .kv dd .muted {
+  font-size: 12px;
+}
+
+.horizon-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 4px 0 8px;
+  background: linear-gradient(#dcebf8, #f4f8fc);
+  border-radius: 8px;
+}
+
+.horizon-chart .skyline {
+  fill: #8a8478;
+  stroke: #5d574c;
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.horizon-chart .grid {
+  stroke: rgb(23 33 43 / 0.08);
+}
+
+.horizon-chart .grid.zero {
+  stroke: rgb(23 33 43 / 0.3);
+  stroke-dasharray: 3 3;
+}
+
+.horizon-chart .axis {
+  font-size: 9px;
+  fill: var(--muted);
+}
+
+.horizon-chart .sun-path {
+  fill: none;
+  stroke: #e9a400;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.horizon-chart .sun-path.hidden {
+  stroke: #6b7280;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+
+.horizon-chart .sun-hour {
+  fill: #7a5a00;
+}
+
+.horizon-chart .sun-hour-label {
+  font-size: 8px;
+  fill: #5d4500;
+  text-anchor: middle;
+}
+
+.horizon-chart .sun-now {
+  fill: #ffc21a;
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+
+.horizon-chart .sun-now.hidden {
+  fill: #fff;
+  stroke: #6b7280;
+}
