@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="3D terrain map of South Tyrol with live snow depth and weather station data." />
-    <meta name="theme-color" content="#1f2933" />
+    <meta name="theme-color" content="#f4f6f8" />
     <title>South Tyrol Snow Map</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 28 12 10l5 8 4-6 9 16z' fill='%23336'/%3E%3Cpath d='m12 10 3 5-3-1-2 2z' fill='%23fff'/%3E%3C/svg%3E" />
   </head>
@@ -13,79 +13,101 @@
 
     <section id="layers" class="panel" aria-label="Layers">
       <header class="panel-head">
-        <h1>South Tyrol Snow Map</h1>
+        <div class="title">
+          <h1>South Tyrol Snow</h1>
+          <p id="stations-time" class="status">Loading stations…</p>
+        </div>
         <span class="head-actions">
-        <button id="share-btn" class="icon-btn" title="Copy a link to this view" aria-label="Copy a link to this view">
-          <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
-        </button>
-        <button id="layers-toggle" class="icon-btn" aria-expanded="true" aria-controls="layers-body" title="Show or hide layers">
-          <span aria-hidden="true">☰</span>
-        </button>
+          <button id="share-btn" class="icon-btn" title="Copy a link to this view" aria-label="Copy a link to this view">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+          </button>
+          <button id="layers-toggle" class="icon-btn" aria-expanded="true" aria-controls="layers-body" title="Show or hide layers" aria-label="Show or hide layers">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></svg>
+          </button>
         </span>
       </header>
       <div id="layers-body" class="panel-body">
         <div id="data-warning" class="warning" hidden></div>
-        <fieldset id="day-group" hidden>
-          <legend>Day <output id="day-label" class="muted"></output></legend>
-          <input type="range" id="day" min="0" max="0" step="1" value="0" aria-label="Day shown by the snow layers and stations" />
-          <div class="range-ends muted"><span id="day-first"></span><span>latest</span></div>
-          <p id="day-note" class="muted" hidden></p>
-        </fieldset>
-        <fieldset>
+        <fieldset class="rows">
           <legend>Layers</legend>
-          <label><input type="checkbox" id="toggle-snow" checked /> Snow seen from space <span id="snow-date" class="muted"></span></label>
-          <label><input type="checkbox" id="toggle-stations" checked /> Weather stations</label>
-          <label><input type="checkbox" id="toggle-bivouacs" checked /> Bivouacs <span id="bivouac-keys"></span></label>
-          <label><input type="checkbox" id="toggle-satellite" /> Satellite picture <span id="satellite-date" class="muted"></span></label>
-          <label><input type="checkbox" id="toggle-cover" /> Snow share per 250 m cell</label>
-          <label><input type="checkbox" id="toggle-depth" /> Estimated snow depth</label>
-          <label><input type="checkbox" id="toggle-confidence" /> Show uncertainty (grey = less certain)</label>
-          <label><input type="checkbox" id="toggle-forecast" /> Forecast new snow, next 3 days</label>
-          <div id="forecast-player" class="player" hidden>
-            <button id="forecast-play" class="icon-btn" aria-label="Play the forecast"><span aria-hidden="true">▶</span></button>
-            <input type="range" id="forecast-frame" min="0" max="0" step="1" value="0" aria-label="Forecast time" />
-            <output id="forecast-label" class="muted"></output>
-          </div>
-          <label><input type="checkbox" id="toggle-basemap" checked /> Roads, rivers, towns, buildings</label>
-          <label><input type="checkbox" id="toggle-labels" checked /> Labels</label>
-          <label><input type="checkbox" id="toggle-hillshade" checked /> Hillshade</label>
-          <label><input type="checkbox" id="toggle-relief" checked /> Elevation tint</label>
+          <label class="row"><span class="row-label">Snow seen from space <span id="snow-date" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-snow" checked /></label>
+          <label class="row"><span class="row-label">Weather stations</span><input type="checkbox" class="switch" id="toggle-stations" checked /></label>
+          <label class="row"><span class="row-label">Bivouacs <span id="bivouac-keys" class="keys"></span></span><input type="checkbox" class="switch" id="toggle-bivouacs" checked /></label>
+          <label class="row"><span class="row-label">Estimated snow depth</span><input type="checkbox" class="switch" id="toggle-depth" /></label>
+          <label class="row"><span class="row-label">Forecast new snow <span class="chip">3 days</span></span><input type="checkbox" class="switch" id="toggle-forecast" /></label>
+          <label class="row"><span class="row-label">Satellite photo <span id="satellite-date" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-satellite" /></label>
         </fieldset>
-        <label class="slider">
-          Vertical exaggeration <output id="exaggeration-value">1.5×</output>
-          <input type="range" id="exaggeration" min="1" max="3" step="0.1" value="1.5" />
-        </label>
         <div class="legend" aria-label="Snow depth legend">
-          <div class="legend-title">Snow depth: dots measured, depth layer <em>estimated</em>, forecast new snow in the same colours</div>
-          <ul id="legend-items"></ul>
+          <div class="legend-title">Snow depth, cm</div>
+          <div id="legend-bar" class="legend-bar"></div>
+          <div id="legend-ticks" class="legend-ticks"></div>
+          <div class="legend-extra muted">
+            <span><span class="swatch" id="no-sensor-swatch"></span>No snow sensor</span>
+            <span>Dots measured, layers estimated</span>
+          </div>
         </div>
-        <p class="hint">Click a station for its readings, or anywhere on the terrain for elevation and a 7-day forecast. Right-drag (two fingers on a phone) to tilt and rotate.</p>
-        <p class="layer-time" id="stations-time">Stations: loading…</p>
-        <div class="layer-time" id="snow-info">Snow layers: loading…</div>
-        <div class="layer-time" id="satellite-info"></div>
-        <div class="layer-time" id="forecast-info"></div>
+        <details id="more" class="more">
+          <summary>More layers and map style</summary>
+          <fieldset class="rows">
+            <label class="row"><span class="row-label">Snow share per 250 m cell</span><input type="checkbox" class="switch" id="toggle-cover" /></label>
+            <label class="row"><span class="row-label">Depth uncertainty <span class="hint-inline">grey = less certain</span></span><input type="checkbox" class="switch" id="toggle-confidence" /></label>
+            <label class="row"><span class="row-label">Roads, rivers, towns</span><input type="checkbox" class="switch" id="toggle-basemap" checked /></label>
+            <label class="row"><span class="row-label">Labels</span><input type="checkbox" class="switch" id="toggle-labels" checked /></label>
+            <label class="row"><span class="row-label">Hillshade</span><input type="checkbox" class="switch" id="toggle-hillshade" checked /></label>
+            <label class="row"><span class="row-label">Elevation tint</span><input type="checkbox" class="switch" id="toggle-relief" checked /></label>
+          </fieldset>
+          <label class="slider">
+            <span class="slider-head">Terrain height <output id="exaggeration-value">1.5×</output></span>
+            <input type="range" id="exaggeration" min="1" max="3" step="0.1" value="1.5" />
+          </label>
+        </details>
+        <p class="hint">Tap a station, a bivouac or the terrain for details. Right-drag or two fingers to tilt.</p>
       </div>
     </section>
 
     <aside id="details" class="panel" aria-live="polite" hidden>
       <header class="panel-head">
         <h2 id="details-title">Details</h2>
-        <button id="details-close" class="icon-btn" title="Close"><span aria-hidden="true">✕</span></button>
+        <button id="details-close" class="icon-btn" title="Close" aria-label="Close">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
       </header>
       <div id="details-body" class="panel-body"></div>
     </aside>
 
+    <div id="dock">
+      <div id="day-group" class="dock-row" hidden>
+        <div class="dock-head">
+          <span class="dock-title">Day</span>
+          <output id="day-label"></output>
+        </div>
+        <input type="range" id="day" min="0" max="0" step="1" value="0" aria-label="Day shown by the snow layers and stations" />
+        <div class="range-ends"><span id="day-first"></span><span>latest</span></div>
+        <p id="day-note" hidden></p>
+      </div>
+      <div id="forecast-player" class="dock-row player" hidden>
+        <button id="forecast-play" class="play-btn" aria-label="Play the forecast"><span aria-hidden="true">▶</span></button>
+        <div class="player-main">
+          <div class="dock-head">
+            <span class="dock-title">Forecast</span>
+            <output id="forecast-label"></output>
+          </div>
+          <input type="range" id="forecast-frame" min="0" max="0" step="1" value="0" aria-label="Forecast time" />
+        </div>
+      </div>
+      <footer id="footer">
+        <strong>Not for avalanche decisions</strong>
+        <span class="sep">·</span>
+        <a href="https://avalanche.report" target="_blank" rel="noopener">avalanche.report</a>
+        <span class="sep">·</span>
+        <button id="sources-btn" class="link-btn">About<span class="wide-only"> the data</span></button>
+      </footer>
+    </div>
+
     <div id="toast" class="toast" role="status" hidden></div>
 
-    <footer id="footer">
-      <strong>Not for avalanche decisions.</strong> Check the official bulletin at
-      <a href="https://avalanche.report" target="_blank" rel="noopener">avalanche.report</a>.
-      <span class="sep">·</span>
-      <button id="sources-btn" class="link-btn">Data sources and attribution</button>
-    </footer>
-
     <dialog id="sources-dialog">
-      <h2>Data sources and attribution</h2>
+      <h2>About the data</h2>
       <div id="sources-body"></div>
       <form method="dialog"><button>Close</button></form>
     </dialog>

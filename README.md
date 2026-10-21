@@ -141,4 +141,4 @@ Other sources:
 - **Forecast:** [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0).
 - **Basemap, summits and bivouacs:** © OpenStreetMap contributors (ODbL), via a Protomaps build. Fonts: Noto Sans (OFL).
 
-The app shows all of these in its "Data sources and attribution" dialog.
+The app shows all of these in its "About the data" dialog.
