@@ -893,3 +893,47 @@ dialog form button:hover {
     display: none;
   }
 }
+
+/* --- Via ferratas ----------------------------------------------------------- */
+
+.ferrata-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: 11.5px;
+}
+
+.ferrata-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* A short piece of line with the white casing the map draws. */
+.ferrata-key i,
+.grade-chip {
+  display: inline-block;
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1.5px #fff, 0 0 0 2.5px rgb(0 0 0 / 0.12);
+}
+
+.ferrata-key i.ungraded {
+  background: repeating-linear-gradient(90deg, #868e96 0 4px, #fff 4px 7px);
+}
+
+.grade-chip {
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+.legend-note {
+  margin: 8px 0 0;
+  line-height: 1.35;
+}
+
+.closed-mark {
+  color: #c92a2a;
+  font-weight: 600;
+}

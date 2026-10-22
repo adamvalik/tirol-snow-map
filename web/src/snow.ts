@@ -151,6 +151,60 @@ export function pointSnowHtml(file: SnowFile, v: ReturnType<SnowValues['at']>): 
     </dl>`;
 }
 
+/** A cell counts as snow-covered along a route from this share of snow. */
+const ROUTE_SNOW_COVER = 50;
+
+export interface RouteSnow {
+  /** Shares of the sampled points: in snow-covered cells, and with no clear view. */
+  snow: number;
+  unseen: number;
+  /** Lowest sampled elevation in a snow-covered cell, metres. */
+  lowestSnowM: number | null;
+  maxDepthCm: number;
+}
+
+/** Snow along a route sampled at evenly spaced [lon, lat, ele] points; null outside the grid. */
+export function routeSnow(values: Pick<SnowValues, 'at'>, points: readonly number[][]): RouteSnow | null {
+  let n = 0;
+  let snow = 0;
+  let unseen = 0;
+  let lowestSnowM: number | null = null;
+  let maxDepthCm = 0;
+  for (const [lon, lat, ele] of points) {
+    const v = values.at(lon, lat);
+    if (!v) continue;
+    n++;
+    maxDepthCm = Math.max(maxDepthCm, v.depthCm);
+    if (v.cover > 100 || v.viewAge === AGE_NONE) unseen++;
+    else if (v.cover >= ROUTE_SNOW_COVER) {
+      snow++;
+      if (ele !== undefined) lowestSnowM = Math.min(lowestSnowM ?? Infinity, ele);
+    }
+  }
+  return n ? { snow: snow / n, unseen: unseen / n, lowestSnowM, maxDepthCm } : null;
+}
+
+/** HTML for a via ferrata's panel: how much of it lies in snow seen from space. */
+export function routeSnowHtml(file: SnowFile, s: RouteSnow | null): string {
+  if (!s || !file.cover.available) return '';
+  const pct = (x: number) => `${Math.round(x * 100)} %`;
+  const seen =
+    s.snow === 0
+      ? 'no snow-covered cells along the route'
+      : `about ${pct(s.snow)} of the route in snow-covered cells` +
+        (s.lowestSnowM === null ? '' : `, from about ${Math.round(s.lowestSnowM / 50) * 50} m`);
+  const hidden = s.unseen >= 0.05 ? `; ${pct(s.unseen)} not seen clearly (cloud)` : '';
+  const depth = file.depth && s.maxDepthCm >= 1 ? `<dt>Estimated snow</dt><dd>up to ~${s.maxDepthCm} cm along the route</dd>` : '';
+  return `
+    <dl class="kv">
+      <dt>Snow on the route</dt><dd>${escapeHtml(seen + hidden)} <span class="muted">(${escapeHtml(file.cover.sensor)}, ${escapeHtml(shortDay(file.cover.date))}, 250 m cells)</span></dd>
+      ${depth}
+    </dl>
+    <p class="muted">Snow seen from space is summed into 250 m cells: a snowy gully or ice on shaded rock can hide in a cell counted bare, and new snow since the pass is missing.</p>`;
+}
+
+const shortDay = (date: string) => dayBefore(date, 0);
+
 /** Info section for the layers panel and the sources dialog. */
 export function snowInfoHtml(file: SnowFile): string {
   const parts: string[] = [];

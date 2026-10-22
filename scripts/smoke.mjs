@@ -1,5 +1,6 @@
 // Smoke test for the built app: serves dist/, opens it in Chromium (desktop and phone profiles),
-// and reports time to first rendered map, console errors, and a rough frame rate while rotating.
+// and reports time to first rendered map, console errors, and a rough frame rate while rotating;
+// on desktop also the day slider, forecast playback, the via ferrata layer and a shared link.
 //
 //   npm run build && node scripts/smoke.mjs [--out <screenshot dir>]
 //
@@ -124,6 +125,36 @@ for (const profile of profiles) {
       document.getElementById('forecast-play').click(); // pause: software GL re-renders the 3D view per frame
       return moved ? 'OK' : 'FAILED';
     });
+    // Via ferratas: switch the layer on over the Sella group and open a route's panel.
+    await page.evaluate(() => {
+      window.__snowmap.map.jumpTo({ center: [11.815, 46.525], zoom: 12.6, pitch: 50, bearing: 150 });
+      document.getElementById('toggle-ferratas').click();
+    });
+    const ferrataPoint = await page
+      .waitForFunction(
+        () => {
+          const { map } = window.__snowmap;
+          for (const f of map.queryRenderedFeatures({ layers: ['ferrata-hit'] })) {
+            const coords = f.geometry.type === 'LineString' ? f.geometry.coordinates : f.geometry.coordinates.flat();
+            for (const c of coords) {
+              const p = map.project(c);
+              const hit = map.queryRenderedFeatures([p.x, p.y], { layers: ['ferrata-hit'] }).length;
+              if (hit && document.elementFromPoint(p.x, p.y)?.tagName === 'CANVAS') return { x: p.x, y: p.y };
+            }
+          }
+          return null;
+        },
+        null,
+        { timeout: 60_000, polling: 1000 },
+      )
+      .then((h) => h.jsonValue(), () => null);
+    let ferrata = 'FAILED (no route drawn)';
+    if (ferrataPoint) {
+      await page.mouse.click(ferrataPoint.x, ferrataPoint.y);
+      ferrata = await page
+        .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Mapped length'), null, { timeout: 5000 })
+        .then(() => 'OK', () => 'FAILED (no panel)');
+    }
     await page.screenshot({ path: path.join(outDir, 'desktop-v3.png') });
     await page.waitForTimeout(500);
     const hash = await page.evaluate(() => window.location.hash);
@@ -133,12 +164,17 @@ for (const profile of profiles) {
     await shared.waitForFunction(() => window.__snowmap?.map.loaded(), null, { timeout: 90_000 });
     const restored = await shared.evaluate(() => {
       const m = window.__snowmap.map;
-      return { zoom: m.getZoom(), forecast: document.getElementById('toggle-forecast').checked, day: document.getElementById('day').value };
+      return {
+        zoom: m.getZoom(),
+        forecast: document.getElementById('toggle-forecast').checked,
+        ferratas: document.getElementById('toggle-ferratas').checked,
+        day: document.getElementById('day').value,
+      };
     });
-    const linkOk = hash.includes('map=') && Math.abs(restored.zoom - 11) < 0.05 && restored.forecast;
+    const linkOk = hash.includes('map=') && Math.abs(restored.zoom - 12.6) < 0.05 && restored.forecast && restored.ferratas;
     await shared.close();
-    v3 = `day slider ${dayOk}, forecast animation ${forecastAnim}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}`;
-    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || !linkOk) errors.push(`V3 checks: ${v3}`);
+    v3 = `day slider ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}`;
+    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || !linkOk) errors.push(`V3 checks: ${v3}`);
   }
 
   const stationsText = await page.textContent('#stations-time');

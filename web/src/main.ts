@@ -9,10 +9,22 @@ import { ageHours, escapeHtml, formatAge, formatTime, formatTimeShort } from './
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
 import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacHtml, bivouacIconUrl, favButtonHtml } from './bivouacs.ts';
 import { Favourites } from './favourites.ts';
+import { addFerrataLayer, FERRATA_LAYER_IDS, ferrataHtml, ferrataLines, type FerrataLayer, GRADE_CLASSES, highestPoint } from './ferratas.ts';
+import { resample } from '../../shared/geo.ts';
 import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
-import { loadSnow, pointSnowHtml, SNOW_LAYERS, type SnowLayer, SnowLayers, snowInfoHtml, SnowValues } from './snow.ts';
+import {
+  loadSnow,
+  pointSnowHtml,
+  routeSnow,
+  routeSnowHtml,
+  SNOW_LAYERS,
+  type SnowLayer,
+  SnowLayers,
+  snowInfoHtml,
+  SnowValues,
+} from './snow.ts';
 import { addStationLayer, loadStations, STATION_LAYER_ID } from './stations.ts';
 import { LAYER_KEYS, type LayerKey, parseHash, toHash, type ViewState } from './viewState.ts';
 
@@ -82,6 +94,9 @@ $('no-sensor-swatch').style.background = NO_SNOW_SENSOR_COLOR;
 $('bivouac-keys').innerHTML = (['metal', 'wood'] as const)
   .map((k) => `<img class="bivouac-icon" src="${bivouacIconUrl(k)}" alt="" title="${k === 'wood' ? 'Wooden' : 'Metal'}">`)
   .join('');
+$('ferrata-keys').innerHTML =
+  GRADE_CLASSES.map((c) => `<span class="ferrata-key"><i style="background:${c.color}"></i>${c.label}</span>`).join('') +
+  '<span class="ferrata-key"><i class="ungraded"></i>ungraded</span>';
 
 // --- Favourite bivouacs --------------------------------------------------------
 
@@ -245,6 +260,16 @@ function renderSources() {
     © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL),
     a static list taken with the Overpass API. Red = metal box, brown = wood where OSM says so (the build is rarely mapped,
     so most are drawn red). Not checked for whether they are open, equipped or still standing.</p>
+    <h3>Via ferratas</h3>
+    <p>${ferrataCount ?? 'The'} routes tagged as via ferrata (<code>highway=via_ferrata</code>, or a path with <code>via_ferrata_scale</code>,
+    and <code>route=via_ferrata</code> relations) in
+    © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL),
+    a static list taken with the Overpass API. Sections that touch, share a relation or carry the same name close together are
+    one route, so linked ferratas show as one system. Grades are shown as A–E, converted from the OSM scale 0–6
+    (1–5 are A–E, 0 counts as A and 6 as E, a plus or minus becomes an in-between grade such as C/D); a route takes its
+    hardest section's grade. Length, elevation and climb are computed from the Mapterhorn terrain over the mapped
+    sections only. The data is drawn by volunteers and may be incomplete, wrong or out of date; closures are only shown where
+    a mapper recorded them. Not for navigation.</p>
     <h3>Map library</h3>
     <p><a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a> (BSD-3-Clause).</p>
     <h3>Safety</h3>
@@ -494,16 +519,25 @@ function setupForecast(file: ForecastFile | null) {
 
 // --- Point click: elevation + forecast ----------------------------------------
 
+let ferrataLayer: FerrataLayer | null = null;
+let ferrataCount: number | null = null;
 const pointMarker = new maplibregl.Marker({ element: Object.assign(document.createElement('div'), { className: 'point-marker' }) });
 let forecastAbort: AbortController | null = null;
 
 function clearPoint() {
   forecastAbort?.abort();
   pointMarker.remove();
+  ferrataLayer?.select(null);
 }
 
-/** `place` names a clicked map feature (a bivouac) and may bring its own surveyed elevation. */
-async function showPoint(lngLat: maplibregl.LngLat, place?: { title: string; html: string; elevation: number | null }) {
+/**
+ * `place` names a clicked map feature (a bivouac, a via ferrata's highest point) and may bring its
+ * own elevation, its own label for it and its own snow summary instead of the point's.
+ */
+async function showPoint(
+  lngLat: maplibregl.LngLat,
+  place?: { title: string; html: string; elevation: number | null; elevationLabel?: string; snowHtml?: string },
+) {
   clearPoint();
   const abort = (forecastAbort = new AbortController());
   // queryTerrainElevation includes the exaggeration, so divide it back out.
@@ -511,8 +545,9 @@ async function showPoint(lngLat: maplibregl.LngLat, place?: { title: string; htm
   const elevation = place?.elevation ?? (raw === null ? null : raw / exaggeration);
   pointMarker.setLngLat(lngLat).addTo(map);
   const snowHtml =
-    (place?.html ?? '') + (snowFile && snowValues ? pointSnowHtml(snowFile, snowValues.at(lngLat.lng, lngLat.lat)) : '');
-  openPanel(place?.title ?? 'Point forecast', loadingHtml(elevation, snowHtml), clearPoint);
+    (place?.html ?? '') +
+    (place?.snowHtml ?? (snowFile && snowValues ? pointSnowHtml(snowFile, snowValues.at(lngLat.lng, lngLat.lat)) : ''));
+  openPanel(place?.title ?? 'Point forecast', loadingHtml(elevation, snowHtml, place?.elevationLabel), clearPoint);
   let result;
   try {
     result = await getForecast(lngLat.lat, lngLat.lng, elevation, abort.signal);
@@ -520,7 +555,7 @@ async function showPoint(lngLat: maplibregl.LngLat, place?: { title: string; htm
     if (abort.signal.aborted) return;
     result = e instanceof Error ? e : new Error(String(e));
   }
-  if (!abort.signal.aborted) updatePanelBody(pointHtml(lngLat.lat, lngLat.lng, elevation, result, snowHtml));
+  if (!abort.signal.aborted) updatePanelBody(pointHtml(lngLat.lat, lngLat.lng, elevation, result, snowHtml, place?.elevationLabel));
 }
 
 // --- Map setup -------------------------------------------------------------
@@ -569,6 +604,40 @@ map.on('load', async () => {
   // Above the snow cells, below roads and labels.
   setupForecast(await forecastPromise);
 
+  // Above roads and buildings, below the place labels, bivouacs and station dots.
+  ferrataLayer = addFerrataLayer(
+    map,
+    (f) => {
+      const [lon, lat, ele] = highestPoint(f);
+      // Evenly spaced points, so each share is a share of the route's length.
+      const points = ferrataLines(f).flatMap((l) => resample(l, 25));
+      void showPoint(new maplibregl.LngLat(lon, lat), {
+        title: f.properties.name ?? 'Via ferrata',
+        html: ferrataHtml(f.properties),
+        elevation: ele,
+        elevationLabel: 'Highest point',
+        snowHtml: snowFile && snowValues ? routeSnowHtml(snowFile, routeSnow(snowValues, points)) : '',
+      });
+      ferrataLayer!.select(f.properties.id);
+    },
+    basemap.labels[0]?.id,
+  );
+  const showFerratas = (on: boolean) => {
+    $('ferrata-legend').hidden = !on;
+    ferrataLayer!.setVisible(on).then(
+      (n) => {
+        if (n !== null) ferrataCount = n;
+        setWarning('ferratas', null);
+      },
+      (e: unknown) => {
+        console.warn('Via ferratas:', e);
+        setWarning('ferratas', 'Via ferratas could not be loaded.');
+      },
+    );
+  };
+  if (toggle('ferratas').checked) showFerratas(true);
+  bindToggle('toggle-ferratas', showFerratas);
+
   // Below the station dots, which are added next.
   const bivouacLayer = await addBivouacLayer(
     map,
@@ -611,8 +680,8 @@ map.on('load', async () => {
   setupDaySlider(await historyPromise);
 
   map.on('click', (e: maplibregl.MapMouseEvent) => {
-    // Stations and bivouacs open their own panels.
-    const layers = [STATION_LAYER_ID, ...BIVOUAC_LAYER_IDS].filter((id) => map.getLayer(id));
+    // Stations, bivouacs and via ferratas open their own panels.
+    const layers = [STATION_LAYER_ID, ...BIVOUAC_LAYER_IDS, ...FERRATA_LAYER_IDS].filter((id) => map.getLayer(id));
     if (!map.queryRenderedFeatures(e.point, { layers }).length) void showPoint(e.lngLat);
   });
 });

@@ -15,7 +15,8 @@
     "basemap": "tsx pipeline/src/basemap/run.ts",
     "basemap:assets": "tsx pipeline/src/basemap/assets.ts",
     "dem": "tsx pipeline/src/dem-run.ts",
-    "bivouacs": "tsx pipeline/src/bivouacs-run.ts"
+    "bivouacs": "tsx pipeline/src/bivouacs-run.ts",
+    "ferratas": "tsx pipeline/src/ferratas-run.ts"
   },
   "dependencies": {
     "@protomaps/basemaps": "5.7.2",

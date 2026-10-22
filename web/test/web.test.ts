@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { CABIN_COLORS, cabinBearing, cabinBlocks, cabinGeoJson } from '../src/cabins.ts';
 import { Favourites } from '../src/favourites.ts';
+import { GRADE_CLASSES, gradeColor, gradeLabel, gradeText, highestPoint, letterGrade, UNGRADED_COLOR, websiteUrl } from '../src/ferratas.ts';
 import { snowColor, SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from '../src/colors.ts';
 import { forecastUrl } from '../src/forecast.ts';
 import { compass, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
 import { frameLabel } from '../src/forecastAnim.ts';
+import { routeSnow } from '../src/snow.ts';
 import { parseHash, toHash, type ViewState } from '../src/viewState.ts';
 import type { ForecastFile } from '../../shared/types.ts';
 
@@ -160,5 +162,64 @@ describe('favourite bivouacs', () => {
     expect(favs.toggle('node/1')).toBe(true);
     expect(favs.has('node/1')).toBe(true);
     expect(new Favourites(null).size).toBe(0);
+  });
+});
+
+describe('via ferratas', () => {
+  const props = { grade: 4, scale: '4+' };
+
+  it('converts the OSM scale to A–E letters, with in-between grades for plus and minus', () => {
+    const cases: [string, string][] = [
+      ['0', 'A'], ['0+', 'A'], ['1', 'A'], ['1+', 'A/B'], ['2-', 'A/B'], ['2', 'B'], ['2+', 'B/C'], ['3-', 'B/C'],
+      ['3', 'C'], ['3+', 'C/D'], ['4', 'D'], ['4+', 'D/E'], ['5-', 'D/E'], ['5', 'E'], ['5+', 'E'], ['6', 'E'],
+    ];
+    for (const [scale, letter] of cases) expect([scale, letterGrade(scale)]).toEqual([scale, letter]);
+  });
+
+  it('labels grades with the French and Italian equivalents', () => {
+    expect(gradeLabel(props)).toBe('D/E');
+    expect(gradeLabel({ scale: null })).toBe('ungraded');
+    expect(gradeText(props)).toBe('D/E · very difficult · TD in France and Italy');
+    expect(gradeText({ grade: 2, scale: '2' })).toBe('B · moderately difficult · AD in France, PD in Italy');
+    expect(gradeText({ grade: null, scale: null })).toBe('No grade in OpenStreetMap');
+  });
+
+  it('colours by grade class', () => {
+    expect(gradeColor(null)).toBe(UNGRADED_COLOR);
+    expect(gradeColor(0)).toBe(GRADE_CLASSES[0].color);
+    expect(gradeColor(1)).toBe(GRADE_CLASSES[0].color);
+    expect(gradeColor(3)).toBe(GRADE_CLASSES[2].color);
+    expect(gradeColor(6)).toBe(GRADE_CLASSES[4].color);
+  });
+
+  it('links only http(s) websites and adds a missing scheme', () => {
+    expect(websiteUrl('www.example.com/x')?.href).toBe('https://www.example.com/x');
+    expect(websiteUrl('http://example.com')?.hostname).toBe('example.com');
+    expect(websiteUrl('javascript:alert(1)')).toBeNull();
+    expect(websiteUrl('mailto:a@b.c')).toBeNull();
+  });
+
+  it('finds the highest point of a multi-part route', () => {
+    const f = {
+      type: 'Feature' as const,
+      properties: {} as never,
+      geometry: { type: 'MultiLineString' as const, coordinates: [[[11, 46, 2000], [11, 46.001, 2100]], [[11.01, 46, 2300], [11.01, 46.001, 2200]]] },
+    };
+    expect(highestPoint(f)).toEqual([11.01, 46, 2300]);
+  });
+
+  it('measures the share of a route in snow-covered cells and the lowest snowy point', () => {
+    // Bare below 2000 m, snow above, one point under cloud; outside the grid is skipped.
+    const values = {
+      at: (lon: number) =>
+        lon > 12 ? null : lon === 11.5 ? { depthCm: 0, confidence: 'low', cover: 254, viewAge: 0 } : lon >= 11.2 ? { depthCm: 30, confidence: 'high', cover: 80, viewAge: 1 } : { depthCm: 0, confidence: 'high', cover: 0, viewAge: 0 },
+    };
+    const points = [[11.0, 46, 1900], [11.1, 46, 1950], [11.2, 46, 2050], [11.3, 46, 2150], [11.5, 46, 2200], [12.5, 46, 2300]];
+    expect(routeSnow(values, points)).toEqual({ snow: 0.4, unseen: 0.2, lowestSnowM: 2050, maxDepthCm: 30 });
+    expect(routeSnow(values, [[12.5, 46, 2000]])).toBeNull();
+  });
+
+  it('keeps ferratas in shared links', () => {
+    expect(parseHash('#layers=snow,ferratas').layers).toEqual(['snow', 'ferratas']);
   });
 });
