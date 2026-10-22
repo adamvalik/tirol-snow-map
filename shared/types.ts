@@ -74,6 +74,11 @@ export interface SnowFile {
         shares: { newest: number; older: number; never: number };
         /** Elevation (m) above which most clear ground is snow-covered, or null if unclear. */
         snowLineM: number | null;
+        /**
+         * Set when stations report snow on ground the satellite saw bare on `viewDate` (snow fell
+         * since): the satellite layers then show less snow than there is.
+         */
+        newSnow?: { viewDate: string; stations: number; withSnow: number };
         source: string;
         licence: string;
         attribution: string;

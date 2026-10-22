@@ -273,10 +273,12 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowStepResult
   // the newest view, so the days since it was taken are added; a view stations contradict (snow has
   // fallen since) stops masking too, or a snowfall under clouds would read as bare ground for days.
   let masking: Uint8Array | null = null;
+  let newSnow: { viewDate: string; stations: number; withSnow: number } | undefined;
   if (coverOk) {
     const sinceNewest = Math.max(0, Math.floor((Date.parse(opts.now) - Date.parse(coverOk.date)) / 86_400_000));
     let maxAge = (s2 ? S2_MASK_DAYS : 1) - sinceNewest;
     const outdated = outdatedViews(grid, coverOk.values, coverOk.age, stations);
+    if (outdated) newSnow = { viewDate: dayBefore(coverOk.date, outdated.age), stations: outdated.stations, withSnow: outdated.withSnow };
     if (outdated && outdated.age <= maxAge) {
       maxAge = outdated.age - 1;
       opts.log(
@@ -362,6 +364,7 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowStepResult
             shares: shares(s2 ? s2Stats(s2) : coverStats(coverOk)),
             composite: coverOk.composite,
             snowLineM: snowLine(masking!, dem.values),
+            ...(newSnow ? { newSnow } : {}),
             ...(s2
               ? S2_META
               : {

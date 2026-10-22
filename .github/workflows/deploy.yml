@@ -1,4 +1,4 @@
-# Production: every 30 minutes, refreshes the data and publishes the app with it to GitHub Pages.
+# Production: twice a day, refreshes the data and publishes the app with it to GitHub Pages.
 #
 # Data that must survive between runs (the files the app reads, the 14-day history, classified
 # Sentinel-2 days, the forecast grid) travels in an Actions cache; the OSM basemap is rebuilt once
@@ -10,8 +10,11 @@
 name: Update data and deploy
 
 on:
+  # Cron is UTC: 03:47 and 11:47 UTC are 04:47 and 12:47 in South Tyrol in winter, an hour later in
+  # summer. The morning run picks up the previous day's Sentinel-2 pass (published in the afternoon);
+  # GitHub often starts scheduled runs late, so neither sits on the full hour.
   schedule:
-    - cron: '7,37 * * * *'
+    - cron: '47 3,11 * * *'
   push:
     branches: [main]
   workflow_dispatch:
