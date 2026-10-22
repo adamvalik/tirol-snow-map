@@ -13,7 +13,7 @@ export interface FerrataProps {
   id: string;
   name: string | null;
   otherNames: string[];
-  /** Hardest section, 0–6 on the OSM via_ferrata_scale (Hüsler K0–K6), or null if ungraded. */
+  /** Hardest section, 0–6 on the OSM via_ferrata_scale (1–5 are grades A–E), or null if ungraded. */
   grade: number | null;
   gradeMin: number | null;
   /** The hardest grade as written: "3", "3+", "2-". */
@@ -41,11 +41,11 @@ const LAYERS = ['ferrata-selected', 'ferrata-casing', LINE, 'ferrata-dash', 'fer
 
 /** Legend classes; colour and line width both rise with the grade, so colour is not the only cue. */
 export const GRADE_CLASSES = [
-  { label: 'K0–1', from: 0, color: '#2f9e44' },
-  { label: 'K2', from: 2, color: '#1c7ed6' },
-  { label: 'K3', from: 3, color: '#f08c00' },
-  { label: 'K4', from: 4, color: '#e03131' },
-  { label: 'K5–6', from: 5, color: '#25262b' },
+  { label: 'A', from: 0, color: '#2f9e44' },
+  { label: 'B', from: 2, color: '#1c7ed6' },
+  { label: 'C', from: 3, color: '#f08c00' },
+  { label: 'D', from: 4, color: '#e03131' },
+  { label: 'E', from: 5, color: '#25262b' },
 ] as const;
 export const UNGRADED_COLOR = '#868e96';
 
@@ -80,10 +80,24 @@ const WORDS = ['very easy', 'easy', 'moderately difficult', 'difficult', 'very d
 const FRENCH = ['F', 'PD', 'AD', 'D', 'TD', 'ED', 'ABO'];
 const ITALIAN = ['F', 'PD', 'PD', 'D', 'TD', 'ED', 'ED'];
 
-/** "K4+" for the map; "ungraded" without a grade. */
-export const gradeLabel = (p: Pick<FerrataProps, 'scale'>): string => (p.scale === null ? 'ungraded' : `K${p.scale}`);
+const LETTERS = 'ABCDE';
 
-/** "K4+ · very difficult · D in France and Italy" for the panel. */
+/**
+ * The OSM scale as the A–E letters guidebooks use: 1–5 are A–E, 0 counts as A and 6 as E. A plus
+ * or minus becomes the in-between grade: "3+" is C/D, "3-" B/C.
+ */
+export function letterGrade(scale: string): string {
+  const n = Number(scale[0]);
+  const i = Math.min(Math.max(n, 1), 5) - 1;
+  if (scale.endsWith('+') && n >= 1 && n <= 4) return `${LETTERS[i]}/${LETTERS[i + 1]}`;
+  if (scale.endsWith('-') && n >= 2 && n <= 5) return `${LETTERS[i - 1]}/${LETTERS[i]}`;
+  return LETTERS[i];
+}
+
+/** "C/D" for the map; "ungraded" without a grade. */
+export const gradeLabel = (p: Pick<FerrataProps, 'scale'>): string => (p.scale === null ? 'ungraded' : letterGrade(p.scale));
+
+/** "D/E · very difficult · TD in France and Italy" for the panel. */
 export function gradeText(p: Pick<FerrataProps, 'grade' | 'scale'>): string {
   if (p.grade === null) return 'No grade in OpenStreetMap';
   const elsewhere =
@@ -124,7 +138,7 @@ export const ferrataLines = (f: Ferrata): number[][][] =>
 /** Intro for the point panel; the route's snow, then the forecast at its highest point, follow it. */
 export function ferrataHtml(p: FerrataProps): string {
   const site = p.website ? websiteUrl(p.website) : null;
-  const range = p.gradeMin !== null && p.grade !== null && p.gradeMin < p.grade ? `Sections K${p.gradeMin} to ${gradeLabel(p)}` : '';
+  const range = p.gradeMin !== null && p.grade !== null && p.gradeMin < p.grade ? `Sections ${letterGrade(String(p.gradeMin))} to ${gradeLabel(p)}` : '';
   const rows = [
     `<dt>Grade</dt><dd><span class="grade-chip" style="background:${gradeColor(p.grade)}"></span> ${escapeHtml(gradeText(p))}${range ? `<br><span class="muted">${range}</span>` : ''}</dd>`,
     `<dt>Mapped length</dt><dd>${lengthText(p.lengthM)}${p.ways > 1 ? ` <span class="muted">(${p.ways} sections)</span>` : ''}</dd>`,
@@ -205,8 +219,8 @@ export function addFerrataLayer(
       'text-field': [
         'case',
         HAS_NAME,
-        ['concat', ['get', 'name'], ' · ', ['case', HAS_SCALE, ['concat', 'K', ['get', 'scale']], 'ungraded']],
-        ['case', HAS_SCALE, ['concat', 'K', ['get', 'scale']], ''],
+        ['concat', ['get', 'name'], ' · ', ['get', 'letter']],
+        ['case', HAS_SCALE, ['get', 'letter'], ''],
       ],
       'text-font': ['Noto Sans Medium'],
       'text-size': 11,
@@ -235,6 +249,8 @@ export function addFerrataLayer(
         return res.json() as Promise<FeatureCollection<LineString | MultiLineString, FerrataProps>>;
       })
       .then((fc) => {
+        // The map label reads the letter grade from the feature.
+        for (const f of fc.features) (f.properties as FerrataProps & { letter: string }).letter = gradeLabel(f.properties);
         routes = new Map(fc.features.map((f) => [f.properties.id, f as Ferrata]));
         (map.getSource(SOURCE) as maplibregl.GeoJSONSource).setData(fc);
       })

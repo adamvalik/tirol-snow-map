@@ -265,8 +265,9 @@ function renderSources() {
     and <code>route=via_ferrata</code> relations) in
     © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL),
     a static list taken with the Overpass API. Sections that touch, share a relation or carry the same name close together are
-    one route, so linked ferratas show as one system. Grades are the OSM scale 0–6, which follows the Hüsler K scale; a route
-    takes its hardest section's grade. Length, elevation and climb are computed from the Mapterhorn terrain over the mapped
+    one route, so linked ferratas show as one system. Grades are shown as A–E, converted from the OSM scale 0–6
+    (1–5 are A–E, 0 counts as A and 6 as E, a plus or minus becomes an in-between grade such as C/D); a route takes its
+    hardest section's grade. Length, elevation and climb are computed from the Mapterhorn terrain over the mapped
     sections only. The data is drawn by volunteers and may be incomplete, wrong or out of date; closures are only shown where
     a mapper recorded them. Not for navigation.</p>
     <h3>Map library</h3>

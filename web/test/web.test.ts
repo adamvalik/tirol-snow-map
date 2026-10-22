@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CABIN_COLORS, cabinBearing, cabinBlocks, cabinGeoJson } from '../src/cabins.ts';
 import { Favourites } from '../src/favourites.ts';
-import { GRADE_CLASSES, gradeColor, gradeLabel, gradeText, highestPoint, UNGRADED_COLOR, websiteUrl } from '../src/ferratas.ts';
+import { GRADE_CLASSES, gradeColor, gradeLabel, gradeText, highestPoint, letterGrade, UNGRADED_COLOR, websiteUrl } from '../src/ferratas.ts';
 import { snowColor, SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from '../src/colors.ts';
 import { forecastUrl } from '../src/forecast.ts';
 import { compass, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
@@ -168,11 +168,19 @@ describe('favourite bivouacs', () => {
 describe('via ferratas', () => {
   const props = { grade: 4, scale: '4+' };
 
-  it('labels grades on the Hüsler scale with the French and Italian equivalents', () => {
-    expect(gradeLabel(props)).toBe('K4+');
+  it('converts the OSM scale to A–E letters, with in-between grades for plus and minus', () => {
+    const cases: [string, string][] = [
+      ['0', 'A'], ['0+', 'A'], ['1', 'A'], ['1+', 'A/B'], ['2-', 'A/B'], ['2', 'B'], ['2+', 'B/C'], ['3-', 'B/C'],
+      ['3', 'C'], ['3+', 'C/D'], ['4', 'D'], ['4+', 'D/E'], ['5-', 'D/E'], ['5', 'E'], ['5+', 'E'], ['6', 'E'],
+    ];
+    for (const [scale, letter] of cases) expect([scale, letterGrade(scale)]).toEqual([scale, letter]);
+  });
+
+  it('labels grades with the French and Italian equivalents', () => {
+    expect(gradeLabel(props)).toBe('D/E');
     expect(gradeLabel({ scale: null })).toBe('ungraded');
-    expect(gradeText(props)).toBe('K4+ · very difficult · TD in France and Italy');
-    expect(gradeText({ grade: 2, scale: '2' })).toBe('K2 · moderately difficult · AD in France, PD in Italy');
+    expect(gradeText(props)).toBe('D/E · very difficult · TD in France and Italy');
+    expect(gradeText({ grade: 2, scale: '2' })).toBe('B · moderately difficult · AD in France, PD in Italy');
     expect(gradeText({ grade: null, scale: null })).toBe('No grade in OpenStreetMap');
   });
 
