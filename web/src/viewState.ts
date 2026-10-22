@@ -1,6 +1,6 @@
 // The view in the address bar, so a link opens the same camera, layers, day and forecast frame:
 //
-//   #map=10.40/46.4700/11.3540/20/60&x=1.5&layers=snow,stations&day=2026-10-18&f=5
+//   #map=10.40/46.4700/11.3540/20/60&x=1.5&layers=snow,stations&day=2026-10-18&f=5&sun=2026-10-21T06:30Z
 //
 // `map` is zoom/lat/lon/bearing/pitch like openstreetmap.org. Anything missing or invalid falls
 // back to the defaults, so old or hand-edited links still open.
@@ -20,6 +20,8 @@ export const LAYER_KEYS = [
   'labels',
   'hillshade',
   'relief',
+  'sun',
+  'shadows',
 ] as const;
 export type LayerKey = (typeof LAYER_KEYS)[number];
 
@@ -34,6 +36,8 @@ export interface ViewState {
   day: string | null;
   /** Forecast frame index, or null. */
   frame: number | null;
+  /** Time the sun light is shown for, as a UTC minute (2026-10-21T06:30Z), or null. */
+  sun: string | null;
 }
 
 /** Limits match the map: maxBounds, zoom and pitch range, exaggeration slider. */
@@ -68,6 +72,8 @@ export function parseHash(hash: string): Partial<ViewState> {
   if (day && /^\d{4}-\d{2}-\d{2}$/.test(day)) out.day = day;
   const f = num(p.get('f') ?? undefined, [0, 999]);
   if (f !== null) out.frame = Math.floor(f);
+  const sun = p.get('sun');
+  if (sun && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z$/.test(sun) && !Number.isNaN(Date.parse(sun))) out.sun = sun;
   return out;
 }
 
@@ -80,5 +86,6 @@ export function toHash(s: ViewState): string {
   ];
   if (s.day) parts.push(`day=${s.day}`);
   if (s.frame !== null) parts.push(`f=${s.frame}`);
+  if (s.sun) parts.push(`sun=${s.sun}`);
   return `#${parts.join('&')}`;
 }

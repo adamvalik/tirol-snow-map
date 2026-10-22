@@ -5,8 +5,9 @@
 
 import { readFile, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
-import { lonLatToPixel, MAPTERHORN, terrarium } from './dem.ts';
+import { MAPTERHORN } from './dem.ts';
 import { resample } from '../../shared/geo.ts';
+import { lonLatToPixel, terrarium } from '../../shared/terrarium.ts';
 import { OVERPASS_QUERY, parseFerratas, toFeatureCollection } from './ferratas.ts';
 import { fetchOverpass } from './overpass.ts';
 

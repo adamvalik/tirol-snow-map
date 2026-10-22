@@ -11,7 +11,7 @@ import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacHtml, bivouacIconU
 import { Favourites } from './favourites.ts';
 import { addFerrataLayer, FERRATA_LAYER_IDS, ferrataHtml, ferrataLines, type FerrataLayer, GRADE_CLASSES, highestPoint } from './ferratas.ts';
 import { resample } from '../../shared/geo.ts';
-import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice } from './map.ts';
+import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice, MAX_BOUNDS } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
 import {
@@ -26,6 +26,27 @@ import {
   SnowValues,
 } from './snow.ts';
 import { addStationLayer, loadStations, STATION_LAYER_ID } from './stations.ts';
+import { horizonProfile } from '../../shared/horizon.ts';
+import { type SunHere, sunHereFor, sunHereHtml } from './sunHere.ts';
+import { ShadowLayer } from './shadows.ts';
+import { type Grid, loadGrid, NEAR_RADIUS, pointTerrain } from './terrainSampler.ts';
+import {
+  clockTime,
+  DEFAULT_SKY,
+  dayGradient,
+  dayMinutes,
+  hillshadePaint,
+  type HillshadePaint,
+  localDate,
+  localMidnight,
+  NIGHT_COLOR,
+  nightOpacity,
+  skyFor,
+  sunDay,
+  sunLabel,
+  sunParam,
+  sunPosition,
+} from './sun.ts';
 import { LAYER_KEYS, type LayerKey, parseHash, toHash, type ViewState } from './viewState.ts';
 
 /** Station data older than this gets a visible warning (the pipeline runs every 30 minutes). */
@@ -162,6 +183,7 @@ function currentView(): ViewState {
     layers: LAYER_KEYS.filter((k) => toggle(k).checked),
     day: selectedDay,
     frame: toggle('forecast').checked ? forecastFrame : null,
+    sun: toggle('sun').checked ? sunParam(sunTime) : null,
   };
 }
 
@@ -271,7 +293,8 @@ function renderSources() {
     sections only. The data is drawn by volunteers and may be incomplete, wrong or out of date; closures are only shown where
     a mapper recorded them. Not for navigation.</p>
     <h3>Map library</h3>
-    <p><a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a> (BSD-3-Clause).</p>
+    <p><a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a> (BSD-3-Clause).
+    Sun position: <a href="https://github.com/mourner/suncalc" target="_blank" rel="noopener">SunCalc</a> (BSD-2-Clause).</p>
     <h3>Safety</h3>
     <p><strong>This map is for orientation only and must not be used for avalanche decisions.</strong>
     Station values are point measurements and forecasts are model output. Always check the official avalanche bulletin at
@@ -517,18 +540,235 @@ function setupForecast(file: ForecastFile | null) {
   });
 }
 
+// --- Sun light -----------------------------------------------------------------
+
+const NIGHT_LAYER = 'sun-night';
+const MINUTE = 60_000;
+/** Play runs from a little before sunrise to a little after sunset. */
+const PLAY_MARGIN = 40 * MINUTE;
+
+let sunTime = initial.sun ? Date.parse(initial.sun) : Date.now();
+/** Set once the style has loaded and the light can be painted. */
+let lightReady = false;
+let shadowLayer: ShadowLayer | null = null;
+/** The 250 m terrain for cast shadows, loaded the first time they are shown. */
+let terrainGrid: Grid | null = null;
+let terrainGridLoading = false;
+let sunTimer: number | undefined;
+
+const sunGroup = $('sun-group');
+const sunSlider = $<HTMLInputElement>('sun-time');
+const sunDateInput = $<HTMLInputElement>('sun-date');
+const sunPlayBtn = $('sun-play');
+
+/** Sun times for the shown day at the map centre. */
+const shownSunDay = () => {
+  const c = map.getCenter();
+  return sunDay(localDate(sunTime), c.lat, c.lng);
+};
+
+function showSunControls() {
+  const date = localDate(sunTime);
+  const start = localMidnight(date);
+  const minutes = dayMinutes(date);
+  const day = shownSunDay();
+  sunDateInput.value = date;
+  sunSlider.max = String(minutes);
+  sunSlider.value = String(Math.round((sunTime - start) / MINUTE));
+  sunSlider.style.setProperty('--sun-track', dayGradient(day, start, minutes));
+  $('sun-rise').textContent = day.sunrise === null ? '' : `☀ Sunrise ${clockTime(day.sunrise)}`;
+  $('sun-set').textContent = day.sunset === null ? '' : `Sunset ${clockTime(day.sunset)}`;
+}
+
+/** Light, sky and night overlay for the sun at the map centre, or the usual light when off. */
+function applyLight() {
+  if (!lightReady) return;
+  const c = map.getCenter();
+  const sun = toggle('sun').checked ? sunPosition(sunTime, c.lat, c.lng) : null;
+  const paint = hillshadePaint(sun, toggle('satellite').checked);
+  for (const k of Object.keys(paint) as (keyof HillshadePaint)[]) map.setPaintProperty('hillshade', k, paint[k]);
+  map.setSky(sun ? skyFor(sun.altitude) : DEFAULT_SKY);
+  map.setLayoutProperty(NIGHT_LAYER, 'visibility', sun ? 'visible' : 'none');
+  applyShadows(sun);
+  if (sun) {
+    map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
+    $('sun-label').textContent = sunLabel(sunTime, sun);
+  }
+}
+
+function applyShadows(sun: ReturnType<typeof sunPosition> | null) {
+  if (!shadowLayer) return;
+  if (!sun || sun.altitude <= 0 || !toggle('shadows').checked) {
+    shadowLayer.hide();
+    return;
+  }
+  if (terrainGrid) shadowLayer.show(terrainGrid, sunTime, sun.azimuth);
+  else if (!terrainGridLoading) {
+    terrainGridLoading = true;
+    loadGrid().then(
+      (g) => {
+        terrainGrid = g;
+        applyLight();
+      },
+      (e: unknown) => {
+        terrainGridLoading = false;
+        toast(`Shadows unavailable: ${e instanceof Error ? e.message : String(e)}`);
+      },
+    );
+  }
+}
+
+function setSunTime(t: number) {
+  const dayChanged = localDate(t) !== localDate(sunTime);
+  sunTime = t;
+  showSunControls();
+  applyLight();
+  // The skyline stays; only the sun's path moves with the day.
+  if (dayChanged && isSunHere(sunHere)) sunHere = sunHereFor(sunHere.lon, sunHere.lat, sunHere.horizon, localDate(t), sunHere.sunAt);
+  showSunHere();
+  syncHash();
+}
+
+// --- Sun at a clicked point -------------------------------------------------------
+
+/** The open point's skyline and sun: not asked for yet, being traced, failed, or ready. */
+let sunHere: 'off' | 'loading' | Error | SunHere = 'off';
+const isSunHere = (v: typeof sunHere): v is SunHere => typeof v === 'object' && !(v instanceof Error);
+
+function sunHereSection(): string {
+  let html: string;
+  if (sunHere === 'off') html = '<button id="sun-here-btn" class="link-btn">☀ When does the sun reach this point?</button>';
+  else if (sunHere === 'loading') html = '<h3>Sun here</h3><p class="muted">Tracing the skyline…</p>';
+  else if (sunHere instanceof Error) html = `<h3>Sun here</h3><p class="warning">Skyline unavailable: ${escapeHtml(sunHere.message)}</p>`;
+  else html = sunHereHtml(sunHere, sunTime);
+  return `<section id="sun-here" class="sun-here">${html}</section>`;
+}
+
+/** Re-renders the section in the open panel, if it is there. */
+function showSunHere() {
+  const el = document.getElementById('sun-here');
+  if (el) el.outerHTML = sunHereSection();
+}
+
+async function traceSunHere(lngLat: maplibregl.LngLat, signal: AbortSignal) {
+  sunHere = 'loading';
+  showSunHere();
+  const { lng: lon, lat } = lngLat;
+  try {
+    const terrain = await pointTerrain(lon, lat);
+    if (signal.aborted) return;
+    const horizon = horizonProfile(lon, lat, terrain.ground, {
+      bands: [
+        { sampler: terrain.near, until: NEAR_RADIUS, step: 20 },
+        { sampler: terrain.far, until: 100_000, step: 125 },
+      ],
+      zMax: terrain.zMax,
+    });
+    sunHere = sunHereFor(lon, lat, horizon, localDate(sunTime), (t) => sunPosition(t, lat, lon));
+  } catch (e) {
+    if (signal.aborted) return;
+    sunHere = e instanceof Error ? e : new Error(String(e));
+  }
+  showSunHere();
+}
+
+function showSunPlaying(playing: boolean) {
+  sunPlayBtn.innerHTML = playing ? PAUSE_ICON : PLAY_ICON;
+  sunPlayBtn.setAttribute('aria-label', playing ? 'Pause the day' : 'Play the day');
+}
+
+function pauseSun() {
+  window.clearInterval(sunTimer);
+  sunTimer = undefined;
+  showSunPlaying(false);
+}
+
+function playSun() {
+  const { sunrise, sunset } = shownSunDay();
+  if (sunrise === null || sunset === null) return;
+  const from = sunrise - PLAY_MARGIN;
+  const to = sunset + PLAY_MARGIN;
+  if (sunTime < from || sunTime >= to) setSunTime(from);
+  showSunPlaying(true);
+  // About ten seconds for a winter day, a little more in summer.
+  sunTimer = window.setInterval(() => {
+    const next = sunTime + 4 * MINUTE;
+    setSunTime(Math.min(next, to));
+    if (next >= to) pauseSun();
+  }, 60);
+}
+
+function setupSun() {
+  sunPlayBtn.innerHTML = PLAY_ICON;
+  sunGroup.hidden = !toggle('sun').checked;
+  showSunControls();
+  bindToggle('toggle-sun', (on) => {
+    sunGroup.hidden = !on;
+    if (!on) pauseSun();
+    // The light is drawn by the hillshade layer, so it has to be on.
+    if (on && !toggle('hillshade').checked) {
+      toggle('hillshade').checked = true;
+      toggle('hillshade').dispatchEvent(new Event('change'));
+    }
+    applyLight();
+    if (on && openPoint && sunHere === 'off') void traceSunHere(openPoint.lngLat, openPoint.signal);
+  });
+  bindToggle('toggle-shadows', (on) => {
+    // Shadows need the sun light; switching them on switches it on.
+    if (on && !toggle('sun').checked) {
+      toggle('sun').checked = true;
+      toggle('sun').dispatchEvent(new Event('change'));
+    } else applyLight();
+  });
+  sunSlider.addEventListener('input', () => {
+    pauseSun();
+    setSunTime(localMidnight(localDate(sunTime)) + Number(sunSlider.value) * MINUTE);
+  });
+  sunDateInput.addEventListener('change', () => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(sunDateInput.value)) return;
+    pauseSun();
+    // Keep the time of day on the new date.
+    setSunTime(localMidnight(sunDateInput.value) + (sunTime - localMidnight(localDate(sunTime))));
+  });
+  const jump = (pick: () => number | null) => () => {
+    const t = pick();
+    if (t === null) return;
+    pauseSun();
+    setSunTime(t);
+  };
+  $('sun-rise').addEventListener('click', jump(() => shownSunDay().sunrise));
+  $('sun-set').addEventListener('click', jump(() => shownSunDay().sunset));
+  $('sun-now').addEventListener('click', jump(() => Date.now()));
+  sunPlayBtn.addEventListener('click', () => (sunTimer === undefined ? playSun() : pauseSun()));
+  // The sun is computed for the map centre; sunrise moves by about 8 minutes across the region.
+  map.on('moveend', () => {
+    if (!toggle('sun').checked) return;
+    showSunControls();
+    applyLight();
+  });
+}
+setupSun();
+
 // --- Point click: elevation + forecast ----------------------------------------
 
 let ferrataLayer: FerrataLayer | null = null;
 let ferrataCount: number | null = null;
 const pointMarker = new maplibregl.Marker({ element: Object.assign(document.createElement('div'), { className: 'point-marker' }) });
 let forecastAbort: AbortController | null = null;
+/** The point whose panel is open; its signal is aborted when the panel closes or another point opens. */
+let openPoint: { lngLat: maplibregl.LngLat; signal: AbortSignal } | null = null;
 
 function clearPoint() {
   forecastAbort?.abort();
   pointMarker.remove();
   ferrataLayer?.select(null);
+  openPoint = null;
+  sunHere = 'off';
 }
+
+$('details-body').addEventListener('click', (e) => {
+  if (openPoint && (e.target as Element).closest('#sun-here-btn')) void traceSunHere(openPoint.lngLat, openPoint.signal);
+});
 
 /**
  * `place` names a clicked map feature (a bivouac, a via ferrata's highest point) and may bring its
@@ -547,7 +787,11 @@ async function showPoint(
   const snowHtml =
     (place?.html ?? '') +
     (place?.snowHtml ?? (snowFile && snowValues ? pointSnowHtml(snowFile, snowValues.at(lngLat.lng, lngLat.lat)) : ''));
-  openPanel(place?.title ?? 'Point forecast', loadingHtml(elevation, snowHtml, place?.elevationLabel), clearPoint);
+  // The sun section sits under the elevation and snow, above the forecast.
+  openPanel(place?.title ?? 'Point forecast', loadingHtml(elevation, snowHtml + sunHereSection(), place?.elevationLabel), clearPoint);
+  openPoint = { lngLat, signal: abort.signal };
+  // With the sun light on, the skyline is traced straight away; otherwise on request.
+  if (toggle('sun').checked) void traceSunHere(lngLat, abort.signal);
   let result;
   try {
     result = await getForecast(lngLat.lat, lngLat.lng, elevation, abort.signal);
@@ -555,7 +799,9 @@ async function showPoint(
     if (abort.signal.aborted) return;
     result = e instanceof Error ? e : new Error(String(e));
   }
-  if (!abort.signal.aborted) updatePanelBody(pointHtml(lngLat.lat, lngLat.lng, elevation, result, snowHtml, place?.elevationLabel));
+  if (!abort.signal.aborted) {
+    updatePanelBody(pointHtml(lngLat.lat, lngLat.lng, elevation, result, snowHtml + sunHereSection(), place?.elevationLabel));
+  }
 }
 
 // --- Map setup -------------------------------------------------------------
@@ -567,16 +813,37 @@ map.on('load', async () => {
     if (!toggle(key).checked) toggle(key).dispatchEvent(new Event('change'));
   }
 
+  // Darkens the map while the sun is below the horizon; roads go under it, labels stay readable.
+  const [[w, s], [e, n]] = MAX_BOUNDS;
+  map.addLayer(
+    {
+      id: NIGHT_LAYER,
+      type: 'fill',
+      source: {
+        type: 'geojson',
+        data: { type: 'Polygon', coordinates: [[[w, s], [e, s], [e, n], [w, n], [w, s]]] },
+      },
+      layout: { visibility: 'none' },
+      paint: { 'fill-color': NIGHT_COLOR, 'fill-opacity': 0 },
+    },
+    basemap.labels[0]?.id,
+  );
+  // Under the night overlay, over the snow cells and roads.
+  shadowLayer = new ShadowLayer(map, NIGHT_LAYER);
+  // For browser checks and debugging: how long the last shadow computation took.
+  shadowLayer.onDrawn = (ms) => (document.body.dataset.shadowMs = ms.toFixed(1));
+  lightReady = true;
+  applyLight();
+
   // The picture replaces the drawn land colours but keeps hillshade, roads and labels on top.
   const sat = await satellitePromise;
   const satToggle = toggle('satellite');
   if (sat && addSatelliteLayer(map, sat, 'hillshade', satToggle.checked)) {
     // The photo already has real light and shade, so the drawn hillshade is toned down over it.
-    const shade = (on: boolean) => map.setPaintProperty('hillshade', 'hillshade-exaggeration', on ? 0.12 : 0.3);
-    shade(satToggle.checked);
+    applyLight();
     bindToggle('toggle-satellite', (on) => {
       map.setLayoutProperty(SATELLITE_LAYER, 'visibility', on ? 'visible' : 'none');
-      shade(on);
+      applyLight();
     });
   } else {
     satToggle.checked = false;

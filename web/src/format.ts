@@ -1,4 +1,4 @@
-const TZ = 'Europe/Rome';
+export const TZ = 'Europe/Rome';
 
 export function formatTime(iso: string | null | undefined): string {
   if (!iso) return 'unknown';

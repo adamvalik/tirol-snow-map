@@ -38,6 +38,8 @@
           <label class="row"><span class="row-label">Estimated snow depth</span><input type="checkbox" class="switch" id="toggle-depth" /></label>
           <label class="row"><span class="row-label">Forecast new snow <span class="chip">3 days</span></span><input type="checkbox" class="switch" id="toggle-forecast" /></label>
           <label class="row"><span class="row-label">Satellite photo <span id="satellite-date" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-satellite" /></label>
+          <label class="row"><span class="row-label">Sun and shade <span class="chip">time of day</span></span><input type="checkbox" class="switch" id="toggle-sun" /></label>
+          <label class="row sub-row"><span class="row-label">Cast shadows <span class="hint-inline">250 m terrain</span></span><input type="checkbox" class="switch" id="toggle-shadows" checked /></label>
         </fieldset>
         <div class="legend" aria-label="Snow depth legend">
           <div class="legend-title">Snow depth, cm</div>
@@ -101,6 +103,23 @@
             <output id="forecast-label"></output>
           </div>
           <input type="range" id="forecast-frame" min="0" max="0" step="1" value="0" aria-label="Forecast time" />
+        </div>
+      </div>
+      <div id="sun-group" class="dock-row player" hidden>
+        <button id="sun-play" class="play-btn" aria-label="Play the day"></button>
+        <div class="player-main">
+          <div class="dock-head">
+            <span class="dock-title">Sun</span>
+            <output id="sun-label"></output>
+            <input type="date" id="sun-date" aria-label="Date for the sun light" />
+          </div>
+          <input type="range" id="sun-time" min="0" max="1440" step="5" value="720" aria-label="Time of day for the sun light" />
+          <div class="range-ends sun-ends">
+            <button id="sun-rise" class="link-btn" title="Jump to sunrise"></button>
+            <button id="sun-now" class="link-btn" title="Jump to the current time">Now</button>
+            <button id="sun-set" class="link-btn" title="Jump to sunset"></button>
+          </div>
+          <p id="sun-note">Shadows from a 250 m terrain grid, so small ridges are missed. Times here are for a flat horizon; tap a point for its own.</p>
         </div>
       </div>
       <footer id="footer">

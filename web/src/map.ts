@@ -2,6 +2,7 @@ import * as maplibregl from 'maplibre-gl';
 import type { StyleSpecification } from 'maplibre-gl';
 import { Protocol } from 'pmtiles';
 import { basemapLayers, basemapSources, glyphsUrl, spriteUrl } from './basemap.ts';
+import { DEFAULT_SKY, hillshadePaint } from './sun.ts';
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 locates its worker relative to its own module URL, which a bundler cannot follow;
 // let Vite bundle the worker and hand MapLibre the resulting URL.
@@ -18,6 +19,11 @@ const DEM_MAX_ZOOM = 15;
 export const DEFAULT_EXAGGERATION = 1.5;
 /** Opening view: Bolzano, tilted, looking north-north-east up the Eisack valley towards the Dolomites. */
 export const DEFAULT_VIEW = { center: [11.354, 46.47] as [number, number], zoom: 10.4, pitch: 60, bearing: 20 };
+/** South Tyrol with a margin; keeps tile requests to the region. */
+export const MAX_BOUNDS: [[number, number], [number, number]] = [
+  [9.4, 45.6],
+  [13.4, 47.75],
+];
 
 /** Phones and tablets: coarser terrain mesh and capped pixel ratio keep tilting smooth. */
 export const isLowPowerDevice = (): boolean =>
@@ -72,26 +78,15 @@ function createStyle(lowPower: boolean): StyleSpecification {
         id: 'hillshade',
         type: 'hillshade',
         source: 'dem',
-        paint: {
-          'hillshade-method': 'standard',
-          'hillshade-exaggeration': 0.3,
-          'hillshade-shadow-color': '#4f5058',
-          'hillshade-highlight-color': '#ffffff',
-        },
+        // The light is swapped for the sun's when the time-of-day light is on (sun.ts).
+        paint: hillshadePaint(null, false),
       },
       ...basemap.lines,
       basemap.buildings,
       ...basemap.labels,
     ],
     terrain: { source: 'terrain', exaggeration: DEFAULT_EXAGGERATION },
-    sky: {
-      'sky-color': '#9ec9f0',
-      'horizon-color': '#e8f1f8',
-      'fog-color': '#e8edf0',
-      'sky-horizon-blend': 0.6,
-      'horizon-fog-blend': 0.6,
-      'fog-ground-blend': 0.4,
-    },
+    sky: DEFAULT_SKY,
   };
 }
 
@@ -104,11 +99,7 @@ export function createMap(container: string, view = DEFAULT_VIEW): maplibregl.Ma
     maxPitch: 75,
     minZoom: 7.5,
     maxZoom: 16,
-    // South Tyrol with a margin; keeps tile requests to the region.
-    maxBounds: [
-      [9.4, 45.6],
-      [13.4, 47.75],
-    ],
+    maxBounds: MAX_BOUNDS,
     pixelRatio: Math.min(window.devicePixelRatio || 1, lowPower ? 1.5 : 2),
     attributionControl: false,
     maxTileCacheSize: lowPower ? 100 : null,
