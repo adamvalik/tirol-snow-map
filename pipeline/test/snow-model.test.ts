@@ -12,6 +12,7 @@ import {
   fitTrend,
   leaveOneOut,
   type ModelStation,
+  outdatedViews,
   predict,
   residualAt,
 } from '../src/snow/model.ts';
@@ -119,6 +120,30 @@ describe('estimateGrid', () => {
     const e = estimateGrid(grid, high, f, new Uint8Array(30).fill(80));
     expect([...e.confidence].every((c) => c === 0)).toBe(true);
     expect(cellCenter(grid, 0, 0).lat).toBeLessThan(46.8);
+  });
+});
+
+describe('outdatedViews', () => {
+  const grid: GridSpec = { west: 11.0, south: 46.3, east: 11.6, north: 46.8, width: 6, height: 5 };
+  // One station in the middle of each cell of the top row.
+  const atRow0 = (depths: number[]) => depths.map((d, col) => ({ ...cellCenter(grid, col, 0), id: `s${col}`, elevation: 1500, depthCm: d }));
+
+  it('flags a bare view once stations on its cells report snow', () => {
+    const cover = new Uint8Array(30).fill(5);
+    const age = new Uint8Array(30).fill(3);
+    expect(outdatedViews(grid, cover, age, atRow0([0, 0, 0, 0, 0, 0]))).toBeNull();
+    expect(outdatedViews(grid, cover, age, atRow0([12, 0, 0, 0, 0, 0]))).toBeNull(); // one odd station
+    expect(outdatedViews(grid, cover, age, atRow0([12, 20, 0, 0, 0, 0]))).toEqual({ age: 3, stations: 6, withSnow: 2 });
+  });
+
+  it('ignores cells seen snowy or under clouds, and returns the newest contradicted view', () => {
+    const age = Uint8Array.from({ length: 30 }, (_, i) => (i < 3 ? 1 : 4));
+    const cover = new Uint8Array(30).fill(5);
+    expect(outdatedViews(grid, cover, age, atRow0([10, 10, 10, 10, 10, 10]))).toEqual({ age: 1, stations: 3, withSnow: 3 });
+    cover.fill(COVER_CLOUD, 0, 3);
+    expect(outdatedViews(grid, cover, age, atRow0([10, 10, 10, 10, 10, 10]))).toEqual({ age: 4, stations: 3, withSnow: 3 });
+    cover.fill(80);
+    expect(outdatedViews(grid, cover, age, atRow0([10, 10, 10, 10, 10, 10]))).toBeNull();
   });
 });
 

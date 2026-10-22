@@ -16,7 +16,7 @@ import {
   type SceProduct,
   searchAllProducts,
 } from '../sources/snowCover.ts';
-import { COVER_NODATA, estimateGrid, fit, leaveOneOut } from './model.ts';
+import { COVER_NODATA, estimateGrid, fit, leaveOneOut, outdatedViews } from './model.ts';
 import { confidenceRgba, coverRgba, dataRgba, depthRgba, encodePng, snowLine } from './render.ts';
 import { aggregateToModel, compositeAsOf, loadS2Composite, type S2Composite, s2Stats, snowWhitePng } from './s2cover.ts';
 import { toModelStations } from './stations.ts';
@@ -71,6 +71,7 @@ interface Cover {
 type CoverResult = Cover | { reason: string };
 
 const daysBetween = (a: string, b: string) => Math.round((Date.parse(a) - Date.parse(b)) / 86_400_000);
+const dayBefore = (date: string, days: number) => new Date(Date.parse(date) - days * 86_400_000).toISOString().slice(0, 10);
 
 async function loadCover(opts: SnowStepOptions, previous: SnowFile | null): Promise<CoverResult> {
   if (opts.offline) return { reason: 'Offline run (fixtures): no satellite data' };
@@ -265,11 +266,26 @@ export async function runSnowStep(opts: SnowStepOptions): Promise<SnowStepResult
   }
   cover ??= { reason: 'unknown' };
   const coverOk = 'values' in cover ? cover : null;
-  // Older views still show on the cover layer but do not mask the depth estimate.
-  const masking = coverOk ? maskingCover(coverOk.values, coverOk.age, s2 ? S2_MASK_DAYS : 1) : null;
   if ('reason' in cover) opts.log(`snow cover: ${cover.reason}`);
 
   const stations = toModelStations(opts.stations);
+  // Older views still show on the cover layer but do not mask the depth estimate. Ages count from
+  // the newest view, so the days since it was taken are added; a view stations contradict (snow has
+  // fallen since) stops masking too, or a snowfall under clouds would read as bare ground for days.
+  let masking: Uint8Array | null = null;
+  if (coverOk) {
+    const sinceNewest = Math.max(0, Math.floor((Date.parse(opts.now) - Date.parse(coverOk.date)) / 86_400_000));
+    let maxAge = (s2 ? S2_MASK_DAYS : 1) - sinceNewest;
+    const outdated = outdatedViews(grid, coverOk.values, coverOk.age, stations);
+    if (outdated && outdated.age <= maxAge) {
+      maxAge = outdated.age - 1;
+      opts.log(
+        `snow cover: snow since the view of ${dayBefore(coverOk.date, outdated.age)} (${outdated.withSnow} of ${outdated.stations} ` +
+          `stations on cells it saw bare report snow); views from then on do not mask the depth estimate`,
+      );
+    }
+    masking = maskingCover(coverOk.values, coverOk.age, maxAge);
+  }
   const files: SnowFile['files'] = { white: null, cover: null, depth: null, confidence: null, data: null };
   const write = async (name: keyof SnowFile['files'], rgba: Uint8Array) => {
     const file = `snow-${name}.png`;
