@@ -16,14 +16,16 @@ export const NEAR_RADIUS = 5000;
 /** Decoded tiles kept in memory (1 MB each). */
 const MAX_TILES = 12;
 
-interface Grid {
+export interface Grid {
+  /** Metres on MODEL_GRID, row-major from the north-west corner. */
   values: Int16Array;
   zMax: number;
 }
 
 let gridPromise: Promise<Grid> | null = null;
 
-function loadGrid(): Promise<Grid> {
+/** The 250 m terrain grid, downloaded once. */
+export function loadGrid(): Promise<Grid> {
   gridPromise ??= (async () => {
     const res = await fetch(demUrl);
     if (!res.ok) throw new Error(`terrain grid: HTTP ${res.status}`);

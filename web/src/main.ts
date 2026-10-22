@@ -16,7 +16,8 @@ import { loadSnow, pointSnowHtml, SNOW_LAYERS, type SnowLayer, SnowLayers, snowI
 import { addStationLayer, loadStations, STATION_LAYER_ID } from './stations.ts';
 import { horizonProfile } from '../../shared/horizon.ts';
 import { type SunHere, sunHereFor, sunHereHtml } from './sunHere.ts';
-import { NEAR_RADIUS, pointTerrain } from './terrainSampler.ts';
+import { ShadowLayer } from './shadows.ts';
+import { type Grid, loadGrid, NEAR_RADIUS, pointTerrain } from './terrainSampler.ts';
 import {
   clockTime,
   DEFAULT_SKY,
@@ -524,6 +525,10 @@ const PLAY_MARGIN = 40 * MINUTE;
 let sunTime = initial.sun ? Date.parse(initial.sun) : Date.now();
 /** Set once the style has loaded and the light can be painted. */
 let lightReady = false;
+let shadowLayer: ShadowLayer | null = null;
+/** The 250 m terrain for cast shadows, loaded the first time they are shown. */
+let terrainGrid: Grid | null = null;
+let terrainGridLoading = false;
 let sunTimer: number | undefined;
 
 const sunGroup = $('sun-group');
@@ -559,9 +564,32 @@ function applyLight() {
   for (const k of Object.keys(paint) as (keyof HillshadePaint)[]) map.setPaintProperty('hillshade', k, paint[k]);
   map.setSky(sun ? skyFor(sun.altitude) : DEFAULT_SKY);
   map.setLayoutProperty(NIGHT_LAYER, 'visibility', sun ? 'visible' : 'none');
+  applyShadows(sun);
   if (sun) {
     map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
     $('sun-label').textContent = sunLabel(sunTime, sun);
+  }
+}
+
+function applyShadows(sun: ReturnType<typeof sunPosition> | null) {
+  if (!shadowLayer) return;
+  if (!sun || sun.altitude <= 0 || !toggle('shadows').checked) {
+    shadowLayer.hide();
+    return;
+  }
+  if (terrainGrid) shadowLayer.show(terrainGrid, sunTime, sun.azimuth);
+  else if (!terrainGridLoading) {
+    terrainGridLoading = true;
+    loadGrid().then(
+      (g) => {
+        terrainGrid = g;
+        applyLight();
+      },
+      (e: unknown) => {
+        terrainGridLoading = false;
+        toast(`Shadows unavailable: ${e instanceof Error ? e.message : String(e)}`);
+      },
+    );
   }
 }
 
@@ -660,6 +688,13 @@ function setupSun() {
     applyLight();
     if (on && openPoint && sunHere === 'off') void traceSunHere(openPoint.lngLat, openPoint.signal);
   });
+  bindToggle('toggle-shadows', (on) => {
+    // Shadows need the sun light; switching them on switches it on.
+    if (on && !toggle('sun').checked) {
+      toggle('sun').checked = true;
+      toggle('sun').dispatchEvent(new Event('change'));
+    } else applyLight();
+  });
   sunSlider.addEventListener('input', () => {
     pauseSun();
     setSunTime(localMidnight(localDate(sunTime)) + Number(sunSlider.value) * MINUTE);
@@ -756,6 +791,10 @@ map.on('load', async () => {
     },
     basemap.labels[0]?.id,
   );
+  // Under the night overlay, over the snow cells and roads.
+  shadowLayer = new ShadowLayer(map, NIGHT_LAYER);
+  // For browser checks and debugging: how long the last shadow computation took.
+  shadowLayer.onDrawn = (ms) => (document.body.dataset.shadowMs = ms.toFixed(1));
   lightReady = true;
   applyLight();
 

@@ -38,6 +38,7 @@
           <label class="row"><span class="row-label">Forecast new snow <span class="chip">3 days</span></span><input type="checkbox" class="switch" id="toggle-forecast" /></label>
           <label class="row"><span class="row-label">Satellite photo <span id="satellite-date" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-satellite" /></label>
           <label class="row"><span class="row-label">Sun and shade <span class="chip">time of day</span></span><input type="checkbox" class="switch" id="toggle-sun" /></label>
+          <label class="row sub-row"><span class="row-label">Cast shadows <span class="hint-inline">250 m terrain</span></span><input type="checkbox" class="switch" id="toggle-shadows" checked /></label>
         </fieldset>
         <div class="legend" aria-label="Snow depth legend">
           <div class="legend-title">Snow depth, cm</div>
@@ -111,7 +112,7 @@
             <button id="sun-now" class="link-btn" title="Jump to the current time">Now</button>
             <button id="sun-set" class="link-btn" title="Jump to sunset"></button>
           </div>
-          <p id="sun-note">Sunlit slopes only; ridges cast no shadows yet. Times here are for a flat horizon; tap a point for its own.</p>
+          <p id="sun-note">Shadows from a 250 m terrain grid, so small ridges are missed. Times here are for a flat horizon; tap a point for its own.</p>
         </div>
       </div>
       <footer id="footer">

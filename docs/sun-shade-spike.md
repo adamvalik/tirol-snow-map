@@ -2,7 +2,7 @@
 >
 > Tier 2, click a point, is built (`shared/horizon.ts`, `web/src/sunHere.ts`). Two changes from the plan below: it uses the existing 250 m grid in `pipeline/assets/dem-grid.bin` (Web Mercator cells, but rays are measured in true metres on the sphere, so no UTM reprojection is needed), and the first 5 km come from 26 m Mapterhorn tiles fetched on the click, which covers the close ridges the 250 m grid misses. Checks on the real grid: Bolzano gets its first sun on 21 December at about 11:00, behind the slope 1.7 km to the south; the Ortler summit sees the sun about 10–15 minutes before flat-horizon sunrise and after sunset.
 >
-> Tier 3, cast shadows on the map, is not built. `shared/horizon.ts` is written so the pipeline or a browser worker can reuse its ray marching for it. The prototype code (`shadow.mjs`, `horizon.mjs`) is not in the repository.
+> Tier 3, cast shadows on the map, is built in the browser rather than precomputed by the pipeline (`shared/shadow.ts`, run in a Web Worker), so it follows any date and time. Instead of the prototype's ray per cell it uses a single sweep from the sun's side of the grid, about 15–50 ms per sun position for the whole 250 m grid; it agrees with cell-by-cell horizon tracing on 99.6 % of sampled cells. The precomputed first-sun and last-sun maps of the plan below are not built. The prototype code (`shadow.mjs`, `horizon.mjs`) is not in the repository.
 
 # Spike: sun, shade and sunrise/sunset visibility
 

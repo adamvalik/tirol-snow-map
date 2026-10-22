@@ -61,3 +61,11 @@ export function sampleGrid(g: GridSpec, values: ArrayLike<number>, lon: number, 
   const bottom = values[y1 * g.width + x0] * (1 - fx) + values[y1 * g.width + x1] * fx;
   return top * (1 - fy) + bottom * fy;
 }
+
+/** Size of the (square) cells in each row in metres on a 6371 km sphere; Mercator rows shrink towards the north. */
+export function rowCellSizes(g: GridSpec): Float64Array {
+  const sizes = new Float64Array(g.height);
+  const width = (((g.east - g.west) / g.width) * Math.PI * 6_371_000) / 180;
+  for (let row = 0; row < g.height; row++) sizes[row] = width * Math.cos((cellCenter(g, 0, row).lat * Math.PI) / 180);
+  return sizes;
+}

@@ -46,11 +46,28 @@ const DEG = 180 / Math.PI;
 export const curvatureDrop = (d: number): number => (d * d * (1 - REFRACTION_K)) / (2 * EARTH_RADIUS);
 
 export function horizonProfile(lon: number, lat: number, ground: number, opts: HorizonOptions): Horizon {
-  const { bands, zMax, observerHeight = 2, stepDeg = 1, curvature = true } = opts;
-  const z0 = ground + observerHeight;
+  const stepDeg = opts.stepDeg ?? 1;
   const n = Math.round(360 / stepDeg);
   const angles = new Float32Array(n);
   const distances = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    const { angle, distance } = horizonAngle(lon, lat, ground, i * stepDeg, opts);
+    angles[i] = angle;
+    distances[i] = distance;
+  }
+  return { stepDeg, angles, distances };
+}
+
+/** Skyline angle towards one azimuth, and the distance to the terrain forming it (NaN below the flat horizon). */
+export function horizonAngle(
+  lon: number,
+  lat: number,
+  ground: number,
+  azimuth: number,
+  opts: HorizonOptions,
+): { angle: number; distance: number } {
+  const { bands, zMax, observerHeight = 2, curvature = true } = opts;
+  const z0 = ground + observerHeight;
   const lat0 = lat / DEG;
   const sample = (b: number, x: number, y: number): number | null => {
     for (let k = b; k < bands.length; k++) {
@@ -59,35 +76,31 @@ export function horizonProfile(lon: number, lat: number, ground: number, opts: H
     }
     return null;
   };
-  for (let i = 0; i < n; i++) {
-    const az = (i * stepDeg) / DEG;
-    const north = Math.cos(az);
-    const east = Math.sin(az);
-    let best = -90;
-    let bestD = NaN;
-    let d = 0;
-    ray: for (let b = 0; b < bands.length; b++) {
-      const { until, step } = bands[b];
-      for (d += step; d <= until; d += step) {
-        const drop = curvature ? curvatureDrop(d) : 0;
-        if (Math.atan2(zMax - drop - z0, d) * DEG < best) break ray;
-        // Local east/north offsets on a sphere; plenty for 100 km rays.
-        const latR = lat0 + (d * north) / EARTH_RADIUS;
-        const lonDeg = lon + ((d * east) / (EARTH_RADIUS * Math.cos((lat0 + latR) / 2))) * DEG;
-        const z = sample(b, lonDeg, latR * DEG);
-        if (z === null) break ray;
-        const angle = Math.atan2(z - drop - z0, d) * DEG;
-        if (angle > best) {
-          best = angle;
-          bestD = d;
-        }
+  const az = azimuth / DEG;
+  const north = Math.cos(az);
+  const east = Math.sin(az);
+  let best = -90;
+  let bestD = NaN;
+  let d = 0;
+  ray: for (let b = 0; b < bands.length; b++) {
+    const { until, step } = bands[b];
+    for (d += step; d <= until; d += step) {
+      const drop = curvature ? curvatureDrop(d) : 0;
+      if (Math.atan2(zMax - drop - z0, d) * DEG < best) break ray;
+      // Local east/north offsets on a sphere; plenty for 100 km rays.
+      const latR = lat0 + (d * north) / EARTH_RADIUS;
+      const lonDeg = lon + ((d * east) / (EARTH_RADIUS * Math.cos((lat0 + latR) / 2))) * DEG;
+      const z = sample(b, lonDeg, latR * DEG);
+      if (z === null) break ray;
+      const angle = Math.atan2(z - drop - z0, d) * DEG;
+      if (angle > best) {
+        best = angle;
+        bestD = d;
       }
-      d -= step;
     }
-    angles[i] = best;
-    distances[i] = best > 0 ? bestD : NaN;
+    d -= step;
   }
-  return { stepDeg, angles, distances };
+  return { angle: best, distance: best > 0 ? bestD : NaN };
 }
 
 /** Skyline angle towards an azimuth, interpolated between the profile's steps. */
