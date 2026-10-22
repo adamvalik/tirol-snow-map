@@ -50,14 +50,14 @@ import {
 import { LAYER_KEYS, type LayerKey, parseHash, toHash, type ViewState } from './viewState.ts';
 
 /**
- * Station data older than this gets a visible warning. The pipeline runs twice a day, up to about
- * 16 hours apart, and GitHub may start a run late.
+ * Station data older than this gets a visible warning. The pipeline runs three times a day, up to
+ * 10 hours apart, and GitHub may start a run late.
  */
-const STALE_AFTER_HOURS = 20;
+const STALE_AFTER_HOURS = 14;
 /** The snow layers are rebuilt on every run as well. */
-const SNOW_STALE_AFTER_HOURS = 20;
+const SNOW_STALE_AFTER_HOURS = 14;
 /** The forecast grid is fetched on every run (at most every 6 hours). */
-const FORECAST_STALE_AFTER_HOURS = 20;
+const FORECAST_STALE_AFTER_HOURS = 14;
 const DATA = `${import.meta.env.BASE_URL}data/`;
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -262,7 +262,7 @@ function renderSources() {
     Trentino LiDAR (Autonomous Province of Trento, CC BY 2.5), Austria DGM (BEV, CC BY 4.0), Copernicus GLO-30. Static dataset.</p>
     <h3>Weather stations</h3>
     ${stationPart}
-    <p class="muted">Stations reported by more than one source are merged. The pipeline refreshes this data twice a day, early in the morning and after lunch;
+    <p class="muted">Stations reported by more than one source are merged. The pipeline refreshes this data three times a day: early in the morning, after lunch and in the evening;
     the file you are viewing was generated ${stationsFile ? `${formatTime(stationsFile.generatedAt)} (${formatAge(stationsFile.generatedAt)})` : '–'}.</p>
     <h3>Snow cover and estimated snow depth</h3>
     ${snowFile ? snowInfoHtml(snowFile) : '<p class="muted">Not loaded.</p>'}

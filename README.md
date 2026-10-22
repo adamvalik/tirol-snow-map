@@ -97,9 +97,9 @@ The address bar always holds the current view, for example `#map=10.40/46.4700/1
 
 ## Deployment
 
-`.github/workflows/deploy.yml` runs twice a day, early in the morning and after lunch (03:47 and 11:47 UTC, so 04:47 and 12:47 in South Tyrol in winter, an hour later in summer), on every push to `main` and by hand. It restores the previous run's data from an Actions cache, runs the pipeline, saves the data again, builds the app with the data inside and publishes it to GitHub Pages. The basemap is rebuilt once a month and cached. Only the three newest data caches are kept.
+`.github/workflows/deploy.yml` runs three times a day, early in the morning, after lunch and in the evening (03:47, 11:47 and 17:47 UTC, so 04:47, 12:47 and 18:47 in South Tyrol in winter, an hour later in summer; the evening run usually has the same day's Sentinel-2 pass), on every push to `main` and by hand. It restores the previous run's data from an Actions cache, runs the pipeline, saves the data again, builds the app with the data inside and publishes it to GitHub Pages. The basemap is rebuilt once a month and cached. Only the three newest data caches are kept.
 
-A failed upstream never stops a deploy: the files keep the last good data, the app shows a warning, and `scripts/monitor.mjs` opens an issue labelled `data-pipeline` when a step has failed two runs in a row (about a day) or the pipeline crashed. The issue is updated while it keeps failing and closed automatically when everything works again, so watching the repository is the alert.
+A failed upstream never stops a deploy: the files keep the last good data, the app shows a warning, and `scripts/monitor.mjs` opens an issue labelled `data-pipeline` when a step has failed three runs in a row (about a day) or the pipeline crashed. The issue is updated while it keeps failing and closed automatically when everything works again, so watching the repository is the alert.
 
 One-time setup:
 
