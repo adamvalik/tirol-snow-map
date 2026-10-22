@@ -9,7 +9,7 @@
 // 3. Evaluate on the elevation grid, mask with satellite snow cover, attach a confidence class.
 // Leave-one-out validation compares trend-only against trend + residuals; the better one is used.
 
-import { cellCenter, type GridSpec } from '../../../shared/grid.ts';
+import { cellAt, cellCenter, type GridSpec } from '../../../shared/grid.ts';
 
 export interface ModelStation {
   id: string;
@@ -228,4 +228,39 @@ export function estimateGrid(
     }
   }
   return { depthCm, confidence, stats };
+}
+
+/** A station reading at least this much snow contradicts a view that saw its cell bare. */
+export const FRESH_SNOW_CM = 5;
+
+export interface OutdatedViews {
+  /** Views this many days older than the newest one, and older, no longer hold. */
+  age: number;
+  /** Stations on cells that view saw bare, and how many of them now report snow. */
+  stations: number;
+  withSnow: number;
+}
+
+/**
+ * Finds satellite views that snow has fallen on since: at least 3 stations stand on cells a view
+ * saw bare, and at least a fifth of them now report snow. A point reading on a patchy 250 m cell
+ * can disagree now and then; a snowfall makes many disagree at once. Returns the newest such view,
+ * since everything older was taken before the same snowfall, or null when the views still hold.
+ */
+export function outdatedViews(grid: GridSpec, cover: Uint8Array, age: Uint8Array, stations: ModelStation[]): OutdatedViews | null {
+  const byAge = new Map<number, { stations: number; withSnow: number }>();
+  for (const s of stations) {
+    const cell = cellAt(grid, s.lon, s.lat);
+    if (!cell) continue;
+    const i = cell.row * grid.width + cell.col;
+    if (cover[i] > 100 || cover[i] >= SNOW_FREE_BELOW_PCT) continue;
+    const t = byAge.get(age[i]) ?? { stations: 0, withSnow: 0 };
+    t.stations++;
+    if (s.depthCm >= FRESH_SNOW_CM) t.withSnow++;
+    byAge.set(age[i], t);
+  }
+  const hit = [...byAge.entries()]
+    .filter(([, t]) => t.stations >= 3 && t.withSnow >= 0.2 * t.stations)
+    .sort((a, b) => a[0] - b[0])[0];
+  return hit ? { age: hit[0], ...hit[1] } : null;
 }

@@ -49,12 +49,15 @@ import {
 } from './sun.ts';
 import { LAYER_KEYS, type LayerKey, parseHash, toHash, type ViewState } from './viewState.ts';
 
-/** Station data older than this gets a visible warning (the pipeline runs every 30 minutes). */
-const STALE_AFTER_HOURS = 3;
+/**
+ * Station data older than this gets a visible warning. The pipeline runs twice a day, up to about
+ * 16 hours apart, and GitHub may start a run late.
+ */
+const STALE_AFTER_HOURS = 20;
 /** The snow layers are rebuilt on every run as well. */
-const SNOW_STALE_AFTER_HOURS = 6;
-/** The forecast grid is fetched every 6 hours. */
-const FORECAST_STALE_AFTER_HOURS = 12;
+const SNOW_STALE_AFTER_HOURS = 20;
+/** The forecast grid is fetched on every run (at most every 6 hours). */
+const FORECAST_STALE_AFTER_HOURS = 20;
 const DATA = `${import.meta.env.BASE_URL}data/`;
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -259,7 +262,7 @@ function renderSources() {
     Trentino LiDAR (Autonomous Province of Trento, CC BY 2.5), Austria DGM (BEV, CC BY 4.0), Copernicus GLO-30. Static dataset.</p>
     <h3>Weather stations</h3>
     ${stationPart}
-    <p class="muted">Stations reported by more than one source are merged. The pipeline refreshes this data every 30 minutes;
+    <p class="muted">Stations reported by more than one source are merged. The pipeline refreshes this data twice a day, early in the morning and after lunch;
     the file you are viewing was generated ${stationsFile ? `${formatTime(stationsFile.generatedAt)} (${formatAge(stationsFile.generatedAt)})` : '–'}.</p>
     <h3>Snow cover and estimated snow depth</h3>
     ${snowFile ? snowInfoHtml(snowFile) : '<p class="muted">Not loaded.</p>'}
@@ -427,6 +430,15 @@ async function showSnow(file: SnowFile | null) {
     input.parentElement!.title = input.disabled ? (selectedDay ? 'Not available for this day' : 'Not available in the current data') : '';
   }
   $('snow-date').textContent = file?.cover.available ? shortDate(file.cover.date) : '';
+  const fresh = file?.cover.available ? file.cover.newSnow : undefined;
+  setWarning(
+    'new-snow',
+    fresh
+      ? `New snow since the last clear satellite view (${shortDate(fresh.viewDate)}): ${fresh.withSnow} of ${fresh.stations} stations ` +
+          `on ground it saw bare now report snow, so the satellite layers show less snow than there is. ` +
+          `Turn on Estimated snow depth for the picture from the stations.`
+      : null,
+  );
   if (file) snowValues = await SnowValues.load(file).catch(() => null);
 }
 
