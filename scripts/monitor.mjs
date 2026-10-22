@@ -9,8 +9,8 @@
 import { execFileSync } from 'node:child_process';
 import { appendFileSync, readFileSync } from 'node:fs';
 
-/** 2 runs at two a day: a failing upstream for about a day, not a single blip. */
-const FAIL_RUNS = 2;
+/** 3 runs at three a day: a failing upstream for about a day, not a single blip. */
+const FAIL_RUNS = 3;
 const LABEL = 'data-pipeline';
 
 const exit = process.env.PIPELINE_EXIT ?? '';
