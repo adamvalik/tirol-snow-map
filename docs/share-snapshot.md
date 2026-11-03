@@ -21,7 +21,7 @@ One tap turns the current view into a picture that looks good as a Strava activi
 │                              │
 ├──────────────────────────────┤
 │ Sella Group      3 Nov 2026  │  ← place name, date of the data shown
-│ Snow line 2,150 m · New 18 cm│  ← 1–2 key numbers, depends on layers
+│ Depth 85 cm · New 18 cm      │  ← 1–2 key numbers, depends on layers
 │ ▁▂▃▅▇ depth cm   [QR]        │  ← compact legend of active layers, QR
 │ snowmap.example  · © OSM …   │  ← address and required attribution
 └──────────────────────────────┘
@@ -30,7 +30,7 @@ One tap turns the current view into a picture that looks good as a Strava activi
 - **Map**: rendered at the export size, not a crop of the screen, so a phone in portrait and a desktop in landscape give equally sharp results. Panels, dock, toasts and controls are not in it.
 - **Place name**: the nearest summit or place label to the map centre (from `summits.json` and basemap labels), editable before export.
 - **Date**: the date of the data shown (slider day or forecast time), not the export time. A forecast frame says "Forecast for Thu 5 Nov, 15:00".
-- **Key numbers**, chosen by what is on: snow line from snow cover; depth or new snow at the selected point; for a GPX track its distance, climb and share on snow.
+- **Key numbers**, chosen by what is on: depth or new snow at the selected point or nearest station; for a GPX track its distance, climb and share on snow.
 - **Legend**: only for active layers, at most two, in the frame's compact style.
 - **QR code** encoding the full view link (the same hash `viewState.ts` writes) plus `ref=snap`. Optional, on by default.
 - **Address** in plain text, as short as possible. This is why the custom-domain decision matters.
@@ -88,6 +88,6 @@ The share link is a hash, which servers never see, so every link previews the sa
 
 ## Open questions
 
-- Custom domain, so the printed address is short.
+- The printed address is `adamvalik.github.io/tirol-snow-map` for now; a shorter one only if the name changes (see roadmap, section 5).
 - Minimal or Poster frame, after seeing mock-ups.
 - Keep `ref=snap` in the link if no visit counter is added? It costs nothing and lets a counter be added later.
