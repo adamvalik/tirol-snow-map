@@ -15,6 +15,8 @@ The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to
 - [x] **No slope angle layer.** Too close to avalanche assessment.
 - [x] **Lazy loading of layers: later** (see 3).
 - [ ] **Name.** Open. See 5.
+- [ ] **Island or faded surroundings.** Open. See 4.1.
+- [ ] **New app icon.** Later. See 7.
 - [ ] **Frame style for the share picture** (minimal or poster). Open until mock-ups exist.
 - [ ] **Visit counting.** Open.
 
@@ -85,6 +87,18 @@ The map is cut to the snow grid (10.2–12.7° E, 46.1–47.25° N) in `web/src/
 
 Follow-ups if wanted: a small spike of terrain mesh at some corners at low zoom; and whether to tighten how far the camera can pan away from the island.
 
+**Open: island or faded surroundings?** Both were rendered on Nov 3 from the same views.
+
+| | Island (on the branch) | Faded surroundings (prototype) |
+| --- | --- | --- |
+| Look | A cut block on a plain floor; very clear where data ends; striking as a picture | Real terrain continues outside under a pale veil; the data area glows |
+| Context | None: Innsbruck, Trento, the Ortler's far side are gone | Neighbouring ranges and lakes stay visible, so the Alps read as one chain |
+| Download | Less: tiles outside are never fetched | More: terrain outside is fetched (the basemap outside is coarse only) |
+| Grows with the area | Island just gets bigger | Veil shrinks; ends up as the natural look of a wide Alpine map |
+| Code | Elevation tiles cut in the browser | Simpler: only the veil and the label filter; no tile cutting |
+
+Leaning: **faded surroundings in the app** (context, fits the Alpine direction and summer use), and keep the **island as a look for share pictures**, where a self-contained block on a plain background reads like a poster. Both share the label and data filtering already built.
+
 ### 4.2 Extend later
 
 Growing the island means enlarging one box (`MODEL_GRID`) that the pipeline and the app share, plus the basemap extract. Two sizes:
@@ -102,7 +116,9 @@ The repository is *tirol-snow-map*, the app is *South Tyrol Snow Map*. No change
 - Euregio: **Tirol Snow Map** covers it and matches the repository.
 - The Alps: a region-free name (for example *Alpine Snow Map*, or a short brand word) and a new repository name or a GitHub redirect; GitHub keeps redirects after a rename, but the Pages address changes, so old share links would break unless a small redirect page stays at the old address.
 
-Decide when the area decision is made, not before. For share pictures the printed address matters more than the name: `adamvalik.github.io/tirol-snow-map` is long but works, and the QR code carries the exact view.
+Decide when the area decision is made, not before.
+
+**Region or snow in the name?** The app is used for 3D terrain in summer too, and may grow beyond South Tyrol, so a name tied to *both* a region and snow ages twice. A pattern that survives both: a short name tied to neither, plus a descriptive line that can change, for example "*<Name>* · 3D snow and terrain map of South Tyrol". The line carries the region and the snow focus today and is cheap to change later. Candidates to try out loud (availability of domain and trademark unchecked): *Firn*, *Kamm*, *Gipfel*, *Firnline*, *Relief*. The name feeds the share picture, link previews and the icon, so settle it before those. For share pictures the printed address matters more than the name: `adamvalik.github.io/tirol-snow-map` is long but works, and the QR code carries the exact view.
 
 ## 6. Share pictures
 
@@ -116,6 +132,7 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 | New snow 24/48/72 h at stations | The change in snow depth, not only the total, in the station panel | S |
 | Offline repeat visits | Service worker for the app, latest data and recent terrain tiles | M |
 | Orbit video | 10-second turn around a peak for stories | M, after share pictures |
+| New app icon | A clearer home-screen and favicon mark; do it together with the name | S |
 | Accessibility pass | Keyboard reach, contrast, labels on dock outputs | S |
 
 ## 8. Order
@@ -125,4 +142,4 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 3. **UI round** (2.1–2.4): quieter dock, shorter layer card, calmer stations, data-age line.
 4. **Share picture v1** (6): camera button, formats, frame, share sheet.
 5. **Avalanche bulletin link** and **new snow at stations**.
-6. **Later:** GPX on the snow, link previews, lazy-loaded layers, one timeline, wider area.
+6. **Later:** name and icon (before share pictures and link previews go public), GPX on the snow, link previews, lazy-loaded layers, one timeline, wider area.
