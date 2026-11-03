@@ -19,6 +19,7 @@
     "ferratas": "tsx pipeline/src/ferratas-run.ts"
   },
   "dependencies": {
+    "@maplibre/maplibre-gl-style-spec": "26.4.4",
     "@protomaps/basemaps": "5.7.2",
     "maplibre-gl": "6.12.0",
     "pmtiles": "4.5.0",

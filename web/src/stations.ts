@@ -4,6 +4,7 @@ import type { FeatureCollection, Point } from 'geojson';
 import { SCHEMA_VERSION, type Station, type StationsFile } from '../../shared/types.ts';
 import { snowColorExpression } from './colors.ts';
 import { escapeHtml, fmt, formatAge } from './format.ts';
+import { inArea } from './island.ts';
 
 export const STATIONS_URL = `${import.meta.env.BASE_URL}data/stations.json`;
 const LAYER = 'stations';
@@ -20,12 +21,19 @@ export async function loadStations(url = STATIONS_URL): Promise<StationsFile> {
 function toGeoJson(stations: Station[]): FeatureCollection<Point> {
   return {
     type: 'FeatureCollection',
-    features: stations.map((s, i) => ({
-      type: 'Feature',
-      id: i,
-      geometry: { type: 'Point', coordinates: [s.lon, s.lat] },
-      properties: { index: i, snowDepthCm: s.snowDepthCm, hasSnow: s.snowDepthCm !== null ? 1 : 0 },
-    })),
+    // Stations outside the covered area still feed the snow model, but are not drawn (island.ts).
+    features: stations.flatMap((s, i) =>
+      inArea(s.lon, s.lat)
+        ? [
+            {
+              type: 'Feature' as const,
+              id: i,
+              geometry: { type: 'Point' as const, coordinates: [s.lon, s.lat] },
+              properties: { index: i, snowDepthCm: s.snowDepthCm, hasSnow: s.snowDepthCm !== null ? 1 : 0 },
+            },
+          ]
+        : [],
+    ),
   };
 }
 

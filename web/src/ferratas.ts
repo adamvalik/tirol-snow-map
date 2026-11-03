@@ -8,6 +8,7 @@ import type { ExpressionSpecification, MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, LineString, MultiLineString } from 'geojson';
 import ferratasUrl from './data/ferratas.json?url';
 import { escapeHtml } from './format.ts';
+import { inArea } from './island.ts';
 
 export interface FerrataProps {
   id: string;
@@ -250,6 +251,11 @@ export function addFerrataLayer(
       })
       .then((fc) => {
         // The map label reads the letter grade from the feature.
+        // Only routes that start inside the covered area (island.ts).
+        fc.features = fc.features.filter((f) => {
+          const first = f.geometry.type === 'LineString' ? f.geometry.coordinates[0] : f.geometry.coordinates[0]?.[0];
+          return !!first && inArea(first[0], first[1]);
+        });
         for (const f of fc.features) (f.properties as FerrataProps & { letter: string }).letter = gradeLabel(f.properties);
         routes = new Map(fc.features.map((f) => [f.properties.id, f as Ferrata]));
         (map.getSource(SOURCE) as maplibregl.GeoJSONSource).setData(fc);

@@ -11,6 +11,7 @@ import { cabinGeoJson } from './cabins.ts';
 import bivouacsData from './data/bivouacs.json';
 import type { Favourites } from './favourites.ts';
 import { escapeHtml } from './format.ts';
+import { inArea } from './island.ts';
 
 export interface Bivouac {
   name: string;
@@ -22,7 +23,8 @@ export interface Bivouac {
   osm: string;
 }
 
-export const BIVOUACS = bivouacsData.bivouacs as Bivouac[];
+/** The bivouacs inside the covered area (island.ts). */
+export const BIVOUACS = (bivouacsData.bivouacs as Bivouac[]).filter((b) => inArea(b.lon, b.lat));
 const LAYER = 'bivouacs';
 const CABINS = 'bivouac-cabins';
 /** Both layers answer hover and click. */

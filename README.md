@@ -1,10 +1,12 @@
 # South Tyrol Snow Map
 
-A read-only 3D miniature of South Tyrol, centred on Bolzano: terrain with OpenStreetMap towns, roads, rivers and 3D buildings, live weather station readings (snow depth, temperature, wind), snow seen by Sentinel-2, an estimated snow depth layer, a day slider over the last 14 days, an animated 3-day snowfall forecast, a 7-day point forecast, the bivouacs (bivacchi, Biwaks) and the via ferratas (Klettersteige) of the region. Every view can be shared as a link (see [`plan.md`](plan.md)).
+A read-only 3D miniature of South Tyrol, centred on Bolzano: terrain with OpenStreetMap towns, roads, rivers and 3D buildings, live weather station readings (snow depth, temperature, wind), snow seen by Sentinel-2, an estimated snow depth layer, a day slider over the last 14 days, an animated 3-day snowfall forecast, a 7-day point forecast, the bivouacs (bivacchi, Biwaks) and the via ferratas (Klettersteige) of the region. The map is cut to the area the snow data covers, so it stands as an island. Every view can be shared as a link.
+
+Live at **<https://adamvalik.github.io/tirol-snow-map/>**, updated three times a day.
 
 > **Not for avalanche decisions.** This is a visualisation for orientation only. Always check the official bulletin at [avalanche.report](https://avalanche.report).
 
-Status: **V3 built, awaiting review and first deploy**: day slider over the last 14 days, forecast snowfall animation, shareable view links, the scheduled GitHub Pages workflow with failure monitoring. See [Deployment](#deployment) for the one-time setup. The spike findings are in [`docs/spike-report.md`](docs/spike-report.md).
+Status: **V3 deployed** and extended with bivouacs, via ferratas and sun and shade. What comes next is in [`docs/roadmap.md`](docs/roadmap.md); the original build plan is [`plan.md`](plan.md) and the spike findings are in [`docs/spike-report.md`](docs/spike-report.md).
 
 ## Run it locally
 
@@ -89,7 +91,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 | `fixtures/` | Real API responses from 2026-10-20 used by the tests (see `fixtures/README.md`) |
 | `scripts/smoke.mjs` | Browser smoke test |
 | `scripts/monitor.mjs` | Opens and closes the `data-pipeline` issue from `status.json` (run by the deploy workflow) |
-| `docs/` | Spike reports |
+| `docs/` | Roadmap, design notes (share snapshot) and spike reports |
 
 ## Shareable view
 
@@ -112,6 +114,7 @@ GitHub disables scheduled workflows in a public repository after 60 days without
 
 ## Known limits
 
+- **The map ends at the data.** Everything is cut to the 250 m snow grid (10.2–12.7° E, 46.1–47.25° N, `web/src/island.ts`): the elevation tiles are cut in the browser so the terrain stops in a cliff, a mask covers the basemap beyond it, and labels, stations, bivouacs and via ferratas outside are hidden (a via ferrata counts as inside when it starts inside). Innsbruck and Trento lie just outside. Stations outside still feed the snow depth model.
 - **No snow-depth sensors in the valleys.** Inside South Tyrol, snow depth is measured only at about 1700–3000 m; the lowest station in the surrounding region is at about 530 m. A missing marker does not mean there is no snow.
 - **The snow depth map is an estimate, not a measurement.** It is a smooth trend with local corrections; real depth varies far more (wind drift, sun-exposed slopes, gullies). The leave-one-out error in the app tells you how far off a station-like spot typically is. Above about 3000 m, and in valleys below the lowest station, it extrapolates.
 - **The satellite picture is a few days old at best** (Sentinel-2 passes every 2–5 days, clouds permitting) and 25 m per pixel; it is not a live webcam. Where both days were cloudy the map shows through.

@@ -11,7 +11,9 @@ The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to
 - [x] **Keep the UI simple.** Improvements remove and group rather than add.
 - [x] **GPX upload: yes, later.**
 - [x] **Link previews: yes, later.**
-- [x] **Wider area one day; until then, show the edge clearly** (see 4.1).
+- [x] **Wider area one day; until then, cut the map at the data edge** so it stands as an island (done, see 4.1).
+- [x] **No slope angle layer.** Too close to avalanche assessment.
+- [x] **Lazy loading of layers: later** (see 3).
 - [ ] **Name.** Open. See 5.
 - [ ] **Frame style for the share picture** (minimal or poster). Open until mock-ups exist.
 - [ ] **Visit counting.** Open.
@@ -35,8 +37,7 @@ The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to
 
 ### Loose ends
 
-- The README status line still says "awaiting review and first deploy", and should give the live address.
-- `plan.md` still reads as the current plan. Keep it as history, link this roadmap from the README.
+- [x] README status line and live address updated, this roadmap linked (Nov 3).
 
 ## 2. Better UI, kept simple
 
@@ -72,27 +73,36 @@ Offline search over peaks, bivouacs and ferratas; a "Where am I" button. Both ar
 
 **Why do it anyway:** `main.ts` (~990 lines) wires up every layer, the URL state, the legends and the dock. Each UI change in section 2 touches it in several places, and that is where bugs creep in. A layer registry (one file per layer with `init`, `setVisible`, `legend`, `onClick`, and one list that drives the switches, the URL and the legends) makes section 2 and the GPX layer much easier.
 
-**Where real speed can come from, if wanted:** load the code for via ferratas, sun and shade, and the forecast only when those layers are first switched on (ferratas already load their data that way); keep the terrain tile cache warm with a service worker for repeat visits.
+**Later: lazy-load the layers you use less.** Load the code (and data) for via ferratas, sun and shade with cast shadows, and the forecast animation only when the layer is first switched on, as ferratas already do with their data. The layers on by default (snow from space, stations, bivouacs) then load first and faster. Fits naturally after the registry, since each layer is already its own module. A service worker that keeps terrain tiles for repeat visits is the other half.
 
 Do the refactor right before the UI round, with no visible change, tests green.
 
 ## 4. Area
 
-### 4.1 Show the edge now
+### 4.1 The island (done, Nov 3)
 
-The data layers stop at different boxes: snow and satellite at 10.2–12.7° E, 46.1–47.25° N; stations a little wider; the camera can pan further (9.4–13.4° E). At the edge the snow layers end in a straight cut, which looks like a bug. Proposal:
+The map is cut to the snow grid (10.2–12.7° E, 46.1–47.25° N) in `web/src/island.ts`: elevation tiles are cut in the browser so the terrain ends in a cliff over a plain floor, a mask hides the basemap outside, and labels, stations, bivouacs and via ferratas outside are not drawn. Tiles fully outside are no longer downloaded. "About the data" names the area. No pipeline change.
 
-- Draw the South Tyrol border as a thin line.
-- Fade the map slightly outside the area the snow layers cover, so it is clear where data ends.
-- One sentence in "About the data" naming the covered area.
+Follow-ups if wanted: a small spike of terrain mesh at some corners at low zoom; and whether to tighten how far the camera can pan away from the island.
 
 ### 4.2 Extend later
 
-North Tyrol (and perhaps Trentino) is the natural next area: Euregio stations already cover it. It needs a larger elevation grid, a bigger basemap extract (watch the 100 MB file limit on GitHub), a larger Sentinel-2 box (more processing units per day) and a longer Open-Meteo grid. Size it as its own plan when the time comes.
+Growing the island means enlarging one box (`MODEL_GRID`) that the pipeline and the app share, plus the basemap extract. Two sizes:
+
+- **Euregio** (North, East and South Tyrol, Trentino): about 2–3 times today's area. Stations are already in the Euregio feed. Fits the current setup with care: basemap near GitHub's 100 MB file limit (split by zoom or host it elsewhere), more Sentinel Hub processing units per day, a longer Open-Meteo grid (watch the free limit).
+- **The Alps**: roughly 10–20 times today's area. Each country has its own station network and format (GeoSphere Austria, MeteoSwiss/SLF, ARPA regions, Météo-France, ARSO), the basemap is several GB and needs real tile hosting, the 250 m snow grid and Sentinel-2 processing no longer fit in a GitHub Actions run, and the Open-Meteo grid exceeds the free tier. It is a different project in size: tiling the pipeline by region, and likely a paid host or two.
+
+A sensible path: Euregio first, built so that a region is a configuration entry (box, station sources, basemap file), then add Alpine regions one at a time if it is worth it.
 
 ## 5. Name
 
-The repository is *tirol-snow-map*, the app is *South Tyrol Snow Map*. No change needed now. One thought for later: if the area grows to North Tyrol and Trentino, **"Tirol Snow Map"** covers the whole Euregio and already matches the repository, so a rename then costs nothing. Until then the current name is accurate. For share pictures the printed address matters more than the name: `adamvalik.github.io/tirol-snow-map` is long but works, and the QR code carries the exact view.
+The repository is *tirol-snow-map*, the app is *South Tyrol Snow Map*. No change needed now; the name follows the area:
+
+- South Tyrol only: keep **South Tyrol Snow Map**.
+- Euregio: **Tirol Snow Map** covers it and matches the repository.
+- The Alps: a region-free name (for example *Alpine Snow Map*, or a short brand word) and a new repository name or a GitHub redirect; GitHub keeps redirects after a rename, but the Pages address changes, so old share links would break unless a small redirect page stays at the old address.
+
+Decide when the area decision is made, not before. For share pictures the printed address matters more than the name: `adamvalik.github.io/tirol-snow-map` is long but works, and the QR code carries the exact view.
 
 ## 6. Share pictures
 
@@ -104,17 +114,15 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 | --- | --- | --- |
 | Avalanche bulletin link per region | Point panel shows the region name and links to that region on avalanche.report | S |
 | New snow 24/48/72 h at stations | The change in snow depth, not only the total, in the station panel | S |
-| Slope angle layer | Slopes over 30°, 35°, 40°, computed in the browser | S, but it is avalanche-adjacent: decide whether it fits the "not for avalanche decisions" line before building |
 | Offline repeat visits | Service worker for the app, latest data and recent terrain tiles | M |
 | Orbit video | 10-second turn around a peak for stories | M, after share pictures |
 | Accessibility pass | Keyboard reach, contrast, labels on dock outputs | S |
 
 ## 8. Order
 
-1. **Housekeeping** (small): README status and live link, link this roadmap.
-2. **Area edge** (4.1, small): border line, fade outside data, one sentence in About.
-3. **Refactor** (3): layer registry, no visible change.
-4. **UI round** (2.1–2.4): quieter dock, shorter layer card, calmer stations, data-age line.
-5. **Share picture v1** (6): camera button, formats, frame, share sheet.
-6. **Avalanche bulletin link** and **new snow at stations**.
-7. **Later:** GPX on the snow, link previews, one timeline, wider area.
+1. ~~Housekeeping~~ and ~~the island~~ (done Nov 3).
+2. **Refactor** (3): layer registry, no visible change.
+3. **UI round** (2.1–2.4): quieter dock, shorter layer card, calmer stations, data-age line.
+4. **Share picture v1** (6): camera button, formats, frame, share sheet.
+5. **Avalanche bulletin link** and **new snow at stations**.
+6. **Later:** GPX on the snow, link previews, lazy-loaded layers, one timeline, wider area.
