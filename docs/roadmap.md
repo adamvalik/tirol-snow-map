@@ -1,6 +1,6 @@
 # Roadmap – what is done, what comes next
 
-Nov 3, 2026 · live at <https://adamvalik.github.io/tirol-snow-map/>
+Nov 4, 2026 · live at <https://adamvalik.github.io/tirol-snow-map/>
 
 The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to V3 shipped, plus several layers that were never in it. This document takes stock and sets out the next round. The share picture has its own design in [`share-snapshot.md`](share-snapshot.md).
 
@@ -71,13 +71,27 @@ Offline search over peaks, bivouacs and ferratas; a "Where am I" button. Both ar
 
 ## 3. `main.ts` refactor
 
+### Done (Nov 4)
+
+`main.ts` is down from about 1000 lines to about 75 that only start things. The rest:
+
+- **`web/src/layers/`**: one module per layer: `terrain` (hillshade, elevation tint, the island cut, terrain height), `osm` (roads and labels), `sun` (light, night, cast shadows, the sun player and "Sun here"), `satellite`, `snow` (the four snow pictures), `forecast`, `ferratas`, `bivouacs` (with the favourites filter) and `stations`. Each one has `setup` (before the map loads: data requests, legend keys, its own controls), `init` (adds its map layers once the style has loaded), `setVisible` (its switches), and optionally `legends`, `clickLayers` (features that open their own panel) and `view` (what it keeps in a link besides its switches). The interface is in `layers/types.ts`.
+- **`layers/registry.ts`**: the one list, in drawing order. It binds every switch to its layer, shows or hides the legends, adds the layers on load, sends a click on plain terrain to the point panel and collects the link state. At start it checks that every key in `viewState.ts` has exactly one layer.
+- **`web/src/app/`**: what sits around the layers: the point panel with an extension point for layers (`point.ts`; "Sun here" and the via ferrata highlight use it), the day slider, the address bar and share button, "About the data", warnings, toast, switch helpers, the layer card fold and the dock height.
+
+No visible change, with one exception: the warning line in the layer card used to show its messages in whatever order the data files arrived. It now uses a fixed order (basemap, snow, stations, forecast, last update, new snow, via ferratas), which is the usual order the files arrive in. A side-by-side run of the old and new build in headless Chromium (load, every switch, the forecast player, a point with "Sun here", the sun slider, terrain height, "About the data"; default view and a shared link with most layers on) found no other differences in map layers, their order and visibility, light, switches, dock, panels or the address. Tests, typecheck and the smoke test's checks pass.
+
+Adding a layer (GPX, say) now means: a module in `layers/`, its key in `viewState.ts`, a switch in `index.html` and an entry in the registry list. The switches themselves stay in `index.html`, so the layer card shows at once instead of waiting for the script.
+
+### Background
+
 **Does it slow the app down? No.** Vite bundles all modules into the same JavaScript either way, so splitting the file does not change load or render speed. What costs time on the first visit is the 7–12 MB of terrain tiles, not the code.
 
 **Why do it anyway:** `main.ts` (~990 lines) wires up every layer, the URL state, the legends and the dock. Each UI change in section 2 touches it in several places, and that is where bugs creep in. A layer registry (one file per layer with `init`, `setVisible`, `legend`, `onClick`, and one list that drives the switches, the URL and the legends) makes section 2 and the GPX layer much easier.
 
 **Later: lazy-load the layers you use less.** Load the code (and data) for via ferratas, sun and shade with cast shadows, and the forecast animation only when the layer is first switched on, as ferratas already do with their data. The layers on by default (snow from space, stations, bivouacs) then load first and faster. Fits naturally after the registry, since each layer is already its own module. A service worker that keeps terrain tiles for repeat visits is the other half.
 
-Do the refactor right before the UI round, with no visible change, tests green.
+Planned for right before the UI round, with no visible change and tests green.
 
 ## 4. Area
 
@@ -138,7 +152,7 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 ## 8. Order
 
 1. ~~Housekeeping~~ and ~~the island~~ (done Nov 3).
-2. **Refactor** (3): layer registry, no visible change.
+2. ~~**Refactor** (3): layer registry, no visible change~~ (done Nov 4).
 3. **UI round** (2.1–2.4): quieter dock, shorter layer card, calmer stations, data-age line.
 4. **Share picture v1** (6): camera button, formats, frame, share sheet.
 5. **Avalanche bulletin link** and **new snow at stations**.
