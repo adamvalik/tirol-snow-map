@@ -11,7 +11,8 @@ import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacHtml, bivouacIconU
 import { Favourites } from './favourites.ts';
 import { addFerrataLayer, FERRATA_LAYER_IDS, ferrataHtml, ferrataLines, type FerrataLayer, GRADE_CLASSES, highestPoint } from './ferratas.ts';
 import { resample } from '../../shared/geo.ts';
-import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice, MAX_BOUNDS } from './map.ts';
+import { AREA, type EdgeStyle, inArea, setEdgeStyle } from './island.ts';
+import { createMap, DEM_SOURCES, MAPTERHORN_TILES, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice, MAX_BOUNDS } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
 import {
@@ -67,12 +68,17 @@ const toggle = (key: LayerKey) => $<HTMLInputElement>(`toggle-${key}`);
 const initial = parseHash(window.location.hash);
 if (initial.layers) for (const key of LAYER_KEYS) toggle(key).checked = initial.layers.includes(key);
 
-const map = createMap('map', {
-  center: initial.center ?? DEFAULT_VIEW.center,
-  zoom: initial.zoom ?? DEFAULT_VIEW.zoom,
-  pitch: initial.pitch ?? DEFAULT_VIEW.pitch,
-  bearing: initial.bearing ?? DEFAULT_VIEW.bearing,
-});
+const edgeStyle = (): EdgeStyle => (toggle('island').checked ? 'island' : 'faded');
+const map = createMap(
+  'map',
+  {
+    center: initial.center ?? DEFAULT_VIEW.center,
+    zoom: initial.zoom ?? DEFAULT_VIEW.zoom,
+    pitch: initial.pitch ?? DEFAULT_VIEW.pitch,
+    bearing: initial.bearing ?? DEFAULT_VIEW.bearing,
+  },
+  edgeStyle(),
+);
 map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
 map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
 
@@ -159,6 +165,8 @@ const bindToggle = (id: string, apply: (on: boolean) => void) => {
 };
 bindToggle('toggle-hillshade', (on) => map.setLayoutProperty('hillshade', 'visibility', on ? 'visible' : 'none'));
 bindToggle('toggle-relief', (on) => map.setLayoutProperty('relief', 'visibility', on ? 'visible' : 'none'));
+// Outside the data area: cut as an island, or faded under a veil (island.ts).
+bindToggle('toggle-island', () => setEdgeStyle(map, edgeStyle(), DEM_SOURCES, MAPTERHORN_TILES));
 
 // Layer groups from the OSM basemap, toggled together.
 const basemap = basemapLayers();
@@ -198,6 +206,9 @@ function syncHash() {
 map.on('moveend', syncHash);
 $('layers-body').addEventListener('change', syncHash);
 exaggerationInput.addEventListener('change', syncHash);
+
+/** Stations drawn on the map: the ones inside the covered area. */
+const countInArea = (list: { lon: number; lat: number }[]) => list.filter((s) => inArea(s.lon, s.lat)).length;
 
 let toastTimer: number | undefined;
 function toast(text: string) {
@@ -256,6 +267,10 @@ function renderSources() {
             .join('')}<p class="muted">The layers keep showing their last good data, each with its own date.</p>`
         : ''
     }
+    <h3>Area</h3>
+    <p>The map is cut to the area the snow layers cover, ${AREA.west}–${AREA.east}° E and ${AREA.south}–${AREA.north}° N: South Tyrol with
+    the edges of North and East Tyrol, Trentino, Graubünden and Belluno. Stations, bivouacs and via ferratas outside it are not shown,
+    although stations just outside still feed the snow depth estimate.</p>
     <h3>Terrain</h3>
     <p><a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a>, built from open elevation data:
     South Tyrol DGM 2.5 m (Autonomous Province of Bolzano, CC0), TINITALY 10 m (INGV, CC BY 4.0),
@@ -322,7 +337,7 @@ function showStationsStatus() {
   const f = stationsFile;
   const withSnow = f.stations.filter((s) => s.snowDepthCm !== null).length;
   if (!selectedDay) {
-    time.textContent = `${f.stations.length} stations · updated ${formatTimeShort(f.generatedAt)}`;
+    time.textContent = `${countInArea(f.stations)} stations · updated ${formatTimeShort(f.generatedAt)}`;
     time.title = `${withSnow} of them measure snow depth`;
   }
   const failed = f.sources.filter((s) => !s.ok);
@@ -477,7 +492,7 @@ async function showDay(i: number) {
       ? 'Only snow seen from space, rebuilt from the satellite passes up to that day.'
       : `Snow layers and stations as of ${formatTime(snow?.generatedAt)}.`;
     $('stations-time').textContent = stations
-      ? `${stations.stations.length} stations · ${shortDate(day.date)}`
+      ? `${countInArea(stations.stations)} stations · ${shortDate(day.date)}`
       : `No station readings for ${shortDate(day.date)}`;
   }
   syncHash();
@@ -961,7 +976,10 @@ map.on('load', async () => {
   map.on('click', (e: maplibregl.MapMouseEvent) => {
     // Stations, bivouacs and via ferratas open their own panels.
     const layers = [STATION_LAYER_ID, ...BIVOUAC_LAYER_IDS, ...FERRATA_LAYER_IDS].filter((id) => map.getLayer(id));
-    if (!map.queryRenderedFeatures(e.point, { layers }).length) void showPoint(e.lngLat);
+    if (map.queryRenderedFeatures(e.point, { layers }).length) return;
+    // The floor around the island has no data.
+    if (!inArea(e.lngLat.lng, e.lngLat.lat)) return;
+    void showPoint(e.lngLat);
   });
 });
 

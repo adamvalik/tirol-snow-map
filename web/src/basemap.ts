@@ -5,6 +5,7 @@
 import { layers as protomapsLayers, namedFlavor } from '@protomaps/basemaps';
 import type { LayerSpecification, SourceSpecification } from 'maplibre-gl';
 import summitsData from './data/summits.json';
+import { inArea } from './island.ts';
 
 export const BASEMAP_SOURCE = 'protomaps';
 export const SUMMITS_SOURCE = 'summits';
@@ -26,11 +27,13 @@ export function basemapSources(): Record<string, SourceSpecification> {
       type: 'geojson',
       data: {
         type: 'FeatureCollection',
-        features: summitsData.summits.map((s) => ({
-          type: 'Feature',
-          geometry: { type: 'Point', coordinates: [s.lon, s.lat] },
-          properties: { name: s.name, ele: s.ele, label: `${s.name}\n${s.ele.toLocaleString('en-GB')} m` },
-        })),
+        features: summitsData.summits
+          .filter((s) => inArea(s.lon, s.lat))
+          .map((s) => ({
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [s.lon, s.lat] },
+            properties: { name: s.name, ele: s.ele, label: `${s.name}\n${s.ele.toLocaleString('en-GB')} m` },
+          })),
       },
     },
   };
