@@ -1,6 +1,8 @@
-// The map is cut to the area the snow data covers (MODEL_GRID), so it reads as an island: the
-// terrain stops in a cliff at the edge and everything outside is a flat, plain floor. Done in the
-// browser by rewriting the elevation tiles on their way in, so nothing changes in the pipeline.
+// The area the snow data covers (MODEL_GRID), and how the map shows the world outside it: either
+// cut, so it reads as an island (the terrain stops in a cliff over a flat, plain floor), or faded
+// under a pale veil (see EdgeStyle). The cut is done in the browser by rewriting the elevation
+// tiles on their way in, so nothing changes in the pipeline. Outside either way, labels, stations,
+// bivouacs and via ferratas are not drawn and clicks do nothing.
 //
 // Tiles fully inside the area pass through untouched, tiles fully outside are never downloaded,
 // and only the tiles on the edge are decoded and cut.
@@ -122,13 +124,36 @@ export function outsideSource(): SourceSpecification {
   };
 }
 
-/** Covers roads, rivers and land cover that the basemap tiles carry beyond the edge. */
-export const outsideMaskLayer = (): LayerSpecification => ({
+/**
+ * Two looks for the world outside the area, switchable at any time:
+ * - `island`: the terrain is cut at the edge and stands on a plain floor; outside tiles are never loaded.
+ * - `faded`: the real terrain continues under a pale veil, so neighbouring ranges give context.
+ */
+export type EdgeStyle = 'island' | 'faded';
+
+const MASK_PAINT: Record<EdgeStyle, { color: string; opacity: number }> = {
+  island: { color: FLOOR_COLOR, opacity: 1 },
+  faded: { color: '#f2f3f5', opacity: 0.62 },
+};
+
+/** Elevation tile URL for an edge style: through the cutting protocol, or straight from the host. */
+export const elevationTiles = (url: string, style: EdgeStyle): string =>
+  style === 'island' ? url.replace('https://', `${ISLAND_PROTOCOL}://`) : url;
+
+/** Covers (island) or veils (faded) roads, rivers, land cover and terrain beyond the edge. */
+export const outsideMaskLayer = (style: EdgeStyle): LayerSpecification => ({
   id: OUTSIDE_SOURCE,
   type: 'fill',
   source: OUTSIDE_SOURCE,
-  paint: { 'fill-color': FLOOR_COLOR, 'fill-antialias': false },
+  paint: { 'fill-color': MASK_PAINT[style].color, 'fill-opacity': MASK_PAINT[style].opacity, 'fill-antialias': false },
 });
+
+/** Switches a running map to the other look. Terrain sources reload from the matching URL. */
+export function setEdgeStyle(map: maplibregl.Map, style: EdgeStyle, demSources: string[], tileUrl: string): void {
+  for (const id of demSources) (map.getSource(id) as maplibregl.RasterDEMTileSource | undefined)?.setTiles([elevationTiles(tileUrl, style)]);
+  map.setPaintProperty(OUTSIDE_SOURCE, 'fill-color', MASK_PAINT[style].color);
+  map.setPaintProperty(OUTSIDE_SOURCE, 'fill-opacity', MASK_PAINT[style].opacity);
+}
 
 /**
  * Keeps a label layer to the area. `within` handles points and lines; labels placed from polygons

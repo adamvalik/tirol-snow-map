@@ -15,7 +15,7 @@ The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to
 - [x] **No slope angle layer.** Too close to avalanche assessment.
 - [x] **Lazy loading of layers: later** (see 3).
 - [ ] **Name.** Open. See 5.
-- [ ] **Island or faded surroundings.** Open. See 4.1.
+- [x] **Island or faded surroundings: both, decide later.** Faded is the default, a switch cuts it to the island, kept in share links (Nov 4). See 4.1.
 - [ ] **New app icon.** Later. See 7.
 - [ ] **Frame style for the share picture** (minimal or poster). Open until mock-ups exist.
 - [ ] **Visit counting.** Open.
@@ -97,7 +97,7 @@ Follow-ups if wanted: a small spike of terrain mesh at some corners at low zoom;
 | Grows with the area | Island just gets bigger | Veil shrinks; ends up as the natural look of a wide Alpine map |
 | Code | Elevation tiles cut in the browser | Simpler: only the veil and the label filter; no tile cutting |
 
-Leaning: **faded surroundings in the app** (context, fits the Alpine direction and summer use), and keep the **island as a look for share pictures**, where a self-contained block on a plain background reads like a poster. Both share the label and data filtering already built.
+Built Nov 4: both, with a **Cut at the data edge** switch under "More layers and map style" (`layers=…,island` in a link); faded is the default. Leaning stays: **faded surroundings in the app** (context, fits the Alpine direction and summer use), and keep the **island as a look for share pictures**, where a self-contained block on a plain background reads like a poster. Both share the label and data filtering already built.
 
 ### 4.2 Extend later
 

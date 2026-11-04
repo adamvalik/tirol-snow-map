@@ -22,6 +22,7 @@ export const LAYER_KEYS = [
   'relief',
   'sun',
   'shadows',
+  'island',
 ] as const;
 export type LayerKey = (typeof LAYER_KEYS)[number];
 

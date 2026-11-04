@@ -2,7 +2,7 @@ import * as maplibregl from 'maplibre-gl';
 import type { StyleSpecification } from 'maplibre-gl';
 import { Protocol } from 'pmtiles';
 import { basemapLayers, basemapSources, glyphsUrl, spriteUrl } from './basemap.ts';
-import { FLOOR_COLOR, FLOOR_M, ISLAND_PROTOCOL, OUTSIDE_SOURCE, outsideMaskLayer, outsideSource, registerIslandProtocol, withinArea } from './island.ts';
+import { type EdgeStyle, elevationTiles, FLOOR_COLOR, FLOOR_M, OUTSIDE_SOURCE, outsideMaskLayer, outsideSource, registerIslandProtocol, withinArea } from './island.ts';
 import { DEFAULT_SKY, hillshadePaint } from './sun.ts';
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 locates its worker relative to its own module URL, which a bundler cannot follow;
@@ -16,8 +16,8 @@ maplibregl.addProtocol('pmtiles', new Protocol({ metadata: true }).tile);
 registerIslandProtocol();
 
 export const MAPTERHORN_TILES = 'https://tiles.mapterhorn.com/{z}/{x}/{y}.webp';
-/** The same tiles cut to the covered area (island.ts). */
-const ISLAND_TILES = MAPTERHORN_TILES.replace('https://', `${ISLAND_PROTOCOL}://`);
+/** The two elevation sources: the 3D mesh, and the one hillshade and relief are drawn from. */
+export const DEM_SOURCES = ['terrain', 'dem'];
 /** Mapterhorn serves tiles up to z15; z16 returns 404. */
 const DEM_MAX_ZOOM = 15;
 
@@ -34,11 +34,11 @@ export const MAX_BOUNDS: [[number, number], [number, number]] = [
 export const isLowPowerDevice = (): boolean =>
   matchMedia('(max-width: 700px), (pointer: coarse)').matches;
 
-function createStyle(lowPower: boolean): StyleSpecification {
+function createStyle(lowPower: boolean, edge: EdgeStyle): StyleSpecification {
   const dem = (maxzoom: number) =>
     ({
       type: 'raster-dem',
-      tiles: [ISLAND_TILES] as string[],
+      tiles: [elevationTiles(MAPTERHORN_TILES, edge)] as string[],
       tileSize: 512,
       encoding: 'terrarium',
       maxzoom,
@@ -90,7 +90,7 @@ function createStyle(lowPower: boolean): StyleSpecification {
         paint: hillshadePaint(null, false),
       },
       ...basemap.lines,
-      outsideMaskLayer(),
+      outsideMaskLayer(edge),
       basemap.buildings,
       ...basemap.labels.map((l) => (l.type === 'symbol' ? { ...l, filter: withinArea(l.filter) } : l)),
     ],
@@ -99,11 +99,11 @@ function createStyle(lowPower: boolean): StyleSpecification {
   };
 }
 
-export function createMap(container: string, view = DEFAULT_VIEW): maplibregl.Map {
+export function createMap(container: string, view = DEFAULT_VIEW, edge: EdgeStyle = 'faded'): maplibregl.Map {
   const lowPower = isLowPowerDevice();
   return new maplibregl.Map({
     container,
-    style: createStyle(lowPower),
+    style: createStyle(lowPower, edge),
     ...view,
     maxPitch: 75,
     minZoom: 7.5,

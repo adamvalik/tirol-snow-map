@@ -11,8 +11,8 @@ import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacHtml, bivouacIconU
 import { Favourites } from './favourites.ts';
 import { addFerrataLayer, FERRATA_LAYER_IDS, ferrataHtml, ferrataLines, type FerrataLayer, GRADE_CLASSES, highestPoint } from './ferratas.ts';
 import { resample } from '../../shared/geo.ts';
-import { AREA, inArea } from './island.ts';
-import { createMap, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice, MAX_BOUNDS } from './map.ts';
+import { AREA, type EdgeStyle, inArea, setEdgeStyle } from './island.ts';
+import { createMap, DEM_SOURCES, MAPTERHORN_TILES, DEFAULT_EXAGGERATION, DEFAULT_VIEW, isLowPowerDevice, MAX_BOUNDS } from './map.ts';
 import { loadingHtml, openPanel, pointHtml, stationHtml, updatePanelBody } from './panel.ts';
 import { addSatelliteLayer, loadSatellite, SATELLITE_LAYER, satelliteInfoHtml, shortDate } from './satellite.ts';
 import {
@@ -68,12 +68,17 @@ const toggle = (key: LayerKey) => $<HTMLInputElement>(`toggle-${key}`);
 const initial = parseHash(window.location.hash);
 if (initial.layers) for (const key of LAYER_KEYS) toggle(key).checked = initial.layers.includes(key);
 
-const map = createMap('map', {
-  center: initial.center ?? DEFAULT_VIEW.center,
-  zoom: initial.zoom ?? DEFAULT_VIEW.zoom,
-  pitch: initial.pitch ?? DEFAULT_VIEW.pitch,
-  bearing: initial.bearing ?? DEFAULT_VIEW.bearing,
-});
+const edgeStyle = (): EdgeStyle => (toggle('island').checked ? 'island' : 'faded');
+const map = createMap(
+  'map',
+  {
+    center: initial.center ?? DEFAULT_VIEW.center,
+    zoom: initial.zoom ?? DEFAULT_VIEW.zoom,
+    pitch: initial.pitch ?? DEFAULT_VIEW.pitch,
+    bearing: initial.bearing ?? DEFAULT_VIEW.bearing,
+  },
+  edgeStyle(),
+);
 map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
 map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
 
@@ -160,6 +165,8 @@ const bindToggle = (id: string, apply: (on: boolean) => void) => {
 };
 bindToggle('toggle-hillshade', (on) => map.setLayoutProperty('hillshade', 'visibility', on ? 'visible' : 'none'));
 bindToggle('toggle-relief', (on) => map.setLayoutProperty('relief', 'visibility', on ? 'visible' : 'none'));
+// Outside the data area: cut as an island, or faded under a veil (island.ts).
+bindToggle('toggle-island', () => setEdgeStyle(map, edgeStyle(), DEM_SOURCES, MAPTERHORN_TILES));
 
 // Layer groups from the OSM basemap, toggled together.
 const basemap = basemapLayers();

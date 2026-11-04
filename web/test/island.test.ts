@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { AREA, areaPixels, cutToArea, FLOOR_M, inArea } from '../src/island.ts';
+import { AREA, areaPixels, cutToArea, elevationTiles, FLOOR_M, inArea } from '../src/island.ts';
+import { parseHash } from '../src/viewState.ts';
 
 const lonToTileX = (lon: number, z: number) => Math.floor(((lon + 180) / 360) * 2 ** z);
 const latToTileY = (lat: number, z: number) => {
@@ -42,5 +43,15 @@ describe('island', () => {
     expect(terrarium(data, 0)).toBe(FLOOR_M); // (0,0) outside
     expect(data[(0 * size + 1) * 4]).toBe(200); // (1,0) inside
     expect(terrarium(data, (3 * size + 2) * 4)).toBe(FLOOR_M); // (2,3) below the area
+  });
+
+  it('sends elevation tiles through the cutting protocol only for the island look', () => {
+    const url = 'https://tiles.mapterhorn.com/{z}/{x}/{y}.webp';
+    expect(elevationTiles(url, 'island')).toBe('island://tiles.mapterhorn.com/{z}/{x}/{y}.webp');
+    expect(elevationTiles(url, 'faded')).toBe(url);
+  });
+
+  it('keeps the island look in a shared link', () => {
+    expect(parseHash('#layers=snow,island').layers).toEqual(['snow', 'island']);
   });
 });
