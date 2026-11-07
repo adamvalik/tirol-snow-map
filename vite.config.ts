@@ -1,5 +1,19 @@
 /// <reference types="vitest/config" />
+import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { defineConfig } from 'vite';
+
+// App version from package.json and the short commit it was built from (GITHUB_SHA in Actions,
+// git locally, "dev" without git). Shown in "About the data".
+const version = (JSON.parse(readFileSync('package.json', 'utf8')) as { version: string }).version;
+function commit(): string {
+  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 7);
+  try {
+    return execSync('git rev-parse --short=7 HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+  } catch {
+    return 'dev';
+  }
+}
 
 export default defineConfig({
   root: 'web',
@@ -16,6 +30,10 @@ export default defineConfig({
         codeSplitting: { groups: [{ name: 'maplibre', test: /node_modules[\\/]maplibre-gl/ }] },
       },
     },
+  },
+  define: {
+    __APP_VERSION__: JSON.stringify(version),
+    __APP_COMMIT__: JSON.stringify(commit()),
   },
   worker: { format: 'es' },
   test: {

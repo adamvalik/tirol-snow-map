@@ -9,13 +9,13 @@ Goal: hand a link to a small group of friends, see whether they use it, and hear
 | # | Item | Needed for v1? | Effort |
 | --- | --- | --- | --- |
 | 1 | App version and release tags | Yes | S |
-| 2 | Visit counting (analytics) | Yes | S |
+| 2 | Visit counting (GoatCounter, decided) | Yes | S |
 | 3 | Bug report / idea button | Yes | S |
 | 4 | GPX upload | Yes | M |
 | 5 | Link preview (og tags + daily `og.png`) | Yes, it is how the link looks in chats | S–M |
 | 6 | Live location ("Where am I") | Nice to have | S |
 | 7 | Share picture for Strava etc. | After v1 (v1.1) | M–L |
-| 8 | Domain | Optional, decide with the name | S |
+| 8 | Domain | No, postponed until after testing | S |
 
 Hosting stays on GitHub Pages (see 9).
 
@@ -28,9 +28,9 @@ There are two kinds of deploy and they should not be confused:
 
 Plan:
 
-- **Semantic version in `package.json`** (already `0.1.0`). Testers' release is **`v0.1.0`**; bump minor for feature rounds (`0.2.0` = share picture), patch for fixes. `1.0.0` for a public launch.
+- **Semantic version in `package.json`.** What is live today (MVP, V2, V3 and everything beyond the plan, up to the layer registry) is **`v0.1.0`**, tagged on `main` at `444afeb`. Still `0.x` because nobody outside has used it yet. Testers' release is **`v0.2.0`**, the share picture **`v0.3.0`**; patch versions (`0.2.1`) for fixes; `1.0.0` for a public launch.
 - **Tag and GitHub Release** for each version: `git tag v0.1.0`, a Release with short notes ("What's new"). Notes double as a changelog; no extra tool (changesets etc.) needed at this size.
-- **Version in the app**: Vite `define` injects `__APP_VERSION__` (from `package.json`) and `__APP_COMMIT__` (short SHA from `GITHUB_SHA` in CI, `dev` locally). Shown in "About the data" as `v0.1.0 · 444afeb`, and sent along with bug reports (3) and analytics events (2).
+- **Version in the app** (done Nov 7): Vite `define` injects `__APP_VERSION__` (from `package.json`) and `__APP_COMMIT__` (short SHA from `GITHUB_SHA` in CI, `dev` locally). Shown at the end of "About the data" as `v0.1.0 · 444afeb` with a link to the release notes, and sent along with bug reports (3) and analytics events (2).
 - **Data age stays separate**: the data-age line (roadmap 2.4) already tells when data was refreshed.
 - Optional later: a small "What's new" toast once per version (remember the last seen version in localStorage).
 - Keep deploying from `main` for now. If `main` should be able to move ahead of what testers see, switch the deploy to check out the latest `v*` tag and use `main` only for development; not needed for a handful of friends.
@@ -103,7 +103,7 @@ Roadmap 2.5 kept this for later; small enough to add now.
 
 ## 7. Share picture (Strava, Instagram)
 
-Fully designed in [`share-snapshot.md`](share-snapshot.md). Larger than the rest, and it depends on the new UI, the name and the icon. Plan it as **v0.2.0**, the first update testers get, which also tests the release flow (1).
+Fully designed in [`share-snapshot.md`](share-snapshot.md). Larger than the rest, and it depends on the new UI, the name and the icon. Plan it as **v0.3.0**, the first update testers get, which also tests the release flow (1).
 
 ## 8. Domain
 
@@ -119,7 +119,7 @@ No reliable free domains exist any more (Freenom is gone, free subdomain service
 
 Buy at cost at **Cloudflare Registrar** or Porkbun (no markup, free WHOIS privacy). GitHub Pages supports a custom domain with free HTTPS: a `CNAME` file in the build output plus DNS records, then tick *Enforce HTTPS*.
 
-Timing: the domain follows the name (roadmap 5). For testers the Pages address is enough. If the domain comes later, old links keep working because GitHub redirects the `github.io` address to the custom domain.
+**Decided (Nov 7): postponed.** The `github.io` address stays through testing. After testing, once the name is settled, buy one at about €5 a year (a `.eu` or similar). The domain follows the name (roadmap 5). If the domain comes later, old links keep working because GitHub redirects the `github.io` address to the custom domain.
 
 ## 9. Is GitHub Pages free enough?
 
@@ -143,12 +143,12 @@ What actually limits scale is the **upstream quotas**, not Pages: Mapterhorn ter
 4. **Live location** (6) – if the new UI has room for the button.
 5. **New UI** lands (in progress, roadmap 2).
 6. **Link preview** (5) – after the UI so `og.png` shows the new look.
-7. Tag **`v0.1.0`**, write the release notes, send the link.
-8. **v0.2.0**: share picture (7); domain and name (8) when the name is settled.
+7. Tag **`v0.2.0`**, write the release notes, send the link.
+8. **v0.3.0**: share picture (7). Name and domain (8) after testing.
 
-### Release checklist for `v0.1.0`
+### Release checklist for `v0.2.0`
 
-- [ ] Version and commit visible in "About the data"
+- [x] Version and commit visible in "About the data"
 - [ ] GoatCounter counting on the live site, not on localhost
 - [ ] Feedback form opens with version and view link prefilled
 - [ ] GPX: load, fly to, summary, remove, survives reload
@@ -156,3 +156,16 @@ What actually limits scale is the **upstream quotas**, not Pages: Mapterhorn ter
 - [ ] Tested on iOS Safari and Android Chrome (phone), one desktop browser
 - [ ] Tests, typecheck and smoke test green
 - [ ] Release notes written, tag pushed
+
+## How to make a release
+
+1. Bump `version` in `package.json` (and `package-lock.json`): `npm version 0.2.0 --no-git-tag-version`.
+2. Commit, merge to `main`; the deploy publishes it.
+3. Tag the merge commit and push the tag: `git tag -a v0.2.0 -m "v0.2.0" <commit>` then `git push origin v0.2.0`.
+4. On GitHub, *Releases → Draft a new release* from the tag, with a few lines of what is new.
+
+## Releases
+
+| Version | Date | What |
+| --- | --- | --- |
+| `v0.1.0` | Nov 7, 2026 (tagged after the fact) | Everything in roadmap section 1: 3D terrain, stations, snow from space, depth estimate, satellite photo, day slider, forecast animation, share links, bivouacs, favourites, via ferratas, sun and shade, island cut, layer registry |

@@ -12,6 +12,7 @@ import { shownSnow } from '../layers/snow.ts';
 import { latestStations, stationsError as stationsLoadError } from '../layers/stations.ts';
 import { satelliteInfoHtml } from '../satellite.ts';
 import { snowInfoHtml } from '../snow.ts';
+import { VERSION_LABEL } from '../version.ts';
 import { loadJson } from './data.ts';
 import { history } from './daySlider.ts';
 import { $ } from './dom.ts';
@@ -104,7 +105,9 @@ function renderSources() {
     <h3>Safety</h3>
     <p><strong>This map is for orientation only and must not be used for avalanche decisions.</strong>
     Station values are point measurements and forecasts are model output. Always check the official avalanche bulletin at
-    <a href="https://avalanche.report" target="_blank" rel="noopener">avalanche.report</a>.</p>`;
+    <a href="https://avalanche.report" target="_blank" rel="noopener">avalanche.report</a>.</p>
+    <h3>App version</h3>
+    <p class="muted">${escapeHtml(VERSION_LABEL)} · <a href="https://github.com/adamvalik/tirol-snow-map/releases" target="_blank" rel="noopener">release notes</a></p>`;
 }
 
 /** Loads status.json and wires the "About the data" button. */
