@@ -87,6 +87,17 @@ Already designed in [`share-snapshot.md`](share-snapshot.md) ("GPX tracks on the
 - Tests: parse fixtures (track with and without elevation, with several segments, routes `<rte>` as well as tracks `<trk>`, a broken file).
 - Analytics event `gpx-loaded`.
 
+**Status (Nov 9): the part behind the button is built; the button is not.**
+
+- `web/src/gpx.ts`: `parseGpx` (GPX 1.0 and 1.1, any namespace; tracks win over routes when a file has both; bad points and one-point segments are dropped; a segment keeps elevation only if every point has it), `trackStats` (distance without the gaps between segments, climb with the via ferrata hysteresis, now in `shared/geo.ts`, highest and lowest point), camera helpers and the panel summary. Clear messages for broken XML, other XML, waypoints only, a file over 25 MB and a track outside the map area.
+- Tracks without elevation (most planned routes) get it from the terrain model: a point every 10 m, read from the ~26 m Mapterhorn tiles, or the 250 m grid when the track spans more than 48 tiles (`terrainAlong` in `terrainSampler.ts`). The panel says where the elevation came from.
+- `web/src/gpxStore.ts`: the file's text in IndexedDB (one entry), so a newer parser reads old tracks too. Storage blocked: the track works until the page closes.
+- `web/src/layers/gpx.ts`: purple line with a white casing above the via ferratas and below labels, green start and red end dot, a wide invisible line for clicks. Loading draws, flies to the track (pitch 55°, looking from start to end, or to the far point of a loop), opens the point panel at the highest point (summary, snow along the track, sun, forecast) and saves it. A reload draws the kept track without moving the camera. A click on the line reopens the panel; "Remove track" in the panel clears map and storage.
+- The layer has no switch (`keys: []`), so nothing about it reaches the link.
+- Tests: `web/test/gpx.test.ts` with fixtures in `fixtures/gpx/`. Checked in headless Chromium: load, errors, terrain fill, reload, click, remove.
+
+Still to do: the "Add GPX track" file input (and a remove button) in the layer card, wired to `loadGpxFile(file)` / `removeGpx()` with a toast for a `GpxError`, and `onGpxChange` to show or hide the remove button; then the `gpx-loaded` event once GoatCounter is in. Until then it can be tried from the console: `__snowmap.gpx.load(text, 'name.gpx')`.
+
 ## 5. Link preview
 
 Designed in [`share-snapshot.md`](share-snapshot.md) ("Link previews"). Worth doing for v1, because the first thing testers see is the link in a chat. `og:` and `twitter:` tags in `index.html`, plus `og.png` (1200 × 630) rendered by the deploy workflow with Playwright from today's default view. Needs an absolute URL, so it is easiest to do after the domain decision (8), or with the Pages address and changed later.

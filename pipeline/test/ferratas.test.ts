@@ -1,8 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { distanceM, lineLengthM, resample } from '../../shared/geo.ts';
+import { ascentDescent, distanceM, lineLengthM, resample } from '../../shared/geo.ts';
 import {
-  ascentDescent,
   isClosed,
   joinLines,
   type LonLat,

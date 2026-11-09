@@ -9,6 +9,7 @@ import { setupSources } from './app/sources.ts';
 import { applyLinkSwitches } from './app/switches.ts';
 import { setWarning } from './app/warnings.ts';
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
+import { loadGpxText, removeGpx } from './layers/gpx.ts';
 import { initLayers, layersView, onMapClick, setupLayers } from './layers/registry.ts';
 import { pointSnow } from './layers/snow.ts';
 import { edgeStyle, terrainExaggeration } from './layers/terrain.ts';
@@ -60,7 +61,7 @@ map.on('styleimagemissing', (e: { id: string }) => {
 map.once('idle', () => {
   document.body.dataset.mapReadyMs = String(Math.round(performance.now()));
 });
-Object.assign(window, { __snowmap: { map } });
+Object.assign(window, { __snowmap: { map, gpx: { load: loadGpxText, remove: removeGpx } } });
 
 map.on('error', (e: maplibregl.ErrorEvent & { sourceId?: string }) => {
   if (e.sourceId === BASEMAP_SOURCE) {

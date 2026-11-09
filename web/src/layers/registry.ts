@@ -1,6 +1,6 @@
 // Every layer of the map, in drawing order. This list drives the switches, the legends, the
 // shared link and the map click; adding a layer means a module here, a key in viewState.ts and a
-// switch in index.html.
+// switch in index.html (a layer with controls of its own, like the GPX track, has no key).
 import type * as maplibregl from 'maplibre-gl';
 import { $ } from '../app/dom.ts';
 import { isOn, toggle } from '../app/switches.ts';
@@ -9,6 +9,7 @@ import { LAYER_KEYS, type ViewState } from '../viewState.ts';
 import { bivouacs } from './bivouacs.ts';
 import { ferratas } from './ferratas.ts';
 import { forecast } from './forecast.ts';
+import { gpx } from './gpx.ts';
 import { osm } from './osm.ts';
 import { satellite } from './satellite.ts';
 import { snow } from './snow.ts';
@@ -19,10 +20,10 @@ import type { App, LayerModule } from './types.ts';
 
 /**
  * Each `init` adds its map layers relative to the ones before it, so the order matters: the night
- * overlay before the via ferratas (which go above it), the snow pictures before the forecast, the
- * bivouacs before the station dots on top.
+ * overlay before the via ferratas (which go above it), the snow pictures before the forecast, a GPX
+ * track above the via ferratas, the bivouacs before the station dots on top.
  */
-export const LAYERS: readonly LayerModule[] = [terrain, osm, sun, satellite, snow, forecast, ferratas, bivouacs, stations];
+export const LAYERS: readonly LayerModule[] = [terrain, osm, sun, satellite, snow, forecast, ferratas, gpx, bivouacs, stations];
 
 // Every key in a link has exactly one layer that answers its switch.
 for (const key of LAYER_KEYS) {

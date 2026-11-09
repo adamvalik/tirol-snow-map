@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<gpx version="1.0" creator="fixture" xmlns="http://www.topografix.com/GPX/1/0">
+  <name>Two days in the Ortler</name>
+  <trk>
+    <trkseg>
+      <trkpt lat="46.5000" lon="10.6000"><ele>2000</ele></trkpt>
+      <trkpt lat="46.5020" lon="10.6020"><ele>2020</ele></trkpt>
+      <trkpt lat="46.5040" lon="10.6040"><ele>2040</ele></trkpt>
+      <trkpt lat="46.5060" lon="10.6060"><ele>2060</ele></trkpt>
+      <trkpt lat="46.5080" lon="10.6080"><ele>2080</ele></trkpt>
+      <trkpt lat="abc" lon="10.61"><ele>2100</ele></trkpt>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="46.5200" lon="10.6200"><ele>2100</ele></trkpt>
+      <trkpt lat="46.5220" lon="10.6220"><ele>2090</ele></trkpt>
+      <trkpt lat="46.5240" lon="10.6240"></trkpt>
+      <trkpt lat="46.5260" lon="10.6260"><ele>2070</ele></trkpt>
+      <trkpt lat="46.5280" lon="10.6280"><ele>2060</ele></trkpt>
+    </trkseg>
+    <trkseg>
+      <trkpt lat="46.53" lon="10.63"><ele>2050</ele></trkpt>
+    </trkseg>
+  </trk>
+</gpx>
