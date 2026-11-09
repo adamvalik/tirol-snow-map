@@ -14,11 +14,13 @@ The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to
 - [x] **Wider area one day; until then, cut the map at the data edge** so it stands as an island (done, see 4.1).
 - [x] **No slope angle layer.** Too close to avalanche assessment.
 - [x] **Lazy loading of layers: later** (see 3).
-- [ ] **Name.** Open. See 5.
+- [ ] **Name.** Open, settle after testing. See 5.
+- [x] **Domain: after testing, once the name is settled** (about €5 a year). `github.io` until then.
 - [x] **Island or faded surroundings: both, decide later.** Faded is the default, a switch cuts it to the island, kept in share links (Nov 4). See 4.1.
 - [ ] **New app icon.** Later. See 7.
 - [ ] **Frame style for the share picture** (minimal or poster). Open until mock-ups exist.
-- [ ] **Visit counting.** Open.
+- [x] **Visit counting: GoatCounter** (no cookies, free), Nov 7, see [`release-plan.md`](release-plan.md).
+- [x] **Versions: today's app is `v0.1.0`; first release to friends and testers is `v0.2.0`** (Nov 7): versions, feedback form, GPX, live location, link preview. See [`release-plan.md`](release-plan.md).
 
 ## 1. What was done
 
@@ -156,4 +158,5 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 3. **UI round** (2.1–2.4): quieter dock, shorter layer card, calmer stations, data-age line.
 4. **Share picture v1** (6): camera button, formats, frame, share sheet.
 5. **Avalanche bulletin link** and **new snow at stations**.
-6. **Later:** name and icon (before share pictures and link previews go public), GPX on the snow, link previews, lazy-loaded layers, one timeline, wider area.
+6. **Tester release `v0.2.0`**: see [`release-plan.md`](release-plan.md) for scope and order.
+7. **Later:** name and icon (before share pictures and link previews go public), GPX on the snow, link previews, lazy-loaded layers, one timeline, wider area.
