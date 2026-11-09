@@ -52,7 +52,8 @@ Mapterhorn terrain tiles -------------------------------------------------------
 Open-Meteo forecast (on click) --------------------------------------------------------------------->+  (direct, cached 1 h)
 ```
 
-- **The browser calls only two external hosts**: `tiles.mapterhorn.com` for terrain and `api.open-meteo.com` for click forecasts. Everything else comes from files the pipeline generated. The smoke test checks this.
+- **The browser calls only two external hosts**: `tiles.mapterhorn.com` for terrain and `api.open-meteo.com` for click forecasts. Everything else comes from files the pipeline generated. The smoke test checks this. The one exception is visit counting on the live site, when `GOATCOUNTER_CODE` is set (see Deployment).
+- **Feedback and visit counts** (`web/src/app/feedback.ts`, `web/src/app/analytics.ts`): "About the data" starts with *Something is wrong* and *Idea*. They open an e-mail to `FEEDBACK_EMAIL` with the app version, the current view link, the browser and the screen size filled in, and offer the GitHub issue forms (`.github/ISSUE_TEMPLATE/`), prefilled the same way, for testers with an account. Visits are counted with GoatCounter as a plain image request to its counting endpoint (no script, no cookies), never on localhost or in automated browsers. A page view is counted as `/` with the app version as its title, so testers on an old cached copy show up; the hash with the view is never sent. Events, each at most once per page load: `layer/<key>` when a person switches a layer on, `share`, `about`, `feedback/<bug|idea>-<mail|github>`.
 - **Pipeline** (`pipeline/src/run.ts`):
   - Fetches both station sources, converts units (m → cm, K → °C, m/s → km/h) and drops readings older than 24 h.
   - Merges records that describe the same station (within 300 m and 60 m of elevation, from different providers). The freshest record wins, and the province API wins ties.
@@ -111,6 +112,7 @@ One-time setup:
 2. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
 3. Settings → Secrets and variables → Actions: `CDSE_USERNAME`, `CDSE_PASSWORD`, `CDSE_CLIENT_ID`, `CDSE_CLIENT_SECRET` (already set if the check workflow works).
 4. Run "Update data and deploy" once from the Actions tab. The first run takes a few minutes longer (basemap, satellite tiles, classifying the Sentinel-2 days). The site appears at `https://<user>.github.io/tirol-snow-map/`.
+5. Optional, Settings → Secrets and variables → Actions → **Variables**: `FEEDBACK_EMAIL` (the address the app's "Something is wrong" and "Idea" links write to; without it they go to GitHub issues only) and `GOATCOUNTER_CODE` (the site code from a free [GoatCounter](https://www.goatcounter.com) account, the part before `.goatcounter.com`; without it nothing is counted). Both end up in the public page, so use an address you are happy to have there. They take effect with the next deploy.
 
 GitHub disables scheduled workflows in a public repository after 60 days without activity in it, and scheduled runs can start late when GitHub is busy. The station warning in the app ("out of date") shows when that happens; re-enable the workflow from the Actions tab.
 

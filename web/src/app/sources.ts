@@ -13,6 +13,8 @@ import { latestStations, stationsError as stationsLoadError } from '../layers/st
 import { satelliteInfoHtml } from '../satellite.ts';
 import { snowInfoHtml } from '../snow.ts';
 import { VERSION_LABEL } from '../version.ts';
+import { analyticsEnabled, track } from './analytics.ts';
+import { feedbackHtml } from './feedback.ts';
 import { loadJson } from './data.ts';
 import { history } from './daySlider.ts';
 import { $ } from './dom.ts';
@@ -46,6 +48,8 @@ function renderSources() {
     : `<p class="muted">${escapeHtml(stationsError ?? 'Loading…')}</p>`;
   const failing = statusFile ? Object.entries(statusFile.steps).filter(([, s]) => !s.ok) : [];
   $('sources-body').innerHTML = `
+    <h3>Feedback</h3>
+    ${feedbackHtml()}
     ${
       failing.length
         ? `<h3>Last update</h3>${failing
@@ -107,7 +111,8 @@ function renderSources() {
     Station values are point measurements and forecasts are model output. Always check the official avalanche bulletin at
     <a href="https://avalanche.report" target="_blank" rel="noopener">avalanche.report</a>.</p>
     <h3>App version</h3>
-    <p class="muted">${escapeHtml(VERSION_LABEL)} · <a href="https://github.com/adamvalik/tirol-snow-map/releases" target="_blank" rel="noopener">release notes</a></p>`;
+    <p class="muted">${escapeHtml(VERSION_LABEL)} · <a href="https://github.com/adamvalik/tirol-snow-map/releases" target="_blank" rel="noopener">release notes</a></p>
+    ${analyticsEnabled() ? '<h3>Privacy</h3><p class="muted">Visits are counted anonymously with <a href="https://www.goatcounter.com" target="_blank" rel="noopener">GoatCounter</a>: no cookies, nothing personal, and the place you look at is not sent. Your position, favourites and GPX tracks never leave your device.</p>' : ''}`;
 }
 
 /** Loads status.json and wires the "About the data" button. */
@@ -128,5 +133,10 @@ export function setupSources() {
   $('sources-btn').addEventListener('click', () => {
     renderSources();
     dialog.showModal();
+    track('about');
+  });
+  $('sources-body').addEventListener('click', (e) => {
+    const kind = (e.target as HTMLElement).closest<HTMLElement>('[data-feedback]')?.dataset.feedback;
+    if (kind) track(`feedback/${kind}`);
   });
 }

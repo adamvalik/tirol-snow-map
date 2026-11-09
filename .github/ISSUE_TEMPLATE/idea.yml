@@ -1,0 +1,19 @@
+name: Idea
+description: Something the map could do or show.
+labels: [idea, feedback]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What would you like the map to do?
+    validations:
+      required: true
+  - type: input
+    id: view
+    attributes:
+      label: View link
+      description: Filled in when you open this from the app's "About the data".
+  - type: input
+    id: version
+    attributes:
+      label: App version

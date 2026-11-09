@@ -2,6 +2,7 @@
 import type * as maplibregl from 'maplibre-gl';
 import { DEFAULT_EXAGGERATION } from '../map.ts';
 import { LAYER_KEYS, toHash, type ViewState } from '../viewState.ts';
+import { track } from './analytics.ts';
 import { $ } from './dom.ts';
 import { isOn } from './switches.ts';
 import { toast } from './toast.ts';
@@ -41,6 +42,7 @@ export function setupShare(map: maplibregl.Map, parts: () => Partial<ViewState>[
   $('share-btn').addEventListener('click', async () => {
     window.history.replaceState(null, '', toHash(currentView()));
     const url = window.location.href;
+    track('share');
     try {
       // Phones get the system share sheet; desktops a copied link.
       if (navigator.share && matchMedia('(pointer: coarse)').matches) {

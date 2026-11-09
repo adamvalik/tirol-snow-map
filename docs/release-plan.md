@@ -144,8 +144,8 @@ Added Nov 9. The new UI is built in parallel; this is the work that does not tou
 | Item | What | Effort |
 | --- | --- | --- |
 | **CI on pull requests** (done Nov 9) | `.github/workflows/ci.yml`: tests, typecheck, build and the browser smoke test on every pull request, on fixture data (no secrets), with the basemap from production's cache when there is one. Smoke screenshots are uploaded as an artifact, handy for reviewing the UI branch. Before this, pull requests were not checked at all and the smoke test never ran in CI | S |
-| **GoatCounter** (2) | Script tag, skipped on localhost; a small `track(event)` helper that sends the version along; events for layers switched on, GPX, feedback, share | S |
-| **Feedback** (3) | Tally form with hidden fields (version, commit, view link, user agent, screen size); `.github/ISSUE_TEMPLATE/bug.yml` and `idea.yml`. The UI only needs a link | S |
+| **GoatCounter** (2, built Nov 9) | `web/src/app/analytics.ts`: an image request to GoatCounter's counting endpoint instead of its script (no foreign code, one host), off without the `GOATCOUNTER_CODE` repository variable, on localhost and in automated browsers. Page views carry the version as title; events `layer/<key>`, `share`, `about`, `feedback/…`, once per page load. Add `gpx` with the GPX layer. **To do: create the GoatCounter account and set the variable** | S |
+| **Feedback** (3, built Nov 9) | `mailto:` for v1 instead of Tally: *Something is wrong* and *Idea* at the top of "About the data" open an e-mail to the `FEEDBACK_EMAIL` repository variable with version, view link, browser and screen size filled in; GitHub issue forms `.github/ISSUE_TEMPLATE/bug.yml` and `idea.yml`, prefilled from the URL. Without the variable only the GitHub links show. A Tally form can replace the e-mail later. **To do: set the variable**; the new UI's menu links to the same thing | S |
 | **GPX logic, without drawing** (4) | A pure module in `shared/`: parse `<trk>` and `<rte>`, several segments, missing elevation, broken files; distance, climb (the ferrata 5 m hysteresis), highest point, share on snow (the ferrata "snow along the route" code). Fixture tests. The layer module then only draws it, so this can land before the new UI | M |
 | **Link preview plumbing** (5) | `og:` and `twitter:` tags; a deploy step that renders `og.png` (1200 × 630) with Playwright after the build. Can be built now; it picks up the new look when the UI lands | S–M |
 | **Release on tag** (1) | A workflow on `v*` tags: check the tag matches `package.json`, create a draft GitHub Release. Replaces steps 3–4 of "How to make a release" | S |
@@ -174,7 +174,7 @@ The Euregio station feed the pipeline already reads carries more than it uses:
 1. **Version and tags** (1) – needed by everything else that reports the version. Done.
 2. **CI on pull requests** (10.1) – done Nov 9.
 3. **New snow at stations** (10.2) – done Nov 9.
-4. **Analytics** (2) and **feedback form** (3) – a few hours together.
+4. **Analytics** (2) and **feedback** (3) – built Nov 9; the repository variables `GOATCOUNTER_CODE` and `FEEDBACK_EMAIL` still to set.
 5. **GPX logic** (10.1), then the **GPX layer** (4) once the UI is in.
 6. **Keep the schedule alive** and **upstream budgets** (10.3).
 7. **Avalanche region link** (10.2).
@@ -189,8 +189,8 @@ Items 2, 3, 5 (logic) and 6 do not touch the UI files, so they do not conflict w
 ### Release checklist for `v0.2.0`
 
 - [x] Version and commit visible in "About the data"
-- [ ] GoatCounter counting on the live site, not on localhost
-- [ ] Feedback form opens with version and view link prefilled
+- [ ] GoatCounter counting on the live site, not on localhost (built; needs `GOATCOUNTER_CODE`)
+- [ ] Feedback e-mail opens with version and view link prefilled (built; needs `FEEDBACK_EMAIL`)
 - [ ] GPX: load, fly to, summary, remove, survives reload
 - [ ] Link preview checked in WhatsApp and Signal
 - [ ] Tested on iOS Safari and Android Chrome (phone), one desktop browser

@@ -1,6 +1,7 @@
 // Starts the app: the map, the layers (layers/registry.ts) and the parts around them in app/.
 import * as maplibregl from 'maplibre-gl';
 import './style.css';
+import { trackVisit } from './app/analytics.ts';
 import { dayView, loadHistory, setupDaySlider } from './app/daySlider.ts';
 import { setupLayout } from './app/layout.ts';
 import { PointPanel } from './app/point.ts';
@@ -43,6 +44,7 @@ const app: App = {
 };
 setupLayers(app);
 setupSources();
+trackVisit();
 loadHistory();
 
 map.on('load', async () => {

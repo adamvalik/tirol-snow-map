@@ -93,6 +93,12 @@ jobs:
           key: pipeline-data-${{ github.run_id }}-${{ github.run_attempt }}
 
       - run: npm run build
+        env:
+          # Optional repository variables (Settings → Secrets and variables → Actions → Variables):
+          # the address the feedback links write to, and the GoatCounter site code. Unset turns
+          # either off. Both end up in the public page, so use an address meant for it.
+          FEEDBACK_EMAIL: ${{ vars.FEEDBACK_EMAIL }}
+          GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist
