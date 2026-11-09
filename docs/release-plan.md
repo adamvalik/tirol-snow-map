@@ -154,7 +154,7 @@ Added Nov 9. The new UI is built in parallel; this is the work that does not tou
 
 The Euregio station feed the pipeline already reads carries more than it uses:
 
-- **New snow at stations** (roadmap 7). Features have `HSD_24`, `HSD_48`, `HSD_72` (change in snow depth) and `PSUM_6`, `PSUM_48`, `PSUM_72`. Add them as optional fields on `Station` in `shared/types.ts` (optional, so no `SCHEMA_VERSION` bump) and map them in `pipeline/src/sources/linea.ts`; for province-only stations, take the difference from the pipeline's own 14-day history. Effort S. Also feeds the "new snow since the satellite view" warning, and later a storm correction of the depth estimate (an open item from `plan.md`).
+- **New snow at stations** (roadmap 7, done Nov 9). Features have `HSD_24`, `HSD_48`, `HSD_72` (change in snow depth) and `PSUM_6`, `PSUM_48`, `PSUM_72`. Add them as optional fields on `Station` in `shared/types.ts` (optional, so no `SCHEMA_VERSION` bump) and map them in `pipeline/src/sources/linea.ts`; for province-only stations, take the difference from the pipeline's own 14-day history. Effort S. Built from the feed alone: provincial stations get the change from the feed's avalanche-service copy when they merge, which covers 186 of 196 snow stations on the map in the fixtures, so the history fallback was left out. Shown as "Depth change" in the station panel and next to the depth in the tooltip. Also feeds the "new snow since the satellite view" warning, and later a storm correction of the depth estimate (an open item from `plan.md`).
 - **Avalanche region for any point** (roadmap 7). Stations carry `microRegionID` (for example `IT-32-BZ-03 Schnalser Kamm`). For a clicked point, a pipeline script like `bivouacs-run.ts` fetches the EAWS micro-region outlines, cuts them to the grid, simplifies them and commits `web/src/data/regions.json`; the app finds the region of the point and links to that region's bulletin. Effort S–M. Check the licence of the outlines and the exact avalanche.report link format first.
 
 ### 10.3 Keep it running while friends test
@@ -173,7 +173,7 @@ The Euregio station feed the pipeline already reads carries more than it uses:
 
 1. **Version and tags** (1) – needed by everything else that reports the version. Done.
 2. **CI on pull requests** (10.1) – done Nov 9.
-3. **New snow at stations** (10.2).
+3. **New snow at stations** (10.2) – done Nov 9.
 4. **Analytics** (2) and **feedback form** (3) – a few hours together.
 5. **GPX logic** (10.1), then the **GPX layer** (4) once the UI is in.
 6. **Keep the schedule alive** and **upstream budgets** (10.3).
@@ -195,7 +195,8 @@ Items 2, 3, 5 (logic) and 6 do not touch the UI files, so they do not conflict w
 - [ ] Link preview checked in WhatsApp and Signal
 - [ ] Tested on iOS Safari and Android Chrome (phone), one desktop browser
 - [ ] Tests, typecheck and smoke test green (checked on every pull request by `ci.yml`)
-- [ ] New snow at stations; avalanche region link
+- [x] New snow at stations
+- [ ] Avalanche region link
 - [ ] Deploy schedule protected against the 60-day switch-off
 - [ ] Release notes written, tag pushed
 

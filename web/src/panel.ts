@@ -1,7 +1,7 @@
 import type { Station, StationsFile } from '../../shared/types.ts';
 import { snowColor } from './colors.ts';
 import type { Forecast } from './forecast.ts';
-import { compass, escapeHtml, fmt, formatAge, formatTime, weatherText } from './format.ts';
+import { compass, escapeHtml, fmt, fmtChange, formatAge, formatTime, weatherText } from './format.ts';
 
 const panel = document.getElementById('details')!;
 const title = document.getElementById('details-title')!;
@@ -49,10 +49,22 @@ export function stationHtml(s: Station, file: StationsFile): string {
     s.snowDepthCm === null
       ? 'No snow sensor'
       : `<span class="swatch" style="display:inline-block;background:${snowColor(s.snowDepthCm)}"></span> ${fmt(s.snowDepthCm, 'cm')}`;
+  const changes = (
+    [
+      ['24 h', s.snowChange24hCm],
+      ['48 h', s.snowChange48hCm],
+      ['72 h', s.snowChange72hCm],
+    ] as const
+  ).filter(([, v]) => v !== null && v !== undefined);
+  const change =
+    s.snowDepthCm === null || !changes.length
+      ? ''
+      : `<dt>Depth change</dt><dd>${changes.map(([label, v]) => `${fmtChange(v, 'cm')} in ${label}`).join(' · ')}</dd>`;
   const sources = s.sources.map((id) => SOURCE_NAMES[id] ?? id).join(', ');
   return `
     <dl class="kv">
       <dt>Snow depth</dt><dd class="big">${snow}</dd>
+      ${change}
       <dt>Air temperature</dt><dd>${fmt(s.airTempC, '°C', 1)}</dd>
       <dt>Wind</dt><dd>${wind}</dd>
       <dt>Precipitation 24 h</dt><dd>${fmt(s.precip24hMm, 'mm', 1)}</dd>
@@ -61,7 +73,9 @@ export function stationHtml(s: Station, file: StationsFile): string {
     </dl>
     <p class="muted">Operator: ${escapeHtml(s.operator || 'unknown')}<br>
     Data: ${escapeHtml(sources)}, collected ${formatTime(file.generatedAt)}.<br>
-    Snow depth is measured at a single point and can differ a lot on nearby slopes.</p>`;
+    Snow depth is measured at a single point and can differ a lot on nearby slopes.${
+      change ? ' The depth change is new snow minus settling and melt, so it is usually less than the snowfall.' : ''
+    }</p>`;
 }
 
 export const loadingHtml = (elevation: number | null, snowHtml = '', elevationLabel = 'Elevation') => `

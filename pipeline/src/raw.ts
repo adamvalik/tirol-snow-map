@@ -1,5 +1,5 @@
 import type { SourceId } from '../../shared/types.ts';
-import { SNOW_MAX_CM, SNOW_NOISE_FLOOR_CM } from './config.ts';
+import { SNOW_CHANGE_MAX_CM, SNOW_MAX_CM, SNOW_NOISE_FLOOR_CM } from './config.ts';
 
 /** One station as reported by a single source, already converted to app units. */
 export interface RawStation {
@@ -19,6 +19,10 @@ export interface RawStation {
   windGustKmh: number | null;
   windDirDeg: number | null;
   precip24hMm: number | null;
+  /** Change in snow depth over the last 24, 48 and 72 hours (cm): new snow minus settling and melt. */
+  snowChange24hCm: number | null;
+  snowChange48hCm: number | null;
+  snowChange72hCm: number | null;
 }
 
 export const round = (v: number, digits = 1): number => {
@@ -39,6 +43,17 @@ export function cleanSnowDepth(cm: number | null): number | null {
   if (cm === null) return null;
   if (cm < SNOW_NOISE_FLOOR_CM || cm > SNOW_MAX_CM) return null;
   return cm < 0 ? 0 : round(cm);
+}
+
+/**
+ * A change in snow depth (cm), kept only when the station's depth reading itself is valid. Changes
+ * beyond SNOW_CHANGE_MAX_CM are sensor jumps (a person or a drift under the sensor), not snowfall,
+ * and so is a gain larger than the depth now (the depth back then would be below zero).
+ */
+export function cleanSnowChange(cm: number | null, depthCm: number | null): number | null {
+  if (cm === null || depthCm === null || Math.abs(cm) > SNOW_CHANGE_MAX_CM) return null;
+  if (depthCm - cm < SNOW_NOISE_FLOOR_CM) return null;
+  return round(cm, 0) || 0; // || 0 turns -0 into 0
 }
 
 export const inBbox = (

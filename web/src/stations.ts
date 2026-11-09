@@ -3,7 +3,7 @@ import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { FeatureCollection, Point } from 'geojson';
 import { SCHEMA_VERSION, type Station, type StationsFile } from '../../shared/types.ts';
 import { snowColorExpression } from './colors.ts';
-import { escapeHtml, fmt, formatAge } from './format.ts';
+import { escapeHtml, fmt, fmtChange, formatAge } from './format.ts';
 import { inArea } from './island.ts';
 
 export const STATIONS_URL = `${import.meta.env.BASE_URL}data/stations.json`;
@@ -41,7 +41,9 @@ export function tooltipHtml(s: Station): string {
   return (
     `<strong>${escapeHtml(s.name)}</strong>` +
     `${s.elevation} m · ${formatAge(s.observedAt)}<br>` +
-    `Snow ${s.snowDepthCm === null ? 'no sensor' : fmt(s.snowDepthCm, 'cm')} · ` +
+    `Snow ${s.snowDepthCm === null ? 'no sensor' : fmt(s.snowDepthCm, 'cm')}` +
+    (s.snowDepthCm !== null && s.snowChange24hCm ? ` (${fmtChange(s.snowChange24hCm, 'cm')} in 24 h)` : '') +
+    ' · ' +
     `${fmt(s.airTempC, '°C', 1)} · wind ${fmt(s.windSpeedKmh, 'km/h')}`
   );
 }

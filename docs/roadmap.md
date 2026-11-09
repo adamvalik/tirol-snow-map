@@ -145,7 +145,7 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 | Idea | What it gives | Effort |
 | --- | --- | --- |
 | Avalanche bulletin link per region | Point panel shows the region name and links to that region on avalanche.report | S |
-| New snow 24/48/72 h at stations | The change in snow depth, not only the total, in the station panel | S |
+| ~~New snow 24/48/72 h at stations~~ (done Nov 9) | The change in snow depth, not only the total, in the station panel | S |
 | Offline repeat visits | Service worker for the app, latest data and recent terrain tiles | M |
 | Orbit video | 10-second turn around a peak for stories | M, after share pictures |
 | New app icon | A clearer home-screen and favicon mark; do it together with the name | S |

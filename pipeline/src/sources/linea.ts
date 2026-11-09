@@ -2,6 +2,7 @@
 // HS in m, TA in K, VW / VW_MAX in m/s, DW in degrees, PSUM_24 in mm, date ISO 8601 UTC.
 
 import {
+  cleanSnowChange,
   cleanSnowDepth,
   hoursBetween,
   inBbox,
@@ -58,6 +59,11 @@ export function parseLinea(
     const taK = num(p.TA);
     const dw = num(p.DW);
     const psum = num(p.PSUM_24);
+    const snowDepthCm = cleanSnowDepth(hsM === null ? null : hsM * 100);
+    const change = (key: string) => {
+      const m = num(p[key]);
+      return cleanSnowChange(m === null ? null : m * 100, snowDepthCm);
+    };
     const provider = str(p.dataProviderID) || 'unknown';
     const record: RawStation = {
       source: 'euregio-linea',
@@ -70,12 +76,15 @@ export function parseLinea(
       elevation: round(elevation, 0),
       operator: str(p.operator),
       observedAt,
-      snowDepthCm: cleanSnowDepth(hsM === null ? null : hsM * 100),
+      snowDepthCm,
       airTempC: taK === null ? null : round(taK - 273.15),
       windSpeedKmh: msToKmh(num(p.VW)),
       windGustKmh: msToKmh(num(p.VW_MAX)),
       windDirDeg: dw === null ? null : round(dw, 0),
       precip24hMm: psum === null || psum < 0 ? null : round(psum),
+      snowChange24hCm: change('HSD_24'),
+      snowChange48hCm: change('HSD_48'),
+      snowChange72hCm: change('HSD_72'),
     };
     const hasData =
       record.snowDepthCm !== null || record.airTempC !== null || record.windSpeedKmh !== null;
