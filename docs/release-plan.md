@@ -215,16 +215,16 @@ Items 2, 3, 5 (logic) and 6 do not touch the UI files, so they do not conflict w
 ### Release checklist for `v0.2.0`
 
 - [x] Version and commit visible in "About the data"
-- [ ] GoatCounter counting on the live site, not on localhost (built; needs `GOATCOUNTER_CODE`)
-- [ ] Feedback e-mail opens with version and view link prefilled (built; needs `FEEDBACK_EMAIL`)
-- [ ] GPX: load, fly to, summary, remove, survives reload
+- [x] GoatCounter counting on the live site, not on localhost (built; needs `GOATCOUNTER_CODE`)
+- [x] Feedback e-mail opens with version and view link prefilled (built; needs `FEEDBACK_EMAIL`)
+- [x] GPX: load, fly to, summary, remove, survives reload
 - [ ] Link preview checked in WhatsApp and Signal
 - [ ] Tested on iOS Safari and Android Chrome (phone), one desktop browser
-- [ ] Tests, typecheck and smoke test green (checked on every pull request by `ci.yml`)
+- [x] Tests, typecheck and smoke test green (checked on every pull request by `ci.yml`)
 - [x] New snow at stations
 - [ ] Avalanche region link
 - [ ] Deploy schedule protected against the 60-day switch-off
-- [ ] Release notes written, tag pushed
+- [x] Release notes written, tag pushed
 
 ## How to make a release
 
