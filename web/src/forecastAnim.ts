@@ -20,22 +20,6 @@ export async function loadForecast(): Promise<ForecastFile> {
   return file;
 }
 
-/** "Wed 21 Oct, 14:00 (+24 h), new snow up to 31 cm" for frame `k`. */
-export function frameLabel(file: ForecastFile, k: number): string {
-  const f = file.frames?.[k];
-  if (!f || !file.start) return '';
-  const when = new Date(f.time).toLocaleString('en-GB', {
-    timeZone: 'Europe/Rome',
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-  const hours = Math.round((Date.parse(f.time) - Date.parse(file.start)) / 3_600_000);
-  return `${when} (+${hours} h), new snow up to ${f.maxCm} cm`;
-}
-
 export function forecastInfoHtml(file: ForecastFile): string {
   if (!file.available || !file.frames?.length) {
     return `<p><strong>Forecast snowfall</strong>: not available (${escapeHtml(file.reason ?? 'unknown')}).</p>`;
