@@ -42,6 +42,13 @@ export function fmt(v: number | null | undefined, unit: string, digits = 0): str
   return `${v.toFixed(digits)} ${unit}`;
 }
 
+/** A signed change: "+12 cm", "−3 cm", "0 cm"; "–" when unknown. */
+export function fmtChange(v: number | null | undefined, unit: string): string {
+  if (v === null || v === undefined || Number.isNaN(v)) return '–';
+  const r = Math.round(v);
+  return r > 0 ? `+${r} ${unit}` : r < 0 ? `−${-r} ${unit}` : `0 ${unit}`;
+}
+
 const COMPASS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 export const compass = (deg: number | null): string =>
   deg === null ? '' : COMPASS[Math.round((((deg % 360) + 360) % 360) / 45) % 8];

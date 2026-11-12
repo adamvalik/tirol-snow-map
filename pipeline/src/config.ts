@@ -36,3 +36,5 @@ export const FIXTURES: Record<keyof typeof URLS | 'linea', string> = {
 export const SNOW_NOISE_FLOOR_CM = -5;
 /** Readings above this are treated as sensor errors. */
 export const SNOW_MAX_CM = 500;
+/** A snow depth change larger than this within 72 h is treated as a sensor jump, not snowfall or melt. */
+export const SNOW_CHANGE_MAX_CM = 250;

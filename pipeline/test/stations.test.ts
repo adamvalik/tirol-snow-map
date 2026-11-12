@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { STATION_BBOX } from '../src/config.ts';
 import { mergeStations } from '../src/merge.ts';
-import { cleanSnowDepth, romeOffsetMinutes, type RawStation } from '../src/raw.ts';
+import { cleanSnowChange, cleanSnowDepth, romeOffsetMinutes, type RawStation } from '../src/raw.ts';
 import { newestLineaDate, parseLinea, parseLineaDate } from '../src/sources/linea.ts';
 import { parseProvince, parseProvinceDate } from '../src/sources/provinceBz.ts';
 
@@ -61,6 +61,17 @@ describe('Euregio linea feed', () => {
     expect(romeOffsetMinutes(new Date('2026-12-01T12:00:00Z'))).toBe(60);
   });
 
+  it('reads the 24, 48 and 72 h snow depth change (HSD_*, m) in cm', () => {
+    const s = linea.find((x) => x.code === 'ALBINA/STEU2')!; // Teufelsegg: HS 0.053, HSD 0.005 / 0.026 / -0.012
+    expect(s.snowChange24hCm).toBe(1);
+    expect(s.snowChange48hCm).toBe(3);
+    expect(s.snowChange72hCm).toBe(-1);
+    // The provincial copy in the feed carries no HSD fields.
+    const provincial = linea.filter((x) => x.provider === 'IT-32-BZ' && x.snowDepthCm !== null);
+    expect(provincial.length).toBeGreaterThan(0);
+    expect(provincial.every((x) => x.snowChange24hCm === null)).toBe(true);
+  });
+
   it('drops stations without a usable elevation', () => {
     expect(linea.every((s) => s.elevation > 0)).toBe(true);
   });
@@ -104,6 +115,16 @@ describe('snow depth cleaning', () => {
     expect(cleanSnowDepth(12.34)).toBe(12.3);
     expect(cleanSnowDepth(null)).toBeNull();
   });
+
+  it('keeps a depth change only with a valid depth and within plausible bounds', () => {
+    expect(cleanSnowChange(18.4, 60)).toBe(18);
+    expect(cleanSnowChange(-12, 30)).toBe(-12);
+    expect(cleanSnowChange(-0.3, 0)).toBe(0); // no -0
+    expect(cleanSnowChange(5, null)).toBeNull(); // no depth reading
+    expect(cleanSnowChange(300, 400)).toBeNull(); // sensor jump
+    expect(cleanSnowChange(40, 10)).toBeNull(); // more gain than depth
+    expect(cleanSnowChange(null, 10)).toBeNull();
+  });
 });
 
 describe('mergeStations', () => {
@@ -123,6 +144,9 @@ describe('mergeStations', () => {
     windGustKmh: null,
     windDirDeg: null,
     precip24hMm: null,
+    snowChange24hCm: null,
+    snowChange48hCm: null,
+    snowChange72hCm: null,
   };
 
   it('merges the same station from two providers and fills missing fields', () => {
@@ -141,6 +165,21 @@ describe('mergeStations', () => {
     expect(s.snowDepthCm).toBe(10); // higher-priority source wins
     expect(s.airTempC).toBe(-1); // filled from the other record
     expect(s.sources).toEqual(['province-bz', 'euregio-linea']);
+  });
+
+  it('takes the depth change from a duplicate when the preferred record lacks it', () => {
+    const albina: RawStation = { ...base, source: 'euregio-linea', provider: 'ALBINA', code: 'X1', snowChange24hCm: 12, snowChange72hCm: 20 };
+    const [s] = mergeStations([[base], [albina]]);
+    expect(s.id).toBe('province-bz:A');
+    expect(s.snowChange24hCm).toBe(12);
+    expect(s.snowChange48hCm).toBeNull();
+    expect(s.snowChange72hCm).toBe(20);
+  });
+
+  it('gives most South Tyrol snow stations a depth change in the real fixtures', () => {
+    const merged = mergeStations([province, linea]).filter((s) => s.sources.includes('province-bz') && s.snowDepthCm !== null);
+    const withChange = merged.filter((s) => s.snowChange24hCm !== null);
+    expect(withChange.length / merged.length).toBeGreaterThan(0.9);
   });
 
   it('prefers a fresh duplicate over a stale higher-priority one', () => {

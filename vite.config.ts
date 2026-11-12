@@ -15,6 +15,17 @@ function commit(): string {
   }
 }
 
+// Optional, from the deploy workflow's repository variables (see README, Deployment). Empty turns
+// the feedback e-mail links and the visit counting off.
+const feedbackEmail = (process.env.FEEDBACK_EMAIL ?? '').trim();
+const goatcounterCode = (process.env.GOATCOUNTER_CODE ?? '').trim();
+if (feedbackEmail && !/^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(feedbackEmail)) {
+  throw new Error(`FEEDBACK_EMAIL is not an e-mail address: ${feedbackEmail}`);
+}
+if (goatcounterCode && !/^[a-z0-9-]+$/.test(goatcounterCode)) {
+  throw new Error(`GOATCOUNTER_CODE should be the site code only (the part before .goatcounter.com): ${goatcounterCode}`);
+}
+
 export default defineConfig({
   root: 'web',
   // Relative base so the build works both at a GitHub Pages sub-path and locally.
@@ -34,6 +45,8 @@ export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(version),
     __APP_COMMIT__: JSON.stringify(commit()),
+    __FEEDBACK_EMAIL__: JSON.stringify(feedbackEmail),
+    __GOATCOUNTER_CODE__: JSON.stringify(goatcounterCode),
   },
   worker: { format: 'es' },
   test: {

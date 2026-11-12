@@ -2,6 +2,7 @@
 // shared link and the map click; adding a layer means a module here, a key in viewState.ts and a
 // switch in index.html.
 import type * as maplibregl from 'maplibre-gl';
+import { track } from '../app/analytics.ts';
 import { $ } from '../app/dom.ts';
 import { isOn, toggle } from '../app/switches.ts';
 import { inArea } from '../island.ts';
@@ -39,9 +40,11 @@ export function setupLayers(app: App) {
   for (const m of LAYERS) {
     for (const key of m.keys) {
       const input = toggle(key);
-      input.addEventListener('change', () => {
+      input.addEventListener('change', (e) => {
         m.setVisible?.(key, input.checked);
         showLegends();
+        // Only switches the person flips, not ones a shared link or the app turns on.
+        if (input.checked && e.isTrusted) track(`layer/${key}`);
       });
     }
   }

@@ -4,7 +4,7 @@ import { Favourites } from '../src/favourites.ts';
 import { GRADE_CLASSES, gradeColor, gradeLabel, gradeText, highestPoint, letterGrade, UNGRADED_COLOR, websiteUrl } from '../src/ferratas.ts';
 import { snowColor, SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from '../src/colors.ts';
 import { forecastUrl } from '../src/forecast.ts';
-import { compass, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
+import { compass, fmtChange, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
 import { frameLabel } from '../src/forecastAnim.ts';
 import { routeSnow } from '../src/snow.ts';
 import { parseHash, toHash, type ViewState } from '../src/viewState.ts';
@@ -44,6 +44,14 @@ describe('format helpers', () => {
     expect(compass(350)).toBe('N');
     expect(compass(135)).toBe('SE');
     expect(weatherText(73)).toBe('Snow');
+  });
+
+  it('formats signed changes', () => {
+    expect(fmtChange(12.4, 'cm')).toBe('+12 cm');
+    expect(fmtChange(-3, 'cm')).toBe('−3 cm');
+    expect(fmtChange(-0.2, 'cm')).toBe('0 cm');
+    expect(fmtChange(null, 'cm')).toBe('–');
+    expect(fmtChange(undefined, 'cm')).toBe('–');
   });
 });
 

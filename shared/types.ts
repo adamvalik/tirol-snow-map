@@ -24,6 +24,13 @@ export interface Station {
   windGustKmh: number | null;
   windDirDeg: number | null;
   precip24hMm: number | null;
+  /**
+   * Change in snow depth over the last 24, 48 and 72 hours (cm): new snow minus settling and melt,
+   * so it can be negative. Missing in files written before Nov 2026 (treat as null).
+   */
+  snowChange24hCm?: number | null;
+  snowChange48hCm?: number | null;
+  snowChange72hCm?: number | null;
 }
 
 export interface SourceStatus {

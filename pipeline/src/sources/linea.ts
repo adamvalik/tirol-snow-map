@@ -3,6 +3,7 @@
 // Some providers leave SMET's no-data value (-777, sometimes -999) in the numbers.
 
 import {
+  cleanSnowChange,
   cleanSnowDepth,
   hoursBetween,
   inBbox,
@@ -81,6 +82,11 @@ export function parseLinea(
     const taK = val(p.TA);
     const dw = val(p.DW);
     const psum = val(p.PSUM_24);
+    const snowDepthCm = cleanSnowDepth(hsM === null ? null : hsM * 100);
+    const change = (key: string) => {
+      const m = val(p[key]);
+      return cleanSnowChange(m === null ? null : m * 100, snowDepthCm);
+    };
     const provider = str(p.dataProviderID) || opts.provider || 'unknown';
     const record: RawStation = {
       source: 'euregio-linea',
@@ -93,12 +99,15 @@ export function parseLinea(
       elevation: round(elevation, 0),
       operator: str(p.operator),
       observedAt,
-      snowDepthCm: cleanSnowDepth(hsM === null ? null : hsM * 100),
+      snowDepthCm,
       airTempC: taK === null ? null : round(taK - 273.15),
       windSpeedKmh: msToKmh(val(p.VW)),
       windGustKmh: msToKmh(val(p.VW_MAX)),
       windDirDeg: dw === null ? null : round(dw, 0),
       precip24hMm: psum === null || psum < 0 ? null : round(psum),
+      snowChange24hCm: change('HSD_24'),
+      snowChange48hCm: change('HSD_48'),
+      snowChange72hCm: change('HSD_72'),
     };
     const hasData =
       record.snowDepthCm !== null || record.airTempC !== null || record.windSpeedKmh !== null;

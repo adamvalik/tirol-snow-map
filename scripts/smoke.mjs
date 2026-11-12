@@ -4,7 +4,8 @@
 //
 //   npm run build && node scripts/smoke.mjs [--out <screenshot dir>]
 //
-// Env: CHROMIUM_PATH to use a specific Chromium; HTTPS_PROXY is passed to the browser if set.
+// Env: CHROMIUM_PATH to use a specific Chromium; HTTPS_PROXY is passed to the browser if set;
+// SMOKE_READY_LIMIT_MS overrides the 5000 ms limit for the first rendered map (CI runners render in software).
 // Headless Chromium renders WebGL in software, so frame rates here are a lower bound, not a phone measurement.
 
 import { mkdir } from 'node:fs/promises';
@@ -18,6 +19,7 @@ await mkdir(outDir, { recursive: true });
 
 const server = await preview({ preview: { port: 4174, strictPort: true }, logLevel: 'silent' });
 const url = 'http://localhost:4174/';
+const readyLimitMs = Number(process.env.SMOKE_READY_LIMIT_MS) || 5000;
 
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || undefined,
@@ -194,7 +196,7 @@ for (const profile of profiles) {
     !(forecastOk || rateLimited) && 'forecast panel',
     !stationOk && 'station panel',
     disallowed.length && 'disallowed hosts',
-    readyMs > 5000 && 'map ready > 5000 ms',
+    readyMs > readyLimitMs && `map ready > ${readyLimitMs} ms`,
   ].filter(Boolean);
   if (problems.length) {
     console.log(`  FAIL: ${problems.join(', ')}`);
