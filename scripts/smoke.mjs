@@ -113,6 +113,11 @@ for (const profile of profiles) {
   const appErrors = errors.filter((e) => !(rateLimited && e.includes('status of 429')));
   await page.screenshot({ path: path.join(outDir, `${profile.name}-forecast.png`), timeout: SHOT_TIMEOUT_MS });
 
+  // The status line, read now: the shared-link check below opens a second tab, which sends this page
+  // to the background, where Chromium stops the animation frames Playwright's lookups wait on.
+  const stationsText = await page.evaluate(
+    () => `stations: ${document.getElementById('stations-count').textContent}, data age: ${document.getElementById('data-age').getAttribute('aria-label')}`,
+  );
   // V3 (desktop): the timeline (a past day, forecast playback), and a shared link that restores the view.
   let v3 = '';
   if (profile.name === 'desktop') {
@@ -187,11 +192,11 @@ for (const profile of profiles) {
     });
     const linkOk = hash.includes('map=') && Math.abs(restored.zoom - 12.6) < 0.05 && restored.forecast && restored.ferratas;
     await shared.close();
+    await page.bringToFront();
     v3 = `timeline day ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}`;
     if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || !linkOk) errors.push(`V3 checks: ${v3}`);
   }
 
-  const stationsText = `stations: ${await page.textContent('#stations-count')}, data age: ${await page.getAttribute('#data-age', 'aria-label')}`;
   console.log(
     `${profile.name}: map ready ${readyMs} ms (in-page ${readyInPage} ms), ~${fps.toFixed(0)} fps while rotating (software GL), ` +
       `station panel ${stationOk ? 'OK' : 'FAILED'}, forecast ${forecastOk ? 'OK' : rateLimited ? 'RATE-LIMITED by Open-Meteo (error shown in panel)' : 'FAILED'}`,
