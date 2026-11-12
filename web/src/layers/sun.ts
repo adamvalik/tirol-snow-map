@@ -7,7 +7,7 @@ import type { OpenPoint } from '../app/point.ts';
 import { isOn, switchOn } from '../app/switches.ts';
 import { toast } from '../app/toast.ts';
 import { escapeHtml } from '../format.ts';
-import { horizonProfile } from '../../../shared/horizon.ts';
+import { type Horizon, horizonProfile } from '../../../shared/horizon.ts';
 import { MAX_BOUNDS } from '../map.ts';
 import { ShadowLayer } from '../shadows.ts';
 import {
@@ -120,6 +120,7 @@ function setSunTime(t: number) {
   // The skyline stays; only the sun's path moves with the day.
   if (dayChanged && isSunHere(sunHere)) sunHere = sunHereFor(sunHere.lon, sunHere.lat, sunHere.horizon, localDate(t), sunHere.sunAt);
   showSunHere();
+  if (dayChanged) for (const l of sunDayListeners) l(localDate(t));
   app.syncHash();
 }
 
@@ -144,21 +145,58 @@ function showSunHere() {
   if (el) el.outerHTML = sunHereSection();
 }
 
+/** Skylines traced recently, by position, so asking again (another day, a reopened panel) is instant. */
+const horizons = new Map<string, Promise<Horizon>>();
+const MAX_HORIZONS = 8;
+
+function traceHorizon(lon: number, lat: number): Promise<Horizon> {
+  const key = `${lon.toFixed(5)},${lat.toFixed(5)}`;
+  let h = horizons.get(key);
+  if (!h) {
+    h = pointTerrain(lon, lat).then((terrain) =>
+      horizonProfile(lon, lat, terrain.ground, {
+        bands: [
+          { sampler: terrain.near, until: NEAR_RADIUS, step: 20 },
+          { sampler: terrain.far, until: 100_000, step: 125 },
+        ],
+        zMax: terrain.zMax,
+      }),
+    );
+    // A failure is not kept, so the next ask tries again.
+    h.catch(() => horizons.delete(key));
+    horizons.set(key, h);
+    while (horizons.size > MAX_HORIZONS) horizons.delete(horizons.keys().next().value!);
+  }
+  return h;
+}
+
+/** The sun slider's day (YYYY-MM-DD), which "Sun here" is worked out for; today unless the sun light was moved. */
+export const sunDate = (): string => localDate(sunTime);
+
+const sunDayListeners: ((date: string) => void)[] = [];
+
+/** Called with the new day when the sun slider moves to another day; ask `sunHereAt` again then. */
+export function onSunDayChange(listener: (date: string) => void) {
+  sunDayListeners.push(listener);
+}
+
+/**
+ * When the sun reaches a point and goes behind the mountains on `sunDate()`, with the skyline seen
+ * from it: for any coordinate (a clicked point, a track's highest point, a station). The first ask
+ * for a place fetches terrain and takes a moment; `sunHereHtml` draws the result.
+ */
+export async function sunHereAt(lon: number, lat: number, date = sunDate()): Promise<SunHere> {
+  const horizon = await traceHorizon(lon, lat);
+  return sunHereFor(lon, lat, horizon, date, (t) => sunPosition(t, lat, lon));
+}
+
 async function traceSunHere({ lngLat, signal }: { lngLat: maplibregl.LngLat; signal: AbortSignal }) {
   sunHere = 'loading';
   showSunHere();
-  const { lng: lon, lat } = lngLat;
   try {
-    const terrain = await pointTerrain(lon, lat);
+    const s = await sunHereAt(lngLat.lng, lngLat.lat);
     if (signal.aborted) return;
-    const horizon = horizonProfile(lon, lat, terrain.ground, {
-      bands: [
-        { sampler: terrain.near, until: NEAR_RADIUS, step: 20 },
-        { sampler: terrain.far, until: 100_000, step: 125 },
-      ],
-      zMax: terrain.zMax,
-    });
-    sunHere = sunHereFor(lon, lat, horizon, localDate(sunTime), (t) => sunPosition(t, lat, lon));
+    sunHere = s;
   } catch (e) {
     if (signal.aborted) return;
     sunHere = e instanceof Error ? e : new Error(String(e));

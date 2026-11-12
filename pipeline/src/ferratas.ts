@@ -4,7 +4,7 @@
 // via_ferrata_scale; only a few routes have a route=via_ferrata relation. So ways are grouped into
 // routes here: by relation, by shared nodes, and by name across small gaps.
 
-import { distanceM, lineLengthM, resample } from '../../shared/geo.ts';
+import { ascentDescent, distanceM, lineLengthM, resample } from '../../shared/geo.ts';
 import { STATION_BBOX } from './config.ts';
 
 export interface OsmWay {
@@ -289,34 +289,6 @@ export function parseFerratas(osm: { elements: OsmElement[] }): FerrataRoute[] {
     });
   }
   return routes.sort((a, b) => a.id.localeCompare(b.id, 'en', { numeric: true }));
-}
-
-/**
- * Ascent and descent along a profile with hysteresis: a change only counts once the profile has
- * moved `thresholdM` from the last turning point, so terrain-model noise on gentle ground does not
- * add up (the spike measured +30 % on a gentle path with plain summing).
- */
-export function ascentDescent(elevations: readonly number[], thresholdM = 5): { ascent: number; descent: number } {
-  let ascent = 0;
-  let descent = 0;
-  let ref = elevations[0];
-  let dir = 0;
-  for (const e of elevations.slice(1)) {
-    if (dir >= 0 && e > ref && (dir === 1 || e - ref >= thresholdM)) {
-      ascent += e - ref;
-      [ref, dir] = [e, 1];
-    } else if (dir <= 0 && e < ref && (dir === -1 || ref - e >= thresholdM)) {
-      descent += ref - e;
-      [ref, dir] = [e, -1];
-    } else if (dir === 1 && ref - e >= thresholdM) {
-      descent += ref - e;
-      [ref, dir] = [e, -1];
-    } else if (dir === -1 && e - ref >= thresholdM) {
-      ascent += e - ref;
-      [ref, dir] = [e, 1];
-    }
-  }
-  return { ascent, descent };
 }
 
 /** Terrain statistics over the mapped sections; `elevationAt` reads the terrain model in metres. */

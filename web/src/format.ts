@@ -49,6 +49,11 @@ export function fmtChange(v: number | null | undefined, unit: string): string {
   return r > 0 ? `+${r} ${unit}` : r < 0 ? `−${-r} ${unit}` : `0 ${unit}`;
 }
 
+/** "1,234 m". */
+export const metres = (m: number) => `${Math.round(m).toLocaleString('en-GB')} m`;
+/** "850 m", "12.3 km". */
+export const lengthText = (m: number) => (m >= 1000 ? `${(m / 1000).toFixed(1)} km` : metres(m));
+
 const COMPASS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 export const compass = (deg: number | null): string =>
   deg === null ? '' : COMPASS[Math.round((((deg % 360) + 360) % 360) / 45) % 8];

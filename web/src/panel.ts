@@ -97,9 +97,16 @@ export function pointHtml(
       <dt>Position</dt><dd>${lat.toFixed(4)}° N, ${lon.toFixed(4)}° E</dd>
     </dl>
     ${snowHtml}`;
-  if (f instanceof Error) {
-    return `${head}<p class="warning">Forecast unavailable: ${escapeHtml(f.message)}</p>`;
-  }
+  return head + forecastHtml(f);
+}
+
+/**
+ * The forecast on its own: now, then 7 days with snowfall bars. For any point that has one
+ * (`getForecast` in forecast.ts takes a coordinate and an elevation): a clicked point, a
+ * station, a track's highest point.
+ */
+export function forecastHtml(f: Forecast | Error): string {
+  if (f instanceof Error) return `<p class="warning">Forecast unavailable: ${escapeHtml(f.message)}</p>`;
   const c = f.current;
   const maxSnow = Math.max(1, ...f.daily.snowfall_sum);
   const rows = f.daily.time
@@ -115,7 +122,7 @@ export function pointHtml(
       </tr>`;
     })
     .join('');
-  return `${head}
+  return `
     <dl class="kv">
       <dt>Now</dt><dd>${escapeHtml(weatherText(c.weather_code))}, ${fmt(c.temperature_2m, '°C', 1)}</dd>
       <dt>Wind</dt><dd>${fmt(c.wind_speed_10m, 'km/h')} ${compass(c.wind_direction_10m)}</dd>

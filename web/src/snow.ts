@@ -163,25 +163,42 @@ export interface RouteSnow {
   maxDepthCm: number;
 }
 
+/** What the satellite saw in one point's 250 m cell: snow, bare ground, no clear view; null outside the grid. */
+export type PointSnow = 'snow' | 'bare' | 'unseen' | null;
+
+/** One cell's satellite view, with the same rule as the route summary. */
+export function pointSnowState(v: ReturnType<SnowValues['at']>): PointSnow {
+  if (!v) return null;
+  if (v.cover > 100 || v.viewAge === AGE_NONE) return 'unseen';
+  return v.cover >= ROUTE_SNOW_COVER ? 'snow' : 'bare';
+}
+
 /** Snow along a route sampled at evenly spaced [lon, lat, ele] points; null outside the grid. */
 export function routeSnow(values: Pick<SnowValues, 'at'>, points: readonly number[][]): RouteSnow | null {
+  return routeSnowPoints(values, points).route;
+}
+
+/** The summary and each point's state, in the order of `points`. */
+export function routeSnowPoints(values: Pick<SnowValues, 'at'>, points: readonly number[][]): { route: RouteSnow | null; points: PointSnow[] } {
   let n = 0;
   let snow = 0;
   let unseen = 0;
   let lowestSnowM: number | null = null;
   let maxDepthCm = 0;
-  for (const [lon, lat, ele] of points) {
+  const states = points.map(([lon, lat, ele]) => {
     const v = values.at(lon, lat);
-    if (!v) continue;
+    const state = pointSnowState(v);
+    if (!v) return state;
     n++;
     maxDepthCm = Math.max(maxDepthCm, v.depthCm);
-    if (v.cover > 100 || v.viewAge === AGE_NONE) unseen++;
-    else if (v.cover >= ROUTE_SNOW_COVER) {
+    if (state === 'unseen') unseen++;
+    else if (state === 'snow') {
       snow++;
       if (ele !== undefined) lowestSnowM = Math.min(lowestSnowM ?? Infinity, ele);
     }
-  }
-  return n ? { snow: snow / n, unseen: unseen / n, lowestSnowM, maxDepthCm } : null;
+    return state;
+  });
+  return { route: n ? { snow: snow / n, unseen: unseen / n, lowestSnowM, maxDepthCm } : null, points: states };
 }
 
 /** HTML for a via ferrata's panel: how much of it lies in snow seen from space. */

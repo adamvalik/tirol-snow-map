@@ -7,7 +7,7 @@ import * as maplibregl from 'maplibre-gl';
 import type { ExpressionSpecification, MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, LineString, MultiLineString } from 'geojson';
 import ferratasUrl from './data/ferratas.json?url';
-import { escapeHtml } from './format.ts';
+import { escapeHtml, lengthText, metres } from './format.ts';
 import { inArea } from './island.ts';
 
 export interface FerrataProps {
@@ -116,8 +116,6 @@ export function websiteUrl(raw: string): URL | null {
   }
 }
 
-const metres = (m: number) => `${Math.round(m).toLocaleString('en-GB')} m`;
-const lengthText = (m: number) => (m >= 1000 ? `${(m / 1000).toFixed(1)} km` : metres(m));
 
 export function ferrataTooltipHtml(p: FerrataProps): string {
   return (
