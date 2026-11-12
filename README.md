@@ -1,12 +1,31 @@
 # South Tyrol Snow Map
 
-A read-only 3D miniature of South Tyrol, centred on Bolzano: terrain with OpenStreetMap towns, roads, rivers and 3D buildings, live weather station readings (snow depth, temperature, wind), snow seen by Sentinel-2, an estimated snow depth layer, one timeline from the last 14 days to 3 days ahead with an animated snowfall forecast, GPX tracks checked against the snow, a 7-day point forecast, the bivouacs (bivacchi, Biwaks) and the via ferratas (Klettersteige) of the region. Outside the area the snow data covers, the map is faded, or cut so it stands as an island (a switch under "Map and light"). Every view can be shared as a link.
+Where is there snow in South Tyrol right now, and where will there be? A 3D map of the region that puts weather station readings, satellite snow cover and the snowfall forecast on the real terrain, in the browser, with no account and no app to install.
 
-Live at **<https://adamvalik.github.io/tirol-snow-map/>**, updated three times a day.
+**Open it: <https://adamvalik.github.io/tirol-snow-map/>** (data updated three times a day)
+
+[![The map over Bolzano, with snow seen from space, weather stations, the layer panel and the timeline](docs/screenshot.jpg)](https://adamvalik.github.io/tirol-snow-map/)
 
 > **Not for avalanche decisions.** This is a visualisation for orientation only. Always check the official bulletin at [avalanche.report](https://avalanche.report).
 
-Status: **V3 deployed** and extended with bivouacs, via ferratas and sun and shade. What comes next is in [`docs/roadmap.md`](docs/roadmap.md); the original build plan is [`plan.md`](plan.md) and the spike findings are in [`docs/spike-report.md`](docs/spike-report.md).
+## What you can do
+
+- **See where the snow is**: snow seen by Sentinel-2 at about 60 m, readings from about 350 weather stations across the Euregio (snow depth and its 24/48/72 h change, temperature, wind), and an estimated snow depth for every 250 m of terrain, with how far to trust it.
+- **Scroll through time**: one timeline from 14 days back to 3 days ahead, with an animated snowfall forecast on the terrain.
+- **Check a place**: tap anywhere for the snow there, a 7-day forecast for that elevation, and when the sun rises and sets behind the real skyline.
+- **Check a route**: load a GPX track to see its distance, climb, highest point and how much of it lies on snow. The file stays in your browser.
+- **Plan a tour**: bivouacs and via ferratas (A–E grades, snow along the route), sun and shade with cast shadows for any day and time, a true-colour satellite photo.
+- **Share the view**: the link always holds what is on the screen, from camera angle to layers and day.
+
+It works on phones and desktop browsers. Something wrong or an idea? Use *Something is wrong* or *Idea* in the app's About tab, or [open an issue](https://github.com/adamvalik/tirol-snow-map/issues/new/choose).
+
+## Status
+
+**[v0.2.0](https://github.com/adamvalik/tirol-snow-map/releases/tag/v0.2.0)** (Nov 12, 2026): the first release for testers, with the new interface, GPX tracks, the Euregio station feeds and the snow depth change at stations. See [Releases](https://github.com/adamvalik/tirol-snow-map/releases) for what changed in each version.
+
+What comes next: [`docs/release-plan.md`](docs/release-plan.md) (the tester release and what follows it) and [`docs/roadmap.md`](docs/roadmap.md) (the longer view). The original build plan is [`plan.md`](plan.md) and the spike findings are in [`docs/spike-report.md`](docs/spike-report.md).
+
+The rest of this README is for developers: how to run it, how the data flows, and its known limits.
 
 ## Run it locally
 
@@ -94,7 +113,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 | `fixtures/` | Real API responses from 2026-10-20 used by the tests (see `fixtures/README.md`) |
 | `scripts/smoke.mjs` | Browser smoke test |
 | `scripts/monitor.mjs` | Opens and closes the `data-pipeline` issue from `status.json` (run by the deploy workflow) |
-| `docs/` | Roadmap, design notes (share snapshot) and spike reports |
+| `docs/` | Release plan, roadmap, design notes (share snapshot) and spike reports |
 
 ## Shareable view
 
@@ -108,7 +127,7 @@ A failed upstream never stops a deploy: the files keep the last good data, the a
 
 One-time setup:
 
-1. Merge this branch into `main`; scheduled workflows only run on the default branch.
+1. Scheduled workflows only run on the default branch, so the workflow must be on `main`.
 2. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
 3. Settings → Secrets and variables → Actions: `CDSE_USERNAME`, `CDSE_PASSWORD`, `CDSE_CLIENT_ID`, `CDSE_CLIENT_SECRET` (already set if the check workflow works).
 4. Run "Update data and deploy" once from the Actions tab. The first run takes a few minutes longer (basemap, satellite tiles, classifying the Sentinel-2 days). The site appears at `https://<user>.github.io/tirol-snow-map/`.
@@ -136,10 +155,14 @@ GitHub disables scheduled workflows in a public repository after 60 days without
 - **Euregio feed quirk:** some providers publish local time with a `Z` suffix. The pipeline reinterprets future timestamps as Europe/Rome local time.
 - **The forecast animation is a sketch of where snow will fall,** not a snow depth forecast. Precipitation comes from about 10 km apart and is spread smoothly between the points; the snow share uses a fixed rule (snowfall limit 300 m below the freezing level, 10:1 snow) that misses heavy-precipitation cooling, wet snow and wind. Settling and melting of the new snow are ignored.
 - **The timeline's past days start with the deployment.** Days before that exist only as snow seen from space (rebuilt from cached passes, at most 10 days back), without depth estimate or station readings. A day shows the last update of that day.
-- **Sun and shade is light, not shadow.** Each slope is shaded by its angle to the sun; a ridge does not cast a shadow onto the valley or slope behind it, so a valley floor in a mountain's shadow can still look lit. The sun row's sunrise and sunset are for a flat horizon at the map centre; a clicked point's panel gives the real ones behind its skyline. There are no trees, buildings or clouds.
+- **Sun and shade without cast shadows is light only.** Each slope is shaded by its angle to the sun; with **Cast shadows** off, a ridge does not cast a shadow onto the valley or slope behind it, so a valley floor in a mountain's shadow can still look lit. The sun row's sunrise and sunset are for a flat horizon at the map centre; a clicked point's panel gives the real ones behind its skyline. There are no trees, buildings or clouds.
 - **Cast shadows are 250 m cells.** Ridges narrower than a few hundred metres cast no shadow, and shadow edges are soft and blocky when zoomed in. The earth's curvature is left out of the map shadows (a 30 km shadow comes out up to ~60 m of ridge height too long at a very low sun), terrain outside the grid (10.2–12.7° E, 46.1–47.25° N) casts none, and the map has no shadows outside the grid.
 - **A point's sun times are only as good as the terrain.** Beyond 5 km the skyline comes from 250 m cells, which smooth summits and narrow ridges by tens of metres; a point a few metres off a summit or ridge crest can lose or gain sun behind the crest itself. Visibility is for the sun's top edge in a clear sky.
 - **Open-Meteo counts every grid point as one call** (273 per fetch, at most 4 fetches a day). A runner IP shared with heavy users can still be refused; the app then animates the last fetched forecast and says how old it is.
+
+## Releases
+
+Versions follow `0.x` semver while the app is being tested with friends (`v0.2.0` testers, `v0.3.0` share picture, `1.0.0` for a public launch). The version and commit show at the end of the About tab. To make one, see "How to make a release" in [`docs/release-plan.md`](docs/release-plan.md); data deploys three times a day are not releases.
 
 ## Attribution
 
