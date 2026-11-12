@@ -5,7 +5,7 @@ South Tyrol Snow Map: a 3D snow map of South Tyrol in the browser (MapLibre GL J
 ## Branches and merging
 
 - **Work happens on `dev`.** Commit and push there. Feature branches are fine for parallel work, but they merge into `dev`, not `main`.
-- **`dev` reaches `main` through a pull request** (`dev` → `main`), so `ci.yml` checks it: CI runs only on pull requests, and a push to `main` deploys to the live site straight away. Merge with **Rebase and merge** when the history allows, so `main` stays a fast-forward of `dev`; otherwise a merge commit, then bring `main` back into `dev`.
+- **`dev` reaches `main` through a pull request** (`dev` → `main`), so `ci.yml` checks it: CI runs only on pull requests, and a push to `main` deploys to the live site straight away. Merge it with a normal merge commit (**Create a merge commit**). After the merge, fast-forward `dev` to `main` (`git pull --ff-only origin main` on `dev`, then push), so the two start the next round level.
 - **Never delete `dev`.** The repository deletes head branches after a merge; a ruleset protects `dev` from deletion. Do not work around it.
 - Never push to `main` directly, and never rewrite history on `main` or `dev`.
 - Wait for CI to be green before merging. Do not open or merge a pull request unless asked.
