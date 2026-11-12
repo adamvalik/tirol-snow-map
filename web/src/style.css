@@ -2123,7 +2123,7 @@ details[open] > .act .caret {
 
 .north-needle {
   display: grid;
-  transform: rotate(calc(-45deg - var(--bearing, 0deg)));
+  transform: rotate(calc(45deg - var(--bearing, 0deg)));
 }
 
 .maplibregl-ctrl-bottom-left {
