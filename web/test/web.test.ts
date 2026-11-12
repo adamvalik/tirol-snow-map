@@ -96,7 +96,7 @@ describe('forecast frame label', () => {
       source: '',
       attribution: '',
     };
-    expect(frameLabel(file, 0)).toBe('Wed 21 Oct, 15:00 · +24 h · new snow up to 31 cm');
+    expect(frameLabel(file, 0)).toBe('Wed 21 Oct, 15:00 (+24 h), new snow up to 31 cm');
     expect(frameLabel(file, 3)).toBe('');
   });
 });

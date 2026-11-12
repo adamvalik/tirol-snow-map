@@ -1,6 +1,6 @@
 # First release – friends and testers
 
-Nov 7, 2026, backend plan added Nov 9 (section 10) · builds on [`roadmap.md`](roadmap.md) and [`share-snapshot.md`](share-snapshot.md)
+Nov 7, 2026, backend plan added Nov 9 (section 10). Builds on [`roadmap.md`](roadmap.md) and [`share-snapshot.md`](share-snapshot.md)
 
 Goal: hand a link to a small group of friends, see whether they use it, and hear what breaks. The new UI is being built in parallel; everything below is either needed before the link goes out or cheap enough to ride along.
 
@@ -30,7 +30,7 @@ Plan:
 
 - **Semantic version in `package.json`.** What is live today (MVP, V2, V3 and everything beyond the plan, up to the layer registry) is **`v0.1.0`**, tagged on `main` at `444afeb`. Still `0.x` because nobody outside has used it yet. Testers' release is **`v0.2.0`**, the share picture **`v0.3.0`**; patch versions (`0.2.1`) for fixes; `1.0.0` for a public launch.
 - **Tag and GitHub Release** for each version: `git tag v0.1.0`, a Release with short notes ("What's new"). Notes double as a changelog; no extra tool (changesets etc.) needed at this size.
-- **Version in the app** (done Nov 7): Vite `define` injects `__APP_VERSION__` (from `package.json`) and `__APP_COMMIT__` (short SHA from `GITHUB_SHA` in CI, `dev` locally). Shown at the end of "About the data" as `v0.1.0 · 444afeb` with a link to the release notes, and sent along with bug reports (3) and analytics events (2).
+- **Version in the app** (done Nov 7): Vite `define` injects `__APP_VERSION__` (from `package.json`) and `__APP_COMMIT__` (short SHA from `GITHUB_SHA` in CI, `dev` locally). Shown at the end of the About tab as "Version 0.2.0" and "Build 3972dcd" with a link to the release notes, and sent along with bug reports (3) as `v0.2.0 (3972dcd)` and with analytics page views (2).
 - **Data age stays separate**: the data-age line (roadmap 2.4) already tells when data was refreshed.
 - Optional later: a small "What's new" toast once per version (remember the last seen version in localStorage).
 - Keep deploying from `main` for now. If `main` should be able to move ahead of what testers see, switch the deploy to check out the latest `v*` tag and use `main` only for development; not needed for a handful of friends.

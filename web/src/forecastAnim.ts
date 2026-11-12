@@ -20,7 +20,7 @@ export async function loadForecast(): Promise<ForecastFile> {
   return file;
 }
 
-/** "Wed 21 Oct, 14:00 · +24 h · up to 31 cm" for frame `k`. */
+/** "Wed 21 Oct, 14:00 (+24 h), new snow up to 31 cm" for frame `k`. */
 export function frameLabel(file: ForecastFile, k: number): string {
   const f = file.frames?.[k];
   if (!f || !file.start) return '';
@@ -33,7 +33,7 @@ export function frameLabel(file: ForecastFile, k: number): string {
     minute: '2-digit',
   });
   const hours = Math.round((Date.parse(f.time) - Date.parse(file.start)) / 3_600_000);
-  return `${when} · +${hours} h · new snow up to ${f.maxCm} cm`;
+  return `${when} (+${hours} h), new snow up to ${f.maxCm} cm`;
 }
 
 export function forecastInfoHtml(file: ForecastFile): string {

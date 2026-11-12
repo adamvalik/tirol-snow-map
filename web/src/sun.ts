@@ -62,7 +62,7 @@ export function sunDay(date: string, lat: number, lon: number): SunDay {
 export const clockTime = (t: number): string =>
   new Date(t).toLocaleTimeString('en-GB', { timeZone: TZ, hour: '2-digit', minute: '2-digit' });
 
-/** "08:30 · sun 14° high in the SE"; the date has its own field next to it. */
+/** "08:30, sun 14° high in the SE"; the date has its own field next to it. */
 export function sunLabel(t: number, sun: SunPosition): string {
   const where =
     sun.altitude >= 0.5
@@ -70,7 +70,7 @@ export function sunLabel(t: number, sun: SunPosition): string {
       : sun.altitude > -6
         ? `sun on the horizon in the ${compass(sun.azimuth)}`
         : 'night';
-  return `${clockTime(t)} · ${where}`;
+  return `${clockTime(t)}, ${where}`;
 }
 
 /** Shareable time in the address, to the minute: 2026-10-21T06:30Z. */

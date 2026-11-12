@@ -58,9 +58,9 @@ describe('local days', () => {
 
   it('labels the time and where the sun stands', () => {
     const morning = Date.parse('2026-10-21T06:30:00Z');
-    expect(sunLabel(morning, sunPosition(morning, 46.5, 11.35))).toBe('08:30 · sun 7° high in the SE');
+    expect(sunLabel(morning, sunPosition(morning, 46.5, 11.35))).toBe('08:30, sun 7° high in the SE');
     const night = Date.parse('2026-10-21T20:30:00Z');
-    expect(sunLabel(night, sunPosition(night, 46.5, 11.35))).toBe('22:30 · night');
+    expect(sunLabel(night, sunPosition(night, 46.5, 11.35))).toBe('22:30, night');
     expect(sunParam(morning + 42_000)).toBe('2026-10-21T06:30Z');
   });
 });
