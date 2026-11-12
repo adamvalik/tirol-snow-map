@@ -85,9 +85,9 @@ Already designed in [`share-snapshot.md`](share-snapshot.md) ("GPX tracks on the
 - Not in the share link (tracks are too big for a URL and are personal). Share pictures will include it later.
 - New layer module `web/src/layers/gpx.ts` following the registry pattern (roadmap 3).
 - Tests: parse fixtures (track with and without elevation, with several segments, routes `<rte>` as well as tracks `<trk>`, a broken file).
-- Analytics event `gpx-loaded`.
+- Analytics event `gpx/add`.
 
-**Status (Nov 12): the part behind the button is built and ready for the new panel; the button and the panel are not.**
+**Status (Nov 12): built and released in `v0.2.0`.** The logic and the layer came first; the control and the panel came with the new UI (`web/src/app/track.ts`).
 
 - `web/src/gpx.ts`: `parseGpx` (GPX 1.0 and 1.1, any namespace; tracks win over routes when a file has both; bad points and one-point segments are dropped; a segment keeps elevation only if every point has it), `trackStats` (distance without the gaps between segments, climb with the via ferrata hysteresis, now in `shared/geo.ts`, highest and lowest point), `trackProfile` and camera helpers. Clear messages for broken XML, other XML, waypoints only, a file over 25 MB and a track outside the map area.
 - Tracks without elevation (most planned routes) get it from the terrain model: a point every 10 m, read from the ~26 m Mapterhorn tiles, or the 250 m grid when the track spans more than 48 tiles (`terrainAlong` in `terrainSampler.ts`).
@@ -111,7 +111,7 @@ What the new panel and controls can use:
 | Sun for a coordinate | `sunHereAt(lon, lat)` (layers/sun.ts) → `SunHere`, drawn by `sunHereHtml`; skylines are kept for the last 8 places, so asking again is instant. `onSunDayChange(cb)` when the sun slider moves to another day; `sunDate()` is the day used. |
 | Toast with icon and action | `toast(text, { icon, action: { label, run }, durationMs })` (app/toast.ts); with an action it stays 8 s |
 
-Still to do: the "Add GPX track" control and the track panel itself (in the UI work); the `gpx-loaded` event once PR 12's `analytics.ts` is in: `onGpxChange((t, why) => why === 'loaded' && track('gpx-loaded'))`. Until then a track can be tried from the console: `__snowmap.gpx.loadFile(file)` or `__snowmap.gpx.load(text, 'name.gpx')`.
+The UI on top (`web/src/app/track.ts`): "Add a GPX track" in the Layers tab (choose a file, or drop it on the map), a reading state, the track's row, and its Place panel with the numbers, an elevation profile with the snow-covered stretches marked, and the forecast at the highest point. Loading a track counts the analytics event `gpx/add`. A track can still be loaded from the console: `__snowmap.gpx.loadFile(file)` or `__snowmap.gpx.load(text, 'name.gpx')`.
 
 ## 5. Link preview
 
@@ -170,8 +170,8 @@ Added Nov 9. The new UI is built in parallel; this is the work that does not tou
 | Item | What | Effort |
 | --- | --- | --- |
 | **CI on pull requests** (done Nov 9) | `.github/workflows/ci.yml`: tests, typecheck, build and the browser smoke test on every pull request, on fixture data (no secrets), with the basemap from production's cache when there is one. Smoke screenshots are uploaded as an artifact, handy for reviewing the UI branch. Before this, pull requests were not checked at all and the smoke test never ran in CI | S |
-| **GoatCounter** (2, built Nov 9) | `web/src/app/analytics.ts`: an image request to GoatCounter's counting endpoint instead of its script (no foreign code, one host), off without the `GOATCOUNTER_CODE` repository variable, on localhost and in automated browsers. Page views carry the version as title; events `layer/<key>`, `share`, `about`, `feedback/…`, once per page load. Add `gpx` with the GPX layer. **To do: create the GoatCounter account and set the variable** | S |
-| **Feedback** (3, built Nov 9) | `mailto:` for v1 instead of Tally: *Something is wrong* and *Idea* at the top of "About the data" open an e-mail to the `FEEDBACK_EMAIL` repository variable with version, view link, browser and screen size filled in; GitHub issue forms `.github/ISSUE_TEMPLATE/bug.yml` and `idea.yml`, prefilled from the URL. Without the variable only the GitHub links show. A Tally form can replace the e-mail later. **To do: set the variable**; the new UI's menu links to the same thing | S |
+| **GoatCounter** (2, built Nov 9) | `web/src/app/analytics.ts`: an image request to GoatCounter's counting endpoint instead of its script (no foreign code, one host), off without the `GOATCOUNTER_CODE` repository variable, on localhost and in automated browsers. Page views carry the version as title; events `layer/<key>`, `share`, `about`, `feedback/…`, once per page load. `gpx/add` came with the GPX panel. Variable set Nov 12 | S |
+| **Feedback** (3, built Nov 9) | `mailto:` for v1 instead of Tally: *Something is wrong* and *Idea* at the top of "About the data" open an e-mail to the `FEEDBACK_EMAIL` repository variable with version, view link, browser and screen size filled in; GitHub issue forms `.github/ISSUE_TEMPLATE/bug.yml` and `idea.yml`, prefilled from the URL. Without the variable only the GitHub links show. A Tally form can replace the e-mail later. Variable set Nov 12; the new UI's menu links to the same thing | S |
 | **GPX logic, without drawing** (4) | A pure module in `shared/`: parse `<trk>` and `<rte>`, several segments, missing elevation, broken files; distance, climb (the ferrata 5 m hysteresis), highest point, share on snow (the ferrata "snow along the route" code). Fixture tests. The layer module then only draws it, so this can land before the new UI | M |
 | **Link preview plumbing** (5) | `og:` and `twitter:` tags; a deploy step that renders `og.png` (1200 × 630) with Playwright after the build. Can be built now; it picks up the new look when the UI lands | S–M |
 | **Release on tag** (1) | A workflow on `v*` tags: check the tag matches `package.json`, create a draft GitHub Release. Replaces steps 3–4 of "How to make a release" | S |
