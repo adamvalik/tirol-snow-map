@@ -4,7 +4,6 @@
 // The numbers (distance, climb, highest point) use the same code as the via ferratas.
 
 import { ascentDescent, distanceM, lineLengthM, resample } from '../../shared/geo.ts';
-import { escapeHtml, lengthText, metres } from './format.ts';
 
 /** A file the app cannot use; the message is meant for the user. */
 export class GpxError extends Error {}
@@ -186,22 +185,57 @@ export function trackBounds(lines: readonly (readonly number[])[][]): [number, n
 /** Where the track's elevation came from. */
 export type ElevationSource = 'file' | 'terrain' | null;
 
-/** The track's part of the point panel; the snow along it and the forecast at its highest point follow. */
-export function gpxHtml(t: GpxTrack, s: TrackStats, source: ElevationSource, fileName: string | null): string {
-  const rows = [
-    `<dt>Distance</dt><dd class="big">${lengthText(s.distanceM)}${t.lines.length > 1 ? ` <span class="muted">(${t.lines.length} ${t.kind === 'track' ? 'segments' : 'routes'})</span>` : ''}</dd>`,
-    s.ascentM === null || s.descentM === null ? '' : `<dt>Climb</dt><dd>↑ ${metres(s.ascentM)} · ↓ ${metres(s.descentM)}</dd>`,
-    s.lowestM === null || !s.highest ? '' : `<dt>Elevation</dt><dd>${metres(s.lowestM)} – ${metres(s.highest[2])}</dd>`,
-  ];
-  const from =
-    source === 'file'
-      ? 'Elevation and climb from the file.'
-      : source === 'terrain'
-        ? 'The file has no elevation, so it is read from the terrain model.'
-        : 'No elevation in the file or the terrain model, so climb is not shown.';
-  return `
-    <dl class="kv">${rows.join('')}</dl>
-    <p class="muted">${fileName ? `${escapeHtml(fileName)}. ` : ''}${from}
-    The track stays in this browser: it is not uploaded and not part of shared links.</p>
-    <p><button type="button" class="link-btn gpx-remove">Remove track</button></p>`;
+/** Spacing of the profile and of the snow check along the track, as for the via ferratas' snow. */
+export const SNOW_STEP_M = 25;
+
+/** One point of the elevation profile. */
+export interface ProfilePoint {
+  lon: number;
+  lat: number;
+  /** Metres, or null where the track has no elevation. */
+  ele: number | null;
+  /** Metres from the start, not counting the gaps between segments. */
+  distM: number;
+  /** Index of the segment (or route) the point belongs to; a chart breaks its line where it changes. */
+  segment: number;
+}
+
+export interface TrackProfile {
+  /** A point every SNOW_STEP_M along each segment, ends included. */
+  points: ProfilePoint[];
+  distanceM: number;
+  /** Distance from the start of the highest point (trackStats' `highest`), or null without elevation. */
+  highestAtM: number | null;
+}
+
+/**
+ * The elevation profile: evenly spaced points with their distance along the track. The points are
+ * the ones the snow along the track is checked at (`snowAlong` gives a state for each, in order).
+ */
+export function trackProfile(lines: readonly (readonly number[])[][], stepM = SNOW_STEP_M): TrackProfile {
+  const points: ProfilePoint[] = [];
+  let offset = 0;
+  let highestAtM: number | null = null;
+  let highest = -Infinity;
+  lines.forEach((line, segment) => {
+    let along = 0;
+    // The highest point is an original vertex, which the even spacing may step over.
+    line.forEach((p, i) => {
+      if (i) along += distanceM(line[i - 1], p);
+      if (p.length > 2 && p[2] > highest) [highest, highestAtM] = [p[2], offset + along];
+    });
+    // `resample` puts its points at whole steps along the line, then the end; measuring along the
+    // short chords between them instead would cut the corners and come out short.
+    resample(line, stepM).forEach((p, i, all) => {
+      const d = i === all.length - 1 ? along : i * stepM;
+      points.push({ lon: p[0], lat: p[1], ele: p.length > 2 ? p[2] : null, distM: offset + d, segment });
+    });
+    offset += along;
+  });
+  return { points, distanceM: offset, highestAtM };
+}
+
+/** The name to show: the one in the file, else the file name without ".gpx". */
+export function trackTitle(t: Pick<GpxTrack, 'name'>, fileName: string): string {
+  return t.name ?? (fileName.replace(/\.gpx$/i, '').trim() || 'GPX track');
 }

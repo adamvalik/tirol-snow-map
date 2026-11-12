@@ -87,16 +87,31 @@ Already designed in [`share-snapshot.md`](share-snapshot.md) ("GPX tracks on the
 - Tests: parse fixtures (track with and without elevation, with several segments, routes `<rte>` as well as tracks `<trk>`, a broken file).
 - Analytics event `gpx-loaded`.
 
-**Status (Nov 9): the part behind the button is built; the button is not.**
+**Status (Nov 12): the part behind the button is built and ready for the new panel; the button and the panel are not.**
 
-- `web/src/gpx.ts`: `parseGpx` (GPX 1.0 and 1.1, any namespace; tracks win over routes when a file has both; bad points and one-point segments are dropped; a segment keeps elevation only if every point has it), `trackStats` (distance without the gaps between segments, climb with the via ferrata hysteresis, now in `shared/geo.ts`, highest and lowest point), camera helpers and the panel summary. Clear messages for broken XML, other XML, waypoints only, a file over 25 MB and a track outside the map area.
-- Tracks without elevation (most planned routes) get it from the terrain model: a point every 10 m, read from the ~26 m Mapterhorn tiles, or the 250 m grid when the track spans more than 48 tiles (`terrainAlong` in `terrainSampler.ts`). The panel says where the elevation came from.
+- `web/src/gpx.ts`: `parseGpx` (GPX 1.0 and 1.1, any namespace; tracks win over routes when a file has both; bad points and one-point segments are dropped; a segment keeps elevation only if every point has it), `trackStats` (distance without the gaps between segments, climb with the via ferrata hysteresis, now in `shared/geo.ts`, highest and lowest point), `trackProfile` and camera helpers. Clear messages for broken XML, other XML, waypoints only, a file over 25 MB and a track outside the map area.
+- Tracks without elevation (most planned routes) get it from the terrain model: a point every 10 m, read from the ~26 m Mapterhorn tiles, or the 250 m grid when the track spans more than 48 tiles (`terrainAlong` in `terrainSampler.ts`).
 - `web/src/gpxStore.ts`: the file's text in IndexedDB (one entry), so a newer parser reads old tracks too. Storage blocked: the track works until the page closes.
-- `web/src/layers/gpx.ts`: purple line with a white casing above the via ferratas and below labels, green start and red end dot, a wide invisible line for clicks. Loading draws, flies to the track (pitch 55°, looking from start to end, or to the far point of a loop), opens the point panel at the highest point (summary, snow along the track, sun, forecast) and saves it. A reload draws the kept track without moving the camera. A click on the line reopens the panel; "Remove track" in the panel clears map and storage.
+- `web/src/layers/gpx.ts` draws the purple line with a white casing (above the via ferratas, below labels), green start and red end dots, a label "Seiser Alm & Schlern  5.2 km" halfway along, and a wide invisible line for taps. It opens no panel itself.
 - The layer has no switch (`keys: []`), so nothing about it reaches the link.
-- Tests: `web/test/gpx.test.ts` with fixtures in `fixtures/gpx/`. Checked in headless Chromium: load, errors, terrain fill, reload, click, remove.
+- Tests: `web/test/gpx.test.ts` with fixtures in `fixtures/gpx/`. Checked in headless Chromium: load with progress, errors, terrain fill, label, snow along the track on two slider days, reload, remove.
 
-Still to do: the "Add GPX track" file input (and a remove button) in the layer card, wired to `loadGpxFile(file)` / `removeGpx()` with a toast for a `GpxError`, and `onGpxChange` to show or hide the remove button; then the `gpx-loaded` event once GoatCounter is in. Until then it can be tried from the console: `__snowmap.gpx.load(text, 'name.gpx')`.
+What the new panel and controls can use:
+
+| Need | API |
+| --- | --- |
+| Load, with a "Reading …" state | `loadGpxFile(file, onProgress)` resolves with a `ShownTrack` or throws a `GpxError` (message for the user). `onProgress` gets `{ stage: 'reading', fileName }`, then `{ stage: 'parsed', title, kind, terrain }`; `terrain: true` means heights are now being read from the terrain model. A newer load or a remove drops an older one. |
+| Remove, show the whole track again | `removeGpx()`, `flyToGpx()` (a load flies there by itself) |
+| Track came or went | `onGpxChange((track, why) => …)` with `why` `'loaded'`, `'restored'` (kept from the last visit, drawn without moving the camera) or `'removed'`; `gpxTrack()` for the current one |
+| Tap on the line | `onGpxSelect((track) => …)`; a tap there opens no point panel |
+| Numbers | `ShownTrack`: `title`, `stats` (`distanceM`, `ascentM`, `descentM`, `highest` [lon, lat, ele], `lowestM`; elevation ones null without heights), `source` (`'file'`, `'terrain'` or null), `fileName`, `track.kind` |
+| Elevation profile | `ShownTrack.profile`: `points` every 25 m with `distM` (gaps not counted), `ele`, `segment` (break the line where it changes), plus `distanceM` and `highestAtM` |
+| Snow along the track, for the day on the map | `gpxSnow()` → `SnowAlong` or null: `route` (`snow` and `unseen` shares, `lowestSnowM`, `maxDepthCm`), `points` (`'snow'`, `'bare'`, `'unseen'` or null for each profile point, same order), `sensor`, `date` (newest pass), `day` (slider day, null for latest), `depth`. `onGpxSnow(cb)` calls again on a new track, when the snow loads and when the day slider moves. |
+| Forecast for a coordinate | `getForecast(lat, lon, elevation, signal)` (forecast.ts), drawn alone by `forecastHtml` (panel.ts). Works for a track's highest point and for stations. |
+| Sun for a coordinate | `sunHereAt(lon, lat)` (layers/sun.ts) → `SunHere`, drawn by `sunHereHtml`; skylines are kept for the last 8 places, so asking again is instant. `onSunDayChange(cb)` when the sun slider moves to another day; `sunDate()` is the day used. |
+| Toast with icon and action | `toast(text, { icon, action: { label, run }, durationMs })` (app/toast.ts); with an action it stays 8 s |
+
+Still to do: the "Add GPX track" control and the track panel itself (in the UI work); the `gpx-loaded` event once PR 12's `analytics.ts` is in: `onGpxChange((t, why) => why === 'loaded' && track('gpx-loaded'))`. Until then a track can be tried from the console: `__snowmap.gpx.loadFile(file)` or `__snowmap.gpx.load(text, 'name.gpx')`.
 
 ## 5. Link preview
 

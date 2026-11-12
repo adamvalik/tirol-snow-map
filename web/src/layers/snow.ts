@@ -9,7 +9,19 @@ import { NO_SNOW_SENSOR_COLOR, SNOW_CLASSES } from '../colors.ts';
 import { FORECAST_LAYER } from '../forecastAnim.ts';
 import { ageHours, formatAge } from '../format.ts';
 import { shortDate } from '../satellite.ts';
-import { loadSnow, pointSnowHtml, routeSnow, routeSnowHtml, SNOW_LAYERS, type SnowLayer, SnowLayers, SnowValues } from '../snow.ts';
+import {
+  loadSnow,
+  type PointSnow,
+  pointSnowHtml,
+  routeSnow,
+  routeSnowHtml,
+  routeSnowPoints,
+  type RouteSnow,
+  SNOW_LAYERS,
+  type SnowLayer,
+  SnowLayers,
+  SnowValues,
+} from '../snow.ts';
 import type { LayerKey } from '../viewState.ts';
 import type { App, LayerModule } from './types.ts';
 
@@ -37,6 +49,38 @@ export const pointSnow = (lon: number, lat: number): string => (shown && values 
 export const routeSnowSummary = (points: readonly number[][]): string =>
   shown && values ? routeSnowHtml(shown, routeSnow(values, points)) : '';
 
+/** Snow seen from space along a route, as numbers for a panel or a chart. */
+export interface SnowAlong {
+  /** Shares of the points in snow and unseen, lowest snow, deepest estimate; null when no point is in the grid. */
+  route: RouteSnow | null;
+  /** Each point's cell, in the order the points were given. */
+  points: PointSnow[];
+  sensor: 'Sentinel-2' | 'VIIRS' | 'MODIS';
+  /** Newest satellite pass in the picture, YYYY-MM-DD. */
+  date: string;
+  /** The day slider's day (YYYY-MM-DD), or null for the latest data. */
+  day: string | null;
+  /** Whether the file has the depth estimate (route.maxDepthCm means something). */
+  depth: boolean;
+}
+
+/**
+ * The snow along evenly spaced [lon, lat, ele] points for the day on the map, or null while the
+ * snow is loading or the day has no satellite picture. Ask again after `onSnowShown`.
+ */
+export function snowAlong(points: readonly number[][]): SnowAlong | null {
+  if (!shown || !values || !shown.cover.available) return null;
+  const { route, points: states } = routeSnowPoints(values, points);
+  return { route, points: states, sensor: shown.cover.sensor, date: shown.cover.date, day: selectedDay(), depth: !!shown.depth };
+}
+
+const shownListeners: (() => void)[] = [];
+
+/** Called whenever the snow on the map changes (first load, another day on the slider), once its values are ready. */
+export function onSnowShown(listener: () => void) {
+  shownListeners.push(listener);
+}
+
 /** Puts a snow.json on the map (or none); switches for pictures it lacks are greyed out. */
 export async function showSnow(file: SnowFile | null) {
   shown = file;
@@ -55,7 +99,13 @@ export async function showSnow(file: SnowFile | null) {
           `Turn on Estimated snow depth for the picture from the stations.`
       : null,
   );
-  if (file) values = await SnowValues.load(file).catch(() => null);
+  if (file) {
+    const loaded = await SnowValues.load(file).catch(() => null);
+    // Another day was picked while these values loaded.
+    if (shown !== file) return;
+    values = loaded;
+  }
+  for (const l of shownListeners) l();
 }
 
 export const snow: LayerModule = {

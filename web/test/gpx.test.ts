@@ -2,7 +2,19 @@ import { readFileSync } from 'node:fs';
 import { DOMParser } from '@xmldom/xmldom';
 import { describe, expect, it } from 'vitest';
 import { distanceM, lineLengthM } from '../../shared/geo.ts';
-import { bearingDeg, densify, GpxError, gpxHtml, hasElevation, parseGpx, trackBounds, trackStats, viewBearing, type XmlParser } from '../src/gpx.ts';
+import {
+  bearingDeg,
+  densify,
+  GpxError,
+  hasElevation,
+  parseGpx,
+  trackBounds,
+  trackProfile,
+  trackStats,
+  trackTitle,
+  viewBearing,
+  type XmlParser,
+} from '../src/gpx.ts';
 
 // Node has no DOMParser; xmldom stands in for the browser's. Broken XML throws, as the app expects
 // either a throw or a <parsererror>.
@@ -171,22 +183,53 @@ describe('camera helpers', () => {
   });
 });
 
-describe('gpxHtml', () => {
-  it('shows the numbers, where the elevation came from and escapes the file name', () => {
+describe('trackProfile', () => {
+  it('spaces points 25 m apart with their distance along the track', () => {
     const t = parse(fixture('track-ele.gpx'));
-    const html = gpxHtml(t, trackStats(t.lines), 'file', '<b>hike</b>.gpx');
-    expect(html).toContain('km');
-    expect(html).toContain('↑');
-    expect(html).toContain('from the file');
-    expect(html).toContain('&#60;b&#62;hike');
-    expect(html).not.toContain('<b>hike');
-    expect(html).toContain('gpx-remove');
+    const p = trackProfile(t.lines);
+    expect(p.distanceM).toBeCloseTo(trackStats(t.lines).distanceM, 6);
+    expect(p.points[0]).toMatchObject({ distM: 0, segment: 0, ele: 1849.5 });
+    expect(p.points.at(-1)!.distM).toBeCloseTo(p.distanceM, 6);
+    for (let i = 1; i < p.points.length; i++) expect(p.points[i].distM - p.points[i - 1].distM).toBeLessThanOrEqual(25.0001);
+    // The highest vertex lies between profile points; its distance is the vertex's own.
+    const s = trackStats(t.lines);
+    expect(p.highestAtM).toBeGreaterThan(0);
+    expect(p.highestAtM).toBeLessThan(p.distanceM);
+    const near = p.points.reduce((a, b) => (Math.abs(b.distM - p.highestAtM!) < Math.abs(a.distM - p.highestAtM!) ? b : a));
+    expect(distanceM([near.lon, near.lat], s.highest!)).toBeLessThan(25);
   });
 
-  it('leaves out climb without elevation and says so', () => {
-    const t = parse(fixture('route-no-ele.gpx'));
-    const html = gpxHtml(t, trackStats(t.lines), null, null);
-    expect(html).not.toContain('Climb');
-    expect(html).toContain('climb is not shown');
+  it('counts no distance across the gap between segments and numbers them', () => {
+    const lines = [
+      [
+        [11.5, 46.5, 1000],
+        [11.5, 46.501, 1100],
+      ],
+      [
+        [11.6, 46.5, 1200],
+        [11.6, 46.501, 1050],
+      ],
+    ];
+    const p = trackProfile(lines);
+    const first = lineLengthM(lines[0]);
+    const startOfSecond = p.points.find((q) => q.segment === 1)!;
+    expect(startOfSecond).toMatchObject({ lon: 11.6, lat: 46.5, ele: 1200 });
+    expect(startOfSecond.distM).toBeCloseTo(first, 6);
+    expect(p.distanceM).toBeCloseTo(2 * first, 6);
+    expect(p.highestAtM).toBeCloseTo(first, 6);
+  });
+
+  it('has no elevation or highest point for a track without heights', () => {
+    const p = trackProfile(parse(fixture('route-no-ele.gpx')).lines);
+    expect(p.points.every((q) => q.ele === null)).toBe(true);
+    expect(p.highestAtM).toBeNull();
+  });
+});
+
+describe('trackTitle', () => {
+  it("uses the track's name, else the file name", () => {
+    expect(trackTitle({ name: 'Puez loop' }, 'x.gpx')).toBe('Puez loop');
+    expect(trackTitle({ name: null }, 'Morning hike.GPX')).toBe('Morning hike');
+    expect(trackTitle({ name: null }, '.gpx')).toBe('GPX track');
   });
 });
