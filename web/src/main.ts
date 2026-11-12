@@ -1,14 +1,16 @@
 // Starts the app: the map, the layers (layers/registry.ts) and the parts around them in app/.
 import * as maplibregl from 'maplibre-gl';
 import './style.css';
+import { hydrateIcons } from './app/icons.ts';
 import { trackVisit } from './app/analytics.ts';
-import { dayView, loadHistory, setupDaySlider } from './app/daySlider.ts';
-import { setupLayout } from './app/layout.ts';
+import { setupLayout, syncQuick } from './app/layout.ts';
 import { PointPanel } from './app/point.ts';
 import { setupShare } from './app/share.ts';
 import { setupSources } from './app/sources.ts';
 import { applyLinkSwitches } from './app/switches.ts';
-import { setWarning } from './app/warnings.ts';
+import { dayView, loadHistory, setupTimeline } from './app/timeline.ts';
+import { setupTrack } from './app/track.ts';
+import { setupWarnings, setWarning } from './app/warnings.ts';
 import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
 import { flyToGpx, gpxSnow, gpxTrack, loadGpxFile, loadGpxText, removeGpx } from './layers/gpx.ts';
 import { initLayers, layersView, onMapClick, setupLayers } from './layers/registry.ts';
@@ -17,6 +19,9 @@ import { edgeStyle, terrainExaggeration } from './layers/terrain.ts';
 import type { App } from './layers/types.ts';
 import { createMap, DEFAULT_VIEW } from './map.ts';
 import { parseHash } from './viewState.ts';
+
+// The icons of index.html first, so everything below finds its buttons complete.
+hydrateIcons();
 
 // The address can carry a shared view (see viewState.ts).
 const initial = parseHash(window.location.hash);
@@ -32,10 +37,11 @@ const map = createMap(
   },
   edgeStyle(),
 );
-map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-right');
+// Zoom and north are buttons of the page (app/layout.ts); the scale sits above the timeline.
 map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
 
-setupLayout();
+setupLayout(map);
+setupWarnings();
 const app: App = {
   map,
   basemap: basemapLayers(),
@@ -45,12 +51,15 @@ const app: App = {
 };
 setupLayers(app);
 setupSources();
+setupTrack();
 trackVisit();
 loadHistory();
 
 map.on('load', async () => {
   await initLayers(app);
-  await setupDaySlider(app);
+  // Some switches were changed by the layers (nothing to show), without a change event.
+  syncQuick();
+  await setupTimeline(app);
   map.on('click', (e: maplibregl.MapMouseEvent) => onMapClick(app, e));
 });
 

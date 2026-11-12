@@ -3,7 +3,8 @@ import { SNOW_CLASSES, snowClassColor } from '../../shared/snowColors.ts';
 
 export { SNOW_CLASSES };
 
-export const NO_SNOW_SENSOR_COLOR = '#4a4a4a';
+/** Stations without a snow sensor: small, grey and a little transparent on the map. */
+export const NO_SNOW_SENSOR_COLOR = '#707b87';
 
 export function snowColorExpression(): ExpressionSpecification {
   const steps: (string | number)[] = [];

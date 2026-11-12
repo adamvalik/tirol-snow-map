@@ -3,6 +3,8 @@
 import type * as maplibregl from 'maplibre-gl';
 import { cellAt, gridCorners } from '../../shared/grid.ts';
 import { SCHEMA_VERSION, type SnowFile } from '../../shared/types.ts';
+import { icon } from './app/icons.ts';
+import { depthCardHtml, depthValue, noteCardHtml } from './placeHtml.ts';
 import { escapeHtml, formatAge, formatTime } from './format.ts';
 
 const DATA = `${import.meta.env.BASE_URL}data/`;
@@ -134,21 +136,21 @@ function dayBefore(date: string, daysBefore: number): string {
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
 }
 
-/** HTML for the click panel: the estimate and the satellite view at this point. */
+/** The Place card for a point: the estimate and the satellite view of its 250 m cell. */
 export function pointSnowHtml(file: SnowFile, v: ReturnType<SnowValues['at']>): string {
-  if (!v || !file.depth) return '';
-  let cover = 'no satellite data';
+  if (!v || (!file.depth && !file.cover.available)) return '';
+  let cover = 'No satellite data';
   if (file.cover.available) {
     cover =
       v.cover <= 100 && v.viewAge !== AGE_NONE
-        ? `${coverText(v.cover)} of this 250 m cell (${file.cover.sensor}, ${dayBefore(file.cover.date, v.viewAge)})`
-        : coverText(v.cover);
+        ? `${coverText(v.cover)} in this 250 m cell, ${file.cover.sensor}, ${dayBefore(file.cover.date, v.viewAge)}`
+        : coverText(v.cover).replace(/^./, (c) => c.toUpperCase());
   }
-  return `
-    <dl class="kv">
-      <dt>Estimated snow</dt><dd><strong>${v.depthCm < 1 ? 'none' : `~${v.depthCm} cm`}</strong> (confidence ${v.confidence})</dd>
-      <dt>Snow cover</dt><dd>${escapeHtml(cover)}</dd>
-    </dl>`;
+  const lines = [`<span>${icon('planet', 15)}${escapeHtml(cover)}</span>`];
+  if (!file.depth) return depthCardHtml('Snow from space', null, '', lines);
+  lines.push(`<span class="muted">${icon('snowflake', 15)}Estimate from the stations, confidence ${v.confidence}</span>`);
+  const value = v.depthCm < 1 ? '<span class="depth-value none">None</span>' : depthValue(v.depthCm, true);
+  return depthCardHtml('Estimated snow', v.depthCm, value, lines);
 }
 
 /** A cell counts as snow-covered along a route from this share of snow. */
@@ -201,31 +203,31 @@ export function routeSnowPoints(values: Pick<SnowValues, 'at'>, points: readonly
   return { route: n ? { snow: snow / n, unseen: unseen / n, lowestSnowM, maxDepthCm } : null, points: states };
 }
 
-/** HTML for a via ferrata's panel: how much of it lies in snow seen from space. */
-export function routeSnowHtml(file: SnowFile, s: RouteSnow | null): string {
+/** The Place card for a via ferrata or a track: how much of it lies in snow seen from space. */
+export function routeSnowHtml(file: SnowFile, s: RouteSnow | null, what = 'route'): string {
   if (!s || !file.cover.available) return '';
   const pct = (x: number) => `${Math.round(x * 100)} %`;
   const seen =
     s.snow === 0
-      ? 'no snow-covered cells along the route'
-      : `about ${pct(s.snow)} of the route in snow-covered cells` +
-        (s.lowestSnowM === null ? '' : `, from about ${Math.round(s.lowestSnowM / 50) * 50} m`);
-  const hidden = s.unseen >= 0.05 ? `; ${pct(s.unseen)} not seen clearly (cloud)` : '';
-  const depth = file.depth && s.maxDepthCm >= 1 ? `<dt>Estimated snow</dt><dd>up to ~${s.maxDepthCm} cm along the route</dd>` : '';
-  return `
-    <dl class="kv">
-      <dt>Snow on the route</dt><dd>${escapeHtml(seen + hidden)} <span class="muted">(${escapeHtml(file.cover.sensor)}, ${escapeHtml(shortDay(file.cover.date))}, 250 m cells)</span></dd>
-      ${depth}
-    </dl>
-    <p class="muted">Snow seen from space is summed into 250 m cells: a snowy gully or ice on shaded rock can hide in a cell counted bare, and new snow since the pass is missing.</p>`;
+      ? `No snow-covered cells along the ${what}`
+      : `About ${pct(s.snow)} of the ${what} in snow` +
+        (s.lowestSnowM === null ? '' : `, from about ${(Math.round(s.lowestSnowM / 50) * 50).toLocaleString('en-GB')} m`);
+  const hidden = s.unseen >= 0.05 ? ` ${pct(s.unseen)} not seen clearly (cloud).` : '';
+  const depth = file.depth && s.maxDepthCm >= 1 ? `Estimated up to ${s.maxDepthCm} cm. ` : '';
+  return (
+    noteCardHtml('snowflake', escapeHtml(seen), escapeHtml(`${depth}${file.cover.sensor}, ${shortDay(file.cover.date)}, 250 m cells.${hidden}`)) +
+    '<p class="source-note">Snow seen from space is summed into 250 m cells: a snowy gully or ice on shaded rock can hide in a cell counted bare, and new snow since the pass is missing.</p>'
+  );
 }
 
 const shortDay = (date: string) => dayBefore(date, 0);
 
-/** Info section for the layers panel and the sources dialog. */
-export function snowInfoHtml(file: SnowFile): string {
+/** "About the data": the satellite snow cover ('cover'), the depth estimate ('depth'), or both. */
+export function snowInfoHtml(file: SnowFile, part: 'cover' | 'depth' | 'all' = 'all'): string {
   const parts: string[] = [];
-  if (file.cover.available) {
+  if (part === 'depth') {
+    // only the estimate below
+  } else if (file.cover.available) {
     const c = file.cover;
     const total = c.stats.snow + c.stats.bare + c.stats.olderView + c.stats.cloud;
     const days = [...new Set(c.composite.map((p) => p.date))];
@@ -242,7 +244,7 @@ export function snowInfoHtml(file: SnowFile): string {
   } else {
     parts.push(`<p><strong>Snow cover</strong>: not available (${escapeHtml(file.cover.reason)}).</p>`);
   }
-  const d = file.depth;
+  const d = part === 'cover' ? null : file.depth;
   if (d) {
     const mae = d.validation.maeCm[d.method];
     const bands = d.validation.byBand

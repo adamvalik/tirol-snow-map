@@ -1,4 +1,4 @@
-// "Sun here" in a clicked point's panel: the skyline seen from the point with the sun's path for
+// "Sunrise, sunset and shade here" in a place's panel: the skyline seen from the point with the sun's path for
 // the chosen day over it, and when the sun really appears and goes behind the mountains.
 
 import { type Horizon, horizonAt, SUN_RADIUS, type SunWindow, sunWindows } from '../../shared/horizon.ts';
@@ -135,31 +135,35 @@ export function horizonChartSvg(s: SunHere, now: number): string {
 export function sunHereHtml(s: SunHere, now: number): string {
   const { sunAt } = s;
   const dateLabel = new Date(s.start + 12 * 3_600_000).toLocaleDateString('en-GB', { timeZone: TZ, weekday: 'short', day: 'numeric', month: 'short' });
-  const flat = (t: number | null) => (t === null ? '' : ` <span class="muted">(flat horizon ${clockTime(t)})</span>`);
-  let rows: string;
+  const flat = (t: number | null) => (t === null ? '' : ` (flat horizon ${clockTime(t)})`);
+  const sunshine = (ms: number) => `Sunshine ${duration(ms)}.`;
+  const cell = (dt: string, dd: string) => `<div><dt>${dt}</dt><dd>${dd}</dd></div>`;
+  let facts: string;
+  let lines: string[];
   if (!s.windows.length) {
-    rows = `<dt>Direct sun</dt><dd>None on this day: the sun stays behind the mountains.</dd>`;
+    facts = '';
+    lines = ['None on this day: the sun stays behind the mountains.'];
   } else {
     const first = s.windows[0];
     const last = s.windows.at(-1)!;
     const total = s.windows.reduce((sum, w) => sum + w.end - w.start, 0);
-    const firstAz = sunAt(first.start).azimuth;
-    const lastAz = sunAt(last.end).azimuth;
-    rows = `
-      <dt>First sun</dt><dd><strong>${clockTime(first.start)}</strong>${flat(s.flat.sunrise)}<br>
-        <span class="muted">${escapeHtml(skyline(s.horizon, firstAz, 'over'))}</span></dd>
-      <dt>Last sun</dt><dd><strong>${clockTime(last.end)}</strong>${flat(s.flat.sunset)}<br>
-        <span class="muted">${escapeHtml(skyline(s.horizon, lastAz, 'behind'))}</span></dd>
-      <dt>Sunshine</dt><dd>${duration(total)}</dd>`;
+    const hm = Math.round(total / 60_000);
+    facts = `<dl class="facts">${cell('First sun', clockTime(first.start))}${cell('Last sun', clockTime(last.end))}${cell('Sunshine', `${Math.floor(hm / 60)} h ${String(hm % 60).padStart(2, '0')}`)}</dl>`;
+    lines = [
+      sunshine(total),
+      `First sun ${escapeHtml(skyline(s.horizon, sunAt(first.start).azimuth, 'over'))}${flat(s.flat.sunrise)}.`,
+      `Last sun ${escapeHtml(skyline(s.horizon, sunAt(last.end).azimuth, 'behind'))}${flat(s.flat.sunset)}.`,
+    ];
     if (s.windows.length > 1) {
       const gaps = s.windows.slice(1).map((w, i) => `${clockTime(s.windows[i].end)}–${clockTime(w.start)}`);
-      rows += `<dt>Hidden</dt><dd>${gaps.join(', ')}</dd>`;
+      lines.push(`Hidden ${gaps.join(', ')}.`);
     }
   }
   return `
-    <h3>Sun here <span class="chip">${escapeHtml(dateLabel)}</span></h3>
-    <dl class="kv">${rows}</dl>
+    <p class="act-side">${escapeHtml(dateLabel)}, the day of the sun light</p>
+    ${facts}
     ${horizonChartSvg(s, now)}
-    <p class="muted">Clear sky, terrain only: trees, buildings and cloud are not included. Ridges within 5 km from
+    <p>${lines.join(' ')}</p>
+    <p class="source-note">Clear sky, terrain only: trees, buildings and cloud are not included. Ridges within 5 km from
     ~26 m terrain, further out from a 250 m grid, so small rocks and the last few metres of a summit are missed.</p>`;
 }

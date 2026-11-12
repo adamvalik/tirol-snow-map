@@ -2,9 +2,10 @@
 // uncertainty: four pictures from one snow.json, swapped together by the day slider.
 import type { SnowFile } from '../../../shared/types.ts';
 import { selectedDay } from '../app/day.ts';
+import { setAge } from '../app/ages.ts';
 import { $ } from '../app/dom.ts';
 import { isOn, setAvailable } from '../app/switches.ts';
-import { setWarning } from '../app/warnings.ts';
+import { setNewSnow, setWarning } from '../app/warnings.ts';
 import { NO_SNOW_SENSOR_COLOR, SNOW_CLASSES } from '../colors.ts';
 import { FORECAST_LAYER } from '../forecastAnim.ts';
 import { ageHours, formatAge } from '../format.ts';
@@ -91,14 +92,14 @@ export async function showSnow(file: SnowFile | null) {
   }
   $('snow-date').textContent = file?.cover.available ? shortDate(file.cover.date) : '';
   const fresh = file?.cover.available ? file.cover.newSnow : undefined;
-  setWarning(
-    'new-snow',
+  setNewSnow(
     fresh
-      ? `New snow since the last clear satellite view (${shortDate(fresh.viewDate)}): ${fresh.withSnow} of ${fresh.stations} stations ` +
-          `on ground it saw bare now report snow, so the satellite layers show less snow than there is. ` +
-          `Turn on Estimated snow depth for the picture from the stations.`
+      ? `New snow since the satellite view (${shortDate(fresh.viewDate)}): ${fresh.withSnow} of ${fresh.stations} stations on ground it saw bare now report snow.`
       : null,
   );
+  if (!selectedDay()) {
+    setAge('satellite', file?.cover.available ? file.cover.date : null, !!file && ageHours(file.generatedAt) > SNOW_STALE_AFTER_HOURS, 'none');
+  }
   if (file) {
     const loaded = await SnowValues.load(file).catch(() => null);
     // Another day was picked while these values loaded.
@@ -110,6 +111,7 @@ export async function showSnow(file: SnowFile | null) {
 
 export const snow: LayerModule = {
   keys: ['snow', 'cover', 'depth', 'confidence'],
+  legends: { 'snow-legend': ['stations', 'depth'] },
 
   setup(a) {
     app = a;
@@ -124,8 +126,8 @@ export const snow: LayerModule = {
         return null;
       },
     );
-    // The depth legend: one bar of the classes, with the class boundaries in cm underneath. Always
-    // shown for now, since the station dots use the same colours.
+    // The depth legend: one bar of the classes, with the class boundaries in cm underneath, shown
+    // while the station dots or the depth estimate (which share its colours) are on.
     $('legend-bar').innerHTML = SNOW_CLASSES.map((c) => `<span style="background:${c.color}" title="${c.label}"></span>`).join('');
     $('legend-ticks').innerHTML = SNOW_CLASSES.map((c) => `<span>${parseInt(c.label, 10)}</span>`).join('');
     $('no-sensor-swatch').style.background = NO_SNOW_SENSOR_COLOR;
