@@ -1,11 +1,11 @@
-// The 72 h forecast snowfall animation and its player in the dock.
+// The 72 h forecast snowfall animation. The timeline (app/timeline.ts) drives it: its forecast days
+// pick a frame, its play button plays the frames.
 import type { ForecastFile } from '../../../shared/types.ts';
-import { $ } from '../app/dom.ts';
-import { PAUSE_ICON, PLAY_ICON } from '../app/icons.ts';
+import { setAge } from '../app/ages.ts';
 import { isOn, setAvailable, toggle } from '../app/switches.ts';
 import { setWarning } from '../app/warnings.ts';
-import { ForecastAnimation, frameLabel, loadForecast } from '../forecastAnim.ts';
-import { ageHours, formatAge } from '../format.ts';
+import { ForecastAnimation, loadForecast } from '../forecastAnim.ts';
+import { ageHours, formatAge, TZ } from '../format.ts';
 import type { App, LayerModule } from './types.ts';
 
 /** The forecast grid is fetched on every pipeline run (at most every 6 hours). */
@@ -16,17 +16,56 @@ let file: ForecastFile | null = null;
 let loading: Promise<ForecastFile | null>;
 let anim: ForecastAnimation | null = null;
 let frame: number | null = null;
-
-const player = $('forecast-player');
-const playBtn = $('forecast-play');
-
-const showPlaying = (playing: boolean) => {
-  playBtn.innerHTML = playing ? PAUSE_ICON : PLAY_ICON;
-  playBtn.setAttribute('aria-label', playing ? 'Pause the forecast' : 'Play the forecast');
-};
+let ready: () => void;
+/** Resolves once the animation is on the map, or it is clear there is none. */
+export const forecastReady = new Promise<void>((r) => (ready = r));
+const frameListeners: ((k: number) => void)[] = [];
 
 /** The forecast metadata, once loaded (for "About the data"). */
 export const forecastFile = () => file;
+
+/** The local day (YYYY-MM-DD) of an ISO time. */
+export const localDay = (iso: string) => new Date(iso).toLocaleDateString('en-CA', { timeZone: TZ });
+
+/** Each forecast day after `after` (YYYY-MM-DD) with its last frame: the snow accumulated by that evening. */
+export function forecastDays(after: string): { date: string; frame: number }[] {
+  const frames = anim ? (file?.frames ?? []) : [];
+  const days = new Map<string, number>();
+  frames.forEach((f, k) => {
+    const d = localDay(f.time);
+    if (d > after) days.set(d, k);
+  });
+  return [...days].map(([date, k]) => ({ date, frame: k }));
+}
+
+/** Frame `k`'s time and the most new snow anywhere by then. */
+export const frameInfo = (k: number) => file?.frames?.[k] ?? null;
+
+export const currentFrame = () => frame;
+export const forecastPlaying = () => !!anim?.playing;
+export const hasForecast = () => !!anim;
+
+/** Called with the frame whenever it changes (a pick on the timeline or playback). */
+export function onForecastFrame(listener: (k: number) => void) {
+  frameListeners.push(listener);
+}
+
+export function setForecastFrame(k: number) {
+  anim?.setFrame(k);
+}
+
+export function playForecast() {
+  if (!anim) return;
+  if (!isOn('forecast')) {
+    toggle('forecast').checked = true;
+    toggle('forecast').dispatchEvent(new Event('change', { bubbles: true }));
+  }
+  anim.play();
+}
+
+export function pauseForecast() {
+  anim?.pause();
+}
 
 export const forecast: LayerModule = {
   keys: ['forecast'],
@@ -36,12 +75,15 @@ export const forecast: LayerModule = {
     loading = loadForecast().then(
       (f) => {
         file = f;
-        if (f.available && (f.stale || ageHours(f.fetchedAt) > FORECAST_STALE_AFTER_HOURS)) {
-          setWarning('forecast', `Forecast snowfall is from ${formatAge(f.fetchedAt)}; newer forecasts could not be fetched.`);
-        }
+        const stale = f.available && (f.stale || ageHours(f.fetchedAt) > FORECAST_STALE_AFTER_HOURS);
+        setAge('forecast', f.available ? (f.fetchedAt ?? null) : null, !!stale, 'none');
+        if (stale) setWarning('forecast', `Forecast snowfall is from ${formatAge(f.fetchedAt)}; newer forecasts could not be fetched.`);
         return f;
       },
-      () => null,
+      () => {
+        setAge('forecast', null, false, 'none');
+        return null;
+      },
     );
   },
 
@@ -51,37 +93,21 @@ export const forecast: LayerModule = {
     if (!f?.available || !f.frames?.length) {
       toggle('forecast').checked = false;
       setAvailable('forecast', false, f?.reason ?? 'No forecast in the current data');
+      ready();
       return;
     }
-    const frameInput = $<HTMLInputElement>('forecast-frame');
-    frameInput.max = String(f.frames.length - 1);
-    playBtn.innerHTML = PLAY_ICON;
-    const a = new ForecastAnimation(app.map, f, app.basemap.lines[0]?.id, isOn('forecast'), (k) => {
+    anim = new ForecastAnimation(app.map, f, app.basemap.lines[0]?.id, isOn('forecast'), (k) => {
       frame = k;
-      frameInput.value = String(k);
-      $('forecast-label').textContent = frameLabel(f, k);
+      for (const l of frameListeners) l(k);
       app.syncHash();
     });
-    a.setFrame(Math.min(app.initial.frame ?? f.frames.length - 1, f.frames.length - 1));
-    player.hidden = !isOn('forecast');
-    playBtn.addEventListener('click', () => {
-      if (a.playing) a.pause();
-      else a.play();
-      showPlaying(a.playing);
-    });
-    frameInput.addEventListener('input', () => {
-      a.pause();
-      showPlaying(false);
-      a.setFrame(Number(frameInput.value));
-    });
-    anim = a;
+    anim.setFrame(Math.min(app.initial.frame ?? f.frames.length - 1, f.frames.length - 1));
+    ready();
   },
 
   setVisible(_key, on) {
-    if (!anim) return;
-    anim.setVisible(on);
-    player.hidden = !on;
-    showPlaying(false);
+    // The timeline listens to the switch itself.
+    anim?.setVisible(on);
   },
 
   view: () => ({ frame: isOn('forecast') ? frame : null }),

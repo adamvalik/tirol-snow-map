@@ -188,8 +188,8 @@ describe('via ferratas', () => {
   it('labels grades with the French and Italian equivalents', () => {
     expect(gradeLabel(props)).toBe('D/E');
     expect(gradeLabel({ scale: null })).toBe('ungraded');
-    expect(gradeText(props)).toBe('D/E · very difficult · TD in France and Italy');
-    expect(gradeText({ grade: 2, scale: '2' })).toBe('B · moderately difficult · AD in France, PD in Italy');
+    expect(gradeText(props)).toBe('D/E, very difficult, TD in France and Italy');
+    expect(gradeText({ grade: 2, scale: '2' })).toBe('B, moderately difficult, AD in France, PD in Italy');
     expect(gradeText({ grade: null, scale: null })).toBe('No grade in OpenStreetMap');
   });
 

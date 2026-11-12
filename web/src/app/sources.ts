@@ -1,5 +1,6 @@
-// "About the data": sources, licences and the state of the last pipeline run; and the warning when
-// that run could not refresh some layers.
+// The About tab: feedback first, then where each data set comes from (with its state from the last
+// pipeline run), the area, safety, privacy and the version. Also the warning when that run could not
+// refresh some layers.
 import type { StatusFile } from '../../../shared/types.ts';
 import { BIVOUACS } from '../bivouacs.ts';
 import { forecastInfoHtml } from '../forecastAnim.ts';
@@ -8,16 +9,18 @@ import { AREA } from '../island.ts';
 import { ferrataCount as ferrataRoutes } from '../layers/ferratas.ts';
 import { forecastFile as forecast } from '../layers/forecast.ts';
 import { satelliteFile as satellite } from '../layers/satellite.ts';
-import { shownSnow } from '../layers/snow.ts';
+import { latestSnow } from '../layers/snow.ts';
 import { latestStations, stationsError as stationsLoadError } from '../layers/stations.ts';
-import { satelliteInfoHtml } from '../satellite.ts';
+import { satelliteInfoHtml, shortDate } from '../satellite.ts';
 import { snowInfoHtml } from '../snow.ts';
-import { VERSION_LABEL } from '../version.ts';
+import { APP_COMMIT, APP_VERSION } from '../version.ts';
 import { analyticsEnabled, track } from './analytics.ts';
-import { feedbackHtml } from './feedback.ts';
-import { loadJson } from './data.ts';
-import { history } from './daySlider.ts';
 import { $ } from './dom.ts';
+import { feedbackHtml } from './feedback.ts';
+import { icon, type IconName } from './icons.ts';
+import { loadJson } from './data.ts';
+import { onTab } from './layout.ts';
+import { history } from './timeline.ts';
 import { setWarning } from './warnings.ts';
 
 const STEP_NAMES: Record<string, string> = {
@@ -28,94 +31,148 @@ const STEP_NAMES: Record<string, string> = {
 };
 
 let statusFile: StatusFile | null = null;
+/** Rows the reader opened, kept open when the tab is drawn again. */
+const openRows = new Set<string>();
 
-function renderSources() {
+const ext = (href: string, text: string) => `<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${text}</a>`;
+
+/** The problem the last pipeline run had with a step, as a line for its row, or null. */
+function problem(step: keyof StatusFile['steps']): string | null {
+  const s = statusFile?.steps[step];
+  if (!s || s.ok) return null;
+  return `Not refreshed since ${formatTime(s.failingSince)}. ${s.problems.join('; ')}`;
+}
+
+function row(id: string, title: string, sub: string, body: string, opts: { problem?: string | null; status?: boolean } = {}) {
+  // A green check for data that is in and current, a grey one for data the current run does not have.
+  const missing = sub === 'Not available';
+  const status =
+    opts.status === false
+      ? '<span class="status" aria-hidden="true"></span>'
+      : `<span class="status${missing && !opts.problem ? ' off' : ''}" aria-hidden="true">${icon(opts.problem ? 'warning-fill' : missing ? 'minus' : 'check-circle-fill', 18)}</span>`;
+  const subText = opts.problem ? `${sub}. ${opts.problem}` : sub;
+  return `<details class="data-row${opts.problem ? ' problem' : ''}" data-row="${id}"${openRows.has(id) ? ' open' : ''}>
+    <summary>${status}<span class="data-text"><strong>${title}</strong><span>${escapeHtml(subText)}</span></span><span class="caret">${icon('caret-down', 18)}</span></summary>
+    <div class="data-body">${body}</div>
+  </details>`;
+}
+
+const info = (ic: IconName, title: string, html: string, warn = false) =>
+  `<section class="about-info"><span class="info-icon${warn ? ' warn' : ''}" aria-hidden="true">${icon(ic, 20)}</span><div><h2>${title}</h2>${html}</div></section>`;
+
+function render() {
   const stationsFile = latestStations();
-  const stationsError = stationsLoadError();
-  const snowFile = shownSnow();
+  const snowFile = latestSnow();
   const satelliteFile = satellite();
   const forecastFile = forecast();
   const historyFile = history();
   const ferrataCount = ferrataRoutes();
-  const stationPart = stationsFile
+
+  const stationProblem =
+    problem('stations') ??
+    (stationsFile && (stationsFile.stale || stationsFile.sources.some((s) => !s.ok))
+      ? `Last update could not reach: ${stationsFile.sources.filter((s) => !s.ok).map((s) => s.name).join(', ') || 'the sources'}`
+      : null);
+  const stationBody = stationsFile
     ? stationsFile.sources
         .map(
-          (s) => `<p><a href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.name)}</a><br>
-          ${escapeHtml(s.attribution)}. Licence: ${escapeHtml(s.licence)}.<br>
-          <span class="muted">${s.ok ? `Fetched ${formatTime(s.fetchedAt)}, ${s.stationCount} records.` : `Last fetch failed (${escapeHtml(s.error ?? 'unknown error')}); last success ${formatTime(s.fetchedAt)}.`}</span></p>`,
+          (s) => `<p>${ext(s.url, escapeHtml(s.name))}<br>
+          <small class="muted">${escapeHtml(s.attribution)}. Licence: ${escapeHtml(s.licence)}.<br>
+          ${s.ok ? `Fetched ${formatTime(s.fetchedAt)}, ${s.stationCount} records.` : `Last fetch failed (${escapeHtml(s.error ?? 'unknown error')}); last success ${formatTime(s.fetchedAt)}.`}</small></p>`,
         )
-        .join('')
-    : `<p class="muted">${escapeHtml(stationsError ?? 'Loading…')}</p>`;
-  const failing = statusFile ? Object.entries(statusFile.steps).filter(([, s]) => !s.ok) : [];
+        .join('') +
+      `<p class="muted">Stations reported by both are merged into one dot. Refreshed three times a day: early morning, after lunch and in the evening;
+      this file is from ${formatTime(stationsFile.generatedAt)} (${formatAge(stationsFile.generatedAt)}).</p>`
+    : `<p class="muted">${escapeHtml(stationsLoadError() ?? 'Loading…')}</p>`;
+
+  const cover = snowFile?.cover;
+  const coverSub = cover?.available ? `${cover.sensor}, ${shortDate(cover.date)}, Copernicus data` : 'Not available';
+  const coverBody = snowFile
+    ? snowInfoHtml(snowFile, 'cover') +
+      (cover?.available ? `<p>${ext(cover.source, escapeHtml(cover.attribution))}. ${escapeHtml(cover.licence)}.</p>` : '')
+    : '<p class="muted">Not loaded.</p>';
+  const depth = snowFile?.depth;
+  const depthBody = snowFile
+    ? `${snowInfoHtml(snowFile, 'depth')}<p class="muted">The app's own estimate from station readings and elevation; not an official product.
+      The timeline shows the last update of each of the past ${historyFile?.days.length ?? 14} days.</p>`
+    : '<p class="muted">Not loaded.</p>';
+
+  const sat = satelliteFile;
+  const satSub = sat?.available && sat.date ? `Sentinel-2, ${shortDate(sat.date)}, newest clear day` : 'Not available';
+  const satBody = sat
+    ? satelliteInfoHtml(sat) + (sat.available ? `<p>${escapeHtml(sat.attribution)}. Free and open Copernicus data.</p>` : '')
+    : '<p class="muted">Not loaded.</p>';
+
+  const fcBody =
+    (forecastFile ? forecastInfoHtml(forecastFile) : '') +
+    `<p>${ext('https://open-meteo.com/', 'Weather data by Open-Meteo.com')}, licensed CC BY 4.0. The point forecast is fetched when you open a place and
+    kept in your browser for one hour.</p>`;
+
+  const mapBody = `<p>Terrain: ${ext('https://mapterhorn.com/attribution', '© Mapterhorn')}, built from open elevation data:
+    South Tyrol DGM 2.5 m (Autonomous Province of Bolzano, CC0), TINITALY 10 m (INGV, CC BY 4.0),
+    Trentino LiDAR (Autonomous Province of Trento, CC BY 2.5), Austria DGM (BEV, CC BY 4.0), Copernicus GLO-30.</p>
+    <p>Roads, places, rivers, buildings and summits: © ${ext('https://www.openstreetmap.org/copyright', 'OpenStreetMap contributors')} (ODbL),
+    via a ${ext('https://protomaps.com/', 'Protomaps')} basemap build served from this site.</p>`;
+
+  const featuresBody = `<p>${BIVOUACS.length} bivouacs: huts and shelters named bivacco, Biwak or bivouac in
+    © ${ext('https://www.openstreetmap.org/copyright', 'OpenStreetMap')} (ODbL), a static list taken with the Overpass API. Red = metal box, brown = wood
+    where OSM says so. Not checked for whether they are open, equipped or still standing.</p>
+    <p>${ferrataCount ?? 'The'} via ferratas tagged in OpenStreetMap (<code>highway=via_ferrata</code>, a path with <code>via_ferrata_scale</code>, and
+    <code>route=via_ferrata</code> relations), a static list. Linked sections are one route. Grades A–E from the OSM scale 0–6; a route takes its hardest
+    section's grade. Length, elevation and climb come from the Mapterhorn terrain over the mapped sections only. Drawn by volunteers, so it may be
+    incomplete, wrong or out of date. Not for navigation.</p>`;
+
+  const softwareBody = `<p>${ext('https://maplibre.org/', 'MapLibre GL JS')} (BSD-3-Clause), sun position by
+    ${ext('https://github.com/mourner/suncalc', 'SunCalc')} (BSD-2-Clause). Type: Barlow and, on the map, Noto Sans (both OFL).
+    Icons: ${ext('https://phosphoricons.com/', 'Phosphor')} (MIT).</p>`;
+
+  const runs = statusFile ? '3 updates a day' : '';
   $('sources-body').innerHTML = `
-    <h3>Feedback</h3>
     ${feedbackHtml()}
+    <section class="about-section" aria-labelledby="src-h">
+      <div class="about-head"><h2 id="src-h">Where the data comes from</h2><span>${runs}</span></div>
+      <div class="data-rows">
+        ${row('stations', 'Weather stations', stationsFile ? `${stationsFile.stations.length} stations, Province of Bolzano and Euregio` : 'Loading', stationBody, { problem: stationProblem })}
+        ${row('cover', 'Snow from space', coverSub, coverBody, { problem: problem('snow') })}
+        ${row('depth', 'Estimated snow depth', depth ? `This app's estimate from ${depth.stationCount} stations` : 'Not available', depthBody, { problem: problem('snow') })}
+        ${row('satellite', 'Satellite photo', satSub, satBody, { problem: problem('satellite') })}
+        ${row('forecast', 'Forecast', 'Open-Meteo, 3 days ahead, CC BY 4.0', fcBody, { problem: problem('forecast') })}
+        ${row('map', 'Terrain and map', 'Mapterhorn, OpenStreetMap, Protomaps', mapBody, { status: false })}
+        ${row('features', 'Bivouacs and via ferratas', 'OpenStreetMap volunteers, a static list', featuresBody, { status: false })}
+        ${row('software', 'Software', 'MapLibre GL JS, SunCalc, Barlow, Noto Sans', softwareBody, { status: false })}
+      </div>
+    </section>
+    ${info(
+      'frame',
+      'Area',
+      `<p>${AREA.west}–${AREA.east}° E and ${AREA.south}–${AREA.north}° N: South Tyrol with the edges of North and East Tyrol, Trentino, Graubünden and Belluno.
+      Stations just outside still feed the snow depth estimate.</p>`,
+    )}
+    ${info(
+      'warning',
+      'Not for avalanche decisions',
+      `<p>For orientation only. Station values are point readings and forecasts are model output.</p>
+      <a href="https://avalanche.report" target="_blank" rel="noopener">Read the bulletin on avalanche.report${icon('arrow-up-right', 13)}</a>`,
+      true,
+    )}
     ${
-      failing.length
-        ? `<h3>Last update</h3>${failing
-            .map(
-              ([id, s]) =>
-                `<p class="warning">Problems with the ${escapeHtml(STEP_NAMES[id] ?? id)} since ${formatTime(s.failingSince)}: ${escapeHtml(s.problems.join('; '))}</p>`,
-            )
-            .join('')}<p class="muted">The layers keep showing their last good data, each with its own date.</p>`
+      analyticsEnabled()
+        ? info(
+            'lock',
+            'Privacy',
+            `<p>Visits are counted anonymously with ${ext('https://www.goatcounter.com', 'GoatCounter')}: no cookies, nothing personal, and the place you look at
+            is not sent. Your position, favourites and GPX tracks never leave your device.</p>`,
+          )
         : ''
     }
-    <h3>Area</h3>
-    <p>The map is cut to the area the snow layers cover, ${AREA.west}–${AREA.east}° E and ${AREA.south}–${AREA.north}° N: South Tyrol with
-    the edges of North and East Tyrol, Trentino, Graubünden and Belluno. Stations, bivouacs and via ferratas outside it are not shown,
-    although stations just outside still feed the snow depth estimate.</p>
-    <h3>Terrain</h3>
-    <p><a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a>, built from open elevation data:
-    South Tyrol DGM 2.5 m (Autonomous Province of Bolzano, CC0), TINITALY 10 m (INGV, CC BY 4.0),
-    Trentino LiDAR (Autonomous Province of Trento, CC BY 2.5), Austria DGM (BEV, CC BY 4.0), Copernicus GLO-30. Static dataset.</p>
-    <h3>Weather stations</h3>
-    ${stationPart}
-    <p class="muted">Stations reported by more than one source are merged. The pipeline refreshes this data three times a day: early in the morning, after lunch and in the evening;
-    the file you are viewing was generated ${stationsFile ? `${formatTime(stationsFile.generatedAt)} (${formatAge(stationsFile.generatedAt)})` : '–'}.</p>
-    <h3>Snow cover and estimated snow depth</h3>
-    ${snowFile ? snowInfoHtml(snowFile) : '<p class="muted">Not loaded.</p>'}
-    ${snowFile?.cover.available ? `<p>Satellite snow cover: <a href="${escapeHtml(snowFile.cover.source)}" target="_blank" rel="noopener">${escapeHtml(snowFile.cover.attribution)}</a>. ${escapeHtml(snowFile.cover.licence)}.</p>` : ''}
-    <p class="muted">The depth map is the app's own estimate from station readings and elevation (method in plan.md); it is not an official product.
-    The day slider shows the last update of each of the past ${historyFile?.days.length ?? 14} days.</p>
-    <h3>Satellite picture</h3>
-    ${satelliteFile ? satelliteInfoHtml(satelliteFile) : '<p class="muted">Not loaded.</p>'}
-    ${satelliteFile?.available ? `<p>${escapeHtml(satelliteFile.attribution)}. Free and open Copernicus data.</p>` : ''}
-    <h3>Forecast snowfall and point forecast</h3>
-    ${forecastFile ? forecastInfoHtml(forecastFile) : ''}
-    <p><a href="https://open-meteo.com/" target="_blank" rel="noopener">Weather data by Open-Meteo.com</a>, licensed CC BY 4.0.
-    The point forecast is fetched live when you click the map and cached in your browser for one hour.</p>
-    <h3>Roads, places, rivers, buildings and summits</h3>
-    <p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL),
-    via a <a href="https://protomaps.com/" target="_blank" rel="noopener">Protomaps</a> basemap build served from this site.
-    Fonts: Noto Sans (OFL).</p>
-    <h3>Bivouacs</h3>
-    <p>${BIVOUACS.length} huts and shelters named bivacco, Biwak or bivouac in
-    © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL),
-    a static list taken with the Overpass API. Red = metal box, brown = wood where OSM says so (the build is rarely mapped,
-    so most are drawn red). Not checked for whether they are open, equipped or still standing.</p>
-    <h3>Via ferratas</h3>
-    <p>${ferrataCount ?? 'The'} routes tagged as via ferrata (<code>highway=via_ferrata</code>, or a path with <code>via_ferrata_scale</code>,
-    and <code>route=via_ferrata</code> relations) in
-    © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL),
-    a static list taken with the Overpass API. Sections that touch, share a relation or carry the same name close together are
-    one route, so linked ferratas show as one system. Grades are shown as A–E, converted from the OSM scale 0–6
-    (1–5 are A–E, 0 counts as A and 6 as E, a plus or minus becomes an in-between grade such as C/D); a route takes its
-    hardest section's grade. Length, elevation and climb are computed from the Mapterhorn terrain over the mapped
-    sections only. The data is drawn by volunteers and may be incomplete, wrong or out of date; closures are only shown where
-    a mapper recorded them. Not for navigation.</p>
-    <h3>Map library</h3>
-    <p><a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre GL JS</a> (BSD-3-Clause).
-    Sun position: <a href="https://github.com/mourner/suncalc" target="_blank" rel="noopener">SunCalc</a> (BSD-2-Clause).</p>
-    <h3>Safety</h3>
-    <p><strong>This map is for orientation only and must not be used for avalanche decisions.</strong>
-    Station values are point measurements and forecasts are model output. Always check the official avalanche bulletin at
-    <a href="https://avalanche.report" target="_blank" rel="noopener">avalanche.report</a>.</p>
-    <h3>App version</h3>
-    <p class="muted">${escapeHtml(VERSION_LABEL)} · <a href="https://github.com/adamvalik/tirol-snow-map/releases" target="_blank" rel="noopener">release notes</a></p>
-    ${analyticsEnabled() ? '<h3>Privacy</h3><p class="muted">Visits are counted anonymously with <a href="https://www.goatcounter.com" target="_blank" rel="noopener">GoatCounter</a>: no cookies, nothing personal, and the place you look at is not sent. Your position, favourites and GPX tracks never leave your device.</p>' : ''}`;
+    <section class="version-row" aria-label="Version">
+      <span class="info-icon" aria-hidden="true">${icon('tag', 20)}</span>
+      <span><span>Version ${escapeHtml(APP_VERSION)}</span><small>Build ${escapeHtml(APP_COMMIT)}</small></span>
+      <a href="https://github.com/adamvalik/tirol-snow-map/releases" target="_blank" rel="noopener">Release notes${icon('arrow-up-right', 13)}</a>
+    </section>`;
 }
 
-/** Loads status.json and wires the "About the data" button. */
+/** Loads status.json and draws the About tab each time it is shown. */
 export function setupSources() {
   void loadJson<StatusFile>('status.json').then((s) => {
     statusFile = s;
@@ -124,19 +181,29 @@ export function setupSources() {
     setWarning(
       'status',
       failing.length
-        ? `The last update could not refresh the ${failing.map((id) => STEP_NAMES[id]).join(' and ')}; they show their last good data (details under Data sources).`
+        ? `The last update could not refresh the ${failing.map((id) => STEP_NAMES[id]).join(' and ')}; they show their last good data (details under About).`
         : null,
     );
   });
 
-  const dialog = $<HTMLDialogElement>('sources-dialog');
-  $('sources-btn').addEventListener('click', () => {
-    renderSources();
-    dialog.showModal();
+  onTab('about', () => {
+    render();
     track('about');
   });
-  $('sources-body').addEventListener('click', (e) => {
+  const body = $('sources-body');
+  body.addEventListener('click', (e) => {
     const kind = (e.target as HTMLElement).closest<HTMLElement>('[data-feedback]')?.dataset.feedback;
     if (kind) track(`feedback/${kind}`);
   });
+  body.addEventListener(
+    'toggle',
+    (e) => {
+      const d = e.target as HTMLDetailsElement;
+      const id = d.dataset?.row;
+      if (!id) return;
+      if (d.open) openRows.add(id);
+      else openRows.delete(id);
+    },
+    true,
+  );
 }

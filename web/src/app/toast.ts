@@ -5,13 +5,15 @@ let toastTimer: number | undefined;
 export interface ToastOptions {
   /** Trusted markup shown before the text, such as an SVG from icons.ts. */
   icon?: string;
+  /** Colours the icon: green for done, orange for a problem. */
+  tone?: 'ok' | 'warn';
   /** A button at the end ("Other file"); a tap runs it and closes the toast. */
   action?: { label: string; run: () => void };
   /** How long it stays, in ms; longer by default when it has an action, so there is time to tap it. */
   durationMs?: number;
 }
 
-/** A short message at the bottom of the screen that goes away on its own. */
+/** A short message over the map (above the timeline; at the top on phones) that goes away on its own. */
 export function toast(text: string, options: ToastOptions = {}) {
   const el = $('toast');
   const { icon, action } = options;
@@ -19,7 +21,7 @@ export function toast(text: string, options: ToastOptions = {}) {
   el.classList.toggle('has-action', !!action);
   if (icon) {
     const i = document.createElement('span');
-    i.className = 'toast-icon';
+    i.className = options.tone === 'warn' ? 'toast-icon warn' : 'toast-icon';
     i.setAttribute('aria-hidden', 'true');
     i.innerHTML = icon;
     el.append(i);

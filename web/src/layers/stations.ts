@@ -1,10 +1,11 @@
-// Weather stations, coloured by snow depth, and the station line in the layer card's header.
+// Weather stations, coloured by snow depth: the count on their tile and their data age.
 import type { HistoryDay, StationsFile } from '../../../shared/types.ts';
 import { selectedDay } from '../app/day.ts';
+import { setAge } from '../app/ages.ts';
 import { $ } from '../app/dom.ts';
 import { isOn } from '../app/switches.ts';
 import { setWarning } from '../app/warnings.ts';
-import { ageHours, formatAge, formatTimeShort } from '../format.ts';
+import { ageHours, formatAge } from '../format.ts';
 import { inArea } from '../island.ts';
 import { openPanel, stationHtml } from '../panel.ts';
 import { shortDate } from '../satellite.ts';
@@ -31,26 +32,28 @@ export const stationsError = () => error;
 /** Stations drawn on the map: the ones inside the covered area. */
 const countInArea = (list: { lon: number; lat: number }[]) => list.filter((s) => inArea(s.lon, s.lat)).length;
 
-/** The header line and the warnings for the latest station data. */
+const isStale = (f: StationsFile) => f.stale || ageHours(f.generatedAt) > STALE_AFTER_HOURS;
+
+/** The tile's count, the data age and the warnings for the latest station data. */
 function showStatus() {
-  const time = $('stations-time');
+  const count = $('stations-count');
   if (!file) {
-    time.textContent = error ? 'Stations unavailable' : 'Loading stations…';
+    count.textContent = '';
+    setAge('stations', null, !!error, error ? 'none' : '–');
     setWarning('stations', error ? 'Station data could not be loaded. Terrain and forecasts still work.' : null);
     return;
   }
   const f = file;
   const withSnow = f.stations.filter((s) => s.snowDepthCm !== null).length;
   if (!selectedDay()) {
-    time.textContent = `${countInArea(f.stations)} stations · updated ${formatTimeShort(f.generatedAt)}`;
-    time.title = `${withSnow} of them measure snow depth`;
+    count.textContent = String(countInArea(f.stations));
+    count.title = `${withSnow} of them measure snow depth`;
   }
+  setAge('stations', f.generatedAt, isStale(f));
   const failed = f.sources.filter((s) => !s.ok);
   const messages: string[] = [];
-  if (f.stale || ageHours(f.generatedAt) > STALE_AFTER_HOURS) {
-    messages.push(`Station data is out of date (${formatAge(f.generatedAt)}).`);
-  }
-  if (failed.length) messages.push(`Last update could not reach: ${failed.map((s) => s.name).join(', ')}.`);
+  if (isStale(f)) messages.push(`Station data is out of date (${formatAge(f.generatedAt)}).`);
+  if (failed.length) messages.push(`The last update could not reach: ${failed.map((s) => s.name).join(', ')}.`);
   setWarning('stations', messages.join(' ') || null);
 }
 
@@ -60,9 +63,9 @@ export function showStations(stations: StationsFile | null, day: HistoryDay | nu
   layer?.setStations(stations?.stations ?? []);
   if (!day) showStatus();
   else {
-    $('stations-time').textContent = stations
-      ? `${countInArea(stations.stations)} stations · ${shortDate(day.date)}`
-      : `No station readings for ${shortDate(day.date)}`;
+    const count = $('stations-count');
+    count.textContent = stations ? String(countInArea(stations.stations)) : '0';
+    count.title = stations ? `Stations on ${shortDate(day.date)}` : `No station readings for ${shortDate(day.date)}`;
   }
 }
 
@@ -94,8 +97,7 @@ export const stations: LayerModule = {
       app.map,
       f.stations,
       (s) => {
-        app.point.clear();
-        openPanel(s.name, stationHtml(s, shown ?? f));
+        openPanel({ title: s.name, icon: 'thermometer-fill', tone: 'blue' }, stationHtml(s, shown ?? f));
       },
       isOn('stations'),
     );

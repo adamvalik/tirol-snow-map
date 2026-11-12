@@ -1,4 +1,4 @@
-// The layer switches in the layer card: one checkbox `#toggle-<key>` per key in viewState.ts.
+// The layer switches in the Layers tab (tiles and rows): one checkbox `#toggle-<key>` per key in viewState.ts.
 import { LAYER_KEYS, type LayerKey, type ViewState } from '../viewState.ts';
 import { $ } from './dom.ts';
 
@@ -9,14 +9,17 @@ export const isOn = (key: LayerKey): boolean => toggle(key).checked;
 export function switchOn(key: LayerKey) {
   const input = toggle(key);
   input.checked = true;
-  input.dispatchEvent(new Event('change'));
+  // Bubbles, so the panel's listeners (the phone's layer buttons, the address) see it too.
+  input.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
 /** Greys out a switch whose layer has nothing to show, with the reason as its tooltip. */
 export function setAvailable(key: LayerKey, available: boolean, reason = '') {
   const input = toggle(key);
   input.disabled = !available;
-  input.parentElement!.title = available ? '' : reason;
+  input.closest('label')!.title = available ? '' : reason;
+  const quick = document.querySelector<HTMLButtonElement>(`.quick-btn[data-key="${key}"]`);
+  if (quick) quick.disabled = !available;
 }
 
 /** A shared link sets every switch; without one the defaults in index.html stay. */

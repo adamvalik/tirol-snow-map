@@ -1,12 +1,10 @@
-// Sun and shade: the light for a time of day, the night overlay, cast shadows, the sun player in
-// the dock, and "Sun here" (the skyline and sun hours) in a point's panel.
-import type * as maplibregl from 'maplibre-gl';
+// Sun and shade: the light for a time of day, the night overlay, cast shadows, the sun row of the
+// timeline, and "Sunrise, sunset and shade here" (the skyline and sun hours) in the Place tab.
 import { $ } from '../app/dom.ts';
 import { PAUSE_ICON, PLAY_ICON } from '../app/icons.ts';
-import type { OpenPoint } from '../app/point.ts';
 import { isOn, switchOn } from '../app/switches.ts';
 import { toast } from '../app/toast.ts';
-import { escapeHtml } from '../format.ts';
+import { registerLoader, reloadRows } from '../panel.ts';
 import { type Horizon, horizonProfile } from '../../../shared/horizon.ts';
 import { MAX_BOUNDS } from '../map.ts';
 import { ShadowLayer } from '../shadows.ts';
@@ -23,11 +21,11 @@ import {
   nightOpacity,
   skyFor,
   sunDay,
-  sunLabel,
   sunParam,
   sunPosition,
 } from '../sun.ts';
 import { type SunHere, sunHereFor, sunHereHtml } from '../sunHere.ts';
+import type { SunPosition } from '../sun.ts';
 import { type Grid, loadGrid, NEAR_RADIUS, pointTerrain } from '../terrainSampler.ts';
 import type { App, LayerModule } from './types.ts';
 
@@ -66,8 +64,9 @@ function showSunControls() {
   sunSlider.max = String(minutes);
   sunSlider.value = String(Math.round((sunTime - start) / MINUTE));
   sunSlider.style.setProperty('--sun-track', dayGradient(day, start, minutes));
-  $('sun-rise').textContent = day.sunrise === null ? '' : `☀ Sunrise ${clockTime(day.sunrise)}`;
+  $('sun-rise').textContent = day.sunrise === null ? '' : `Sunrise ${clockTime(day.sunrise)}`;
   $('sun-set').textContent = day.sunset === null ? '' : `Sunset ${clockTime(day.sunset)}`;
+  $('sun-date-label').textContent = new Date(`${date}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
 }
 
 /**
@@ -86,8 +85,15 @@ export function applyLight() {
   applyShadows(sun);
   if (sun) {
     map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
-    $('sun-label').textContent = sunLabel(sunTime, sun);
+    showSunLabel(sun);
   }
+}
+
+/** "Sun 14:20" and "21° high in the SW" in the sun row. */
+function showSunLabel(sun: SunPosition) {
+  $('sun-label').textContent = `Sun ${clockTime(sunTime)}`;
+  $('sun-alt').textContent =
+    sun.altitude >= 0.5 ? `${Math.round(sun.altitude)}° high` : sun.altitude > -6 ? 'on the horizon' : 'night';
 }
 
 function applyShadows(sun: ReturnType<typeof sunPosition> | null) {
@@ -117,33 +123,15 @@ function setSunTime(t: number) {
   sunTime = t;
   showSunControls();
   applyLight();
-  // The skyline stays; only the sun's path moves with the day.
-  if (dayChanged && isSunHere(sunHere)) sunHere = sunHereFor(sunHere.lon, sunHere.lat, sunHere.horizon, localDate(t), sunHere.sunAt);
-  showSunHere();
-  if (dayChanged) for (const l of sunDayListeners) l(localDate(t));
+  // The skyline stays (traced once per place); the sun's path is worked out again for the new day.
+  if (dayChanged) {
+    reloadRows('sun');
+    for (const l of sunDayListeners) l(localDate(t));
+  }
   app.syncHash();
 }
 
-// --- Sun at a clicked point -------------------------------------------------------
-
-/** The open point's skyline and sun: not asked for yet, being traced, failed, or ready. */
-let sunHere: 'off' | 'loading' | Error | SunHere = 'off';
-const isSunHere = (v: typeof sunHere): v is SunHere => typeof v === 'object' && !(v instanceof Error);
-
-function sunHereSection(): string {
-  let html: string;
-  if (sunHere === 'off') html = '<button id="sun-here-btn" class="link-btn">☀ When does the sun reach this point?</button>';
-  else if (sunHere === 'loading') html = '<h3>Sun here</h3><p class="muted">Tracing the skyline…</p>';
-  else if (sunHere instanceof Error) html = `<h3>Sun here</h3><p class="warning">Skyline unavailable: ${escapeHtml(sunHere.message)}</p>`;
-  else html = sunHereHtml(sunHere, sunTime);
-  return `<section id="sun-here" class="sun-here">${html}</section>`;
-}
-
-/** Re-renders the section in the open panel, if it is there. */
-function showSunHere() {
-  const el = document.getElementById('sun-here');
-  if (el) el.outerHTML = sunHereSection();
-}
+// --- Sun at a place --------------------------------------------------------------
 
 /** Skylines traced recently, by position, so asking again (another day, a reopened panel) is instant. */
 const horizons = new Map<string, Promise<Horizon>>();
@@ -188,20 +176,6 @@ export function onSunDayChange(listener: (date: string) => void) {
 export async function sunHereAt(lon: number, lat: number, date = sunDate()): Promise<SunHere> {
   const horizon = await traceHorizon(lon, lat);
   return sunHereFor(lon, lat, horizon, date, (t) => sunPosition(t, lat, lon));
-}
-
-async function traceSunHere({ lngLat, signal }: { lngLat: maplibregl.LngLat; signal: AbortSignal }) {
-  sunHere = 'loading';
-  showSunHere();
-  try {
-    const s = await sunHereAt(lngLat.lng, lngLat.lat);
-    if (signal.aborted) return;
-    sunHere = s;
-  } catch (e) {
-    if (signal.aborted) return;
-    sunHere = e instanceof Error ? e : new Error(String(e));
-  }
-  showSunHere();
 }
 
 // --- Player ------------------------------------------------------------------------
@@ -268,20 +242,8 @@ export const sun: LayerModule = {
       applyLight();
     });
 
-    // "Sun here" sits in a point's panel; with the sun light on, the skyline is traced straight away.
-    app.point.extend({
-      html: sunHereSection,
-      open: (p: OpenPoint) => {
-        if (isOn('sun')) void traceSunHere(p);
-      },
-      close: () => {
-        sunHere = 'off';
-      },
-    });
-    $('details-body').addEventListener('click', (e) => {
-      const p = app.point.current;
-      if (p && (e.target as Element).closest('#sun-here-btn')) void traceSunHere(p);
-    });
+    // "Sunrise, sunset and shade here" in the Place tab; it opens by itself while the sun light is on.
+    registerLoader('sun', async (p) => sunHereHtml(await sunHereAt(p.lon, p.lat), sunTime));
   },
 
   init() {
@@ -321,8 +283,7 @@ export const sun: LayerModule = {
     // The light is drawn by the hillshade layer, so it has to be on.
     if (on && !isOn('hillshade')) switchOn('hillshade');
     applyLight();
-    const p = app.point.current;
-    if (on && p && sunHere === 'off') void traceSunHere(p);
+    if (on) for (const row of document.querySelectorAll<HTMLDetailsElement>('#details-body details[data-kind="sun"]')) row.open = true;
   },
 
   view: () => ({ sun: isOn('sun') ? sunParam(sunTime) : null }),

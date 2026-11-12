@@ -3,7 +3,7 @@ import * as maplibregl from 'maplibre-gl';
 import { $ } from '../app/dom.ts';
 import { isOn, switchOn } from '../app/switches.ts';
 import { toast } from '../app/toast.ts';
-import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacHtml, bivouacIconUrl, favButtonHtml } from '../bivouacs.ts';
+import { addBivouacLayer, BIVOUAC_LAYER_IDS, BIVOUACS, bivouacFootHtml, bivouacHtml, bivouacSub, favButtonHtml } from '../bivouacs.ts';
 import { Favourites } from '../favourites.ts';
 import type { App, LayerModule } from './types.ts';
 
@@ -15,16 +15,16 @@ export const bivouacs: LayerModule = {
   clickLayers: BIVOUAC_LAYER_IDS,
 
   setup() {
-    $('bivouac-keys').innerHTML = (['metal', 'wood'] as const)
-      .map((k) => `<img class="bivouac-icon" src="${bivouacIconUrl(k)}" alt="" title="${k === 'wood' ? 'Wooden' : 'Metal'}">`)
-      .join('');
-
     favourites = new Favourites();
+    // The chip on the Bivouacs tile: "All", or how many are saved while only favourites are shown.
     const showFavCount = () => {
-      $('fav-count').textContent = String(favourites.size);
-      $('fav-count').title = 'Saved in this browser';
+      $('fav-count').textContent = isOn('favourites') ? `${favourites.size} saved` : 'All';
+      $('fav-count').parentElement!.title = isOn('favourites')
+        ? 'Showing only your favourite bivouacs, saved in this browser'
+        : 'Show only your favourite bivouacs';
     };
     showFavCount();
+    $('toggle-favourites').addEventListener('change', showFavCount);
     favourites.onChange(showFavCount);
     // The heart in a bivouac's panel; the panel body is re-rendered when its forecast arrives.
     $('details-body').addEventListener('click', (e) => {
@@ -43,10 +43,11 @@ export const bivouacs: LayerModule = {
       app.map,
       favourites,
       (b) =>
-        void app.point.show(new maplibregl.LngLat(b.lon, b.lat), {
-          title: b.name,
+        app.point.show(new maplibregl.LngLat(b.lon, b.lat), {
+          head: { title: b.name, sub: bivouacSub(b), icon: 'tent', tone: 'blue' },
           html: bivouacHtml(b, favourites.has(b.osm)),
           elevation: b.ele,
+          footHtml: bivouacFootHtml(b),
         }),
       isOn('bivouacs'),
       isOn('favourites'),

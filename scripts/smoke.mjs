@@ -76,10 +76,14 @@ for (const profile of profiles) {
   const stationPoint = await page.evaluate(() => {
     const { map } = window.__snowmap;
     // Pick a snow station that is not covered by a panel.
+    // Map coordinates are relative to the map, which starts right of the sidebar on desktop.
+    const box = map.getContainer().getBoundingClientRect();
     for (const f of map.queryRenderedFeatures({ layers: ['stations'] })) {
       if (f.properties.hasSnow !== 1) continue;
       const p = map.project(f.geometry.coordinates);
-      if (document.elementFromPoint(p.x, p.y)?.tagName === 'CANVAS') return { x: p.x, y: p.y };
+      const x = p.x + box.left;
+      const y = p.y + box.top;
+      if (document.elementFromPoint(x, y)?.tagName === 'CANVAS') return { x, y };
     }
     return null;
   });
@@ -92,10 +96,12 @@ for (const profile of profiles) {
     await page.screenshot({ path: path.join(outDir, `${profile.name}-station.png`) });
   }
 
+  // Close the station (on a phone this lowers the sheet), then tap the terrain.
+  await page.keyboard.press('Escape');
   const box = page.viewportSize();
   await page.mouse.click(box.width * 0.62, box.height * 0.3);
   const forecastOk = await page
-    .waitForSelector('table.forecast', { timeout: 20_000 })
+    .waitForSelector('.fc-list', { timeout: 20_000 })
     .then(() => true, () => false);
   // Open-Meteo limits are per IP; a shared CI or sandbox IP can hit them. The app shows the error, which is the
   // intended behaviour, so this is reported but does not fail the run.
@@ -103,28 +109,29 @@ for (const profile of profiles) {
   const appErrors = errors.filter((e) => !(rateLimited && e.includes('status of 429')));
   await page.screenshot({ path: path.join(outDir, `${profile.name}-forecast.png`) });
 
-  // V3 (desktop): day slider, forecast playback, and a shared link that restores the view.
+  // V3 (desktop): the timeline (a past day, forecast playback), and a shared link that restores the view.
   let v3 = '';
   if (profile.name === 'desktop') {
     await page.keyboard.press('Escape');
     const dayOk = await page.evaluate(async () => {
-      const slider = document.getElementById('day');
-      if (document.getElementById('day-group').hidden) return 'no history (slider hidden)';
-      slider.value = '0';
-      slider.dispatchEvent(new Event('input'));
-      for (let i = 0; i < 50 && document.getElementById('day-note').hidden; i++) await new Promise((r) => setTimeout(r, 100));
-      return document.getElementById('day-note').hidden ? 'FAILED' : 'OK';
+      const first = document.querySelector('#days .day');
+      if (!first || first.getAttribute('aria-label').endsWith(', now') || first.classList.contains('fc')) return 'no history (only today)';
+      first.click();
+      const note = document.getElementById('day-note');
+      for (let i = 0; i < 50 && !/as of|only snow|no data/i.test(note.textContent); i++) await new Promise((r) => setTimeout(r, 100));
+      const ok = /as of|only snow|no data/i.test(note.textContent) && document.getElementById('day-badge').textContent === 'Past';
+      document.getElementById('day-back').click();
+      return ok ? 'OK' : 'FAILED';
     });
     const forecastAnim = await page.evaluate(async () => {
-      const input = document.getElementById('toggle-forecast');
-      if (input.disabled) return 'unavailable';
-      input.click();
-      const frame = document.getElementById('forecast-frame');
-      const before = frame.value;
-      document.getElementById('forecast-play').click();
+      const play = document.getElementById('forecast-play');
+      if (play.disabled) return 'unavailable';
+      const timeline = document.getElementById('timeline');
+      const before = timeline.dataset.frame;
+      play.click();
       await new Promise((r) => setTimeout(r, 2000));
-      const moved = frame.value !== before;
-      document.getElementById('forecast-play').click(); // pause: software GL re-renders the 3D view per frame
+      const moved = timeline.dataset.frame !== before && document.getElementById('toggle-forecast').checked;
+      play.click(); // pause: software GL re-renders the 3D view per frame
       return moved ? 'OK' : 'FAILED';
     });
     // Via ferratas: switch the layer on over the Sella group and open a route's panel.
@@ -136,12 +143,13 @@ for (const profile of profiles) {
       .waitForFunction(
         () => {
           const { map } = window.__snowmap;
+          const box = map.getContainer().getBoundingClientRect();
           for (const f of map.queryRenderedFeatures({ layers: ['ferrata-hit'] })) {
             const coords = f.geometry.type === 'LineString' ? f.geometry.coordinates : f.geometry.coordinates.flat();
             for (const c of coords) {
               const p = map.project(c);
               const hit = map.queryRenderedFeatures([p.x, p.y], { layers: ['ferrata-hit'] }).length;
-              if (hit && document.elementFromPoint(p.x, p.y)?.tagName === 'CANVAS') return { x: p.x, y: p.y };
+              if (hit && document.elementFromPoint(p.x + box.left, p.y + box.top)?.tagName === 'CANVAS') return { x: p.x + box.left, y: p.y + box.top };
             }
           }
           return null;
@@ -170,16 +178,16 @@ for (const profile of profiles) {
         zoom: m.getZoom(),
         forecast: document.getElementById('toggle-forecast').checked,
         ferratas: document.getElementById('toggle-ferratas').checked,
-        day: document.getElementById('day').value,
+        day: document.querySelector('#days [aria-checked="true"]')?.dataset.date ?? null,
       };
     });
     const linkOk = hash.includes('map=') && Math.abs(restored.zoom - 12.6) < 0.05 && restored.forecast && restored.ferratas;
     await shared.close();
-    v3 = `day slider ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}`;
+    v3 = `timeline day ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}`;
     if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || !linkOk) errors.push(`V3 checks: ${v3}`);
   }
 
-  const stationsText = await page.textContent('#stations-time');
+  const stationsText = `stations: ${await page.textContent('#stations-count')}, data age: ${await page.getAttribute('#data-age', 'aria-label')}`;
   console.log(
     `${profile.name}: map ready ${readyMs} ms (in-page ${readyInPage} ms), ~${fps.toFixed(0)} fps while rotating (software GL), ` +
       `station panel ${stationOk ? 'OK' : 'FAILED'}, forecast ${forecastOk ? 'OK' : rateLimited ? 'RATE-LIMITED by Open-Meteo (error shown in panel)' : 'FAILED'}`,

@@ -1,18 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs>
-    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#1d4f9e"/>
-      <stop offset="1" stop-color="#5b9be6"/>
-    </linearGradient>
-  </defs>
-  <rect width="512" height="512" fill="url(#sky)"/>
-  <!-- Back ridge -->
-  <path d="M60 400 190 230l50 60 60-90 150 200z" fill="#9db8d9"/>
-  <!-- Main peak -->
-  <path d="M60 400 230 140l90 140 50-60 82 180z" fill="#2c3e57"/>
-  <!-- Snowcaps -->
-  <path d="M230 140 283 221l-30-14-23 26-20-22-34 14z" fill="#fff"/>
-  <path d="M370 220 396 257l-20-8-14 13-13-11z" fill="#fff"/>
-  <!-- Valley floor -->
-  <rect y="400" width="512" height="112" fill="#f4f6f8"/>
+  <!-- App icon "Depth bands" (C2 design): the peak painted in the map's snow-depth ramp, white at the top. -->
+  <defs><clipPath id="peak"><path d="M56 424 L256 112 L456 424 Z"/></clipPath></defs>
+  <rect width="512" height="512" fill="#14243d"/>
+  <path d="M300 424 L396 268 L492 424 Z" fill="#2a4a78"/>
+  <g clip-path="url(#peak)">
+    <rect y="100" width="512" height="96" fill="#ffffff"/>
+    <rect y="196" width="512" height="60" fill="#c6dbef"/>
+    <rect y="256" width="512" height="60" fill="#9ecae1"/>
+    <rect y="316" width="512" height="56" fill="#6baed6"/>
+    <rect y="372" width="512" height="52" fill="#3182bd"/>
+  </g>
 </svg>

@@ -3,7 +3,17 @@ import * as maplibregl from 'maplibre-gl';
 import { $ } from '../app/dom.ts';
 import { isOn } from '../app/switches.ts';
 import { setWarning } from '../app/warnings.ts';
-import { addFerrataLayer, FERRATA_LAYER_IDS, ferrataHtml, ferrataLines, type FerrataLayer, GRADE_CLASSES, highestPoint } from '../ferratas.ts';
+import {
+  addFerrataLayer,
+  FERRATA_LAYER_IDS,
+  ferrataFootHtml,
+  ferrataHtml,
+  ferrataLines,
+  type FerrataLayer,
+  ferrataSub,
+  GRADE_CLASSES,
+  highestPoint,
+} from '../ferratas.ts';
 import { resample } from '../../../shared/geo.ts';
 import { routeSnowSummary } from './snow.ts';
 import type { LayerModule } from './types.ts';
@@ -17,7 +27,10 @@ export const ferrataCount = () => count;
 function show(on: boolean) {
   layer!.setVisible(on).then(
     (n) => {
-      if (n !== null) count = n;
+      if (n !== null) {
+        count = n;
+        $('ferrata-count').textContent = String(n);
+      }
       setWarning('ferratas', null);
     },
     (e: unknown) => {
@@ -47,12 +60,13 @@ export const ferratas: LayerModule = {
         const [lon, lat, ele] = highestPoint(f);
         // Evenly spaced points, so each share is a share of the route's length.
         const points = ferrataLines(f).flatMap((l) => resample(l, 25));
-        void app.point.show(new maplibregl.LngLat(lon, lat), {
-          title: f.properties.name ?? 'Via ferrata',
+        app.point.show(new maplibregl.LngLat(lon, lat), {
+          head: { title: f.properties.name ?? 'Via ferrata', sub: ferrataSub(f.properties), icon: 'ladder-simple', tone: 'orange' },
           html: ferrataHtml(f.properties),
           elevation: ele,
-          elevationLabel: 'Highest point',
           snowHtml: routeSnowSummary(points),
+          forecastLabel: 'Forecast at the highest point',
+          footHtml: ferrataFootHtml(f.properties),
         });
         layer!.select(f.properties.id);
       },

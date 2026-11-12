@@ -2,12 +2,15 @@ import * as maplibregl from 'maplibre-gl';
 import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { FeatureCollection, Point } from 'geojson';
 import { SCHEMA_VERSION, type Station, type StationsFile } from '../../shared/types.ts';
-import { snowColorExpression } from './colors.ts';
+import { NO_SNOW_SENSOR_COLOR, snowColorExpression } from './colors.ts';
 import { escapeHtml, fmt, fmtChange, formatAge } from './format.ts';
 import { inArea } from './island.ts';
 
 export const STATIONS_URL = `${import.meta.env.BASE_URL}data/stations.json`;
 const LAYER = 'stations';
+const GAINS = 'station-gains';
+/** A station that gained this much snow depth in 24 h gets a "+N cm" badge next to its dot. */
+export const GAIN_BADGE_CM = 5;
 
 /** `url` defaults to the latest readings; the time slider passes a day's copy. */
 export async function loadStations(url = STATIONS_URL): Promise<StationsFile> {
@@ -29,7 +32,13 @@ function toGeoJson(stations: Station[]): FeatureCollection<Point> {
               type: 'Feature' as const,
               id: i,
               geometry: { type: 'Point' as const, coordinates: [s.lon, s.lat] },
-              properties: { index: i, snowDepthCm: s.snowDepthCm, hasSnow: s.snowDepthCm !== null ? 1 : 0 },
+              properties: {
+                index: i,
+                snowDepthCm: s.snowDepthCm,
+                hasSnow: s.snowDepthCm !== null ? 1 : 0,
+                // New snow worth a badge on the map: 5 cm or more in 24 h.
+                gain: s.snowDepthCm !== null && (s.snowChange24hCm ?? 0) >= GAIN_BADGE_CM ? Math.round(s.snowChange24hCm!) : 0,
+              },
             },
           ]
         : [],
@@ -40,11 +49,11 @@ function toGeoJson(stations: Station[]): FeatureCollection<Point> {
 export function tooltipHtml(s: Station): string {
   return (
     `<strong>${escapeHtml(s.name)}</strong>` +
-    `${s.elevation} m · ${formatAge(s.observedAt)}<br>` +
+    `${s.elevation.toLocaleString('en-GB')} m, ${formatAge(s.observedAt)}<br>` +
     `Snow ${s.snowDepthCm === null ? 'no sensor' : fmt(s.snowDepthCm, 'cm')}` +
     (s.snowDepthCm !== null && s.snowChange24hCm ? ` (${fmtChange(s.snowChange24hCm, 'cm')} in 24 h)` : '') +
-    ' · ' +
-    `${fmt(s.airTempC, '°C', 1)} · wind ${fmt(s.windSpeedKmh, 'km/h')}`
+    ', ' +
+    `${fmt(s.airTempC, '°C', 1)}, wind ${fmt(s.windSpeedKmh, 'km/h')}`
   );
 }
 
@@ -62,18 +71,38 @@ export function addStationLayer(
     source: LAYER,
     layout: { 'circle-sort-key': ['get', 'hasSnow'], visibility: visible ? 'visible' : 'none' },
     paint: {
-      'circle-color': snowColorExpression(),
+      // Stations without a snow sensor are small grey dots, so the snow readings stand out (roadmap 2.3).
+      'circle-color': ['case', ['==', ['get', 'hasSnow'], 1], snowColorExpression(), NO_SNOW_SENSOR_COLOR],
+      'circle-opacity': ['case', ['==', ['get', 'hasSnow'], 1], 1, 0.75],
       'circle-radius': [
         'interpolate',
         ['linear'],
         ['zoom'],
-        8, ['case', ['==', ['get', 'hasSnow'], 1], 4.5, 2.5],
-        12, ['case', ['==', ['get', 'hasSnow'], 1], 8, 5],
+        8, ['case', ['==', ['get', 'hasSnow'], 1], 4.5, 2],
+        12, ['case', ['==', ['get', 'hasSnow'], 1], 8, 3.5],
       ],
-      'circle-stroke-color': ['case', ['==', ['get', 'hasSnow'], 1], '#3a3a3a', '#ffffff'],
-      'circle-stroke-width': ['case', ['boolean', ['feature-state', 'hover'], false], 2.5, 1.2],
+      'circle-stroke-color': '#ffffff',
+      'circle-stroke-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 1, ['==', ['get', 'hasSnow'], 1], 1, 0],
+      'circle-stroke-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 2],
       'circle-pitch-alignment': 'viewport',
     },
+  });
+  map.addLayer({
+    id: GAINS,
+    type: 'symbol',
+    source: LAYER,
+    filter: ['>', ['get', 'gain'], 0],
+    layout: {
+      visibility: visible ? 'visible' : 'none',
+      'text-field': ['concat', '+', ['to-string', ['get', 'gain']], ' cm'],
+      'text-font': ['Noto Sans Medium'],
+      'text-size': 12,
+      'text-anchor': 'left',
+      'text-offset': [0.9, 0],
+      'text-allow-overlap': false,
+      'text-optional': true,
+    },
+    paint: { 'text-color': '#1d4ea3', 'text-halo-color': '#ffffff', 'text-halo-width': 2.2 },
   });
 
   const popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false, className: 'tooltip', offset: 10 });
@@ -111,7 +140,7 @@ export function addStationLayer(
 
   return {
     setVisible: (v) => {
-      map.setLayoutProperty(LAYER, 'visibility', v ? 'visible' : 'none');
+      for (const id of [LAYER, GAINS]) map.setLayoutProperty(id, 'visibility', v ? 'visible' : 'none');
       if (!v) popup.remove();
     },
     setStations: (list) => {
