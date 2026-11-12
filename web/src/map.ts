@@ -21,9 +21,9 @@ export const DEM_SOURCES = ['terrain', 'dem'];
 /** Mapterhorn serves tiles up to z15; z16 returns 404. */
 const DEM_MAX_ZOOM = 15;
 
-export const DEFAULT_EXAGGERATION = 1.5;
+export const DEFAULT_EXAGGERATION = 1;
 /** Opening view: Bolzano, tilted, looking north-north-east up the Eisack valley towards the Dolomites. */
-export const DEFAULT_VIEW = { center: [11.354, 46.47] as [number, number], zoom: 10.4, pitch: 60, bearing: 20 };
+export const DEFAULT_VIEW = { center: [11.354, 46.498] as [number, number], zoom: 10.4, pitch: 60, bearing: 0 };
 /** South Tyrol with a margin; keeps tile requests to the region. */
 export const MAX_BOUNDS: [[number, number], [number, number]] = [
   [9.4, 45.6],

@@ -14,6 +14,9 @@ const FIELDS = [
   'windGustKmh',
   'windDirDeg',
   'precip24hMm',
+  'snowChange24hCm',
+  'snowChange48hCm',
+  'snowChange72hCm',
 ] as const;
 
 export function distanceM(a: { lon: number; lat: number }, b: { lon: number; lat: number }): number {
@@ -79,6 +82,9 @@ function mergeCluster(members: RawStation[]): Station {
     windGustKmh: null,
     windDirDeg: null,
     precip24hMm: null,
+    snowChange24hCm: null,
+    snowChange48hCm: null,
+    snowChange72hCm: null,
   };
   for (const f of FIELDS) {
     station[f] = ordered.find((m) => m[f] !== null)?.[f] ?? null;

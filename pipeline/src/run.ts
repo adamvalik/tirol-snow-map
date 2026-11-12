@@ -11,14 +11,15 @@
 import { mkdir, readFile, rename, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { gunzipSync } from 'node:zlib';
 import { SCHEMA_VERSION, type SourceStatus, type StationsFile, type StepId } from '../../shared/types.ts';
-import { FIXTURES, STATION_BBOX, URLS } from './config.ts';
+import { FIXTURES, LINEA_FEEDS, STATION_BBOX, URLS } from './config.ts';
 import { loadDemGrid } from './dem.ts';
 import { FORECAST_FIXTURE, runForecastStep } from './forecast/run-forecast.ts';
 import { readHistory, romeDate, updateHistory } from './history.ts';
 import { mergeStations } from './merge.ts';
 import type { RawStation } from './raw.ts';
-import { parseLinea } from './sources/linea.ts';
+import { newestLineaDate, parseLinea } from './sources/linea.ts';
 import { runSatelliteStep } from './satellite/run-satellite.ts';
 import { runSnowStep } from './snow/run-snow.ts';
 import { parseProvince } from './sources/provinceBz.ts';
@@ -40,28 +41,70 @@ const outDir = path.resolve(ROOT, arg('--out') ?? 'web/public/data');
 const stateDir = path.resolve(ROOT, arg('--state') ?? 'data/state');
 const now = arg('--now') ?? (useFixtures ? FIXTURE_NOW : new Date().toISOString());
 
-async function getJson<T>(key: keyof typeof URLS): Promise<T> {
-  if (useFixtures) return JSON.parse(await readFile(path.join(ROOT, FIXTURES[key]), 'utf8')) as T;
+async function readFixture<T>(key: keyof typeof FIXTURES): Promise<T> {
+  return JSON.parse(await readFile(path.join(ROOT, FIXTURES[key]), 'utf8')) as T;
+}
+
+/** Fetches JSON with retries; a body that is a gzip file (not just gzip transfer encoding) is unpacked. */
+async function fetchJson<T>(url: string): Promise<T> {
   let lastError: unknown;
   for (let attempt = 0; attempt < 3; attempt++) {
     if (attempt > 0) await new Promise((r) => setTimeout(r, 2000 * 2 ** attempt));
     try {
-      const res = await fetch(URLS[key], {
+      const res = await fetch(url, {
         signal: AbortSignal.timeout(30_000),
         headers: { 'user-agent': 'tirol-snow-map pipeline (+https://github.com/adamvalik/tirol-snow-map)' },
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return (await res.json()) as T;
+      let body = Buffer.from(await res.arrayBuffer());
+      if (body[0] === 0x1f && body[1] === 0x8b) body = gunzipSync(body);
+      return JSON.parse(body.toString('utf8')) as T;
     } catch (e) {
       lastError = e;
     }
   }
-  throw new Error(`${URLS[key]}: ${lastError instanceof Error ? lastError.message : String(lastError)}`);
+  throw new Error(`${url}: ${lastError instanceof Error ? lastError.message : String(lastError)}`);
+}
+
+async function getJson<T>(key: keyof typeof URLS): Promise<T> {
+  return useFixtures ? readFixture<T>(key) : fetchJson<T>(URLS[key]);
+}
+
+type LineaFeed = Parameters<typeof parseLinea>[0];
+
+/**
+ * All Euregio feeds. The main feed must load; a failing extra feed only costs its stations and
+ * is reported as a warning. Fixture runs use one saved copy of the old combined feed.
+ */
+async function loadLinea(warnings: string[]): Promise<RawStation[]> {
+  const opts = { now, maxAgeHours: MAX_AGE_HOURS, bbox: STATION_BBOX };
+  if (useFixtures) return parseLinea(await readFixture<LineaFeed>('linea'), opts);
+  const feeds = await Promise.allSettled(LINEA_FEEDS.map((f) => fetchJson<LineaFeed>(f.url)));
+  const out: RawStation[] = [];
+  for (const [i, r] of feeds.entries()) {
+    const { provider, url } = LINEA_FEEDS[i];
+    if (r.status === 'rejected') {
+      const msg = r.reason instanceof Error ? r.reason.message : String(r.reason);
+      if (i === 0) throw new Error(msg);
+      warnings.push(`Euregio feed ${provider}: ${msg}`);
+      continue;
+    }
+    const records = parseLinea(r.value, { ...opts, provider });
+    // A feed that answers but has stopped updating looks like success; say how old it is.
+    if (records.length === 0) {
+      const msg = `${url}: no readings from the last ${MAX_AGE_HOURS} h (newest ${newestLineaDate(r.value) ?? 'none'})`;
+      if (i === 0) throw new Error(msg);
+      warnings.push(`Euregio feed ${provider}: ${msg}`);
+    }
+    out.push(...records);
+  }
+  return out;
 }
 
 interface SourceDef {
   status: Omit<SourceStatus, 'fetchedAt' | 'ok' | 'error' | 'stationCount'>;
-  load: () => Promise<RawStation[]>;
+  /** Problems that cost some stations but not the whole source go into `warnings`. */
+  load: (warnings: string[]) => Promise<RawStation[]>;
 }
 
 const SOURCES: SourceDef[] = [
@@ -91,12 +134,7 @@ const SOURCES: SourceDef[] = [
       attribution:
         'Avalanche warning services Tirol, South Tyrol, Trentino and partner station operators, via avalanche.report',
     },
-    load: async () =>
-      parseLinea(await getJson<Parameters<typeof parseLinea>[0]>('linea'), {
-        now,
-        maxAgeHours: MAX_AGE_HOURS,
-        bbox: STATION_BBOX,
-      }),
+    load: loadLinea,
   },
 ];
 
@@ -134,13 +172,17 @@ async function main() {
   const previous = await readPrevious(outFile);
 
   const results = await Promise.all(
-    SOURCES.map(async (s): Promise<{ status: SourceStatus; records: RawStation[] }> => {
+    SOURCES.map(async (s): Promise<{ status: SourceStatus; records: RawStation[]; warnings: string[] }> => {
       const prevStatus = previous?.sources.find((p) => p.id === s.status.id);
+      const warnings: string[] = [];
       try {
-        const records = await s.load();
+        const records = await s.load(warnings);
+        // An upstream that answers with only old readings has failed too, even with HTTP 200.
+        if (records.length === 0) throw new Error(`no readings from the last ${MAX_AGE_HOURS} h`);
         return {
           status: { ...s.status, fetchedAt: now, ok: true, stationCount: records.length },
           records,
+          warnings,
         };
       } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
@@ -148,6 +190,7 @@ async function main() {
         return {
           status: { ...s.status, fetchedAt: prevStatus?.fetchedAt ?? null, ok: false, error, stationCount: 0 },
           records: [],
+          warnings,
         };
       }
     }),
@@ -180,7 +223,11 @@ async function main() {
   for (const r of results) console.log(`  ${r.status.id}: ${r.status.ok ? `${r.status.stationCount} records` : `FAILED ${r.status.error}`}`);
 
   const problems: Record<StepId, string[]> = { stations: [], snow: [], satellite: [], forecast: [] };
-  for (const r of results) if (!r.status.ok) problems.stations.push(`${r.status.name}: ${r.status.error}`);
+  for (const r of results) {
+    if (!r.status.ok) problems.stations.push(`${r.status.name}: ${r.status.error}`);
+    for (const w of r.warnings) console.warn(`[pipeline] ${w}`);
+    problems.stations.push(...r.warnings);
+  }
   const step = async (id: StepId, name: string, fn: () => Promise<void>) => {
     try {
       await fn();

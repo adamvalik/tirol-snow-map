@@ -4,9 +4,9 @@ import { Favourites } from '../src/favourites.ts';
 import { GRADE_CLASSES, gradeColor, gradeLabel, gradeText, highestPoint, letterGrade, UNGRADED_COLOR, websiteUrl } from '../src/ferratas.ts';
 import { snowColor, SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from '../src/colors.ts';
 import { forecastUrl } from '../src/forecast.ts';
-import { compass, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
+import { compass, fmtChange, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
 import { frameLabel } from '../src/forecastAnim.ts';
-import { routeSnow } from '../src/snow.ts';
+import { routeSnow, routeSnowPoints } from '../src/snow.ts';
 import { parseHash, toHash, type ViewState } from '../src/viewState.ts';
 import type { ForecastFile } from '../../shared/types.ts';
 
@@ -44,6 +44,14 @@ describe('format helpers', () => {
     expect(compass(350)).toBe('N');
     expect(compass(135)).toBe('SE');
     expect(weatherText(73)).toBe('Snow');
+  });
+
+  it('formats signed changes', () => {
+    expect(fmtChange(12.4, 'cm')).toBe('+12 cm');
+    expect(fmtChange(-3, 'cm')).toBe('−3 cm');
+    expect(fmtChange(-0.2, 'cm')).toBe('0 cm');
+    expect(fmtChange(null, 'cm')).toBe('–');
+    expect(fmtChange(undefined, 'cm')).toBe('–');
   });
 });
 
@@ -180,8 +188,8 @@ describe('via ferratas', () => {
   it('labels grades with the French and Italian equivalents', () => {
     expect(gradeLabel(props)).toBe('D/E');
     expect(gradeLabel({ scale: null })).toBe('ungraded');
-    expect(gradeText(props)).toBe('D/E · very difficult · TD in France and Italy');
-    expect(gradeText({ grade: 2, scale: '2' })).toBe('B · moderately difficult · AD in France, PD in Italy');
+    expect(gradeText(props)).toBe('D/E, very difficult, TD in France and Italy');
+    expect(gradeText({ grade: 2, scale: '2' })).toBe('B, moderately difficult, AD in France, PD in Italy');
     expect(gradeText({ grade: null, scale: null })).toBe('No grade in OpenStreetMap');
   });
 
@@ -218,6 +226,11 @@ describe('via ferratas', () => {
     const points = [[11.0, 46, 1900], [11.1, 46, 1950], [11.2, 46, 2050], [11.3, 46, 2150], [11.5, 46, 2200], [12.5, 46, 2300]];
     expect(routeSnow(values, points)).toEqual({ snow: 0.4, unseen: 0.2, lowestSnowM: 2050, maxDepthCm: 30 });
     expect(routeSnow(values, [[12.5, 46, 2000]])).toBeNull();
+    // The same check point by point, for a chart along a GPX track.
+    expect(routeSnowPoints(values, points)).toEqual({
+      route: { snow: 0.4, unseen: 0.2, lowestSnowM: 2050, maxDepthCm: 30 },
+      points: ['bare', 'bare', 'snow', 'snow', 'unseen', null],
+    });
   });
 
   it('keeps ferratas in shared links', () => {

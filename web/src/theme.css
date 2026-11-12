@@ -1,0 +1,52 @@
+/*
+ * The app's look in one place: the typeface and the colour tokens of the C2 design.
+ *
+ * To change the font, change the two marked lines below: the @import of the font files and
+ * --font. Fonts come from @fontsource packages so they are served from this site (no font host);
+ * for another family: `npm install @fontsource/<family>`, then point the @import lines at it.
+ * The map's own labels (place names, the GPX track label) use the basemap's Noto Sans glyphs,
+ * which come with the map style, not from here.
+ */
+
+/* FONT (1/2): the font files, one per weight used (400, 500, 600, 700). */
+@import '@fontsource/barlow/latin-400.css';
+@import '@fontsource/barlow/latin-500.css';
+@import '@fontsource/barlow/latin-600.css';
+@import '@fontsource/barlow/latin-700.css';
+@import '@fontsource/barlow/latin-ext-400.css';
+@import '@fontsource/barlow/latin-ext-600.css';
+@import '@fontsource/barlow/latin-ext-700.css';
+
+:root {
+  /* FONT (2/2): the family, with fallbacks while it loads. */
+  --font: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Colours (C2 design system). */
+  --ink: #16202a;
+  --ink-2: #3a4550;
+  --muted: #5a6672;
+  --line: #e6e9ed;
+  --soft: #f3f5f7;
+  --hover: #f7f9fa;
+  --accent: #2563c9;
+  --accent-ink: #1d4ea3;
+  --on: #edf3fc;
+  --on-line: #c7d7f1;
+  --forecast: #f0ebfb;
+  --forecast-ink: #44308f;
+  --stale: #fff6e0;
+  --stale-line: #f2dfa8;
+  --stale-ink: #6e4300;
+  --stale-icon: #c27c00;
+  --track: #7048e8;
+  --track-soft: #f5f2fe;
+  --track-line: #ddd3f8;
+  --danger: #b42318;
+  --fav: #c2255c;
+  --sun: #a15c00;
+  --map-bg: #dcd8cf;
+
+  --radius: 12px;
+  --shadow: 0 1px 2px rgb(15 23 42 / 0.08), 0 4px 14px rgb(15 23 42 / 0.14);
+  --shadow-up: 0 -2px 4px rgb(15 23 42 / 0.06), 0 -10px 30px rgb(15 23 42 / 0.14);
+}

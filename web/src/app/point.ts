@@ -1,19 +1,22 @@
-// The panel for a clicked point of the terrain, a bivouac or a via ferrata: elevation, snow and the
-// point forecast. Layers can add their own part to it (the sun light adds "Sun here").
+// The Place tab for a clicked point of the terrain, a bivouac or a via ferrata: elevation, snow, and
+// the rows for the point forecast (open) and the sun. Layers can hook into opening and closing.
 import * as maplibregl from 'maplibre-gl';
-import { getForecast } from '../forecast.ts';
-import { loadingHtml, openPanel, pointHtml, updatePanelBody } from '../panel.ts';
+import { actionsHtml, openPanel, type PanelHead } from '../panel.ts';
 
 /**
- * A clicked map feature (a bivouac, a via ferrata's highest point) that may bring its own elevation,
- * its own label for it and its own snow summary instead of the point's.
+ * A clicked map feature (a bivouac, a via ferrata's highest point) that brings its own header, its
+ * own elevation and its own snow summary instead of the point's.
  */
 export interface Place {
-  title: string;
+  head: PanelHead;
+  /** HTML at the top of the body: the feature's own facts. */
   html: string;
   elevation: number | null;
-  elevationLabel?: string;
   snowHtml?: string;
+  /** Label of the forecast row, e.g. "Forecast at the highest point". */
+  forecastLabel?: string;
+  /** HTML after the rows (sources, notes). */
+  footHtml?: string;
 }
 
 /** The point whose panel is open; its signal is aborted when the panel closes or another point opens. */
@@ -24,11 +27,9 @@ export interface OpenPoint {
 
 /** A layer's part of the point panel. */
 export interface PointExtension {
-  /** HTML under the elevation and snow, above the forecast; asked for each time the panel is drawn. */
-  html?(): string;
   /** A point's panel has just opened. */
   open?(point: OpenPoint): void;
-  /** The panel closed, or another point or a station replaced it. */
+  /** The panel closed, or another point, a station or a track replaced it. */
   close?(): void;
 }
 
@@ -64,27 +65,27 @@ export class PointPanel {
     for (const e of this.extensions) e.close?.();
   };
 
-  async show(lngLat: maplibregl.LngLat, place?: Place) {
-    this.clear();
-    const abort = (this.abort = new AbortController());
+  show(lngLat: maplibregl.LngLat, place?: Place) {
     // queryTerrainElevation includes the exaggeration, so divide it back out.
     const raw = this.map.queryTerrainElevation(lngLat);
     const elevation = place?.elevation ?? (raw === null ? null : raw / this.exaggeration());
+    const elevText = elevation === null ? null : `${Math.round(elevation).toLocaleString('en-GB')} m`;
+    const head: PanelHead = place?.head ?? {
+      title: elevText ?? 'Point on the map',
+      sub: `${elevText ? 'Point on the map, ' : ''}${lngLat.lat.toFixed(4)}° N, ${lngLat.lng.toFixed(4)}° E`,
+      icon: 'mountains',
+      tone: 'grey',
+    };
+    const html =
+      (place?.html ?? '') +
+      (place?.snowHtml ?? this.snowAt(lngLat.lng, lngLat.lat)) +
+      actionsHtml({ lon: lngLat.lng, lat: lngLat.lat, ele: elevation }, { forecastOpen: true, forecastLabel: place?.forecastLabel }) +
+      (place?.footHtml ?? '');
+    // Opening replaces whatever was shown, whose close handler (this.clear for a point) runs first.
+    openPanel(head, html, this.clear);
+    const abort = (this.abort = new AbortController());
     this.marker.setLngLat(lngLat).addTo(this.map);
-    const snowHtml = (place?.html ?? '') + (place?.snowHtml ?? this.snowAt(lngLat.lng, lngLat.lat));
-    const extras = () => this.extensions.map((e) => e.html?.() ?? '').join('');
-    openPanel(place?.title ?? 'Point forecast', loadingHtml(elevation, snowHtml + extras(), place?.elevationLabel), this.clear);
     this.open = { lngLat, signal: abort.signal };
     for (const e of this.extensions) e.open?.(this.open);
-    let result;
-    try {
-      result = await getForecast(lngLat.lat, lngLat.lng, elevation, abort.signal);
-    } catch (e) {
-      if (abort.signal.aborted) return;
-      result = e instanceof Error ? e : new Error(String(e));
-    }
-    if (!abort.signal.aborted) {
-      updatePanelBody(pointHtml(lngLat.lat, lngLat.lng, elevation, result, snowHtml + extras(), place?.elevationLabel));
-    }
   }
 }

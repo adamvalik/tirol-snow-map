@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="fixture" xmlns="http://www.topografix.com/GPX/1/1">
+  <wpt lat="46.6260" lon="11.8150"><name>Hut</name></wpt>
+  <rte>
+    <name>Puez loop</name>
+    <rtept lat="46.62000" lon="11.81000" />
+    <rtept lat="46.62541" lon="11.81222" />
+    <rtept lat="46.62910" lon="11.81818" />
+    <rtept lat="46.62990" lon="11.82599" />
+    <rtept lat="46.62756" lon="11.83317" />
+    <rtept lat="46.62282" lon="11.83743" />
+    <rtept lat="46.61718" lon="11.83743" />
+    <rtept lat="46.61244" lon="11.83317" />
+    <rtept lat="46.61010" lon="11.82599" />
+    <rtept lat="46.61090" lon="11.81818" />
+    <rtept lat="46.61459" lon="11.81222" />
+    <rtept lat="46.62000" lon="11.81000" />
+  </rte>
+</gpx>

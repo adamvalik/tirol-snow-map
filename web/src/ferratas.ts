@@ -7,7 +7,8 @@ import * as maplibregl from 'maplibre-gl';
 import type { ExpressionSpecification, MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, LineString, MultiLineString } from 'geojson';
 import ferratasUrl from './data/ferratas.json?url';
-import { escapeHtml } from './format.ts';
+import { escapeHtml, lengthText, metres } from './format.ts';
+import { bannerHtml, factsHtml } from './placeHtml.ts';
 import { inArea } from './island.ts';
 
 export interface FerrataProps {
@@ -98,12 +99,12 @@ export function letterGrade(scale: string): string {
 /** "C/D" for the map; "ungraded" without a grade. */
 export const gradeLabel = (p: Pick<FerrataProps, 'scale'>): string => (p.scale === null ? 'ungraded' : letterGrade(p.scale));
 
-/** "D/E · very difficult · TD in France and Italy" for the panel. */
+/** "D/E, very difficult, TD in France and Italy" for the panel. */
 export function gradeText(p: Pick<FerrataProps, 'grade' | 'scale'>): string {
   if (p.grade === null) return 'No grade in OpenStreetMap';
   const elsewhere =
     FRENCH[p.grade] === ITALIAN[p.grade] ? `${FRENCH[p.grade]} in France and Italy` : `${FRENCH[p.grade]} in France, ${ITALIAN[p.grade]} in Italy`;
-  return `${gradeLabel(p)} · ${WORDS[p.grade]} · ${elsewhere}`;
+  return `${gradeLabel(p)}, ${WORDS[p.grade]}, ${elsewhere}`;
 }
 
 /** An http(s) link from an OSM website tag, which often lacks the scheme; null for anything else. */
@@ -116,13 +117,11 @@ export function websiteUrl(raw: string): URL | null {
   }
 }
 
-const metres = (m: number) => `${Math.round(m).toLocaleString('en-GB')} m`;
-const lengthText = (m: number) => (m >= 1000 ? `${(m / 1000).toFixed(1)} km` : metres(m));
 
 export function ferrataTooltipHtml(p: FerrataProps): string {
   return (
     `<strong>${escapeHtml(p.name ?? 'Via ferrata, name unknown')}</strong>` +
-    `${gradeLabel(p)} · ${lengthText(p.lengthM)} · ${metres(p.minM)}–${metres(p.maxM)}${p.closed ? ' · <span class="closed-mark">closed</span>' : ''}`
+    `${gradeLabel(p)}, ${lengthText(p.lengthM)}, ${metres(p.minM)}–${metres(p.maxM)}${p.closed ? ', <span class="closed-mark">closed</span>' : ''}`
   );
 }
 
@@ -136,26 +135,37 @@ export function highestPoint(f: Ferrata): [number, number, number] {
 export const ferrataLines = (f: Ferrata): number[][][] =>
   f.geometry.type === 'LineString' ? [f.geometry.coordinates] : f.geometry.coordinates;
 
-/** Intro for the point panel; the route's snow, then the forecast at its highest point, follow it. */
+/** The Place tab's header line for a via ferrata: its grade, and the range when sections differ. */
+export function ferrataSub(p: FerrataProps): string {
+  if (p.scale === null) return 'No grade in OpenStreetMap';
+  const range = p.gradeMin !== null && p.grade !== null && p.gradeMin < p.grade ? `, sections ${letterGrade(String(p.gradeMin))} to ${gradeLabel(p)}` : '';
+  return `Grade ${gradeLabel(p)}${range}`;
+}
+
+/** The top of a via ferrata's Place tab; the route's snow, then the forecast at its highest point, follow it. */
 export function ferrataHtml(p: FerrataProps): string {
   const site = p.website ? websiteUrl(p.website) : null;
-  const range = p.gradeMin !== null && p.grade !== null && p.gradeMin < p.grade ? `Sections ${letterGrade(String(p.gradeMin))} to ${gradeLabel(p)}` : '';
-  const rows = [
-    `<dt>Grade</dt><dd><span class="grade-chip" style="background:${gradeColor(p.grade)}"></span> ${escapeHtml(gradeText(p))}${range ? `<br><span class="muted">${range}</span>` : ''}</dd>`,
-    `<dt>Mapped length</dt><dd>${lengthText(p.lengthM)}${p.ways > 1 ? ` <span class="muted">(${p.ways} sections)</span>` : ''}</dd>`,
-    `<dt>Elevation</dt><dd>${metres(p.minM)} – ${metres(p.maxM)}</dd>`,
-    p.climbM === null ? '' : `<dt>Climb</dt><dd>about ${metres(p.climbM)}</dd>`,
-    p.otherNames.length ? `<dt>Includes</dt><dd>${p.otherNames.map(escapeHtml).join('<br>')}</dd>` : '',
-    site ? `<dt>Website</dt><dd><a href="${escapeHtml(site.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(site.hostname)}</a></dd>` : '',
-  ];
+  const links = [
+    p.scale === null ? '' : `<span><span class="grade-chip" style="background:${gradeColor(p.grade)}"></span> ${escapeHtml(gradeText(p))}</span>`,
+    p.otherNames.length ? `<span>Includes ${p.otherNames.map(escapeHtml).join(', ')}</span>` : '',
+    site ? `<span><a href="${escapeHtml(site.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(site.hostname)}</a></span>` : '',
+  ].filter(Boolean);
   return `
-    ${p.closed ? `<p class="warning"><strong>Marked closed in OpenStreetMap.</strong>${p.closedNote ? ` Mapper's note: “${escapeHtml(p.closedNote)}”` : ''}</p>` : ''}
-    <dl class="kv">${rows.join('')}</dl>
-    <p class="muted">From <a href="https://www.openstreetmap.org/${escapeHtml(p.osm)}" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL),
+    ${p.closed ? bannerHtml(`<strong>Marked closed in OpenStreetMap.</strong>${p.closedNote ? ` Mapper's note: “${escapeHtml(p.closedNote)}”` : ''}`) : ''}
+    ${factsHtml([
+      ['Mapped length', `${lengthText(p.lengthM)}${p.ways > 1 ? `<small>${p.ways} sections</small>` : ''}`],
+      ['Climb', p.climbM === null ? '–' : metres(p.climbM)],
+      ['Elevation', `${metres(p.maxM)}<small>from ${metres(p.minM)}</small>`],
+    ])}
+    ${links.length ? `<div class="place-links">${links.join('')}</div>` : ''}`;
+}
+
+/** Under the rows: where the route comes from and what it leaves out. */
+export const ferrataFootHtml = (p: FerrataProps) => `
+    <p class="source-note">From <a href="https://www.openstreetmap.org/${escapeHtml(p.osm)}" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL),
     drawn by volunteers: it may be incomplete, wrong or out of date, and a route may be closed, damaged or out of season.
     Only the equipped sections are drawn, not the approach or descent; length, elevation and climb come from a terrain model.
     Check conditions and the route locally. Not for navigation.</p>`;
-}
 
 export interface FerrataLayer {
   /** Resolves with the number of routes once they are drawn, or null when hiding. */
@@ -220,7 +230,7 @@ export function addFerrataLayer(
       'text-field': [
         'case',
         HAS_NAME,
-        ['concat', ['get', 'name'], ' · ', ['get', 'letter']],
+        ['concat', ['get', 'name'], '  ', ['get', 'letter']],
         ['case', HAS_SCALE, ['get', 'letter'], ''],
       ],
       'text-font': ['Noto Sans Medium'],

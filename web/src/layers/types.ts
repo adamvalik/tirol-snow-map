@@ -21,7 +21,10 @@ export interface App {
  * favourites filter). The registry (registry.ts) runs them; nothing else needs to know a layer exists.
  */
 export interface LayerModule {
-  /** The switches this layer answers to: `#toggle-<key>` in index.html and `layers=` in links. */
+  /**
+   * The switches this layer answers to: `#toggle-<key>` in index.html and `layers=` in links. Empty
+   * for a layer that is not kept in links and has controls of its own (the GPX track).
+   */
   readonly keys: readonly LayerKey[];
   /** At start, before the map has loaded: data requests, legend keys, the layer's own controls. */
   setup?(app: App): void;

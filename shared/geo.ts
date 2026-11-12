@@ -1,4 +1,4 @@
-// Distances along lines in [lon, lat, ...] positions, shared by the via ferrata pipeline and the app.
+// Distances and climb along lines in [lon, lat, ...] positions, shared by the via ferrata pipeline and the app.
 
 const R = 6371008.8;
 const rad = (d: number) => (d * Math.PI) / 180;
@@ -28,4 +28,32 @@ export function resample<T extends readonly number[]>(line: readonly T[], stepM:
   }
   if (line.length > 1) out.push(line[line.length - 1]);
   return out;
+}
+
+/**
+ * Ascent and descent along a profile with hysteresis: a change only counts once the profile has
+ * moved `thresholdM` from the last turning point, so terrain-model noise on gentle ground does not
+ * add up (the spike measured +30 % on a gentle path with plain summing).
+ */
+export function ascentDescent(elevations: readonly number[], thresholdM = 5): { ascent: number; descent: number } {
+  let ascent = 0;
+  let descent = 0;
+  let ref = elevations[0];
+  let dir = 0;
+  for (const e of elevations.slice(1)) {
+    if (dir >= 0 && e > ref && (dir === 1 || e - ref >= thresholdM)) {
+      ascent += e - ref;
+      [ref, dir] = [e, 1];
+    } else if (dir <= 0 && e < ref && (dir === -1 || ref - e >= thresholdM)) {
+      descent += ref - e;
+      [ref, dir] = [e, -1];
+    } else if (dir === 1 && ref - e >= thresholdM) {
+      descent += ref - e;
+      [ref, dir] = [e, -1];
+    } else if (dir === -1 && e - ref >= thresholdM) {
+      ascent += e - ref;
+      [ref, dir] = [e, 1];
+    }
+  }
+  return { ascent, descent };
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="3D terrain map of South Tyrol with live snow depth and weather station data." />
-    <meta name="theme-color" content="#f4f6f8" />
+    <meta name="theme-color" content="#ffffff" />
     <title>South Tyrol Snow Map</title>
     <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
     <link rel="icon" href="./icons/favicon-32.png" sizes="32x32" type="image/png" />
@@ -17,136 +17,232 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   </head>
   <body>
+    <!--
+      Layout (C2 design): a sidebar on desktop, a bottom sheet on phones. The same markup serves
+      both; app/layout.ts moves the timeline into the sheet on narrow screens. Icons are
+      <i data-icon> placeholders filled from app/icons.ts at start.
+    -->
     <div id="map" role="application" aria-label="3D map of South Tyrol"></div>
 
-    <section id="layers" class="panel" aria-label="Layers">
-      <header class="panel-head">
-        <div class="title">
-          <h1>South Tyrol Snow</h1>
-          <p id="stations-time" class="status">Loading stations…</p>
-        </div>
-        <span class="head-actions">
-          <button id="share-btn" class="icon-btn" title="Copy a link to this view" aria-label="Copy a link to this view">
-            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
-          </button>
-          <button id="layers-toggle" class="icon-btn" aria-expanded="true" aria-controls="layers-body" title="Show or hide layers" aria-label="Show or hide layers">
-            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></svg>
-          </button>
-        </span>
+    <!-- Phones: the name and data ages float over the map (opens About), share and north on the right. -->
+    <button id="brand-pill" class="brand-pill" type="button" data-open-about aria-label="South Tyrol Snow. Data age. Open About the data">
+      <span class="brand-pill-name">South Tyrol Snow</span>
+      <span class="ages-inline">
+        <span class="age" data-age="stations"><i data-icon="thermometer-simple" data-size="13"></i><span class="age-value">–</span></span>
+        <span class="age" data-age="satellite"><i data-icon="planet" data-size="13"></i><span class="age-value">–</span></span>
+        <span class="age" data-age="forecast"><i data-icon="cloud-snow" data-size="13"></i><span class="age-value">–</span></span>
+      </span>
+    </button>
+
+    <div class="map-buttons" role="group" aria-label="Map">
+      <div class="map-btn-stack">
+        <button id="zoom-in" class="map-btn wide-only" type="button" aria-label="Zoom in"><i data-icon="plus" data-size="18"></i></button>
+        <button id="zoom-out" class="map-btn wide-only" type="button" aria-label="Zoom out"><i data-icon="minus" data-size="18"></i></button>
+        <button id="north-btn" class="map-btn" type="button" aria-label="Reset north"><span class="north-needle"><i data-icon="navigation-arrow" data-size="18"></i></span></button>
+      </div>
+      <button class="map-btn round phone-only" type="button" data-share aria-label="Share this view"><i data-icon="share-network" data-size="20"></i></button>
+    </div>
+
+    <aside id="panel" class="panel" aria-label="Snow map controls" data-sheet="peek">
+      <button id="sheet-handle" class="sheet-handle phone-only" type="button" aria-label="Open the panel"><span></span></button>
+
+      <header class="brand">
+        <span class="brand-mark" aria-hidden="true"><i data-icon="mountains" data-size="20"></i></span>
+        <h1>South Tyrol Snow</h1>
+        <button class="icon-btn" type="button" data-share aria-label="Share this view" title="Share this view"><i data-icon="share-network" data-size="20"></i></button>
       </header>
-      <div id="layers-body" class="panel-body">
-        <div id="data-warning" class="warning" hidden></div>
-        <fieldset class="rows">
-          <legend>Layers</legend>
-          <label class="row"><span class="row-label">Snow seen from space <span id="snow-date" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-snow" checked /></label>
-          <label class="row"><span class="row-label">Weather stations</span><input type="checkbox" class="switch" id="toggle-stations" checked /></label>
-          <label class="row"><span class="row-label">Bivouacs <span id="bivouac-keys" class="keys"></span></span><input type="checkbox" class="switch" id="toggle-bivouacs" checked /></label>
-          <label class="row sub-row"><span class="row-label"><span class="fav-mark" aria-hidden="true">♥</span> Only favourites <span id="fav-count" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-favourites" /></label>
-          <label class="row"><span class="row-label">Via ferratas</span><input type="checkbox" class="switch" id="toggle-ferratas" /></label>
-          <label class="row"><span class="row-label">Estimated snow depth</span><input type="checkbox" class="switch" id="toggle-depth" /></label>
-          <label class="row"><span class="row-label">Forecast new snow <span class="chip">3 days</span></span><input type="checkbox" class="switch" id="toggle-forecast" /></label>
-          <label class="row"><span class="row-label">Satellite photo <span id="satellite-date" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-satellite" /></label>
-          <label class="row"><span class="row-label">Sun and shade <span class="chip">time of day</span></span><input type="checkbox" class="switch" id="toggle-sun" /></label>
-          <label class="row sub-row"><span class="row-label">Cast shadows <span class="hint-inline">250 m terrain</span></span><input type="checkbox" class="switch" id="toggle-shadows" checked /></label>
-        </fieldset>
-        <div class="legend" aria-label="Snow depth legend">
+
+      <button id="data-age" class="ages" type="button" data-open-about aria-label="Data age. Open About the data">
+        <span class="age" data-age="stations"><span class="age-name"><i data-icon="thermometer-simple" data-size="14"></i>Stations</span><span class="age-value">–</span></span>
+        <span class="age" data-age="satellite"><span class="age-name"><i data-icon="planet" data-size="14"></i>Satellite</span><span class="age-value">–</span></span>
+        <span class="age" data-age="forecast"><span class="age-name"><i data-icon="cloud-snow" data-size="14"></i>Forecast</span><span class="age-value">–</span></span>
+      </button>
+
+      <!-- Phones: the timeline sits here, at the top of the sheet. -->
+      <div id="sheet-time" class="sheet-time"></div>
+
+      <!-- Phones, sheet lowered: the main layers as round buttons, or the track when one is loaded. -->
+      <div id="quick" class="quick phone-only" role="group" aria-label="Main layers">
+        <button class="quick-btn" type="button" data-key="snow" aria-pressed="false"><span class="quick-icon"><i data-icon="snowflake" data-size="22"></i></span>Snow</button>
+        <button class="quick-btn" type="button" data-key="stations" aria-pressed="false"><span class="quick-icon"><i data-icon="thermometer-fill" data-size="22"></i></span>Stations</button>
+        <button class="quick-btn" type="button" data-key="bivouacs" aria-pressed="false"><span class="quick-icon"><i data-icon="tent-fill" data-size="22"></i></span>Bivouacs</button>
+        <button class="quick-btn" type="button" data-key="ferratas" aria-pressed="false"><span class="quick-icon"><i data-icon="ladder-simple" data-size="22"></i></span>Ferratas</button>
+        <button class="quick-btn" type="button" data-open-layers aria-expanded="false"><span class="quick-icon"><i data-icon="stack" data-size="22"></i></span>More</button>
+      </div>
+      <button id="quick-track" class="track-row quick-track phone-only" type="button" hidden></button>
+
+      <div class="tabs" role="tablist" aria-label="Panel">
+        <button id="tab-btn-layers" class="tab" type="button" role="tab" aria-selected="true" aria-controls="tab-layers" data-tab="layers">Layers</button>
+        <button id="tab-btn-place" class="tab" type="button" role="tab" aria-selected="false" aria-controls="tab-place" data-tab="place">Place</button>
+        <button id="tab-btn-about" class="tab" type="button" role="tab" aria-selected="false" aria-controls="tab-about" data-tab="about">About</button>
+      </div>
+
+      <div class="tabpanels">
+        <section id="tab-layers" class="tabpanel" role="tabpanel" aria-labelledby="tab-btn-layers">
+          <div id="data-warning" class="warning" role="status" hidden></div>
+          <div id="new-snow" class="new-snow" role="status" hidden>
+            <span id="new-snow-text"></span>
+            <button id="new-snow-show" type="button">Show depth</button>
+          </div>
+
+          <div class="tiles" role="group" aria-label="Main layers">
+            <label class="tile">
+              <input type="checkbox" id="toggle-snow" checked />
+              <span class="tile-top"><i data-icon="snowflake" data-size="22"></i><span class="tile-meta" id="snow-date"></span><span class="tile-off">Off</span></span>
+              <span class="tile-name">Snow from space</span>
+            </label>
+            <label class="tile">
+              <input type="checkbox" id="toggle-stations" checked />
+              <span class="tile-top"><i data-icon="thermometer-fill" data-size="22"></i><span class="tile-meta" id="stations-count"></span><span class="tile-off">Off</span></span>
+              <span class="tile-name">Weather stations</span>
+            </label>
+            <div class="tile-wrap">
+              <label class="tile">
+                <input type="checkbox" id="toggle-bivouacs" />
+                <span class="tile-top"><i data-icon="tent-fill" data-size="22"></i><span class="tile-off">Off</span></span>
+                <span class="tile-name">Bivouacs</span>
+              </label>
+              <label class="fav-chip" title="Show only your favourite bivouacs">
+                <input type="checkbox" id="toggle-favourites" aria-label="Only favourites" />
+                <span class="fav-off"><i data-icon="heart" data-size="13"></i></span><span class="fav-on"><i data-icon="heart-fill" data-size="13"></i></span>
+                <span id="fav-count">All</span>
+              </label>
+            </div>
+            <label class="tile">
+              <input type="checkbox" id="toggle-ferratas" />
+              <span class="tile-top"><i data-icon="ladder-simple" data-size="22"></i><span class="tile-meta" id="ferrata-count"></span><span class="tile-off">Off</span></span>
+              <span class="tile-name">Via ferratas</span>
+            </label>
+          </div>
+
+          <!-- GPX: filled by app/track.ts (add, reading, the track's row). -->
+          <section id="track" class="track" aria-label="Your track"></section>
+
+          <div class="groups">
+            <details id="group-snow" class="group">
+              <summary>
+                <span class="group-head"><span class="group-title">Snow details</span><span class="group-sub">Depth estimate, forecast, snow share, uncertainty</span></span>
+                <i data-icon="caret-down" data-size="18"></i>
+              </summary>
+              <div class="group-body">
+                <label class="row"><span class="row-label">Estimated snow depth</span><input type="checkbox" class="switch" id="toggle-depth" /></label>
+                <label class="row"><span class="row-label">Forecast new snow, 3 days</span><input type="checkbox" class="switch" id="toggle-forecast" /></label>
+                <label class="row"><span class="row-label">Snow share per 250 m cell</span><input type="checkbox" class="switch" id="toggle-cover" /></label>
+                <label class="row"><span class="row-label">Depth uncertainty <span class="hint">grey = less certain</span></span><input type="checkbox" class="switch" id="toggle-confidence" /></label>
+              </div>
+            </details>
+            <details id="group-map" class="group">
+              <summary>
+                <span class="group-head"><span class="group-title">Map and light</span><span class="group-sub">Satellite photo, sun and shade, map style</span></span>
+                <i data-icon="caret-down" data-size="18"></i>
+              </summary>
+              <div class="group-body">
+                <label class="row"><span class="row-label">Satellite photo <span id="satellite-date" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-satellite" /></label>
+                <label class="row"><span class="row-label">Sun and shade</span><input type="checkbox" class="switch" id="toggle-sun" /></label>
+                <label class="row sub-row"><span class="row-label">Cast shadows <span class="hint">250 m terrain</span></span><input type="checkbox" class="switch" id="toggle-shadows" checked /></label>
+                <label class="row"><span class="row-label">Roads, rivers, towns</span><input type="checkbox" class="switch" id="toggle-basemap" checked /></label>
+                <label class="row"><span class="row-label">Labels</span><input type="checkbox" class="switch" id="toggle-labels" checked /></label>
+                <label class="row"><span class="row-label">Hillshade</span><input type="checkbox" class="switch" id="toggle-hillshade" checked /></label>
+                <label class="row"><span class="row-label">Elevation tint</span><input type="checkbox" class="switch" id="toggle-relief" checked /></label>
+                <label class="row"><span class="row-label">Cut at the data edge <span class="hint">island</span></span><input type="checkbox" class="switch" id="toggle-island" /></label>
+                <label class="slider">
+                  <span class="slider-head"><span>Terrain height</span><output id="exaggeration-value">1.0×</output></span>
+                  <input type="range" id="exaggeration" min="1" max="3" step="0.1" value="1" />
+                </label>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section id="tab-place" class="tabpanel" role="tabpanel" aria-labelledby="tab-btn-place" hidden>
+          <div id="place-empty" class="place-empty">
+            <span class="place-empty-icon" aria-hidden="true"><i data-icon="mountains" data-size="26"></i></span>
+            <strong>Nothing picked yet</strong>
+            <span>Tap a station, a bivouac, a via ferrata or any point of the terrain. Right-drag or two fingers to tilt.</span>
+          </div>
+          <div id="details" class="details" aria-live="polite" hidden>
+            <div class="place-head">
+              <span id="details-icon" class="place-icon" aria-hidden="true"></span>
+              <div class="place-title">
+                <h2 id="details-title"></h2>
+                <span id="details-sub"></span>
+              </div>
+              <button id="details-close" class="icon-btn" type="button" aria-label="Close"><i data-icon="x" data-size="18"></i></button>
+            </div>
+            <div id="details-body" class="details-body"></div>
+          </div>
+        </section>
+
+        <section id="tab-about" class="tabpanel" role="tabpanel" aria-labelledby="tab-btn-about" hidden>
+          <div id="sources-body" class="about"></div>
+        </section>
+      </div>
+
+      <div class="legends">
+        <div id="snow-legend" class="legend" aria-label="Snow depth legend">
           <div class="legend-title">Snow depth, cm</div>
           <div id="legend-bar" class="legend-bar"></div>
           <div id="legend-ticks" class="legend-ticks"></div>
-          <div class="legend-extra muted">
-            <span><span class="swatch" id="no-sensor-swatch"></span>No snow sensor</span>
-            <span>Dots measured, layers estimated</span>
+          <div class="legend-extra">
+            <span><span class="legend-dot measured"></span>Measured</span>
+            <span><span class="legend-dot" id="no-sensor-swatch"></span>No snow sensor</span>
           </div>
         </div>
         <div id="ferrata-legend" class="legend" aria-label="Via ferrata legend" hidden>
           <div class="legend-title">Via ferrata grade, hardest section</div>
           <div id="ferrata-keys" class="ferrata-keys"></div>
-          <p class="legend-note muted">Wider lines are harder. Faded: marked closed in OSM. From OpenStreetMap volunteers, so it may be
-          incomplete, wrong or out of date: check the route and conditions locally. Not for navigation.</p>
+          <p class="legend-note">Wider lines are harder, faded ones are marked closed. From OpenStreetMap volunteers, not for navigation.</p>
         </div>
-        <details id="more" class="more">
-          <summary>More layers and map style</summary>
-          <fieldset class="rows">
-            <label class="row"><span class="row-label">Snow share per 250 m cell</span><input type="checkbox" class="switch" id="toggle-cover" /></label>
-            <label class="row"><span class="row-label">Depth uncertainty <span class="hint-inline">grey = less certain</span></span><input type="checkbox" class="switch" id="toggle-confidence" /></label>
-            <label class="row"><span class="row-label">Roads, rivers, towns</span><input type="checkbox" class="switch" id="toggle-basemap" checked /></label>
-            <label class="row"><span class="row-label">Labels</span><input type="checkbox" class="switch" id="toggle-labels" checked /></label>
-            <label class="row"><span class="row-label">Hillshade</span><input type="checkbox" class="switch" id="toggle-hillshade" checked /></label>
-            <label class="row"><span class="row-label">Elevation tint</span><input type="checkbox" class="switch" id="toggle-relief" checked /></label>
-            <label class="row"><span class="row-label">Cut at the data edge <span class="hint-inline">island, or faded around</span></span><input type="checkbox" class="switch" id="toggle-island" /></label>
-          </fieldset>
-          <label class="slider">
-            <span class="slider-head">Terrain height <output id="exaggeration-value">1.5×</output></span>
-            <input type="range" id="exaggeration" min="1" max="3" step="0.1" value="1.5" />
-          </label>
-        </details>
-        <p class="hint">Tap a station, a bivouac, a via ferrata or the terrain for details. Right-drag or two fingers to tilt.</p>
+      </div>
+
+      <footer class="footer">
+        <strong>Not for avalanche decisions</strong>
+        <a href="https://avalanche.report" target="_blank" rel="noopener">avalanche.report<i data-icon="arrow-up-right" data-size="13"></i></a>
+      </footer>
+    </aside>
+
+    <section id="timeline" class="timeline" aria-label="Timeline">
+      <div id="sun-group" class="sun-row" hidden>
+        <button id="sun-play" class="play-btn sun" type="button" aria-label="Play the day"></button>
+        <div class="tl-text">
+          <output id="sun-label" class="tl-date">Sun</output>
+          <span id="sun-alt" class="tl-note"></span>
+        </div>
+        <div class="sun-track">
+          <input type="range" id="sun-time" min="0" max="1440" step="5" value="720" aria-label="Time of day for the sun light" />
+          <div class="sun-ends">
+            <button id="sun-rise" class="link-btn" type="button" title="Jump to sunrise"></button>
+            <button id="sun-now" class="link-btn" type="button" title="Jump to the current time">Now</button>
+            <button id="sun-set" class="link-btn" type="button" title="Jump to sunset"></button>
+          </div>
+        </div>
+        <label class="sun-date-btn" title="Date for the sun light">
+          <i data-icon="calendar-blank" data-size="16"></i><span id="sun-date-label"></span>
+          <input type="date" id="sun-date" aria-label="Date for the sun light" />
+        </label>
+      </div>
+      <div class="day-row">
+        <button id="forecast-play" class="play-btn" type="button" aria-label="Play the forecast"></button>
+        <div class="tl-text">
+          <span class="tl-date-line"><output id="day-label" class="tl-date"></output><span id="day-badge" class="badge now">Now</span></span>
+          <span id="day-note" class="tl-note">Measured and from space</span>
+        </div>
+        <button id="day-back" class="back-btn" type="button" hidden>Back to now</button>
+        <div id="days" class="days" role="radiogroup" aria-label="Day"></div>
       </div>
     </section>
 
-    <aside id="details" class="panel" aria-live="polite" hidden>
-      <header class="panel-head">
-        <h2 id="details-title">Details</h2>
-        <button id="details-close" class="icon-btn" title="Close" aria-label="Close">
-          <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
-        </button>
-      </header>
-      <div id="details-body" class="panel-body"></div>
-    </aside>
+    <div id="map-chip" class="map-chip" aria-hidden="true" hidden></div>
 
-    <div id="dock">
-      <div id="day-group" class="dock-row" hidden>
-        <div class="dock-head">
-          <span class="dock-title">Day</span>
-          <output id="day-label"></output>
-        </div>
-        <input type="range" id="day" min="0" max="0" step="1" value="0" aria-label="Day shown by the snow layers and stations" />
-        <div class="range-ends"><span id="day-first"></span><span>latest</span></div>
-        <p id="day-note" hidden></p>
+    <div id="drop-zone" class="drop-zone" role="status" hidden>
+      <div class="drop-card">
+        <span class="drop-icon" aria-hidden="true"><i data-icon="file" data-size="30"></i></span>
+        <strong>Drop to show the track on the snow</strong>
+        <span>A GPX track or route, up to 25 MB. It stays on this device.</span>
       </div>
-      <div id="forecast-player" class="dock-row player" hidden>
-        <button id="forecast-play" class="play-btn" aria-label="Play the forecast"><span aria-hidden="true">▶</span></button>
-        <div class="player-main">
-          <div class="dock-head">
-            <span class="dock-title">Forecast</span>
-            <output id="forecast-label"></output>
-          </div>
-          <input type="range" id="forecast-frame" min="0" max="0" step="1" value="0" aria-label="Forecast time" />
-        </div>
-      </div>
-      <div id="sun-group" class="dock-row player" hidden>
-        <button id="sun-play" class="play-btn" aria-label="Play the day"></button>
-        <div class="player-main">
-          <div class="dock-head">
-            <span class="dock-title">Sun</span>
-            <output id="sun-label"></output>
-            <input type="date" id="sun-date" aria-label="Date for the sun light" />
-          </div>
-          <input type="range" id="sun-time" min="0" max="1440" step="5" value="720" aria-label="Time of day for the sun light" />
-          <div class="range-ends sun-ends">
-            <button id="sun-rise" class="link-btn" title="Jump to sunrise"></button>
-            <button id="sun-now" class="link-btn" title="Jump to the current time">Now</button>
-            <button id="sun-set" class="link-btn" title="Jump to sunset"></button>
-          </div>
-          <p id="sun-note">Shadows from a 250 m terrain grid, so small ridges are missed. Times here are for a flat horizon; tap a point for its own.</p>
-        </div>
-      </div>
-      <footer id="footer">
-        <strong>Not for avalanche decisions</strong>
-        <span class="sep">·</span>
-        <a href="https://avalanche.report" target="_blank" rel="noopener">avalanche.report</a>
-        <span class="sep">·</span>
-        <button id="sources-btn" class="link-btn">About<span class="wide-only"> the data</span></button>
-      </footer>
     </div>
 
     <div id="toast" class="toast" role="status" hidden></div>
-
-    <dialog id="sources-dialog">
-      <h2>About the data</h2>
-      <div id="sources-body"></div>
-      <form method="dialog"><button>Close</button></form>
-    </dialog>
 
     <script type="module" src="./src/main.ts"></script>
   </body>

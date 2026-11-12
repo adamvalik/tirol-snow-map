@@ -11,6 +11,8 @@ import { cabinGeoJson } from './cabins.ts';
 import bivouacsData from './data/bivouacs.json';
 import type { Favourites } from './favourites.ts';
 import { escapeHtml } from './format.ts';
+import { icon } from './app/icons.ts';
+import { factsHtml } from './placeHtml.ts';
 import { inArea } from './island.ts';
 
 export interface Bivouac {
@@ -96,28 +98,32 @@ export function bivouacTooltipHtml(b: Bivouac, fav = false): string {
   const facts = [b.ele === null ? null : `${b.ele.toLocaleString('en-GB')} m`, b.capacity === null ? null : `${b.capacity} places`];
   return (
     `<strong>${fav ? '<span class="fav-mark" aria-label="Favourite">♥</span> ' : ''}${escapeHtml(b.name)}</strong>` +
-    `${kindText(b)}${facts.filter(Boolean).map((f) => ` · ${f}`).join('')}`
+    `${kindText(b)}${facts.filter(Boolean).map((f) => `, ${f}`).join('')}`
   );
 }
 
-/** The heart button in the bivouac panel; main.ts handles its clicks. */
+/** The heart button in the bivouac panel; layers/bivouacs.ts handles its clicks. */
 export function favButtonHtml(b: Bivouac, fav: boolean): string {
-  return `<button type="button" class="fav-btn" data-osm="${escapeHtml(b.osm)}" aria-pressed="${fav}">
-    <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="${HEART_PATH}"/></svg>
-    <span>${fav ? 'In your favourites' : 'Add to favourites'}</span></button>`;
+  return `<button type="button" class="btn fav-btn" data-osm="${escapeHtml(b.osm)}" aria-pressed="${fav}">${icon(fav ? 'heart-fill' : 'heart', 18)}<span>${fav ? 'In your favourites' : 'Add to favourites'}</span></button>`;
 }
 
-/** Intro for the point panel; the elevation and forecast follow it. */
+/** The Place tab's header line for a bivouac. */
+export const bivouacSub = (b: Bivouac) => `${kindText(b)}, unstaffed${b.ele === null ? '' : `, ${b.ele.toLocaleString('en-GB')} m`}`;
+
+/** The top of a bivouac's Place tab; its snow, the forecast and the sun rows follow. */
 export function bivouacHtml(b: Bivouac, fav = false): string {
   return `
     ${favButtonHtml(b, fav)}
-    <dl class="kv">
-      <dt>Type</dt><dd><img class="bivouac-icon" src="${bivouacIconUrl(b.kind)}" alt=""> ${kindText(b)}, unstaffed</dd>
-      <dt>Places</dt><dd>${b.capacity === null ? 'not recorded' : b.capacity}</dd>
-    </dl>
-    <p class="muted">From <a href="https://www.openstreetmap.org/${escapeHtml(b.osm)}" target="_blank" rel="noopener">OpenStreetMap</a>
-    (ODbL). Whether it is open, equipped or still standing is not checked here.</p>`;
+    ${factsHtml([
+      ['Places', b.capacity === null ? '–' : String(b.capacity)],
+      ['Build', `<img class="bivouac-icon" src="${bivouacIconUrl(b.kind)}" alt=""> ${b.kind === 'wood' ? 'Wood' : 'Metal'}`],
+    ])}`;
 }
+
+/** Under the rows: where the bivouac comes from. */
+export const bivouacFootHtml = (b: Bivouac) =>
+  `<p class="source-note">From <a href="https://www.openstreetmap.org/${escapeHtml(b.osm)}" target="_blank" rel="noopener">OpenStreetMap</a>
+    (ODbL). Whether it is open, equipped or still standing is not checked here.</p>`;
 
 export async function addBivouacLayer(
   map: maplibregl.Map,

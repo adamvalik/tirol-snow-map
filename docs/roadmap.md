@@ -17,7 +17,7 @@ The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to
 - [ ] **Name.** Open, settle after testing. See 5.
 - [x] **Domain: after testing, once the name is settled** (about €5 a year). `github.io` until then.
 - [x] **Island or faded surroundings: both, decide later.** Faded is the default, a switch cuts it to the island, kept in share links (Nov 4). See 4.1.
-- [ ] **New app icon.** Later. See 7.
+- [x] **New app icon:** "Depth bands", the peak in the snow-depth ramp (Nov 12, design canvas option 2).
 - [ ] **Frame style for the share picture** (minimal or poster). Open until mock-ups exist.
 - [x] **Visit counting: GoatCounter** (no cookies, free), Nov 7, see [`release-plan.md`](release-plan.md).
 - [x] **Versions: today's app is `v0.1.0`; first release to friends and testers is `v0.2.0`** (Nov 7): versions, feedback form, GPX, live location, link preview. See [`release-plan.md`](release-plan.md).
@@ -145,7 +145,7 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 | Idea | What it gives | Effort |
 | --- | --- | --- |
 | Avalanche bulletin link per region | Point panel shows the region name and links to that region on avalanche.report | S |
-| New snow 24/48/72 h at stations | The change in snow depth, not only the total, in the station panel | S |
+| ~~New snow 24/48/72 h at stations~~ (done Nov 9) | The change in snow depth, not only the total, in the station panel | S |
 | Offline repeat visits | Service worker for the app, latest data and recent terrain tiles | M |
 | Orbit video | 10-second turn around a peak for stories | M, after share pictures |
 | New app icon | A clearer home-screen and favicon mark; do it together with the name | S |
@@ -155,7 +155,7 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 
 1. ~~Housekeeping~~ and ~~the island~~ (done Nov 3).
 2. ~~**Refactor** (3): layer registry, no visible change~~ (done Nov 4).
-3. **UI round** (2.1–2.4): quieter dock, shorter layer card, calmer stations, data-age line.
+3. ~~**UI round** (2.1–2.4)~~: rebuilt after design C2 (Nov 12): sidebar with Layers, Place and About on desktop, a bottom sheet on phones, one timeline from 14 days back to 3 days ahead, four layer tiles with two groups, legends only for layers that are on, calmer no-sensor stations, data ages amber when stale, the GPX track UI.
 4. **Share picture v1** (6): camera button, formats, frame, share sheet.
 5. **Avalanche bulletin link** and **new snow at stations**.
 6. **Tester release `v0.2.0`**: see [`release-plan.md`](release-plan.md) for scope and order.

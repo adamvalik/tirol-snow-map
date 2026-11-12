@@ -89,6 +89,11 @@ export function parseProvince(
       windDirDeg: v('WR') === null ? null : round(v('WR')!, 0),
       // The API's N sensor is a 5-minute value; the 24 h sum comes from the Euregio feed instead.
       precip24hMm: null,
+      // The API gives only the current depth; the change comes from the Euregio feed's copy of the
+      // same station when the two are merged.
+      snowChange24hCm: null,
+      snowChange48hCm: null,
+      snowChange72hCm: null,
     });
   }
   return out;

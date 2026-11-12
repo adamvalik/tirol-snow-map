@@ -2,7 +2,9 @@
 import type * as maplibregl from 'maplibre-gl';
 import { DEFAULT_EXAGGERATION } from '../map.ts';
 import { LAYER_KEYS, toHash, type ViewState } from '../viewState.ts';
+import { track } from './analytics.ts';
 import { $ } from './dom.ts';
+import { icon } from './icons.ts';
 import { isOn } from './switches.ts';
 import { toast } from './toast.ts';
 
@@ -36,11 +38,12 @@ export function setupShare(map: maplibregl.Map, parts: () => Partial<ViewState>[
     hashTimer = window.setTimeout(() => window.history.replaceState(null, '', toHash(currentView())), 300);
   };
   map.on('moveend', syncHash);
-  $('layers-body').addEventListener('change', syncHash);
+  $('panel').addEventListener('change', syncHash);
 
-  $('share-btn').addEventListener('click', async () => {
+  const share = async () => {
     window.history.replaceState(null, '', toHash(currentView()));
     const url = window.location.href;
+    track('share');
     try {
       // Phones get the system share sheet; desktops a copied link.
       if (navigator.share && matchMedia('(pointer: coarse)').matches) {
@@ -48,12 +51,13 @@ export function setupShare(map: maplibregl.Map, parts: () => Partial<ViewState>[
         return;
       }
       await navigator.clipboard.writeText(url);
-      toast('Link to this view copied.');
+      toast('Link to this view copied.', { icon: icon('check-circle', 18), tone: 'ok' });
     } catch (e) {
       if (e instanceof DOMException && e.name === 'AbortError') return;
       toast('Copy the address from the address bar to share this view.');
     }
-  });
+  };
+  for (const b of document.querySelectorAll('[data-share]')) b.addEventListener('click', () => void share());
 
   return syncHash;
 }
