@@ -17,6 +17,10 @@ const outIdx = process.argv.indexOf('--out');
 const outDir = path.resolve(outIdx >= 0 ? process.argv[outIdx + 1] : 'smoke-output');
 await mkdir(outDir, { recursive: true });
 
+// CI runners draw WebGL in software, so a screenshot while the map is still drawing new terrain can
+// take well over Playwright's default 30 s; every screenshot gets the same allowance.
+const SHOT_TIMEOUT_MS = 120_000;
+
 const server = await preview({ preview: { port: 4174, strictPort: true }, logLevel: 'silent' });
 const url = 'http://localhost:4174/';
 const readyLimitMs = Number(process.env.SMOKE_READY_LIMIT_MS) || 5000;
@@ -52,7 +56,7 @@ for (const profile of profiles) {
   const readyMs = Date.now() - t0;
   const readyInPage = Number(await page.evaluate(() => document.body.dataset.mapReadyMs));
   await page.waitForTimeout(1500);
-  await page.screenshot({ path: path.join(outDir, `${profile.name}-start.png`), timeout: 120_000 });
+  await page.screenshot({ path: path.join(outDir, `${profile.name}-start.png`), timeout: SHOT_TIMEOUT_MS });
 
   // Rotate for 3 s and count animation frames.
   const fps = await page.evaluate(
@@ -93,7 +97,7 @@ for (const profile of profiles) {
     stationOk = await page
       .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Snow depth'), null, { timeout: 5000 })
       .then(() => true, () => false);
-    await page.screenshot({ path: path.join(outDir, `${profile.name}-station.png`) });
+    await page.screenshot({ path: path.join(outDir, `${profile.name}-station.png`), timeout: SHOT_TIMEOUT_MS });
   }
 
   // Close the station (on a phone this lowers the sheet), then tap the terrain.
@@ -107,7 +111,7 @@ for (const profile of profiles) {
   // intended behaviour, so this is reported but does not fail the run.
   const rateLimited = !forecastOk && /limit|in time/i.test((await page.textContent('#details-body')) ?? '');
   const appErrors = errors.filter((e) => !(rateLimited && e.includes('status of 429')));
-  await page.screenshot({ path: path.join(outDir, `${profile.name}-forecast.png`) });
+  await page.screenshot({ path: path.join(outDir, `${profile.name}-forecast.png`), timeout: SHOT_TIMEOUT_MS });
 
   // V3 (desktop): the timeline (a past day, forecast playback), and a shared link that restores the view.
   let v3 = '';
@@ -165,7 +169,7 @@ for (const profile of profiles) {
         .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Mapped length'), null, { timeout: 5000 })
         .then(() => 'OK', () => 'FAILED (no panel)');
     }
-    await page.screenshot({ path: path.join(outDir, 'desktop-v3.png') });
+    await page.screenshot({ path: path.join(outDir, 'desktop-v3.png'), timeout: SHOT_TIMEOUT_MS });
     await page.waitForTimeout(500);
     const hash = await page.evaluate(() => window.location.hash);
     const shared = await context.newPage();
