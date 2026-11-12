@@ -1,5 +1,6 @@
 // Euregio station feed behind avalanche.report ("linea" format, SMET-style SI units):
-// HS in m, TA in K, VW / VW_MAX in m/s, DW in degrees, PSUM_24 in mm, date ISO 8601 UTC.
+// HS in m, TA in K, VW / VW_MAX in m/s, DW in degrees, PSUM_24 in mm, date ISO 8601 with offset.
+// Some providers leave SMET's no-data value (-777, sometimes -999) in the numbers.
 
 import {
   cleanSnowDepth,
@@ -19,6 +20,22 @@ interface LineaFeature {
 }
 
 const str = (v: unknown): string => (typeof v === 'string' ? v.trim() : '');
+
+/** A number, with SMET's no-data markers treated as missing. */
+const val = (v: unknown): number | null => {
+  const n = num(v);
+  return n === null || n === -777 || n === -999 ? null : n;
+};
+
+/** Newest reading time in a feed (ISO UTC), whatever its location, or null if it has none. */
+export function newestLineaDate(geojson: { features: LineaFeature[] }): string | null {
+  let newest = -Infinity;
+  for (const f of geojson.features) {
+    const t = Date.parse(str(f.properties.date));
+    if (t > newest) newest = t;
+  }
+  return Number.isFinite(newest) ? new Date(newest).toISOString() : null;
+}
 
 /** Allowance for clock skew before a timestamp counts as "in the future". */
 const FUTURE_TOLERANCE_MS = 15 * 60_000;
@@ -40,7 +57,13 @@ export function parseLineaDate(s: string, now: string): string | null {
 
 export function parseLinea(
   geojson: { features: LineaFeature[] },
-  opts: { now: string; maxAgeHours: number; bbox: Parameters<typeof inBbox>[2] },
+  opts: {
+    now: string;
+    maxAgeHours: number;
+    bbox: Parameters<typeof inBbox>[2];
+    /** Provider of the whole feed; a per-station dataProviderID (old combined feed) wins. */
+    provider?: string;
+  },
 ): RawStation[] {
   const out: RawStation[] = [];
   for (const f of geojson.features) {
@@ -48,17 +71,17 @@ export function parseLinea(
     const [lon, lat, z] = f.geometry.coordinates;
     if (num(lon) === null || num(lat) === null || !inBbox(lon, lat, opts.bbox)) continue;
     // Elevation is in the geometry; a few stations carry 0 there and the real value in `altitude`.
-    const elevation = num(z) || num(p.altitude);
+    const elevation = val(z) || val(p.altitude);
     if (!elevation || elevation <= 0) continue;
 
     const observedAt = parseLineaDate(str(p.date), opts.now);
     if (observedAt === null || hoursBetween(observedAt, opts.now) > opts.maxAgeHours) continue;
 
-    const hsM = num(p.HS);
-    const taK = num(p.TA);
-    const dw = num(p.DW);
-    const psum = num(p.PSUM_24);
-    const provider = str(p.dataProviderID) || 'unknown';
+    const hsM = val(p.HS);
+    const taK = val(p.TA);
+    const dw = val(p.DW);
+    const psum = val(p.PSUM_24);
+    const provider = str(p.dataProviderID) || opts.provider || 'unknown';
     const record: RawStation = {
       source: 'euregio-linea',
       provider,
@@ -72,8 +95,8 @@ export function parseLinea(
       observedAt,
       snowDepthCm: cleanSnowDepth(hsM === null ? null : hsM * 100),
       airTempC: taK === null ? null : round(taK - 273.15),
-      windSpeedKmh: msToKmh(num(p.VW)),
-      windGustKmh: msToKmh(num(p.VW_MAX)),
+      windSpeedKmh: msToKmh(val(p.VW)),
+      windGustKmh: msToKmh(val(p.VW_MAX)),
       windDirDeg: dw === null ? null : round(dw, 0),
       precip24hMm: psum === null || psum < 0 ? null : round(psum),
     };

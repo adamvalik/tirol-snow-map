@@ -36,6 +36,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    outputs:
+      generated_at: ${{ steps.built.outputs.generated_at }}
     permissions:
       contents: read
       actions: write # prune old data caches
@@ -93,6 +95,9 @@ jobs:
           key: pipeline-data-${{ github.run_id }}-${{ github.run_attempt }}
 
       - run: npm run build
+      - name: Note which data is in the build
+        id: built
+        run: echo "generated_at=$(node -p "require('./dist/data/status.json').generatedAt" 2>/dev/null || true)" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist
@@ -125,3 +130,19 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+      # On 9 Nov 2026 a deployment reported success while the site kept serving the previous
+      # run's files. Check that the live site really has this run's data, and fail loudly if not.
+      - name: Check the live site serves this run's data
+        if: needs.build.outputs.generated_at != ''
+        env:
+          EXPECTED: ${{ needs.build.outputs.generated_at }}
+          SITE: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          for i in $(seq 1 20); do
+            live=$(curl -fsS "${SITE}data/status.json?run=${GITHUB_RUN_ID}-$i" | node -p "JSON.parse(require('fs').readFileSync(0,'utf8')).generatedAt" || true)
+            if [ "$live" = "$EXPECTED" ]; then echo "Live site serves data from $live"; exit 0; fi
+            echo "Live site has data from ${live:-nothing}, expected $EXPECTED; waiting"
+            sleep 30
+          done
+          echo "::error::The live site still serves data from $live after 10 minutes, although the deployment reported success. Re-run this workflow."
+          exit 1

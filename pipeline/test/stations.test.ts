@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { STATION_BBOX } from '../src/config.ts';
 import { mergeStations } from '../src/merge.ts';
 import { cleanSnowDepth, romeOffsetMinutes, type RawStation } from '../src/raw.ts';
-import { parseLinea, parseLineaDate } from '../src/sources/linea.ts';
+import { newestLineaDate, parseLinea, parseLineaDate } from '../src/sources/linea.ts';
 import { parseProvince, parseProvinceDate } from '../src/sources/provinceBz.ts';
 
 const fixture = (p: string) => JSON.parse(readFileSync(new URL(`../../fixtures/${p}`, import.meta.url), 'utf8'));
@@ -63,6 +63,36 @@ describe('Euregio linea feed', () => {
 
   it('drops stations without a usable elevation', () => {
     expect(linea.every((s) => s.elevation > 0)).toBe(true);
+  });
+
+  // Per-provider feeds since November 2026: no dataProviderID, offsets in the dates, SMET no-data values.
+  const feature = (properties: Record<string, unknown>) => ({
+    id: 'abc',
+    geometry: { coordinates: [11.3, 46.6, 2000] },
+    properties: { name: 'Test', shortName: 'TST1', ...properties },
+  });
+
+  it('reads the per-provider feeds', () => {
+    const [s] = parseLinea(
+      { features: [feature({ date: '2026-10-20 11:50:00+00:00', TA: -777, HS: 0.2, VW: -999, PSUM_24: -777 })] },
+      { ...opts, provider: 'AT-07-GEOSPHERE' },
+    );
+    expect(s.code).toBe('AT-07-GEOSPHERE/TST1');
+    expect(s.observedAt).toBe('2026-10-20T11:50:00.000Z');
+    expect(s.snowDepthCm).toBe(20);
+    expect(s.airTempC).toBeNull();
+    expect(s.windSpeedKmh).toBeNull();
+    expect(s.precip24hMm).toBeNull();
+    const [t] = parseLinea({ features: [feature({ date: '2026-10-20T12:50:00+01:00', TA: 270.15 })] }, opts);
+    expect(t.observedAt).toBe('2026-10-20T11:50:00.000Z');
+    expect(t.provider).toBe('unknown');
+  });
+
+  it('finds the newest reading so a frozen feed can be reported', () => {
+    const frozen = { features: [feature({ date: '2026-10-15T08:00:00Z', TA: 270 }), feature({ date: '2026-10-14T08:00:00Z' })] };
+    expect(parseLinea(frozen, opts)).toHaveLength(0);
+    expect(newestLineaDate(frozen)).toBe('2026-10-15T08:00:00.000Z');
+    expect(newestLineaDate({ features: [] })).toBeNull();
   });
 });
 
