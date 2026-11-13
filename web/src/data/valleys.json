@@ -1,0 +1,289 @@
+{
+ "source": "Hand-placed label points. Valley points snapped to the lowest ground within 400 m (Mapterhorn z12), 2026-11-13.",
+ "valleys": [
+  {
+   "name": "Vinschgau",
+   "nameIt": "Val Venosta",
+   "lon": 10.7334,
+   "lat": 46.6224
+  },
+  {
+   "name": "Etschtal",
+   "nameIt": "Val d'Adige",
+   "lon": 11.199,
+   "lat": 46.5533
+  },
+  {
+   "name": "Unterland",
+   "nameIt": "Bassa Atesina",
+   "lon": 11.259,
+   "lat": 46.3417
+  },
+  {
+   "name": "Eisacktal",
+   "nameIt": "Valle Isarco",
+   "lon": 11.5697,
+   "lat": 46.6417
+  },
+  {
+   "name": "Wipptal",
+   "nameIt": "Alta Valle Isarco",
+   "lon": 11.4476,
+   "lat": 46.8777
+  },
+  {
+   "name": "Pustertal",
+   "nameIt": "Val Pusteria",
+   "lon": 11.9957,
+   "lat": 46.788
+  },
+  {
+   "name": "Gröden",
+   "nameIt": "Val Gardena",
+   "lon": 11.6902,
+   "lat": 46.5648
+  },
+  {
+   "name": "Gadertal",
+   "nameIt": "Val Badia",
+   "lon": 11.8948,
+   "lat": 46.6312
+  },
+  {
+   "name": "Ahrntal",
+   "nameIt": "Valle Aurina",
+   "lon": 11.9224,
+   "lat": 46.9621
+  },
+  {
+   "name": "Antholzer Tal",
+   "nameIt": "Valle di Anterselva",
+   "lon": 12.0981,
+   "lat": 46.8473
+  },
+  {
+   "name": "Gsieser Tal",
+   "nameIt": "Val Casies",
+   "lon": 12.2124,
+   "lat": 46.8021
+  },
+  {
+   "name": "Passeiertal",
+   "nameIt": "Val Passiria",
+   "lon": 11.215,
+   "lat": 46.7611
+  },
+  {
+   "name": "Ultental",
+   "nameIt": "Val d'Ultimo",
+   "lon": 11.0345,
+   "lat": 46.5583
+  },
+  {
+   "name": "Schnalstal",
+   "nameIt": "Val Senales",
+   "lon": 10.92,
+   "lat": 46.7008
+  },
+  {
+   "name": "Martelltal",
+   "nameIt": "Val Martello",
+   "lon": 10.7883,
+   "lat": 46.5633
+  },
+  {
+   "name": "Sarntal",
+   "nameIt": "Val Sarentino",
+   "lon": 11.3621,
+   "lat": 46.6569
+  },
+  {
+   "name": "Ridnauntal",
+   "nameIt": "Val Ridanna",
+   "lon": 11.3426,
+   "lat": 46.8968
+  },
+  {
+   "name": "Pfitscher Tal",
+   "nameIt": "Val di Vizze",
+   "lon": 11.525,
+   "lat": 46.9289
+  },
+  {
+   "name": "Villnöss",
+   "nameIt": "Val di Funes",
+   "lon": 11.6914,
+   "lat": 46.6417
+  },
+  {
+   "name": "Sextental",
+   "nameIt": "Val di Sesto",
+   "lon": 12.3474,
+   "lat": 46.7032
+  },
+  {
+   "name": "Buchenstein",
+   "nameIt": "Livinallongo",
+   "lon": 11.9341,
+   "lat": 46.4881
+  },
+  {
+   "name": "Fassatal",
+   "nameIt": "Val di Fassa",
+   "lon": 11.6955,
+   "lat": 46.4383
+  },
+  {
+   "name": "Fleimstal",
+   "nameIt": "Val di Fiemme",
+   "lon": 11.52,
+   "lat": 46.2864
+  },
+  {
+   "name": "Nonstal",
+   "nameIt": "Val di Non",
+   "lon": 11.0576,
+   "lat": 46.3269
+  },
+  {
+   "name": "Sulztal",
+   "nameIt": "Val di Sole",
+   "lon": 10.8748,
+   "lat": 46.3293
+  },
+  {
+   "name": "Münstertal",
+   "nameIt": "Val Müstair",
+   "lon": 10.4348,
+   "lat": 46.6107
+  },
+  {
+   "name": "Ötztal",
+   "nameIt": "",
+   "lon": 10.965,
+   "lat": 47.0711
+  },
+  {
+   "name": "Pitztal",
+   "nameIt": "",
+   "lon": 10.8238,
+   "lat": 47.0932
+  },
+  {
+   "name": "Kaunertal",
+   "nameIt": "",
+   "lon": 10.7464,
+   "lat": 47.062
+  },
+  {
+   "name": "Stubaital",
+   "nameIt": "",
+   "lon": 11.3029,
+   "lat": 47.1075
+  },
+  {
+   "name": "Zillertal",
+   "nameIt": "",
+   "lon": 11.8626,
+   "lat": 47.1732
+  },
+  {
+   "name": "Defereggental",
+   "nameIt": "",
+   "lon": 12.3346,
+   "lat": 46.9149
+  },
+  {
+   "name": "Unterengadin",
+   "nameIt": "Engiadina Bassa",
+   "lon": 10.2988,
+   "lat": 46.7966
+  },
+  {
+   "name": "Ampezzo",
+   "nameIt": "Valle d'Ampezzo",
+   "lon": 12.135,
+   "lat": 46.5365
+  }
+ ],
+ "ranges": [
+  {
+   "name": "Ortlergruppe",
+   "nameIt": "Gruppo dell'Ortles",
+   "lon": 10.6,
+   "lat": 46.46
+  },
+  {
+   "name": "Ötztaler Alpen",
+   "nameIt": "Alpi Venoste",
+   "lon": 10.85,
+   "lat": 46.84
+  },
+  {
+   "name": "Stubaier Alpen",
+   "nameIt": "Alpi dello Stubai",
+   "lon": 11.18,
+   "lat": 47.0
+  },
+  {
+   "name": "Zillertaler Alpen",
+   "nameIt": "Alpi Aurine",
+   "lon": 11.78,
+   "lat": 47.04
+  },
+  {
+   "name": "Rieserferner",
+   "nameIt": "Vedrette di Ries",
+   "lon": 12.07,
+   "lat": 46.93
+  },
+  {
+   "name": "Sarntaler Alpen",
+   "nameIt": "Alpi Sarentine",
+   "lon": 11.43,
+   "lat": 46.73
+  },
+  {
+   "name": "Texelgruppe",
+   "nameIt": "Gruppo di Tessa",
+   "lon": 11.03,
+   "lat": 46.74
+  },
+  {
+   "name": "Dolomiten",
+   "nameIt": "Dolomiti",
+   "lon": 11.95,
+   "lat": 46.55
+  },
+  {
+   "name": "Brenta",
+   "nameIt": "Dolomiti di Brenta",
+   "lon": 10.9,
+   "lat": 46.18
+  },
+  {
+   "name": "Lagorai",
+   "nameIt": "",
+   "lon": 11.42,
+   "lat": 46.17
+  },
+  {
+   "name": "Presanella",
+   "nameIt": "",
+   "lon": 10.64,
+   "lat": 46.22
+  },
+  {
+   "name": "Sesvennagruppe",
+   "nameIt": "Gruppo di Sesvenna",
+   "lon": 10.42,
+   "lat": 46.73
+  },
+  {
+   "name": "Hohe Tauern",
+   "nameIt": "",
+   "lon": 12.4,
+   "lat": 47.1
+  }
+ ]
+}

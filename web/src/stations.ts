@@ -69,7 +69,8 @@ export function addStationLayer(
     id: LAYER,
     type: 'circle',
     source: LAYER,
-    layout: { 'circle-sort-key': ['get', 'hasSnow'], visibility: visible ? 'visible' : 'none' },
+    // Deeper snow is drawn on top; stations without a sensor at the bottom.
+    layout: { 'circle-sort-key': ['coalesce', ['get', 'snowDepthCm'], -1], visibility: visible ? 'visible' : 'none' },
     paint: {
       // Stations without a snow sensor are small grey dots, so the snow readings stand out (roadmap 2.3).
       'circle-color': ['case', ['==', ['get', 'hasSnow'], 1], snowColorExpression(), NO_SNOW_SENSOR_COLOR],
@@ -78,8 +79,9 @@ export function addStationLayer(
         'interpolate',
         ['linear'],
         ['zoom'],
-        8, ['case', ['==', ['get', 'hasSnow'], 1], 4.5, 2],
-        12, ['case', ['==', ['get', 'hasSnow'], 1], 8, 3.5],
+        // Bare ground (0 cm) a little smaller than snow, no sensor smallest.
+        8, ['case', ['==', ['get', 'hasSnow'], 0], 2, ['<', ['get', 'snowDepthCm'], 0.5], 3.5, 4.5],
+        12, ['case', ['==', ['get', 'hasSnow'], 0], 3.5, ['<', ['get', 'snowDepthCm'], 0.5], 6.5, 8],
       ],
       'circle-stroke-color': '#ffffff',
       'circle-stroke-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 1, ['==', ['get', 'hasSnow'], 1], 1, 0],
