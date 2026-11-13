@@ -53,6 +53,7 @@ Other scripts:
 | `npm run basemap:assets` | Re-download the fonts and icon sprites the basemap style needs (committed in `web/public/basemap-assets/`) |
 | `npm run typecheck` | TypeScript check of app, pipeline and tests |
 | `npm run build` | Typecheck and production build into `dist/` (includes whatever is in `web/public/data`) |
+| `node scripts/og-image.mjs` | After `build`: renders the link preview picture `dist/og.jpg` (see Deployment). Set `CHROMIUM_PATH` if Playwright's browser is not installed |
 | `npm run smoke` | After `build`: opens the built app in Chromium (desktop and phone profiles) and reports load time, console errors, whether the station and forecast panels work, and on desktop the timeline (a past day, forecast playback), via ferratas and a shared link. Set `CHROMIUM_PATH` if Playwright's browser is not installed |
 
 ## How data flows
@@ -121,7 +122,7 @@ The address bar always holds the current view, for example `#map=10.40/46.4700/1
 
 ## Deployment
 
-`.github/workflows/deploy.yml` runs three times a day, early in the morning, after lunch and in the evening (03:47, 11:47 and 17:47 UTC, so 04:47, 12:47 and 18:47 in South Tyrol in winter, an hour later in summer; the evening run usually has the same day's Sentinel-2 pass), on every push to `main` and by hand. It restores the previous run's data from an Actions cache, runs the pipeline, saves the data again, builds the app with the data inside and publishes it to GitHub Pages. The basemap is rebuilt once a month and cached. Only the three newest data caches are kept.
+`.github/workflows/deploy.yml` runs three times a day, early in the morning, after lunch and in the evening (03:47, 11:47 and 17:47 UTC, so 04:47, 12:47 and 18:47 in South Tyrol in winter, an hour later in summer; the evening run usually has the same day's Sentinel-2 pass), on every push to `main` and by hand. It restores the previous run's data from an Actions cache, runs the pipeline, saves the data again, builds the app with the data inside, renders the link preview picture and publishes it to GitHub Pages. The basemap is rebuilt once a month and cached. Only the three newest data caches are kept.
 
 A failed upstream never stops a deploy: the files keep the last good data, the app shows a warning, and `scripts/monitor.mjs` opens an issue labelled `data-pipeline` when a step has failed three runs in a row (about a day) or the pipeline crashed. The issue is updated while it keeps failing and closed automatically when everything works again, so watching the repository is the alert.
 
@@ -131,9 +132,11 @@ One-time setup:
 2. Settings → Pages → Build and deployment → Source: **GitHub Actions**.
 3. Settings → Secrets and variables → Actions: `CDSE_USERNAME`, `CDSE_PASSWORD`, `CDSE_CLIENT_ID`, `CDSE_CLIENT_SECRET` (already set if the check workflow works).
 4. Run "Update data and deploy" once from the Actions tab. The first run takes a few minutes longer (basemap, satellite tiles, classifying the Sentinel-2 days). The site appears at `https://<user>.github.io/tirol-snow-map/`.
-5. Optional, Settings → Secrets and variables → Actions → **Variables**: `FEEDBACK_EMAIL` (the address the app's "Something is wrong" and "Idea" links write to; without it they go to GitHub issues only) and `GOATCOUNTER_CODE` (the site code from a free [GoatCounter](https://www.goatcounter.com) account, the part before `.goatcounter.com`; without it nothing is counted). Both end up in the public page, so use an address you are happy to have there. They take effect with the next deploy.
+5. Optional, Settings → Secrets and variables → Actions → **Variables**: `SITE_URL` (the site's full address, only once a custom domain is set; the link preview tags need an absolute address and default to `https://adamvalik.github.io/tirol-snow-map/`), `FEEDBACK_EMAIL` (the address the app's "Something is wrong" and "Idea" links write to; without it they go to GitHub issues only) and `GOATCOUNTER_CODE` (the site code from a free [GoatCounter](https://www.goatcounter.com) account, the part before `.goatcounter.com`; without it nothing is counted). Both end up in the public page, so use an address you are happy to have there. They take effect with the next deploy.
 
-GitHub disables scheduled workflows in a public repository after 60 days without activity in it, and scheduled runs can start late when GitHub is busy. The station warning in the app ("out of date") shows when that happens; re-enable the workflow from the Actions tab.
+**Link preview.** A shared link is a hash, which servers never see, so every link previews the same way in WhatsApp, Signal and the like: the `og:` and `twitter:` tags in `web/index.html` (filled with the site address by `vite.config.ts`) and `og.jpg`, 1200 × 630, which `scripts/og-image.mjs` renders after each build from the default view with the panels hidden and a card with the name and the day of the data. It is a JPEG kept under 280 KB, because WhatsApp drops larger pictures, and its address carries the build date so chat apps do not show yesterday's from their cache. If rendering fails, the deploy keeps the live site's picture. Try it locally with `npm run build && node scripts/og-image.mjs --out og.jpg`.
+
+**Keeping the schedule alive.** GitHub switches scheduled workflows off in a public repository after 60 days without commits, and the data deploys are not commits. The `keep-schedule` job re-enables the workflow through the API on every scheduled run, which restarts that count, and opens an issue if the last commit is 50 days old anyway. Scheduled runs can also start late when GitHub is busy; the station warning in the app ("out of date") shows when data stops arriving, and the workflow can be re-enabled from the Actions tab.
 
 ## Known limits
 

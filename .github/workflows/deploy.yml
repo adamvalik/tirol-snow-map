@@ -34,7 +34,9 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Pinned like ci.yml: ubuntu-latest moved to 26.04, where Playwright 1.56 cannot install its
+    # browser (needed for the link preview picture).
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     outputs:
       generated_at: ${{ steps.built.outputs.generated_at }}
@@ -101,6 +103,16 @@ jobs:
           # either off. Both end up in the public page, so use an address meant for it.
           FEEDBACK_EMAIL: ${{ vars.FEEDBACK_EMAIL }}
           GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
+          # The site's address for the link preview tags; unset means the github.io address.
+          SITE_URL: ${{ vars.SITE_URL }}
+      # The picture chat apps show for a shared link: today's map, rendered from the build. If it
+      # fails, the live site's picture from an earlier run is kept, so the preview never goes blank.
+      - name: Render the link preview picture
+        run: |
+          if npx playwright install --with-deps chromium && node scripts/og-image.mjs --out dist/og.jpg; then exit 0; fi
+          site=$(grep -o '<meta property="og:url" content="[^"]*"' dist/index.html | sed 's/.*content="//; s/"$//')
+          echo "::warning::The link preview picture could not be rendered; keeping the live one from ${site}og.jpg"
+          curl -fsS "${site}og.jpg" -o dist/og.jpg || { rm -f dist/og.jpg; echo "::warning::No link preview picture on the live site either"; }
       - name: Note which data is in the build
         id: built
         run: echo "generated_at=$(node -p "require('./dist/data/status.json').generatedAt" 2>/dev/null || true)" >> "$GITHUB_OUTPUT"
@@ -152,3 +164,31 @@ jobs:
           done
           echo "::error::The live site still serves data from $live after 10 minutes, although the deployment reported success. Re-run this workflow."
           exit 1
+
+  # GitHub switches scheduled workflows off after 60 days without commits in a public repository, and
+  # the data deploys are not commits. Enabling the workflow through the API restarts that count, so
+  # the site keeps updating through a winter without code changes. In case that ever stops working,
+  # an issue is opened once the last commit is 50 days old, before the switch-off.
+  keep-schedule:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write
+      contents: read
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Re-enable this workflow
+        run: gh api --method PUT "repos/$REPO/actions/workflows/deploy.yml/enable"
+      - name: Warn before the 60-day switch-off
+        run: |
+          last=$(gh api "repos/$REPO/commits?per_page=1" --jq '.[0].commit.committer.date')
+          days=$(( ( $(date -u +%s) - $(date -u -d "$last" +%s) ) / 86400 ))
+          echo "Last commit on the default branch: $last ($days days ago)"
+          [ "$days" -lt 50 ] && exit 0
+          title="Scheduled data updates: no commit for $days days"
+          if [ -n "$(gh issue list -R "$REPO" --state open --search "in:title Scheduled data updates: no commit" --json number --jq '.[0].number')" ]; then exit 0; fi
+          gh issue create -R "$REPO" --title "$title" --body "The last commit on the default branch was $days days ago ($last). GitHub switches scheduled workflows off after 60 days without commits; this workflow re-enables itself through the API on every scheduled run, which should prevent that. To be safe, push any commit (or check *Actions → Update data and deploy* is still enabled) and close this issue."

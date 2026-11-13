@@ -117,6 +117,8 @@ The UI on top (`web/src/app/track.ts`): "Add a GPX track" in the Layers tab (cho
 
 Designed in [`share-snapshot.md`](share-snapshot.md) ("Link previews"). Worth doing for v1, because the first thing testers see is the link in a chat. `og:` and `twitter:` tags in `index.html`, plus `og.png` (1200 × 630) rendered by the deploy workflow with Playwright from today's default view. Needs an absolute URL, so it is easiest to do after the domain decision (8), or with the Pages address and changed later.
 
+**Built Nov 13 (for `v0.2.1`).** Tags in `web/index.html`, filled from `SITE_URL` (a repository variable, defaulting to the Pages address) by `vite.config.ts`. `scripts/og-image.mjs` renders the picture in the deploy after the build: the default view a little wider and steeper (more peaks, a strip of sky), panels hidden, a centred card with the icon, the name and "Snow on <day of the data>", credits in the corner. Two changes from the plan: it is **`og.jpg`**, not PNG, kept under 280 KB because WhatsApp drops larger pictures (a PNG of terrain is around 1 MB); and the card is centred, because WhatsApp and Signal often show a square cut from the middle. The address carries the build date (`og.jpg?v=20261113`) against chat apps' caches. If rendering fails, the deploy copies the live site's picture. The build job moved to `ubuntu-24.04`, like CI, for Playwright 1.56. **To do: check the preview in WhatsApp and Signal after the next deploy.**
+
 ## 6. Live location ("Where am I")
 
 Roadmap 2.5 kept this for later; small enough to add now.
@@ -185,7 +187,7 @@ The Euregio station feed the pipeline already reads carries more than it uses:
 
 ### 10.3 Keep it running while friends test
 
-- **The schedule can switch itself off.** GitHub disables scheduled workflows in a public repository after 60 days without commits, and data deploys do not count. A monthly step that runs `gh workflow enable` on the deploy workflow, or a warning from `scripts/monitor.mjs` before the 60 days are up. Effort S.
+- **The schedule can switch itself off.** GitHub disables scheduled workflows in a public repository after 60 days without commits, and data deploys do not count. A monthly step that runs `gh workflow enable` on the deploy workflow, or a warning from `scripts/monitor.mjs` before the 60 days are up. Effort S. **Built Nov 13:** both. A `keep-schedule` job in `deploy.yml` re-enables the workflow through the API on every scheduled run (the approach of the keepalive-workflow action, which restarts the count without dummy commits), and opens an issue once the last commit is 50 days old, in case that ever stops working. It also runs on a manual start, so it can be tried from the Actions tab.
 - **Upstream budgets in `status.json`.** Record Sentinel Hub processing units used per run and Open-Meteo calls (273 points per fetch); the monitor opens an issue when monthly use nears the free limit. These quotas, not Pages, are what limits growth (see 9). Effort S.
 - **Model error over time.** Keep each day's leave-one-out error in `history.json`, so a few weeks of testing show whether the depth estimate holds this winter. Effort S.
 
@@ -223,7 +225,7 @@ Items 2, 3, 5 (logic) and 6 do not touch the UI files, so they do not conflict w
 - [x] Tests, typecheck and smoke test green (checked on every pull request by `ci.yml`)
 - [x] New snow at stations
 - [ ] Avalanche region link
-- [ ] Deploy schedule protected against the 60-day switch-off
+- [x] Deploy schedule protected against the 60-day switch-off (Nov 13)
 - [x] Release notes written, tag pushed
 
 ## How to make a release
