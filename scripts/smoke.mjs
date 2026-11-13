@@ -1,6 +1,6 @@
 // Smoke test for the built app: serves dist/, opens it in Chromium (desktop and phone profiles),
 // and reports time to first rendered map, console errors, and a rough frame rate while rotating;
-// on desktop also the day slider, forecast playback, the via ferrata layer and a shared link.
+// on desktop also the day slider, forecast playback, the via ferrata layer, a shared link and "Where am I".
 //
 //   npm run build && node scripts/smoke.mjs [--out <screenshot dir>]
 //
@@ -33,7 +33,11 @@ const browser = await chromium.launch({
 });
 
 const profiles = [
-  { name: 'desktop', context: { viewport: { width: 1440, height: 900 } } },
+  // Desktop also checks "Where am I", with a position near Bolzano and the permission granted.
+  {
+    name: 'desktop',
+    context: { viewport: { width: 1440, height: 900 }, geolocation: { latitude: 46.62, longitude: 11.45, accuracy: 30 }, permissions: ['geolocation'] },
+  },
   { name: 'phone', context: { ...devices['Pixel 7'] } },
 ];
 
@@ -120,6 +124,7 @@ for (const profile of profiles) {
   );
   // V3 (desktop): the timeline (a past day, forecast playback), and a shared link that restores the view.
   let v3 = '';
+  let v3Failed = false;
   if (profile.name === 'desktop') {
     await page.keyboard.press('Escape');
     const dayOk = await page.evaluate(async () => {
@@ -193,8 +198,19 @@ for (const profile of profiles) {
     const linkOk = hash.includes('map=') && Math.abs(restored.zoom - 12.6) < 0.05 && restored.forecast && restored.ferratas;
     await shared.close();
     await page.bringToFront();
-    v3 = `timeline day ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}`;
-    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || !linkOk) errors.push(`V3 checks: ${v3}`);
+    // Where am I: the button finds the position, the dot shows, and a second tap switches it off.
+    await page.click('#locate-btn');
+    const locate = await page
+      .waitForFunction(() => document.getElementById('locate-btn').dataset.state === 'on' && document.querySelector('.maplibregl-user-location-dot'), null, { timeout: 20_000 })
+      .then(
+        async () => {
+          await page.click('#locate-btn');
+          return (await page.$eval('#locate-btn', (b) => b.dataset.state)) === 'off' ? 'OK' : 'FAILED (does not switch off)';
+        },
+        () => 'FAILED (no position)',
+      );
+    v3 = `timeline day ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}, where am I ${locate}`;
+    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || !linkOk || locate !== 'OK') v3Failed = true;
   }
 
   console.log(
@@ -212,6 +228,7 @@ for (const profile of profiles) {
     appErrors.length && 'console errors',
     !(forecastOk || rateLimited) && 'forecast panel',
     !stationOk && 'station panel',
+    v3Failed && 'desktop checks (timeline, ferratas, shared link, where am I)',
     disallowed.length && 'disallowed hosts',
     readyMs > readyLimitMs && `map ready > ${readyLimitMs} ms`,
   ].filter(Boolean);

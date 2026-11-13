@@ -2121,6 +2121,33 @@ details[open] > .act .caret {
   background: var(--soft);
 }
 
+/* "Where am I" (app/locate.ts): a round button of its own under the stack. */
+.map-btn.round {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.map-btn[data-state='waiting'] svg {
+  animation: locate-pulse 1s ease-in-out infinite alternate;
+}
+
+.map-btn[data-state='on'],
+.map-btn[data-state='waiting'] {
+  color: var(--accent);
+}
+
+@keyframes locate-pulse {
+  to {
+    opacity: 0.35;
+  }
+}
+
+/* The control's own button is replaced by #locate-btn; the dot and the accuracy circle stay. */
+.maplibregl-ctrl-geolocate,
+.maplibregl-ctrl-top-right .maplibregl-ctrl-group:has(.maplibregl-ctrl-geolocate) {
+  display: none !important;
+}
+
 .north-needle {
   display: grid;
   transform: rotate(calc(45deg - var(--bearing, 0deg)));
