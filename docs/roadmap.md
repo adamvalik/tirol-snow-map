@@ -18,7 +18,7 @@ The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to
 - [x] **Domain: after testing, once the name is settled** (about €5 a year). `github.io` until then.
 - [x] **Island or faded surroundings: both, decide later.** Faded is the default, a switch cuts it to the island, kept in share links (Nov 4). See 4.1.
 - [x] **New app icon:** "Depth bands", the peak in the snow-depth ramp (Nov 12, design canvas option 2).
-- [ ] **Frame style for the share picture** (minimal or poster). Open until mock-ups exist.
+- [ ] **Frame style for the share picture.** Mock-ups exist (Nov 13); recommendation: Poster for portrait, story and square, a Minimal card for wide, no picker. See [`share-snapshot.md`](share-snapshot.md), "Decisions for you".
 - [x] **Visit counting: GoatCounter** (no cookies, free), Nov 7, see [`release-plan.md`](release-plan.md).
 - [x] **Versions: today's app is `v0.1.0`; first release to friends and testers is `v0.2.0`** (Nov 7): versions, feedback form, GPX, live location, link preview. See [`release-plan.md`](release-plan.md).
 
@@ -138,7 +138,7 @@ Decide when the area decision is made, not before.
 
 ## 6. Share pictures
 
-Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders the current view at 4:5, 9:16, 1:1 or 16:9 without UI, with a slim frame (place, data date, key number, legend, address, QR, credits), straight into the phone's share sheet. GPX tracks on the snow and link previews follow later.
+Concept in [`share-snapshot.md`](share-snapshot.md), reworked Nov 13 with mock-ups and a capture spike: a camera button that renders your GPX track on the snow (numbers, elevation profile with snow along it) or the current view at 3:4, 9:16, 1:1 or 16:9 without UI, captured from the visible map at the export size, in a poster frame (title, date of the data, key numbers, address, credits), straight into the phone's share sheet with the view link copied. The link preview reuses the Wide frame.
 
 ## 7. Other improvements
 
