@@ -16,7 +16,8 @@
     "basemap:assets": "tsx pipeline/src/basemap/assets.ts",
     "dem": "tsx pipeline/src/dem-run.ts",
     "bivouacs": "tsx pipeline/src/bivouacs-run.ts",
-    "ferratas": "tsx pipeline/src/ferratas-run.ts"
+    "ferratas": "tsx pipeline/src/ferratas-run.ts",
+    "regions": "tsx pipeline/src/regions-run.ts"
   },
   "dependencies": {
     "@fontsource/barlow": "^5.3.0",

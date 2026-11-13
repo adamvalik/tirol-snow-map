@@ -121,7 +121,7 @@ Designed in [`share-snapshot.md`](share-snapshot.md) ("Link previews"). Worth do
 
 ## 6. Live location ("Where am I")
 
-Roadmap 2.5 kept this for later; small enough to add now.
+Roadmap 2.5 kept this for later; small enough to add now. **Built Nov 13** (`web/src/app/locate.ts`): a round location button under the map buttons on desktop and phone, with the toast outside the data area. MapLibre 6 has no heading arrow, so there is none. The smoke test checks it on desktop.
 
 - MapLibre's built-in `GeolocateControl`: blue dot, accuracy circle, heading on phones, optional follow mode. Pages is HTTPS, which the browser requires.
 - One round button near the zoom controls (fits the "every control earns its place" rule, since on a hike this is the first question).
@@ -183,13 +183,13 @@ Added Nov 9. The new UI is built in parallel; this is the work that does not tou
 The Euregio station feed the pipeline already reads carries more than it uses:
 
 - **New snow at stations** (roadmap 7, done Nov 9). Features have `HSD_24`, `HSD_48`, `HSD_72` (change in snow depth) and `PSUM_6`, `PSUM_48`, `PSUM_72`. Add them as optional fields on `Station` in `shared/types.ts` (optional, so no `SCHEMA_VERSION` bump) and map them in `pipeline/src/sources/linea.ts`; for province-only stations, take the difference from the pipeline's own 14-day history. Effort S. Built from the feed alone: provincial stations get the change from the feed's avalanche-service copy when they merge, which covers 186 of 196 snow stations on the map in the fixtures, so the history fallback was left out. Shown as "Depth change" in the station panel and next to the depth in the tooltip. Also feeds the "new snow since the satellite view" warning, and later a storm correction of the depth estimate (an open item from `plan.md`).
-- **Avalanche region for any point** (roadmap 7). Stations carry `microRegionID` (for example `IT-32-BZ-03 Schnalser Kamm`). For a clicked point, a pipeline script like `bivouacs-run.ts` fetches the EAWS micro-region outlines, cuts them to the grid, simplifies them and commits `web/src/data/regions.json`; the app finds the region of the point and links to that region's bulletin. Effort S–M. Check the licence of the outlines and the exact avalanche.report link format first.
+- **Avalanche region for any point** (roadmap 7, built Nov 13). Stations carry `microRegionID` (for example `IT-32-BZ-03 Schnalser Kamm`). For a clicked point, a pipeline script like `bivouacs-run.ts` fetches the EAWS micro-region outlines, cuts them to the grid, simplifies them and commits `web/src/data/regions.json`; the app finds the region of the point and links to that region's bulletin. Effort S–M. Check the licence of the outlines and the exact avalanche.report link format first. **Built:** the outlines are CC0 (`regions.avalanches.org`, the EAWS repository); `npm run regions` keeps the 103 regions valid now that touch the data area, simplified to about 30 m (225 KB, 57 KB compressed, fetched on the first panel). avalanche.report has **no link to a single region** (only `/bulletin/latest` and `/bulletin/<date>`, checked in its code), so the bulletin row names the region in English and the local languages with its id, and links to `avalanche.report/bulletin/latest` for Euregio regions and to the neighbours' services (AINEVA, SLF, Salzburg, Carinthia, Livigno) at the edges.
 
 ### 10.3 Keep it running while friends test
 
 - **The schedule can switch itself off.** GitHub disables scheduled workflows in a public repository after 60 days without commits, and data deploys do not count. A monthly step that runs `gh workflow enable` on the deploy workflow, or a warning from `scripts/monitor.mjs` before the 60 days are up. Effort S. **Built Nov 13:** both. A `keep-schedule` job in `deploy.yml` re-enables the workflow through the API on every scheduled run (the approach of the keepalive-workflow action, which restarts the count without dummy commits), and opens an issue once the last commit is 50 days old, in case that ever stops working. It also runs on a manual start, so it can be tried from the Actions tab.
-- **Upstream budgets in `status.json`.** Record Sentinel Hub processing units used per run and Open-Meteo calls (273 points per fetch); the monitor opens an issue when monthly use nears the free limit. These quotas, not Pages, are what limits growth (see 9). Effort S.
-- **Model error over time.** Keep each day's leave-one-out error in `history.json`, so a few weeks of testing show whether the depth estimate holds this winter. Effort S.
+- **Upstream budgets in `status.json`.** Record Sentinel Hub processing units used per run and Open-Meteo calls (273 points per fetch); the monitor opens an issue when monthly use nears the free limit. These quotas, not Pages, are what limits growth (see 9). Effort S. **Built Nov 13:** `pipeline/src/usage.ts` counts Sentinel Hub requests and the processing units from the `x-processingunits-spent` header, and Open-Meteo calls; `status.json` keeps the month's totals (`usage`) against 10,000 PU and 10,000 requests a month (CDSE "Copernicus General") and 10,000 calls a day, 300,000 a month (Open-Meteo); the monitor opens an `upstream-budget` issue at 80 %. **To check after the first live run:** that the PU header arrives (the run log prints the run's PU; 0 PU with requests > 0 means it does not), and that the CDSE dashboard agrees.
+- **Model error over time.** Keep each day's leave-one-out error in `history.json`, so a few weeks of testing show whether the depth estimate holds this winter. Effort S. **Built Nov 13** as its own file, `model-error.json`, since `history.json` drops days after 14: one entry per day (method, error, both methods' errors, station count, error per elevation band), kept 400 days. Published with the data, not shown in the app yet.
 
 ### 10.4 After `v0.2.0`
 
@@ -224,7 +224,7 @@ Items 2, 3, 5 (logic) and 6 do not touch the UI files, so they do not conflict w
 - [ ] Tested on iOS Safari and Android Chrome (phone), one desktop browser
 - [x] Tests, typecheck and smoke test green (checked on every pull request by `ci.yml`)
 - [x] New snow at stations
-- [ ] Avalanche region link
+- [x] Avalanche region link (Nov 13)
 - [x] Deploy schedule protected against the 60-day switch-off (Nov 13)
 - [x] Release notes written, tag pushed
 

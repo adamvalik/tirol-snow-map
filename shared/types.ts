@@ -238,3 +238,28 @@ export interface ModelErrorDay {
   stationCount: number;
   byBand: { label: string; n: number; maeCm: number }[];
 }
+
+export type Bbox4 = [number, number, number, number];
+
+/** web/src/data/regions.json: EAWS avalanche warning regions (pipeline/src/regions.ts, `npm run regions`). */
+export interface RegionsFile {
+  source: string;
+  licence: string;
+  attribution: string;
+  /** Warning services by id prefix (`AT-07`, `IT-34`, `CH`), with the page for their bulletin. */
+  services: Record<string, { name: string; url: string }>;
+  regions: Region[];
+}
+
+export interface Region {
+  /** EAWS micro-region id, e.g. IT-32-BZ-03. */
+  id: string;
+  /** English name, and the local name(s) where different (German / Italian in South Tyrol). */
+  name: string;
+  local?: string;
+  /** Key into `services`. */
+  service: string;
+  bbox: Bbox4;
+  /** Polygons, each a list of rings (outer first), as [lon, lat] rounded to 4 decimals. */
+  polygons: number[][][][];
+}

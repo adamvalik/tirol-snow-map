@@ -1334,6 +1334,15 @@ body.dragging .track-add {
   font-weight: 600;
 }
 
+/* A second, quieter line under a row's label (the avalanche region). */
+.act-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
 .act-side {
   font-size: 13px;
   color: var(--muted);

@@ -6,6 +6,7 @@ import { currentTab, isPhone, setSheet, showTab } from './app/layout.ts';
 import { icon, type IconName } from './app/icons.ts';
 import { isOn } from './app/switches.ts';
 import { type Forecast, getForecast } from './forecast.ts';
+import { fillBulletins } from './regions.ts';
 import { depthCardHtml, depthValue, factsHtml, metaHtml } from './placeHtml.ts';
 import { compass, escapeHtml, fmt, fmtChange, formatAge, formatTime, TZ, weatherText } from './format.ts';
 
@@ -48,11 +49,13 @@ export function openPanel(head: PanelHead, html: string, closeHandler?: () => vo
   document.getElementById('tab-place')!.scrollTop = 0;
   onClose = closeHandler ?? null;
   loadOpenRows();
+  fillBulletins(body);
 }
 
 export function updatePanelBody(html: string) {
   body.innerHTML = html;
   loadOpenRows();
+  fillBulletins(body);
 }
 
 /** Changes the header line under the title (a track's height source once it is known). */
@@ -162,7 +165,8 @@ export function actionsHtml(
     ${
       opts.bulletin === false
         ? ''
-        : `<a class="act" href="https://avalanche.report" target="_blank" rel="noopener">${icon('warning', 20)}<span class="act-label">Avalanche bulletin for this area</span>${icon('arrow-up-right', 16)}</a>`
+        : // The region and its service are filled in by fillBulletins (regions.ts) once the outlines are loaded.
+          `<a class="act" href="https://avalanche.report" target="_blank" rel="noopener" data-bulletin data-lon="${p.lon}" data-lat="${p.lat}">${icon('warning', 20)}<span class="act-label">Avalanche bulletin<span class="act-sub">for this area, at avalanche.report</span></span>${icon('arrow-up-right', 16)}</a>`
     }
   </nav>`;
 }
