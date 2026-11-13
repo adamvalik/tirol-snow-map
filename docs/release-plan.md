@@ -176,7 +176,7 @@ Added Nov 9. The new UI is built in parallel; this is the work that does not tou
 | **Feedback** (3, built Nov 9) | `mailto:` for v1 instead of Tally: *Something is wrong* and *Idea* at the top of "About the data" open an e-mail to the `FEEDBACK_EMAIL` repository variable with version, view link, browser and screen size filled in; GitHub issue forms `.github/ISSUE_TEMPLATE/bug.yml` and `idea.yml`, prefilled from the URL. Without the variable only the GitHub links show. A Tally form can replace the e-mail later. Variable set Nov 12; the new UI's menu links to the same thing | S |
 | **GPX logic, without drawing** (4) | A pure module in `shared/`: parse `<trk>` and `<rte>`, several segments, missing elevation, broken files; distance, climb (the ferrata 5 m hysteresis), highest point, share on snow (the ferrata "snow along the route" code). Fixture tests. The layer module then only draws it, so this can land before the new UI | M |
 | **Link preview plumbing** (5) | `og:` and `twitter:` tags; a deploy step that renders `og.png` (1200 × 630) with Playwright after the build. Can be built now; it picks up the new look when the UI lands | S–M |
-| **Release on tag** (1) | A workflow on `v*` tags: check the tag matches `package.json`, create a draft GitHub Release. Replaces steps 3–4 of "How to make a release" | S |
+| **Release on tag** (1, built Nov 13) | A workflow on `v*` tags: check the tag matches `package.json`, create a draft GitHub Release. Replaces step 4 of "How to make a release". Built as `.github/workflows/release.yml`; it also checks the tagged commit is on `main`, and fills the draft from the tag's row of the Releases table | S |
 
 ### 10.2 Data that comes cheap
 
@@ -233,7 +233,7 @@ Items 2, 3, 5 (logic) and 6 do not touch the UI files, so they do not conflict w
 1. Bump `version` in `package.json` (and `package-lock.json`): `npm version 0.2.0 --no-git-tag-version`.
 2. Commit, merge to `main`; the deploy publishes it.
 3. Tag the merge commit and push the tag: `git tag -a v0.2.0 -m "v0.2.0" <commit>` then `git push origin v0.2.0`.
-4. On GitHub, *Releases → Draft a new release* from the tag, with a few lines of what is new.
+4. `.github/workflows/release.yml` runs on the tag: it checks that the tag matches `package.json` and that the commit is on `main`, then drafts a GitHub Release with the tag's row of the Releases table below as a list. Edit the draft into short "What's new" notes and publish it.
 
 ## Releases
 

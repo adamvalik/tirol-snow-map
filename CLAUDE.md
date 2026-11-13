@@ -17,7 +17,7 @@ Versions follow `0.x` semver (`v0.2.0` testers, `v0.3.0` share picture, `1.0.0` 
 1. On `dev`: `npm version X.Y.Z --no-git-tag-version`, and add a row to the Releases table in `docs/release-plan.md`.
 2. Pull request `dev` → `main`, CI green, merge. The deploy publishes it; the About tab shows the new version and commit.
 3. Tag the commit on `main`: `git tag -a vX.Y.Z -m "vX.Y.Z" <sha>`, `git push origin vX.Y.Z`.
-4. GitHub Release from the tag, with short user-facing notes ("What's new").
+4. `release.yml` checks the tag against `package.json` and `main` and drafts the GitHub Release from the Releases table row. Edit it into short user-facing notes ("What's new") and publish.
 
 Cloud sessions can usually push only to `dev`: pushing tags and deleting branches is refused there, so hand those commands to the user.
 
@@ -43,7 +43,7 @@ Before pushing, run `npm test` and `npm run typecheck`; for UI changes also `bui
 - `shared/` – types and code used by both; `shared/types.ts` is the data contract.
 - `fixtures/` – real API responses used by the tests.
 - `docs/` – `release-plan.md` (current plan and checklist), `roadmap.md`, design notes and spike reports.
-- `.github/workflows/` – `ci.yml` (pull requests), `deploy.yml` (schedule and pushes to `main`), `snow-check.yml` (live pipeline check by hand).
+- `.github/workflows/` – `ci.yml` (pull requests), `deploy.yml` (schedule and pushes to `main`), `release.yml` (draft release on a `v*` tag), `snow-check.yml` (live pipeline check by hand).
 
 ## Rules for the app
 
