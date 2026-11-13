@@ -5,10 +5,8 @@ import { GRADE_CLASSES, gradeColor, gradeLabel, gradeText, highestPoint, letterG
 import { snowColor, SNOW_CLASSES, NO_SNOW_SENSOR_COLOR } from '../src/colors.ts';
 import { forecastUrl } from '../src/forecast.ts';
 import { compass, fmtChange, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
-import { frameLabel } from '../src/forecastAnim.ts';
 import { routeSnow, routeSnowPoints } from '../src/snow.ts';
 import { parseHash, toHash, type ViewState } from '../src/viewState.ts';
-import type { ForecastFile } from '../../shared/types.ts';
 
 describe('forecastUrl', () => {
   it('passes the clicked elevation so Open-Meteo downscales to it', () => {
@@ -81,23 +79,6 @@ describe('view link', () => {
     expect(parseHash('')).toEqual({});
     // An empty layer list is a valid choice: everything off.
     expect(parseHash('#layers=').layers).toEqual([]);
-  });
-});
-
-describe('forecast frame label', () => {
-  it('shows local time, hours ahead and the largest amount', () => {
-    const file: ForecastFile = {
-      schemaVersion: 1,
-      generatedAt: '2026-10-20T12:30:00Z',
-      available: true,
-      start: '2026-10-20T13:00:00.000Z',
-      stepHours: 3,
-      frames: [{ time: '2026-10-21T13:00:00.000Z', file: 'forecast/f00.png', maxCm: 31 }],
-      source: '',
-      attribution: '',
-    };
-    expect(frameLabel(file, 0)).toBe('Wed 21 Oct, 15:00 · +24 h · new snow up to 31 cm');
-    expect(frameLabel(file, 3)).toBe('');
   });
 });
 

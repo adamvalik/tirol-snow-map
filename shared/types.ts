@@ -201,4 +201,65 @@ export interface StatusFile {
       failingSince: string | null;
     }
   >;
+  /** Use of the free upstream quotas this month (pipeline/src/usage.ts); missing before Nov 2026. */
+  usage?: UpstreamUsage;
+}
+
+/** Running totals against the free upstream allowances, reset with the calendar month (UTC). */
+export interface UpstreamUsage {
+  /** YYYY-MM (UTC). */
+  month: string;
+  /** Sentinel Hub on CDSE: Process and Catalog requests, and the processing units Process reported. */
+  sentinelHub: { requests: number; processingUnits: number; limitRequests: number; limitProcessingUnits: number };
+  /** Open-Meteo calls (one per location of the forecast grid request). */
+  openMeteo: { calls: number; limitMonth: number; day: string; callsToday: number; limitDay: number };
+  /** This run alone. */
+  lastRun: { sentinelHubRequests: number; sentinelHubProcessingUnits: number; openMeteoCalls: number };
+}
+
+/**
+ * model-error.json: the depth estimate's leave-one-out error, one entry per local day (the day's
+ * last run wins), newest first, kept for MODEL_ERROR_DAYS so a whole winter can be compared.
+ */
+export interface ModelErrorFile {
+  schemaVersion: number;
+  generatedAt: string;
+  days: ModelErrorDay[];
+}
+
+export interface ModelErrorDay {
+  /** Local day (Europe/Rome), YYYY-MM-DD. */
+  date: string;
+  /** The method the run chose, and its mean absolute error over all stations (cm). */
+  method: 'trend' | 'trend+residuals';
+  maeCm: number;
+  /** Both methods' errors, for comparison. */
+  maeByMethodCm: { trend: number; 'trend+residuals': number };
+  stationCount: number;
+  byBand: { label: string; n: number; maeCm: number }[];
+}
+
+export type Bbox4 = [number, number, number, number];
+
+/** web/src/data/regions.json: EAWS avalanche warning regions (pipeline/src/regions.ts, `npm run regions`). */
+export interface RegionsFile {
+  source: string;
+  licence: string;
+  attribution: string;
+  /** Warning services by id prefix (`AT-07`, `IT-34`, `CH`), with the page for their bulletin. */
+  services: Record<string, { name: string; url: string }>;
+  regions: Region[];
+}
+
+export interface Region {
+  /** EAWS micro-region id, e.g. IT-32-BZ-03. */
+  id: string;
+  /** English name, and the local name(s) where different (German / Italian in South Tyrol). */
+  name: string;
+  local?: string;
+  /** Key into `services`. */
+  service: string;
+  bbox: Bbox4;
+  /** Polygons, each a list of rings (outer first), as [lon, lat] rounded to 4 decimals. */
+  polygons: number[][][][];
 }

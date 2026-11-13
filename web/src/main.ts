@@ -4,6 +4,7 @@ import './style.css';
 import { hydrateIcons } from './app/icons.ts';
 import { trackVisit } from './app/analytics.ts';
 import { setupLayout, syncQuick } from './app/layout.ts';
+import { setupLocate } from './app/locate.ts';
 import { PointPanel } from './app/point.ts';
 import { setupShare } from './app/share.ts';
 import { setupSources } from './app/sources.ts';
@@ -41,6 +42,7 @@ const map = createMap(
 map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
 
 setupLayout(map);
+setupLocate(map);
 setupWarnings();
 const app: App = {
   map,

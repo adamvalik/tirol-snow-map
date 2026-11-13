@@ -3,10 +3,12 @@
 
 import { copyFile, mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { type HistoryDay, type HistoryFile, SCHEMA_VERSION, type SnowFile } from '../../shared/types.ts';
+import { type HistoryDay, type HistoryFile, type ModelErrorDay, type ModelErrorFile, SCHEMA_VERSION, type SnowFile } from '../../shared/types.ts';
 import type { BackfillDay } from './snow/run-snow.ts';
 
 export const HISTORY_DAYS = 14;
+/** The model error log is small, so it keeps more than a winter. */
+export const MODEL_ERROR_DAYS = 400;
 
 /** Local calendar day in South Tyrol, YYYY-MM-DD. */
 export const romeDate = (iso: string): string => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Rome' }).format(new Date(iso));
@@ -93,4 +95,41 @@ export async function updateHistory(opts: {
   await writeFile(path.join(opts.outDir, 'history.json'), JSON.stringify(file));
   opts.log(`history: ${file.days.length} days (${file.days.at(-1)?.date ?? '–'} to ${file.days[0]?.date ?? '–'})`);
   return file;
+}
+
+/**
+ * Adds the day's leave-one-out error of the depth estimate to model-error.json (the day's last run
+ * wins), so a season shows whether the estimate holds. Runs without a depth estimate add nothing.
+ */
+export async function updateModelError(opts: { outDir: string; now: string; snow: SnowFile | null; log: (msg: string) => void }): Promise<ModelErrorFile> {
+  const file = path.join(opts.outDir, 'model-error.json');
+  let days: ModelErrorDay[] = [];
+  try {
+    const prev = JSON.parse(await readFile(file, 'utf8')) as ModelErrorFile;
+    if (prev.schemaVersion === SCHEMA_VERSION) days = prev.days;
+  } catch {
+    // first run
+  }
+  const today = romeDate(opts.now);
+  const depth = opts.snow?.depth;
+  if (depth) {
+    const day: ModelErrorDay = {
+      date: today,
+      method: depth.method,
+      maeCm: Math.round(depth.validation.maeCm[depth.method] * 10) / 10,
+      maeByMethodCm: {
+        trend: Math.round(depth.validation.maeCm.trend * 10) / 10,
+        'trend+residuals': Math.round(depth.validation.maeCm['trend+residuals'] * 10) / 10,
+      },
+      stationCount: depth.stationCount,
+      byBand: depth.validation.byBand.map((b) => ({ ...b, maeCm: Math.round(b.maeCm * 10) / 10 })),
+    };
+    days = [day, ...days.filter((d) => d.date !== today)];
+  }
+  const oldest = daysBefore(today, MODEL_ERROR_DAYS - 1);
+  days = days.filter((d) => d.date >= oldest && d.date <= today).sort((a, b) => b.date.localeCompare(a.date));
+  const out: ModelErrorFile = { schemaVersion: SCHEMA_VERSION, generatedAt: opts.now, days };
+  await writeFile(file, JSON.stringify(out));
+  if (depth) opts.log(`model error: ${days[0].maeCm} cm (${depth.method}) on ${today}, ${days.length} days logged`);
+  return out;
 }

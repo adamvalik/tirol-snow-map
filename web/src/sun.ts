@@ -7,7 +7,7 @@
 
 import type { HillshadeLayerSpecification, SkySpecification } from 'maplibre-gl';
 import { getPosition, getTimes } from 'suncalc';
-import { compass, TZ } from './format.ts';
+import { TZ } from './format.ts';
 
 export interface SunPosition {
   /** Degrees clockwise from north. */
@@ -61,17 +61,6 @@ export function sunDay(date: string, lat: number, lon: number): SunDay {
 
 export const clockTime = (t: number): string =>
   new Date(t).toLocaleTimeString('en-GB', { timeZone: TZ, hour: '2-digit', minute: '2-digit' });
-
-/** "08:30 · sun 14° high in the SE"; the date has its own field next to it. */
-export function sunLabel(t: number, sun: SunPosition): string {
-  const where =
-    sun.altitude >= 0.5
-      ? `sun ${Math.round(sun.altitude)}° high in the ${compass(sun.azimuth)}`
-      : sun.altitude > -6
-        ? `sun on the horizon in the ${compass(sun.azimuth)}`
-        : 'night';
-  return `${clockTime(t)} · ${where}`;
-}
 
 /** Shareable time in the address, to the minute: 2026-10-21T06:30Z. */
 export const sunParam = (t: number): string => `${new Date(t).toISOString().slice(0, 16)}Z`;

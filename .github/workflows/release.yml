@@ -1,0 +1,70 @@
+# Release on tag: pushing a tag like v0.2.1 checks it and drafts the GitHub Release.
+#
+# Checks: the tag matches `version` in package.json, and the tagged commit is on main (so the deploy
+# already published it). The draft takes its notes from the tag's row in the Releases table of
+# docs/release-plan.md; edit them into short "What's new" notes and publish the draft by hand.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Tag matches package.json
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::Tag $TAG does not match package.json version $version. Bump it with npm version first, or tag the right commit."
+            exit 1
+          fi
+          echo "Tag $TAG matches package.json"
+
+      - name: Tagged commit is on main
+        run: |
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::$TAG points at $GITHUB_SHA, which is not on main. Tag the merge commit on main."
+            exit 1
+          fi
+
+      - name: Draft the release
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "A release for $TAG exists already; leaving it as it is."
+            exit 0
+          fi
+          # The "What" column of the tag's row in the Releases table, one item per line (split at
+          # commas outside brackets, so "GPX tracks (load, measure, draw, keep)" stays one item).
+          node -e '
+            const tag = process.argv[1];
+            const md = require("fs").readFileSync("docs/release-plan.md", "utf8");
+            const row = md.split("\n").find((l) => l.startsWith(`| \`${tag}\` |`));
+            const what = row ? row.split("|")[3].trim() : "";
+            const items = [];
+            let depth = 0, cur = "";
+            for (const ch of what) {
+              if (ch === "(") depth++;
+              if (ch === ")") depth--;
+              if (ch === "," && depth === 0) { items.push(cur.trim()); cur = ""; } else cur += ch;
+            }
+            if (cur.trim()) items.push(cur.trim());
+            const list = items.length ? items.map((i) => `- ${i[0].toUpperCase()}${i.slice(1)}`) : [`- (no row for ${tag} in the Releases table of docs/release-plan.md; write the notes here)`];
+            console.log(["## What\x27s new", "", ...list, "", "Live at https://adamvalik.github.io/tirol-snow-map/"].join("\n"));
+          ' "$TAG" > notes.md
+          cat notes.md
+          gh release create "$TAG" --draft --verify-tag --title "$TAG" --notes-file notes.md
+          echo "Draft release created: edit the notes and publish it under Releases." >> "$GITHUB_STEP_SUMMARY"

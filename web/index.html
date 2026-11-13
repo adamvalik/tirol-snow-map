@@ -6,6 +6,25 @@
     <meta name="description" content="3D terrain map of South Tyrol with live snow depth and weather station data." />
     <meta name="theme-color" content="#ffffff" />
     <title>South Tyrol Snow Map</title>
+    <!--
+      Link preview in chat apps (WhatsApp, Signal, Telegram, ...). A shared view lives in the hash,
+      which servers never see, so every link previews the same way. The placeholders are filled by
+      vite.config.ts; og.jpg is rendered after the build by scripts/og-image.mjs.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="South Tyrol Snow Map" />
+    <meta property="og:title" content="South Tyrol Snow Map" />
+    <meta property="og:description" content="Today's snow in 3D: weather stations, snow seen by Sentinel-2, estimated depth and a 3-day snowfall forecast." />
+    <meta property="og:url" content="__SITE_URL__" />
+    <meta property="og:image" content="__SITE_URL__og.jpg?v=__OG_VERSION__" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="3D map of South Tyrol with today's snow" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="South Tyrol Snow Map" />
+    <meta name="twitter:description" content="Today's snow in 3D: weather stations, snow seen by Sentinel-2, estimated depth and a 3-day snowfall forecast." />
+    <meta name="twitter:image" content="__SITE_URL__og.jpg?v=__OG_VERSION__" />
     <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
     <link rel="icon" href="./icons/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
@@ -40,6 +59,7 @@
         <button id="zoom-out" class="map-btn wide-only" type="button" aria-label="Zoom out"><i data-icon="minus" data-size="18"></i></button>
         <button id="north-btn" class="map-btn" type="button" aria-label="Reset north"><span class="north-needle"><i data-icon="navigation-arrow" data-size="18"></i></span></button>
       </div>
+      <button id="locate-btn" class="map-btn round" type="button" aria-label="Show where I am" aria-pressed="false" title="Show where I am" data-state="off"><i data-icon="gps" data-size="20"></i></button>
       <button class="map-btn round phone-only" type="button" data-share aria-label="Share this view"><i data-icon="share-network" data-size="20"></i></button>
     </div>
 
