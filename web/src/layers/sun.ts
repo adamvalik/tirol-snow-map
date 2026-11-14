@@ -61,9 +61,12 @@ function showSunControls() {
   const minutes = dayMinutes(date);
   const day = shownSunDay();
   sunDateInput.value = date;
-  sunSlider.max = String(minutes);
+  // The day ends one step before the next midnight: at the full length the slider's end would be
+  // 00:00 of the next day, and holding it there kept moving the day on with every input event.
+  const last = minutes - Number(sunSlider.step || 5);
+  sunSlider.max = String(last);
   sunSlider.value = String(Math.round((sunTime - start) / MINUTE));
-  sunSlider.style.setProperty('--sun-track', dayGradient(day, start, minutes));
+  sunSlider.style.setProperty('--sun-track', dayGradient(day, start, last));
   $('sun-rise').textContent = day.sunrise === null ? '' : `Sunrise ${clockTime(day.sunrise)}`;
   $('sun-set').textContent = day.sunset === null ? '' : `Sunset ${clockTime(day.sunset)}`;
   $('sun-date-label').textContent = new Date(`${date}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
@@ -217,7 +220,19 @@ export const sun: LayerModule = {
     showSunControls();
     sunSlider.addEventListener('input', () => {
       pauseSun();
-      setSunTime(localMidnight(localDate(sunTime)) + Number(sunSlider.value) * MINUTE);
+      // The slider only moves the time of day; the date changes with the date button.
+      const date = localDate(sunTime);
+      const minute = Math.min(Number(sunSlider.value), dayMinutes(date) - 1);
+      setSunTime(localMidnight(date) + minute * MINUTE);
+    });
+    // The date input is invisible over its button. Clicking it opens the calendar, not only the
+    // part of the native input that has the calendar icon.
+    sunDateInput.addEventListener('click', () => {
+      try {
+        sunDateInput.showPicker();
+      } catch {
+        // Older browsers: the native input still opens its own picker or takes typing.
+      }
     });
     sunDateInput.addEventListener('change', () => {
       if (!/^\d{4}-\d{2}-\d{2}$/.test(sunDateInput.value)) return;
