@@ -176,7 +176,7 @@ Added Nov 9. The new UI is built in parallel; this is the work that does not tou
 | **Feedback** (3, built Nov 9) | `mailto:` for v1 instead of Tally: *Something is wrong* and *Idea* at the top of "About the data" open an e-mail to the `FEEDBACK_EMAIL` repository variable with version, view link, browser and screen size filled in; GitHub issue forms `.github/ISSUE_TEMPLATE/bug.yml` and `idea.yml`, prefilled from the URL. Without the variable only the GitHub links show. A Tally form can replace the e-mail later. Variable set Nov 12; the new UI's menu links to the same thing | S |
 | **GPX logic, without drawing** (4) | A pure module in `shared/`: parse `<trk>` and `<rte>`, several segments, missing elevation, broken files; distance, climb (the ferrata 5 m hysteresis), highest point, share on snow (the ferrata "snow along the route" code). Fixture tests. The layer module then only draws it, so this can land before the new UI | M |
 | **Link preview plumbing** (5) | `og:` and `twitter:` tags; a deploy step that renders `og.png` (1200 × 630) with Playwright after the build. Can be built now; it picks up the new look when the UI lands | S–M |
-| **Release on tag** (1, built Nov 13) | A workflow on `v*` tags: check the tag matches `package.json`, create a draft GitHub Release. Replaces step 4 of "How to make a release". Built as `.github/workflows/release.yml`; it also checks the tagged commit is on `main`, and fills the draft from the tag's row of the Releases table | S |
+| **Release on tag** (1, built Nov 13) | A workflow on `v*` tags: check the tag matches `package.json`, create a draft GitHub Release. Replaces step 4 of "How to make a release". Built as `.github/workflows/release.yml`; it also checks the tagged commit is on `main`, and fills the draft from the tag's row of the Releases table. **Nov 16:** releases need no tag push any more. A merge to `main` with a new version is tagged and published by `deploy.yml` after the deploy, CI checks the version and the row before the merge, and `npm run release` bumps the version and drafts the row | S |
 
 ### 10.2 Data that comes cheap
 
@@ -230,10 +230,11 @@ Items 2, 3, 5 (logic) and 6 do not touch the UI files, so they do not conflict w
 
 ## How to make a release
 
-1. Bump `version` in `package.json` (and `package-lock.json`): `npm version 0.2.0 --no-git-tag-version`.
-2. Commit, merge to `main`; the deploy publishes it.
-3. Tag the merge commit and push the tag: `git tag -a v0.2.0 -m "v0.2.0" <commit>` then `git push origin v0.2.0`.
-4. `.github/workflows/release.yml` runs on the tag: it checks that the tag matches `package.json` and that the commit is on `main`, then drafts a GitHub Release with the tag's row of the Releases table below as a list. Edit the draft into short "What's new" notes and publish it.
+1. On `dev`: `npm run release 0.2.2` (`scripts/release.mjs`). It bumps `version` in `package.json` and `package-lock.json` and adds a row to the Releases table below, drafted from the commit subjects since the last tag. Rewrite the row's "What" into short user-facing notes: a comma-separated list, one item per change (commas inside brackets do not split). Commit.
+2. Open the pull request `dev` → `main`. CI's release check (`ci.yml`, job `check`) fails if the version is not above the last tag, is tagged already, or has no row, and prints the notes as they will appear. Merge when green, or turn on auto-merge.
+3. The deploy publishes it. Once the live site serves the build, `deploy.yml` (job `release`) tags the deployed commit `v0.2.2` and publishes the GitHub Release with the row as a list. Nothing to tag or publish by hand.
+
+A merge without a version bump only deploys. If the release job fails, the next deploy from `main` (at most 8 hours later) tries again; it can also be started from the Actions tab (*Update data and deploy*, Run workflow). A tag pushed by hand still works: `release.yml` checks it against `package.json` and `main` and publishes the release. The notes can be edited on GitHub after publishing.
 
 ## Releases
 

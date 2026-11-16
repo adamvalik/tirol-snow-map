@@ -103,7 +103,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 - **Upstream quotas** (`pipeline/src/usage.ts`): every Sentinel Hub answer is counted, with the processing units it reports in its `x-processingunits-spent` header, and every Open-Meteo forecast fetch counts one call per point (273). `status.json` keeps the month's totals (`usage`, reset on the 1st, UTC) against the free allowances: 10,000 processing units and 10,000 requests a month on a CDSE "Copernicus General" account, and 10,000 calls a day and 300,000 a month on Open-Meteo. The run log prints them, and `scripts/monitor.mjs` opens an issue labelled `upstream-budget` when any passes 80 %, closed again when usage drops below (normally in the new month). Only production runs count: the check workflow's use is not added, so the CDSE dashboard stays the final word.
 - **Model error over time** (`pipeline/src/history.ts`): `model-error.json` keeps each day's leave-one-out error of the depth estimate (the day's last run wins): the method chosen, its mean error, both methods' errors, the station count and the error per elevation band, for 400 days, so a winter shows whether the estimate holds. It is published with the data (`data/model-error.json` on the site) but not shown in the app yet.
 - **Check workflow** (`.github/workflows/snow-check.yml`): runs the tests and the live pipeline with the repository secrets, prints `snow.json`, and uploads the outputs as a workflow artifact. It starts from production's latest data (the deploy's Actions cache, read only), so the satellite picture and the Sentinel-2 snow days are rendered again only when a newer clear day has appeared; run it by hand with **fresh** to render everything from scratch. It runs by hand or on pushes to `claude/**` branches.
-- **Pull request checks** (`.github/workflows/ci.yml`): tests, typecheck, build and the browser smoke test (`scripts/smoke.mjs`) on every pull request, offline on the fixture data, with the basemap from production's cache when there is one. The smoke screenshots are uploaded as an artifact. Load time is printed but only gated at 90 s there (`SMOKE_READY_LIMIT_MS`), since runners render WebGL in software; locally the limit stays 5 s.
+- **Pull request checks** (`.github/workflows/ci.yml`): two jobs side by side on every pull request: `check` (tests, typecheck, and the release check of `scripts/release.mjs`) and `smoke` (build and the browser smoke test, `scripts/smoke.mjs`), offline on the fixture data, with the basemap from production's cache when there is one. The smoke screenshots are uploaded as an artifact. Load time is printed but only gated at 90 s there (`SMOKE_READY_LIMIT_MS`), since runners render WebGL in software; locally the limit stays 5 s.
 - **Production workflow** (`.github/workflows/deploy.yml`): see [Deployment](#deployment).
 - **Data contract**: `shared/types.ts`.
 - **Sources**:
@@ -120,6 +120,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 | `shared/` | Types shared by the pipeline and the app |
 | `fixtures/` | Real API responses from 2026-10-20 used by the tests (see `fixtures/README.md`) |
 | `scripts/smoke.mjs` | Browser smoke test |
+| `scripts/release.mjs` | Version bump, release notes and the CI release check |
 | `scripts/monitor.mjs` | Opens and closes the `data-pipeline` issue from `status.json` (run by the deploy workflow) |
 | `docs/` | Release plan, roadmap, design notes (share snapshot) and spike reports |
 
@@ -174,7 +175,7 @@ One-time setup:
 
 ## Releases
 
-Versions follow `0.x` semver while the app is being tested with friends (`v0.2.0` testers, `v0.3.0` share picture, `1.0.0` for a public launch). The version and commit show at the end of the About tab. To make one, see "How to make a release" in [`docs/release-plan.md`](docs/release-plan.md): after the merge to `main`, pushing a `vX.Y.Z` tag runs `.github/workflows/release.yml`, which checks the tag against `package.json` and `main` and drafts the GitHub Release. Data deploys three times a day are not releases.
+Versions follow `0.x` semver while the app is being tested with friends (`v0.2.0` testers, `v0.3.0` share picture, `1.0.0` for a public launch). The version and commit show at the end of the About tab. To make one, see "How to make a release" in [`docs/release-plan.md`](docs/release-plan.md): `npm run release X.Y.Z` on `dev` bumps the version and adds the release notes, CI checks them on the pull request to `main`, and after the merge the deploy tags the commit and publishes the GitHub Release. Data deploys three times a day are not releases.
 
 ## Attribution
 
