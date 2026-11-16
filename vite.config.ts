@@ -17,6 +17,10 @@ function commit(): string {
 
 // Optional, from the deploy workflow's repository variables (see README, Deployment). Empty turns
 // the feedback e-mail links and the visit counting off.
+// Changes with every build, so a deploy never mixes byte ranges of the previous basemap file
+// (GitHub Pages gives it a new ETag on every deploy) that the browser still has cached.
+const buildId = Date.now().toString(36);
+
 const feedbackEmail = (process.env.FEEDBACK_EMAIL ?? '').trim();
 const goatcounterCode = (process.env.GOATCOUNTER_CODE ?? '').trim();
 if (feedbackEmail && !/^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(feedbackEmail)) {
@@ -62,6 +66,7 @@ export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(version),
     __APP_COMMIT__: JSON.stringify(commit()),
+    __BUILD_ID__: JSON.stringify(buildId),
     __FEEDBACK_EMAIL__: JSON.stringify(feedbackEmail),
     __GOATCOUNTER_CODE__: JSON.stringify(goatcounterCode),
   },

@@ -387,14 +387,16 @@ body.has-warning #tab-btn-layers::after {
   margin-top: 1px;
 }
 
+/* A note, not a warning: blue like the switched-on tiles, so it does not read as an error. */
 .new-snow {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 14px;
   line-height: 1.3;
-  color: var(--stale-ink);
-  background: var(--stale);
+  color: var(--accent-ink);
+  background: var(--on);
+  border: 1px solid var(--on-line);
   border-radius: 14px;
   padding: 6px 6px 6px 12px;
 }
@@ -407,8 +409,8 @@ body.has-warning #tab-btn-layers::after {
   flex: none;
   border: 0;
   font-weight: 600;
-  background: #ffe7ad;
-  color: var(--stale-ink);
+  background: var(--accent);
+  color: #fff;
   border-radius: 999px;
   padding: 6px 12px;
 }

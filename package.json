@@ -1,7 +1,7 @@
 {
   "name": "tirol-snow-map",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,7 +17,8 @@
     "dem": "tsx pipeline/src/dem-run.ts",
     "bivouacs": "tsx pipeline/src/bivouacs-run.ts",
     "ferratas": "tsx pipeline/src/ferratas-run.ts",
-    "regions": "tsx pipeline/src/regions-run.ts"
+    "regions": "tsx pipeline/src/regions-run.ts",
+    "release": "node scripts/release.mjs bump"
   },
   "dependencies": {
     "@fontsource/barlow": "^5.3.0",

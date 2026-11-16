@@ -11,8 +11,9 @@ import { setupSources } from './app/sources.ts';
 import { applyLinkSwitches } from './app/switches.ts';
 import { dayView, loadHistory, setupTimeline } from './app/timeline.ts';
 import { setupTrack } from './app/track.ts';
-import { setupWarnings, setWarning } from './app/warnings.ts';
-import { BASEMAP_SOURCE, basemapLayers } from './basemap.ts';
+import { setupBasemapRetry } from './app/basemapRetry.ts';
+import { setupWarnings } from './app/warnings.ts';
+import { basemapLayers } from './basemap.ts';
 import { flyToGpx, gpxSnow, gpxTrack, loadGpxFile, loadGpxText, removeGpx } from './layers/gpx.ts';
 import { initLayers, layersView, onMapClick, setupLayers } from './layers/registry.ts';
 import { pointSnow } from './layers/snow.ts';
@@ -76,12 +77,10 @@ map.once('idle', () => {
 });
 Object.assign(window, { __snowmap: { map, gpx: { load: loadGpxText, loadFile: loadGpxFile, remove: removeGpx, fly: flyToGpx, track: gpxTrack, snow: gpxSnow } } });
 
+const onBasemapError = setupBasemapRetry(map);
 map.on('error', (e: maplibregl.ErrorEvent & { sourceId?: string }) => {
-  if (e.sourceId === BASEMAP_SOURCE) {
-    // The extract is built locally with `npm run basemap` and is not in git; say so instead of failing silently.
-    setWarning('basemap', 'Roads and places are unavailable (basemap file missing; run "npm run basemap").');
-    return;
-  }
+  // Retried, and a warning if that does not help (app/basemapRetry.ts).
+  if (onBasemapError(e)) return;
   // Missing ocean/edge tiles are expected; anything else is worth surfacing in the console.
   const status = (e.error as { status?: number } | undefined)?.status;
   if (status === 404) return;

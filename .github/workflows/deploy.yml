@@ -165,6 +165,47 @@ jobs:
           echo "::error::The live site still serves data from $live after 10 minutes, although the deployment reported success. Re-run this workflow."
           exit 1
 
+  # A release is a merge to main with a new version in package.json. Once the live site serves the
+  # build, this tags the deployed commit vX.Y.Z and publishes the GitHub Release, with the notes from
+  # the tag's row of the Releases table in docs/release-plan.md (ci.yml checks the row before the
+  # merge). It runs after every deploy from main and does nothing when the version is tagged and
+  # released already, so a deploy that failed on the merge is released by the next one that works.
+  release:
+    needs: deploy
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Tag and publish a new version
+        run: |
+          git fetch --tags --force --quiet origin
+          tag="v$(node -p "require('./package.json').version")"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "$tag is released already; nothing to do."
+            exit 0
+          fi
+          if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+            # Tagged by hand (release.yml handles that), but without a release yet.
+            target=(--verify-tag)
+          else
+            target=(--target "$GITHUB_SHA")
+          fi
+          if node scripts/release.mjs notes "$tag" > notes.md; then
+            gh release create "$tag" "${target[@]}" --title "$tag" --notes-file notes.md --latest
+            echo "Released $tag: ${{ github.server_url }}/${{ github.repository }}/releases/tag/$tag" >> "$GITHUB_STEP_SUMMARY"
+          else
+            # No row in the Releases table: keep it a draft so nothing half-written goes out.
+            echo "- (no row for $tag in the Releases table of docs/release-plan.md; write the notes here)" > notes.md
+            gh release create "$tag" "${target[@]}" --title "$tag" --notes-file notes.md --draft
+            echo "::warning::No row for $tag in the Releases table; created a draft release to finish by hand."
+          fi
+          cat notes.md
+
   # GitHub switches scheduled workflows off after 60 days without commits in a public repository, and
   # the data deploys are not commits. Enabling the workflow through the API restarts that count, so
   # the site keeps updating through a winter without code changes. In case that ever stops working,
