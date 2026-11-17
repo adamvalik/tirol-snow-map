@@ -123,6 +123,29 @@ for (const s of scenes) {
         });
       }
       await new Promise((r) => map.once('idle', r));
+      if (fit && t) {
+        // fitBounds frames the track at sea level; the line lies on the terrain. Measure where it
+        // lands and correct position and zoom until it fills the frame's free box.
+        const p = fit.padding;
+        const box = { l: p.left / RATIO, r: (w - p.right) / RATIO, t: p.top / RATIO, b: (h - p.bottom) / RATIO };
+        const sample = t.track.lines.flat().filter((_, i) => i % 10 === 0);
+        // A short track should not turn into a close-up: at most one zoom level closer than fitBounds.
+        const maxZoom = map.getZoom() + 1;
+        for (let k = 0; k < 8; k++) {
+          const pts = sample.map((q) => map.project([q[0], q[1]]));
+          const xs = pts.map((q) => q.x);
+          const ys = pts.map((q) => q.y);
+          const bb = { l: Math.min(...xs), r: Math.max(...xs), t: Math.min(...ys), b: Math.max(...ys) };
+          const scale = Math.min((box.r - box.l) / (bb.r - bb.l), (box.b - box.t) / (bb.b - bb.t));
+          const dx = (bb.l + bb.r - box.l - box.r) / 2;
+          const dy = (bb.t + bb.b - box.t - box.b) / 2;
+          if (Math.abs(Math.log2(scale)) < 0.03 && Math.abs(dx) < 3 && Math.abs(dy) < 3) break;
+          if (Math.abs(dx) < 3 && Math.abs(dy) < 3 && scale > 1 && map.getZoom() >= maxZoom - 0.01) break;
+          map.panBy([dx, dy], { duration: 0 });
+          map.setZoom(Math.min(maxZoom, map.getZoom() + Math.log2(scale) * 0.9));
+          await new Promise((r) => map.once('idle', r));
+        }
+      }
       const c = Object.assign(document.createElement('canvas'), { width: w, height: h });
       await new Promise((r) => {
         map.once('render', () => {
@@ -243,8 +266,8 @@ async function render(name, [w, h], body, note) {
 
 const img = (s) => `<img class="map" src="${shots[s].jpeg}">`;
 const link = (hash) => `${SITE}${hash.replace(/&?layers=[^&]*/, (m) => m.replace(/,?(labels|hillshade|relief|basemap)/g, '').replace('=,', '='))}&s`;
-const credit = (extra = '') => `© OpenStreetMap contributors · © Mapterhorn${extra}`;
-const FORECAST_CREDIT = ' · Forecast: Open-Meteo';
+const credit = (extra = '') => `© OpenStreetMap contributors, © Mapterhorn${extra}. Not for avalanche decisions`;
+const FORECAST_CREDIT = ', forecast Open-Meteo';
 
 // Track, illustrative snow along it: snow above 2150 m, not seen 2050–2150 m (cloud), bare below.
 const tr = shots.track.track;
@@ -264,7 +287,7 @@ const brand = (u, dark) => `<div class="brand ${dark ? 'white' : ''}" style="gap
     <div class="abs sky" style="height:330px"></div>
     <div class="abs" style="left:72px;top:64px;right:72px">
       <div class="title" style="font-size:78px">${tr.title}</div>
-      <div class="sub" style="font-size:32px;margin-top:14px">Hike · Sun 18 Oct 2026 · snow seen 16 Oct</div>
+      <div class="sub" style="font-size:32px;margin-top:14px">Hike, Sun 18 Oct 2026, snow seen 16 Oct</div>
     </div>
     <div class="abs pin" style="left:${px}px;top:${py - 8}px"><span style="font-size:26px;padding:8px 16px">${top} m</span><i></i></div>
     <div class="abs scrim" style="height:700px"></div>
@@ -275,7 +298,7 @@ const brand = (u, dark) => `<div class="brand ${dark ? 'white' : ''}" style="gap
       ${profileSvg(tr.profile, states, w - 144, 120)}
       <div class="dim" style="font-size:21px;margin:12px 0 26px;display:flex;gap:26px"><span>▬ snow</span><span style="color:#cbb79c">▬ bare</span><span>▨ not seen (cloud)</span></div>
       <div class="foot">${brand(u, true)}<div class="qrbox" style="width:150px;height:150px;border-radius:14px">${qrSvg(`${SITE}#map=12.2/46.525/11.588/222/58&s`, 126)}</div></div>
-      <div class="dim credits" style="font-size:17px;margin-top:18px">${credit(' · Snow: Copernicus Sentinel-2')} · Not for avalanche decisions</div>
+      <div class="dim credits" style="font-size:17px;margin-top:18px">${credit(', snow Copernicus Sentinel-2')}</div>
     </div>`, 'Track, Poster, 3:4. Snow along the track is illustrative (fixtures have no satellite day).');
 }
 
@@ -286,9 +309,9 @@ const brand = (u, dark) => `<div class="brand ${dark ? 'white' : ''}" style="gap
     <div class="abs bar" style="height:230px;padding:0 60px;gap:30px">
       <div style="flex:1;min-width:0">
         <div class="title" style="font-size:46px">${tr.title}</div>
-        <div class="sub" style="font-size:26px;margin-top:8px">${km} km · ${up} m up · ${top} m · ${snowShare}% on snow</div>
-        <div style="font-size:21px;color:#5a6672;margin-top:14px;display:flex;align-items:center;gap:10px"><img src="${iconUri}" style="width:30px;height:30px;border-radius:7px">${ADDRESS} · 18 Oct 2026</div>
-        <div style="font-size:15px;color:#5a6672;margin-top:8px">${credit(' · Copernicus Sentinel-2')} · Not for avalanche decisions</div>
+        <div class="sub" style="font-size:26px;margin-top:8px">Hike, 18 Oct 2026: ${km} km, ${up} m up, ${top} m top, ${snowShare}% on snow</div>
+        <div style="font-size:21px;color:#5a6672;margin-top:14px;display:flex;align-items:center;gap:10px"><img src="${iconUri}" style="width:30px;height:30px;border-radius:7px">${ADDRESS}</div>
+        <div style="font-size:15px;color:#5a6672;margin-top:8px">${credit(', Copernicus Sentinel-2')}</div>
       </div>
       ${qrSvg(`${SITE}#map=12.2/46.525/11.588/222/58&s`, 150)}
     </div>`, 'Track, Minimal, 3:4.');
@@ -301,14 +324,14 @@ for (const guides of [false, true]) {
     <div class="abs sky" style="height:640px"></div>
     <div class="abs" style="left:72px;right:72px;top:290px">
       <div class="title" style="font-size:96px">Sella &amp; Marmolada</div>
-      <div class="sub" style="font-size:36px;margin-top:18px">New snow by Fri 23 Oct, 06:00 · forecast</div>
+      <div class="sub" style="font-size:36px;margin-top:18px">Forecast: new snow by Fri 23 Oct, 06:00</div>
     </div>
     <div class="abs scrim" style="height:900px;background:linear-gradient(rgba(12,22,34,0),rgba(12,22,34,.7) 30%,rgba(12,22,34,.8) 62%,rgba(12,22,34,.35))"></div>
     <div class="abs" style="left:72px;right:72px;bottom:370px">
       <div class="stats"><div class="stat"><b style="font-size:118px">96 cm</b><span style="font-size:24px;margin-top:10px">new snow, highest in view</span></div></div>
       <div style="margin:34px 0 34px">${legend('New snow, cm', ['1', '5', '20', '50', '100', '200'], true).replace('class="legend on-dark"', 'class="legend on-dark" style="gap:10px;font-size:22px"').replace('class="lg-bar"', 'class="lg-bar" style="height:16px;border-radius:8px;overflow:hidden"')}</div>
       <div class="foot">${brand(1.1, true)}</div>
-      <div class="dim credits" style="font-size:18px;margin-top:18px">${credit(FORECAST_CREDIT)} · Not for avalanche decisions</div>
+      <div class="dim credits" style="font-size:18px;margin-top:18px">${credit(FORECAST_CREDIT)}</div>
     </div>
     ${guides ? '<div class="abs guide" style="top:0;height:250px">Story UI: top 250 px</div><div class="abs guide" style="bottom:0;height:340px">Reply bar, link sticker: bottom 340 px</div>' : ''}`,
   guides ? 'Story with Instagram\'s covered zones marked.' : 'View, Poster, 9:16 story. No QR: the link goes in a link sticker.');
@@ -322,13 +345,13 @@ const GRID_CUT = Math.round((1080 - 1350 * 0.75) / 2);
     <div class="abs sky" style="height:330px"></div>
     <div class="abs" style="left:72px;right:72px;top:96px">
       <div class="title" style="font-size:78px">Sella &amp; Marmolada</div>
-      <div class="sub" style="font-size:31px;margin-top:14px">New snow by Fri 23 Oct, 06:00 · forecast</div>
+      <div class="sub" style="font-size:31px;margin-top:14px">Forecast: new snow by Fri 23 Oct, 06:00</div>
     </div>
     <div class="abs scrim" style="height:470px"></div>
     <div class="abs" style="left:72px;right:72px;bottom:86px">
       <div class="stats"><div class="stat"><b style="font-size:92px">96 cm</b><span style="font-size:22px;margin-top:8px">new snow, highest in view</span></div></div>
       <div class="foot" style="margin-top:30px">${brand(1, true)}</div>
-      <div class="dim credits" style="font-size:16px;margin-top:14px">${credit(FORECAST_CREDIT)} · Not for avalanche decisions</div>
+      <div class="dim credits" style="font-size:16px;margin-top:14px">${credit(FORECAST_CREDIT)}</div>
     </div>
     <div class="abs guide" style="top:0;bottom:0;left:0;right:auto;width:${GRID_CUT}px"></div>
     <div class="abs guide" style="top:0;bottom:0;right:0;left:auto;width:${GRID_CUT}px"></div>`,
@@ -342,12 +365,12 @@ const GRID_CUT = Math.round((1080 - 1350 * 0.75) / 2);
     <div class="abs sky" style="height:300px"></div>
     <div class="abs" style="left:64px;right:64px;top:56px">
       <div class="title" style="font-size:72px">South Tyrol</div>
-      <div class="sub" style="font-size:30px;margin-top:12px">New snow by Fri 23 Oct, 06:00 · forecast</div>
+      <div class="sub" style="font-size:30px;margin-top:12px">Forecast: new snow by Fri 23 Oct, 06:00</div>
     </div>
     <div class="abs scrim" style="height:300px"></div>
     <div class="abs" style="left:64px;right:64px;bottom:44px">
       <div class="foot">${brand(0.95, true)}<div style="width:330px">${legend('New snow, cm', ['1', '5', '20', '50', '100', '200'], true).replace('class="legend on-dark"', 'class="legend on-dark" style="gap:8px;font-size:19px"').replace('class="lg-bar"', 'class="lg-bar" style="height:12px;border-radius:6px;overflow:hidden"')}</div></div>
-      <div class="dim credits" style="font-size:16px;margin-top:16px">${credit(FORECAST_CREDIT)} · Not for avalanche decisions</div>
+      <div class="dim credits" style="font-size:16px;margin-top:16px">${credit(FORECAST_CREDIT)}</div>
     </div>`, 'Island look, Poster, 1:1. The island cut reads as an object on a plain floor.');
 }
 
@@ -357,14 +380,14 @@ const GRID_CUT = Math.round((1080 - 1350 * 0.75) / 2);
   await render('view-minimal-wide', [w, h], `${img('ortler-wide')}
     <div class="abs" style="left:56px;bottom:56px;background:rgba(255,255,255,.94);border-radius:20px;padding:30px 34px;display:flex;gap:34px;align-items:center;box-shadow:0 4px 24px rgba(15,23,42,.18)">
       <div>
-        <div class="title" style="font-size:52px">Ortler · Ortles</div>
-        <div class="sub" style="font-size:26px;margin-top:8px">New snow by Fri 23 Oct, 06:00 · up to 96 cm</div>
+        <div class="title" style="font-size:52px">Ortler / Ortles</div>
+        <div class="sub" style="font-size:26px;margin-top:8px">Forecast: up to 96 cm new snow by Fri 23 Oct, 06:00</div>
         <div style="margin-top:20px;width:420px">${legend('New snow, cm', ['1', '5', '20', '50', '100', '200'], false).replace('class="legend "', 'class="legend" style="gap:6px;font-size:18px;color:#3a4550"').replace('class="lg-bar"', 'class="lg-bar" style="height:12px;border-radius:6px;overflow:hidden"')}</div>
         <div style="font-size:21px;color:#5a6672;margin-top:18px;display:flex;align-items:center;gap:10px"><img src="${iconUri}" style="width:30px;height:30px;border-radius:7px">${ADDRESS}</div>
       </div>
       ${qrSvg(link(scenes[4].hash), 190)}
     </div>
-    <div class="abs dim credits" style="right:40px;bottom:22px;font-size:17px;text-shadow:0 1px 3px rgba(0,0,0,.6)">${credit(FORECAST_CREDIT)} · Not for avalanche decisions</div>`,
+    <div class="abs dim credits" style="right:40px;bottom:22px;font-size:17px;text-shadow:0 1px 3px rgba(0,0,0,.6)">${credit(FORECAST_CREDIT)}</div>`,
   'View, Minimal card, 16:9, with QR.');
 }
 

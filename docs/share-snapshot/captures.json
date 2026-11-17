@@ -5,7 +5,7 @@
    1080,
    1440
   ],
-  "ms": 11026
+  "ms": 47369
  },
  "track-min": {
   "hash": "#map=12/46.53/11.6/0/58&layers=labels,hillshade,relief,basemap",
@@ -13,7 +13,7 @@
    1080,
    1440
   ],
-  "ms": 15880
+  "ms": 78777
  },
  "dolomites-story": {
   "hash": "#map=10.85/46.515/11.86/-25/72&layers=forecast,labels,hillshade,relief,basemap&f=20",
@@ -21,7 +21,7 @@
    1080,
    1920
   ],
-  "ms": 9134
+  "ms": 12222
  },
  "dolomites-4x5": {
   "hash": "#map=10.95/46.515/11.86/-25/68&layers=forecast,labels,hillshade,relief,basemap&f=20",
@@ -29,7 +29,7 @@
    1080,
    1350
   ],
-  "ms": 19320
+  "ms": 28688
  },
  "island": {
   "hash": "#map=8.15/46.63/11.46/0/40&layers=forecast,hillshade,relief,island&f=20",
@@ -37,7 +37,7 @@
    1080,
    1080
   ],
-  "ms": 3775
+  "ms": 5083
  },
  "ortler-wide": {
   "hash": "#map=11.25/46.47/10.64/35/70&layers=forecast,labels,hillshade,relief,basemap&f=20",
@@ -45,6 +45,6 @@
    1920,
    1080
   ],
-  "ms": 26777
+  "ms": 29525
  }
 }

@@ -1,6 +1,6 @@
 # Share picture – concept
 
-Nov 3, 2026, reworked Nov 13 after mock-ups and a capture spike · Part of the [roadmap](roadmap.md), section 6
+Nov 3, 2026, reworked Nov 13 after mock-ups and a capture spike. Part of the [roadmap](roadmap.md), section 6.
 
 ## What changed since the first design (Nov 3)
 
@@ -29,15 +29,15 @@ Rendered by [`scripts/share-mockups.mjs`](../scripts/share-mockups.mjs) from the
 
 ![All mock-ups](share-snapshot/overview.jpg)
 
-| Track · Poster · 3:4 (recommended) | Track · Minimal · 3:4 |
+| Track, Poster, 3:4 (recommended) | Track, Minimal, 3:4 |
 | --- | --- |
 | ![Track, Poster](share-snapshot/track-poster-3x4.jpg) | ![Track, Minimal](share-snapshot/track-minimal-3x4.jpg) |
 
-| View · Poster · 9:16 story | Same, Instagram's covered zones marked |
+| View, Poster, 9:16 story | Same, Instagram's covered zones marked |
 | --- | --- |
 | ![Story](share-snapshot/view-poster-story.jpg) | ![Story with safe zones](share-snapshot/view-poster-story-safe-zones.jpg) |
 
-| Island · Poster · 1:1 | View · Minimal card · 16:9, with QR |
+| Island, Poster, 1:1 | View, Minimal card, 16:9, with QR |
 | --- | --- |
 | ![Island](share-snapshot/island-poster-1x1.jpg) | ![Wide](share-snapshot/view-minimal-wide.jpg) |
 
@@ -55,8 +55,8 @@ What the mock-ups taught:
 
 **Track picture** (when a GPX track is loaded; the default then):
 
-- **Camera**: fits the track in the frame's free box, tilted 58°, looking along it (the start-to-end bearing `viewBearing` already gives). One "Adjust view" step lets you rotate or zoom before export; the frame then keeps your camera.
-- **Title**: the track name, editable. **Subline**: activity type and date from the file ("Hike · Sun 18 Oct 2026"), then the date of the snow shown ("snow seen 16 Oct").
+- **Camera**: fits the track in the frame's free box, tilted 58–60°, looking along it (the start-to-end bearing `viewBearing` already gives; for a loop, towards the farthest point). The fit has to be terrain-aware, see "How the capture works". One "Adjust view" step lets you rotate or zoom before export; the frame then keeps your camera.
+- **Title**: the track name, editable. **Subline**: activity type and date from the file ("Hike, Sun 18 Oct 2026"), then the date of the snow shown ("snow seen 16 Oct").
 - **Numbers**: distance, climb, highest point and share on snow, from `ShownTrack.stats` and `gpxSnow()`. Without heights: distance and share on snow only.
 - **Profile**: `ShownTrack.profile` with `gpxSnow().points`: white where the satellite saw snow, earth where bare, hatched where it could not see. A legend line under it.
 - **Highest point pin** with its height, so the eye finds the summit.
@@ -68,7 +68,7 @@ What the mock-ups taught:
 
 - **Camera**: the current one. Same ground width as on screen (zoom changes by log2 of export width over screen width), so what you framed stays framed.
 - **Title**: nearest major summit or place to the centre (from `summits.json`, then basemap places), editable; "South Tyrol" when the island is in view.
-- **Subline**: what and when: "New snow by Fri 23 Oct, 06:00 · forecast", "Snow seen from space, 16 Oct", "Snow depth estimate, 20 Oct".
+- **Subline**: what and when: "Forecast: new snow by Fri 23 Oct, 06:00", "Snow seen from space, 16 Oct", "Snow depth estimate, 20 Oct".
 - **One hero number**, picked by the top snow layer that is on: forecast → most new snow in view; depth estimate → depth at the selected point, else the median in view; snow from space → share of the view under snow; stations only → deepest station in view. Nothing when no snow layer is on.
 - **Legend** of that layer only, compact.
 - The selected point's pin is a DOM marker, so it is not in the captured map: the frame draws it at the projected position.
@@ -92,6 +92,7 @@ Sizes in pixels of a 1080-wide picture; Wide scales by height.
 - **Scrim** at the bottom: ink `#0c1622`, 0 → 86 % over 470–700 px. Numbers Barlow 700 at 66 px with small uppercase labels; one hero number at 92–118 px.
 - **Brand row**: the app icon, the app name, the address. One component reading `APP_NAME` and `ADDRESS` constants, so the name decision (roadmap 5) changes one line.
 - **Credits**, 16–18 px at 78 % white: one line built from the layers in the picture, plus "Not for avalanche decisions" whenever a snow layer is shown.
+- **No middle dots as separators.** Texts are sentences or lists with commas ("Hike, Sun 18 Oct 2026, snow seen 16 Oct"), a colon for a label ("Forecast: new snow by …"), a slash for bilingual names ("Ortler / Ortles", as on the map), and a new line where a comma would make a line too long.
 - Margins 72 px left and right, so the 3:4 grid crop and rounded corners in apps never cut text.
 - No light or dark variants and no brightness detection: the two bands always give the contrast.
 
@@ -129,7 +130,7 @@ The spike is `scripts/share-mockups.mjs`. It runs the steps below in headless Ch
 1. Cover the map with the sheet. Set the map container to `export size / 2` CSS pixels (`position: fixed`) and `map.setPixelRatio(2)`, then `map.resize()`.
 2. Adjust the zoom for the size, and lower `minZoom` for the capture: a 540 px wide export of the whole island needs zoom 7, under the app's 7.5.
 3. Picture-only styling: hide `gpx-label` (the frame shows the name) and the basemap's label layers, keep the summits; restore afterwards.
-4. Track pictures: `fitBounds` with the frame's padding, the track's bearing and pitch 58.
+4. Track pictures: `fitBounds` with the frame's padding, the track's bearing and pitch 58, then a **terrain-aware correction**. `fitBounds` frames the track as if it lay at sea level; a real track on the terrain then lands too small and too high, under the title. Found with a real 19 km loop on the Seiser Alm (1,700–2,650 m, Nov 15). The fix: after `idle`, `project` every tenth track point, compare their box with the frame's free box, `panBy` the difference of the centres and change the zoom by log2 of the size ratio (damped by 0.9), and repeat until it fits within a few pixels (3–5 rounds on the Seiser Alm loop). Allow at most one zoom level closer than `fitBounds`, so a short track keeps its surroundings instead of becoming a close-up.
 5. Wait for `idle`, then `triggerRepaint()` and in the next `render` event `drawImage` the WebGL canvas into a 2D canvas. Reading inside the render event works without `preserveDrawingBuffer`.
 6. Restore size, pixel ratio, min zoom, layers and camera.
 
