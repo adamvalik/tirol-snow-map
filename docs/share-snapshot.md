@@ -1,6 +1,6 @@
 # Share snapshot – design
 
-Nov 3, 2026 · Part of the [roadmap](roadmap.md), section 3
+Nov 3, 2026. Part of the [roadmap](roadmap.md), section 3
 
 ## Goal
 
@@ -21,9 +21,9 @@ One tap turns the current view into a picture that looks good as a Strava activi
 │                              │
 ├──────────────────────────────┤
 │ Sella Group      3 Nov 2026  │  ← place name, date of the data shown
-│ Depth 85 cm · New 18 cm      │  ← 1–2 key numbers, depends on layers
+│ Depth 85 cm, new 18 cm       │  ← 1–2 key numbers, depends on layers
 │ ▁▂▃▅▇ depth cm   [QR]        │  ← compact legend of active layers, QR
-│ snowmap.example  · © OSM …   │  ← address and required attribution
+│ snowmap.example, © OSM …     │  ← address and required attribution
 └──────────────────────────────┘
 ```
 

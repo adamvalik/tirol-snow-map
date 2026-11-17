@@ -120,7 +120,10 @@ function render() {
     <p>${ferrataCount ?? 'The'} via ferratas tagged in OpenStreetMap (<code>highway=via_ferrata</code>, a path with <code>via_ferrata_scale</code>, and
     <code>route=via_ferrata</code> relations), a static list. Linked sections are one route. Grades A–E from the OSM scale 0–6; a route takes its hardest
     section's grade. Length, elevation and climb come from the Mapterhorn terrain over the mapped sections only. Drawn by volunteers, so it may be
-    incomplete, wrong or out of date. Not for navigation.</p>`;
+    incomplete, wrong or out of date. Not for navigation.</p>
+    <p>Avalanche warning regions: the ${ext('https://regions.avalanches.org', 'EAWS micro-regions')} (CC0), a static copy simplified to about 30 m,
+    so a place within a few hundred metres of a border may be given the neighbouring region. The place panel only names the region and links
+    to the service that publishes its bulletin; this app never shows or judges avalanche danger.</p>`;
 
   const softwareBody = `<p>${ext('https://maplibre.org/', 'MapLibre GL JS')} (BSD-3-Clause), sun position by
     ${ext('https://github.com/mourner/suncalc', 'SunCalc')} (BSD-2-Clause). Type: Barlow and, on the map, Noto Sans (both OFL).
@@ -138,7 +141,7 @@ function render() {
         ${row('satellite', 'Satellite photo', satSub, satBody, { problem: problem('satellite') })}
         ${row('forecast', 'Forecast', 'Open-Meteo, 3 days ahead, CC BY 4.0', fcBody, { problem: problem('forecast') })}
         ${row('map', 'Terrain and map', 'Mapterhorn, OpenStreetMap, Protomaps', mapBody, { status: false })}
-        ${row('features', 'Bivouacs and via ferratas', 'OpenStreetMap volunteers, a static list', featuresBody, { status: false })}
+        ${row('features', 'Bivouacs, via ferratas, avalanche regions', 'OpenStreetMap volunteers, EAWS, static lists', featuresBody, { status: false })}
         ${row('software', 'Software', 'MapLibre GL JS, SunCalc, Barlow, Noto Sans', softwareBody, { status: false })}
       </div>
     </section>
