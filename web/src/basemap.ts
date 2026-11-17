@@ -356,9 +356,10 @@ function restyleLabel(l: LayerSpecification): LayerSpecification {
   }
 }
 
-/** Place labels (not countries) get one name instead of the multilingual OSM name at low zoom. */
+/** Place and lake labels (not countries) get one name instead of the multilingual OSM name at low zoom. */
 function shortenPlaceLabel(l: LayerSpecification): LayerSpecification {
-  if (l.type !== 'symbol' || !l.id.startsWith('places_') || l.id === 'places_country' || !l.layout?.['text-field']) return l;
+  const named = (l.id.startsWith('places_') && l.id !== 'places_country') || l.id === 'water_label_lakes';
+  if (l.type !== 'symbol' || !named || !l.layout?.['text-field']) return l;
   return { ...l, layout: { ...l.layout, 'text-field': shortPlaceName(l.layout['text-field']) as ExpressionSpecification } };
 }
 

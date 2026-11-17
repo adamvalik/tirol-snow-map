@@ -261,3 +261,14 @@ describe('shortPlaceName with a zoom step', async () => {
     return c;
   }
 });
+
+describe('basemap labels', async () => {
+  const { basemapLayers } = await import('../src/basemap.ts');
+  it('shortens multilingual names of places and lakes, not countries', () => {
+    const shortened = basemapLayers()
+      .labels.filter((l) => JSON.stringify(l).includes('name:it'))
+      .map((l) => l.id);
+    expect(shortened).toEqual(expect.arrayContaining(['places_locality', 'places_region', 'water_label_lakes']));
+    expect(shortened).not.toContain('places_country');
+  });
+});
