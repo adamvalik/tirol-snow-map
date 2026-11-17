@@ -16,7 +16,7 @@ import { SCHEMA_VERSION, type SourceStatus, type StationsFile, type StepId } fro
 import { FIXTURES, LINEA_FEEDS, STATION_BBOX, URLS } from './config.ts';
 import { loadDemGrid } from './dem.ts';
 import { FORECAST_FIXTURE, runForecastStep } from './forecast/run-forecast.ts';
-import { readHistory, romeDate, updateHistory } from './history.ts';
+import { readHistory, romeDate, updateHistory, updateModelError } from './history.ts';
 import { mergeStations } from './merge.ts';
 import type { RawStation } from './raw.ts';
 import { newestLineaDate, parseLinea } from './sources/linea.ts';
@@ -24,6 +24,7 @@ import { runSatelliteStep } from './satellite/run-satellite.ts';
 import { runSnowStep } from './snow/run-snow.ts';
 import { parseProvince } from './sources/provinceBz.ts';
 import { writeStatus } from './status.ts';
+import { runUsage, tightestLimit } from './usage.ts';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 /** Readings older than this are left out rather than shown as current. */
@@ -254,6 +255,7 @@ async function main() {
   await step('snow', 'history', async () => {
     const r = snowResult as Awaited<ReturnType<typeof runSnowStep>> | null;
     await updateHistory({ outDir, now, snow: r?.file ?? null, backfill: r?.backfill ?? [], log });
+    await updateModelError({ outDir, now, snow: r?.file ?? null, log });
   });
 
   // Sentinel-2 picture: re-rendered only when a newer clear day appears.
@@ -269,7 +271,17 @@ async function main() {
     console.log(`[pipeline] forecast.json: ${r.file.available ? `${r.file.frames!.length} frames${r.file.stale ? ', STALE' : ''}` : `unavailable (${r.file.reason})`}`);
   });
 
-  const status = await writeStatus(outDir, now, problems);
+  // Fixture runs make no upstream requests, so they leave the month's totals out.
+  const status = await writeStatus(outDir, now, problems, useFixtures ? undefined : runUsage);
+  if (status.usage) {
+    const u = status.usage;
+    const tight = tightestLimit(u);
+    console.log(
+      `[pipeline] usage this run: Sentinel Hub ${u.lastRun.sentinelHubRequests} requests, ${u.lastRun.sentinelHubProcessingUnits} PU; Open-Meteo ${u.lastRun.openMeteoCalls} calls. ` +
+        `Month ${u.month}: ${u.sentinelHub.processingUnits} of ${u.sentinelHub.limitProcessingUnits} PU, ${u.sentinelHub.requests} of ${u.sentinelHub.limitRequests} requests, ` +
+        `${u.openMeteo.calls} of ${u.openMeteo.limitMonth} Open-Meteo calls (tightest: ${tight.name}, ${Math.round(tight.share * 100)} %)`,
+    );
+  }
   const failing = Object.entries(status.steps).filter(([, s]) => !s.ok);
   console.log(`[pipeline] status: ${failing.length ? failing.map(([id, s]) => `${id} failing (${s.consecutiveFailures} runs)`).join(', ') : 'all steps OK'}`);
   if (failing.length) process.exitCode = 2;

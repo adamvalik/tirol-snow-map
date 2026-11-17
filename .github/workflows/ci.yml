@@ -1,9 +1,12 @@
-# Checks every pull request: tests, typecheck, build, and the browser smoke test.
+# Checks every pull request: tests, typecheck, release check, build, and the browser smoke test.
 #
 # Runs offline on the fixture data (`npm run pipeline:fixtures`), so it needs no secrets and gives
 # the same result on every run. The basemap is taken from production's monthly cache when there is
 # one (read only); without it the app shows its basemap warning and the smoke test still runs.
 # Production (deploy.yml) and the live data check (snow-check.yml) are unchanged.
+#
+# Two jobs run side by side: `check` (tests, typecheck, release check; about a minute) and `smoke`
+# (build and the browser smoke test). Both are required checks on main.
 name: CI
 
 on:
@@ -19,6 +22,25 @@ concurrency:
 
 jobs:
   check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck
+      # If the pull request bumps the version: it is new, above the last tag, and has a row in the
+      # Releases table. The merge to main then tags and publishes it (deploy.yml, job release).
+      - name: Release check
+        run: |
+          git fetch --tags --force --quiet origin
+          node scripts/release.mjs check | tee -a "$GITHUB_STEP_SUMMARY"
+
+  smoke:
     # Pinned: ubuntu-latest moved to 26.04, which Playwright 1.56 cannot install its browser on.
     # Move to ubuntu-latest again with a Playwright release that supports it.
     runs-on: ubuntu-24.04
@@ -30,8 +52,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm test
-      - run: npm run typecheck
 
       - name: Data from fixtures
         run: npm run pipeline:fixtures
@@ -43,8 +63,22 @@ jobs:
           restore-keys: basemap-
       - run: npm run build
 
+      # The browser is cached per Playwright version; its system libraries come from apt each time.
+      - name: Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Browser from the cache
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
       - name: Install Chromium
+        if: steps.pw-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
+      - name: Install Chromium's system libraries
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
       - name: Smoke test
         env:
           # Runners render WebGL in software and fetch terrain tiles cold, so load time varies a lot.

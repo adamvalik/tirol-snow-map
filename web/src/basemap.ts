@@ -6,6 +6,7 @@ import { layers as protomapsLayers, namedFlavor } from '@protomaps/basemaps';
 import type { LayerSpecification, SourceSpecification } from 'maplibre-gl';
 import summitsData from './data/summits.json';
 import { inArea } from './island.ts';
+import { BUILD_ID } from './version.ts';
 
 export const BASEMAP_SOURCE = 'protomaps';
 export const SUMMITS_SOURCE = 'summits';
@@ -16,11 +17,21 @@ export const siteBase = (): string => new URL(import.meta.env.BASE_URL, window.l
 export const glyphsUrl = () => `${siteBase()}basemap-assets/fonts/{fontstack}/{range}.pbf`;
 export const spriteUrl = () => `${siteBase()}basemap-assets/sprites/light`;
 
+/** The basemap file, as served next to the app. */
+export const basemapFileUrl = (): string => `${siteBase()}basemap/south-tyrol.pmtiles`;
+
+/**
+ * The PMTiles URL of the basemap source. The build id keeps the browser from mixing byte ranges
+ * cached from an earlier deploy with the current one; `attempt` (app/basemapRetry.ts) gives a retry
+ * a fresh PMTiles reader, since a reader whose first request failed keeps failing.
+ */
+export const basemapUrl = (attempt = 0): string => `pmtiles://${basemapFileUrl()}?v=${BUILD_ID}${attempt ? `-${attempt}` : ''}`;
+
 export function basemapSources(): Record<string, SourceSpecification> {
   return {
     [BASEMAP_SOURCE]: {
       type: 'vector',
-      url: `pmtiles://${siteBase()}basemap/south-tyrol.pmtiles`,
+      url: basemapUrl(),
       attribution: '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a>',
     },
     [SUMMITS_SOURCE]: {

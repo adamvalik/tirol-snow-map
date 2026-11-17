@@ -1,6 +1,6 @@
 # Roadmap – what is done, what comes next
 
-Nov 4, 2026 · live at <https://adamvalik.github.io/tirol-snow-map/>
+Nov 4, 2026, live at <https://adamvalik.github.io/tirol-snow-map/>
 
 The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to V3 shipped, plus several layers that were never in it. This document takes stock and sets out the next round. The share picture has its own design in [`share-snapshot.md`](share-snapshot.md).
 
@@ -49,7 +49,7 @@ Guiding rule: one screen, the map first, and every control earns its place.
 
 ### 2.1 Quieter dock
 
-- On phones, collapse the day slider to a single line ("Tue 3 Nov · latest ›") that expands when tapped. The avalanche line stays, one line, always visible.
+- On phones, collapse the day slider to a single line ("Tue 3 Nov, latest ›") that expands when tapped. The avalanche line stays, one line, always visible.
 - Later, with the forecast and sun rows: merge Day and Forecast into **one timeline**, from 14 days back to 3 days ahead with "Now" in the middle. Same data, one control instead of two.
 
 ### 2.2 Shorter layer card
@@ -65,7 +65,7 @@ Guiding rule: one screen, the map first, and every control earns its place.
 
 ### 2.4 One line for data age
 
-Replace "483 stations · updated 19:40" with the ages of all sources in one line, for example "Stations 12 min · Satellite 5 d · Forecast 4 h", amber when stale, tap for "About the data".
+Replace "483 stations, updated 19:40" with the ages of all sources in one line, for example "Stations 12 min, Satellite 5 d, Forecast 4 h", amber when stale, tap for "About the data".
 
 ### 2.5 Later, if still wanted
 
@@ -134,7 +134,7 @@ The repository is *tirol-snow-map*, the app is *South Tyrol Snow Map*. No change
 
 Decide when the area decision is made, not before.
 
-**Region or snow in the name?** The app is used for 3D terrain in summer too, and may grow beyond South Tyrol, so a name tied to *both* a region and snow ages twice. A pattern that survives both: a short name tied to neither, plus a descriptive line that can change, for example "*<Name>* · 3D snow and terrain map of South Tyrol". The line carries the region and the snow focus today and is cheap to change later. Candidates to try out loud (availability of domain and trademark unchecked): *Firn*, *Kamm*, *Gipfel*, *Firnline*, *Relief*. The name feeds the share picture, link previews and the icon, so settle it before those. For share pictures the printed address matters more than the name: `adamvalik.github.io/tirol-snow-map` is long but works, and the QR code carries the exact view.
+**Region or snow in the name?** The app is used for 3D terrain in summer too, and may grow beyond South Tyrol, so a name tied to *both* a region and snow ages twice. A pattern that survives both: a short name tied to neither, plus a descriptive line that can change, for example "*<Name>* – 3D snow and terrain map of South Tyrol". The line carries the region and the snow focus today and is cheap to change later. Candidates to try out loud (availability of domain and trademark unchecked): *Firn*, *Kamm*, *Gipfel*, *Firnline*, *Relief*. The name feeds the share picture, link previews and the icon, so settle it before those. For share pictures the printed address matters more than the name: `adamvalik.github.io/tirol-snow-map` is long but works, and the QR code carries the exact view.
 
 ## 6. Share pictures
 

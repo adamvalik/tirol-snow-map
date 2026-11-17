@@ -1,0 +1,59 @@
+# Fallback for a tag pushed by hand. Releases normally need no tag push: after a merge to main with a
+# new version, deploy.yml (job release) tags the deployed commit and publishes the release itself.
+# Tags it creates do not start this workflow (GitHub does not run workflows for its own token).
+#
+# Checks: the tag matches `version` in package.json, and the tagged commit is on main (so the deploy
+# already published it). Then publishes the release with the notes from the tag's row in the
+# Releases table of docs/release-plan.md, or a draft when there is no row.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Tag matches package.json
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::Tag $TAG does not match package.json version $version. Bump it with npm version first, or tag the right commit."
+            exit 1
+          fi
+          echo "Tag $TAG matches package.json"
+
+      - name: Tagged commit is on main
+        run: |
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::$TAG points at $GITHUB_SHA, which is not on main. Tag the merge commit on main."
+            exit 1
+          fi
+
+      - name: Publish the release
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "A release for $TAG exists already; leaving it as it is."
+            exit 0
+          fi
+          if node scripts/release.mjs notes "$TAG" > notes.md; then
+            gh release create "$TAG" --verify-tag --title "$TAG" --notes-file notes.md --latest
+          else
+            echo "- (no row for $TAG in the Releases table of docs/release-plan.md; write the notes here)" > notes.md
+            gh release create "$TAG" --verify-tag --title "$TAG" --notes-file notes.md --draft
+            echo "::warning::No row for $TAG in the Releases table; created a draft release to finish by hand."
+          fi
+          cat notes.md
