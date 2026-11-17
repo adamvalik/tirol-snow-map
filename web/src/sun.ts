@@ -7,7 +7,7 @@
 
 import type { HillshadeLayerSpecification, SkySpecification } from 'maplibre-gl';
 import { getPosition, getTimes } from 'suncalc';
-import { compass, TZ } from './format.ts';
+import { TZ } from './format.ts';
 
 export interface SunPosition {
   /** Degrees clockwise from north. */
@@ -62,17 +62,6 @@ export function sunDay(date: string, lat: number, lon: number): SunDay {
 export const clockTime = (t: number): string =>
   new Date(t).toLocaleTimeString('en-GB', { timeZone: TZ, hour: '2-digit', minute: '2-digit' });
 
-/** "08:30 · sun 14° high in the SE"; the date has its own field next to it. */
-export function sunLabel(t: number, sun: SunPosition): string {
-  const where =
-    sun.altitude >= 0.5
-      ? `sun ${Math.round(sun.altitude)}° high in the ${compass(sun.azimuth)}`
-      : sun.altitude > -6
-        ? `sun on the horizon in the ${compass(sun.azimuth)}`
-        : 'night';
-  return `${clockTime(t)} · ${where}`;
-}
-
 /** Shareable time in the address, to the minute: 2026-10-21T06:30Z. */
 export const sunParam = (t: number): string => `${new Date(t).toISOString().slice(0, 16)}Z`;
 
@@ -99,14 +88,19 @@ export type HillshadePaint = NonNullable<HillshadeLayerSpecification['paint']>;
 
 export function hillshadePaint(sun: SunPosition | null, satellite: boolean): HillshadePaint {
   if (!sun) {
+    // A main light from the north-west and two soft side lights, as on Swiss relief maps: the main
+    // light models the big ridges, the side lights bring out gullies that face it head-on. Shadows
+    // are a cool blue-grey, highlights warm white.
+    const strength = satellite ? 0.35 : 1;
+    const a = (v: number) => +(v * strength).toFixed(2);
     return {
-      'hillshade-method': 'standard',
-      'hillshade-exaggeration': satellite ? 0.12 : 0.3,
-      'hillshade-illumination-direction': 335,
-      'hillshade-illumination-altitude': 45,
+      'hillshade-method': 'multidirectional',
+      'hillshade-exaggeration': satellite ? 0.2 : 0.45,
+      'hillshade-illumination-direction': [335, 285, 20],
+      'hillshade-illumination-altitude': [40, 30, 30],
       'hillshade-illumination-anchor': 'viewport',
-      'hillshade-shadow-color': '#4f5058',
-      'hillshade-highlight-color': '#ffffff',
+      'hillshade-shadow-color': [`rgba(36, 48, 74, ${a(0.6)})`, `rgba(52, 62, 86, ${a(0.22)})`, `rgba(52, 62, 86, ${a(0.22)})`],
+      'hillshade-highlight-color': [`rgba(255, 251, 238, ${a(0.55)})`, `rgba(255, 255, 255, ${a(0.15)})`, `rgba(255, 255, 255, ${a(0.15)})`],
     };
   }
   return {

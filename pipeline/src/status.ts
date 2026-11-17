@@ -4,8 +4,15 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { SCHEMA_VERSION, type StatusFile, type StepId } from '../../shared/types.ts';
+import { addUsage, type runUsage } from './usage.ts';
 
-export async function writeStatus(outDir: string, now: string, problems: Record<StepId, string[]>): Promise<StatusFile> {
+/** `usage`: this run's upstream counts, added to the month's totals; left out, the totals are not kept. */
+export async function writeStatus(
+  outDir: string,
+  now: string,
+  problems: Record<StepId, string[]>,
+  usage?: typeof runUsage,
+): Promise<StatusFile> {
   const file = path.join(outDir, 'status.json');
   let previous: StatusFile | null = null;
   try {
@@ -28,6 +35,7 @@ export async function writeStatus(outDir: string, now: string, problems: Record<
       : { ok: true, problems: [], consecutiveFailures: 0, failingSince: null };
   }
   const status: StatusFile = { schemaVersion: SCHEMA_VERSION, generatedAt: now, steps };
+  if (usage) status.usage = addUsage(previous?.usage, usage, now);
   await writeFile(file, JSON.stringify(status, null, 2));
   return status;
 }

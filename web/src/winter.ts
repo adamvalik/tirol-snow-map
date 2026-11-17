@@ -234,7 +234,7 @@ export function winterHtml(p: WinterProps): string {
 export const winterFootHtml = (p: WinterProps) => `
     <p class="source-note">From <a href="https://www.openstreetmap.org/${escapeHtml(p.osm)}" target="_blank" rel="noopener">OpenStreetMap</a> (ODbL),
     drawn by volunteers: it may be incomplete, wrong or out of date. Whether a lift runs or a ${p.kind === 'lift' ? 'slope' : 'piste'} is open, groomed or
-    safe today is not known here: check with the ski area or the tourist office.${p.kind === 'skitour' || p.difficulty === 'freeride' ? ' Ski touring and freeride lead through avalanche terrain: check <a href="https://avalanche.report" target="_blank" rel="noopener">avalanche.report</a>.' : ''}
+    safe today is not known here: check with the ski area or the tourist office.
     Lengths and elevations come from a terrain model. Not for navigation.</p>`;
 
 /** The highest point: where the panel's point forecast is taken (a lift's top station). */

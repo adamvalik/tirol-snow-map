@@ -8,6 +8,7 @@ import sharp from 'sharp';
 import { MODEL_GRID } from '../../../shared/grid.ts';
 import { type ForecastFile, SCHEMA_VERSION } from '../../../shared/types.ts';
 import type { ElevationGrid } from '../dem.ts';
+import { countOpenMeteo } from '../usage.ts';
 import { accumulateFrames, forecastGridUrl, forecastPoints, newSnowRgba, parseForecastGrid, type RawForecast } from './snowfall.ts';
 
 export const FORECAST_FIXTURE = 'fixtures/open-meteo/forecast-grid-72h.json';
@@ -48,6 +49,7 @@ async function fetchGrid(): Promise<unknown> {
     signal: AbortSignal.timeout(60_000),
     headers: { 'user-agent': 'tirol-snow-map pipeline (+https://github.com/adamvalik/tirol-snow-map)' },
   });
+  if (res.status !== 429) countOpenMeteo(points.length);
   if (!res.ok) {
     let reason = `HTTP ${res.status}`;
     try {

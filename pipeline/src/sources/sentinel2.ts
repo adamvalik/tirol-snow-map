@@ -6,6 +6,8 @@
 // Cloud pixels are made transparent using the scene classification band, so the map underneath
 // shows through; snow stays white.
 
+import { countSentinelHub } from '../usage.ts';
+
 const TOKEN_URL = 'https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token';
 const CATALOG_URL = 'https://sh.dataspace.copernicus.eu/api/v1/catalog/1.0.0/search';
 export const PROCESS_URL = 'https://sh.dataspace.copernicus.eu/api/v1/process';
@@ -77,6 +79,7 @@ export async function searchScenes(token: string, bbox: Bbox, days: number, now:
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(60_000),
     });
+    countSentinelHub(res);
     if (!res.ok) throw new Error(`Sentinel Hub catalog: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
     const json = (await res.json()) as { features: StacFeature[]; context?: { next?: number } };
     features.push(...json.features);
@@ -214,6 +217,7 @@ export async function postProcess(token: string, body: unknown, label: string): 
       }
       throw new Error(`Sentinel Hub process${label}: ${e instanceof Error ? e.message : String(e)}`, { cause: e });
     }
+    countSentinelHub(res);
     if (res.ok) return res.arrayBuffer();
     if ((res.status === 429 && attempt < PROCESS_RETRY.rateLimited) || (res.status >= 500 && failures++ < PROCESS_RETRY.failed)) {
       await wait();

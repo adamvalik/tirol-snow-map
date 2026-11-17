@@ -9,7 +9,6 @@ import {
   nightOpacity,
   skyFor,
   sunDay,
-  sunLabel,
   sunParam,
   sunPosition,
 } from '../src/sun.ts';
@@ -56,24 +55,26 @@ describe('local days', () => {
     expect(dayMinutes('2026-03-29')).toBe(1380);
   });
 
-  it('labels the time and where the sun stands', () => {
+  it('rounds the sun time in links to the minute', () => {
     const morning = Date.parse('2026-10-21T06:30:00Z');
-    expect(sunLabel(morning, sunPosition(morning, 46.5, 11.35))).toBe('08:30 · sun 7° high in the SE');
-    const night = Date.parse('2026-10-21T20:30:00Z');
-    expect(sunLabel(night, sunPosition(night, 46.5, 11.35))).toBe('22:30 · night');
     expect(sunParam(morning + 42_000)).toBe('2026-10-21T06:30Z');
   });
 });
 
 describe('sun light on the map', () => {
   it('keeps the usual north-west light when off', () => {
-    expect(hillshadePaint(null, false)).toMatchObject({
-      'hillshade-method': 'standard',
-      'hillshade-exaggeration': 0.3,
-      'hillshade-illumination-direction': 335,
+    const paint = hillshadePaint(null, false);
+    expect(paint).toMatchObject({
+      'hillshade-method': 'multidirectional',
+      'hillshade-exaggeration': 0.45,
       'hillshade-illumination-anchor': 'viewport',
     });
-    expect(hillshadePaint(null, true)['hillshade-exaggeration']).toBe(0.12);
+    // The main light comes from the north-west; one colour per light.
+    const directions = paint['hillshade-illumination-direction'] as number[];
+    expect(directions[0]).toBe(335);
+    expect(paint['hillshade-shadow-color']).toHaveLength(directions.length);
+    expect(paint['hillshade-highlight-color']).toHaveLength(directions.length);
+    expect(hillshadePaint(null, true)['hillshade-exaggeration']).toBe(0.2);
   });
 
   it('lights from the sun, fixed to the map, never from below the horizon', () => {

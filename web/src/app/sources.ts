@@ -126,7 +126,11 @@ function render() {
     <p>Winter sports${winter ? ` (${winter.lift} lifts, ${winter.downhill} slopes, ${winter.nordic} cross-country trails, ${winter.sled} toboggan runs and
     ${winter.skitour} ski touring routes)` : ''}: lifts tagged <code>aerialway</code> and pistes tagged <code>piste:type</code> in OpenStreetMap, a static
     list. Slope colours follow <code>piste:difficulty</code>; a route relation is one piste, and named sections that meet are joined. Lengths and elevations
-    come from the Mapterhorn terrain. Whether a lift runs or a piste is open or groomed is not known here. Not for navigation.</p>`;
+    come from the Mapterhorn terrain. Whether a lift runs or a piste is open or groomed is not known here. Not for navigation.</p>
+
+    <p>Avalanche warning regions: the ${ext('https://regions.avalanches.org', 'EAWS micro-regions')} (CC0), a static copy simplified to about 30 m,
+    so a place within a few hundred metres of a border may be given the neighbouring region. The place panel only names the region and links
+    to the service that publishes its bulletin; this app never shows or judges avalanche danger.</p>`;
 
   const softwareBody = `<p>${ext('https://maplibre.org/', 'MapLibre GL JS')} (BSD-3-Clause), sun position by
     ${ext('https://github.com/mourner/suncalc', 'SunCalc')} (BSD-2-Clause). Type: Barlow and, on the map, Noto Sans (both OFL).
@@ -144,7 +148,7 @@ function render() {
         ${row('satellite', 'Satellite photo', satSub, satBody, { problem: problem('satellite') })}
         ${row('forecast', 'Forecast', 'Open-Meteo, 3 days ahead, CC BY 4.0', fcBody, { problem: problem('forecast') })}
         ${row('map', 'Terrain and map', 'Mapterhorn, OpenStreetMap, Protomaps', mapBody, { status: false })}
-        ${row('features', 'Bivouacs, via ferratas, winter sports', 'OpenStreetMap volunteers, a static list', featuresBody, { status: false })}
+        ${row('features', 'Bivouacs, via ferratas, winter sports, avalanche regions', 'OpenStreetMap volunteers, EAWS, static lists', featuresBody, { status: false })}
         ${row('software', 'Software', 'MapLibre GL JS, SunCalc, Barlow, Noto Sans', softwareBody, { status: false })}
       </div>
     </section>
