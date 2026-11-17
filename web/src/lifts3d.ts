@@ -24,9 +24,15 @@ export const LIFT_3D = {
   armThickness: 1.6,
   cableWidth: 1.1,
   cableThickness: 0.7,
-  /** Longest straight piece of cable, and the most a piece may rise: steep spans get more, shorter pieces. */
-  piece: 10,
-  pieceRise: 0.5,
+  /**
+   * Longest straight piece of cable, and the most a piece may rise: steep spans get more, shorter
+   * pieces. Close up ("fine") the pieces are small so the cable looks smooth; further out a few
+   * metres of steps do not show, and the cables are most of the blocks.
+   */
+  piece: { fine: 12, medium: 20, coarse: 30 },
+  pieceRise: { fine: 0.6, medium: 1.2, coarse: 2.5 },
+  /** The ground under a cable is read this often and interpolated in between. */
+  groundStep: 20,
   /** Sag in the middle of a span, as a share of its length. */
   sag: 0.015,
   /** Lowest a cable may come to the drawn ground. */
@@ -64,6 +70,12 @@ export interface Carriers {
   seats?: number | null;
   bubble?: boolean;
 }
+
+/**
+ * How much of a lift is built, by how close it is seen: "coarse" from afar (rough cables, no chairs,
+ * half the cabins), "medium" (cables in 1.2 m steps, every carrier), "fine" close up (smooth cables).
+ */
+export type Detail = 'coarse' | 'medium' | 'fine';
 
 /** Chairs for chairlifts, both for mixed lifts, cabins for the rest. */
 export const carriersFor = (lift: string | null, seats: number | null = null, bubble = false): Carriers => ({
@@ -130,7 +142,7 @@ export function supports(line: readonly Pos[], pylons: readonly Pos[] | null): {
 
 /**
  * The blocks of one lift, or null while the ground under it is not known (terrain tiles still
- * loading). `line` is [lon, lat, ...] bottom to top.
+ * loading). `line` is [lon, lat, ...] bottom to top. `detail` sets how finely the cables are cut.
  */
 export function liftBlocks(
   id: string,
@@ -138,6 +150,7 @@ export function liftBlocks(
   pylons: readonly Pos[] | null,
   groundAt: Ground,
   carriers: Carriers = { kind: 'cabin' },
+  detail: Detail = 'fine',
 ): Block[] | null {
   if (line.length < 2) return null;
   const s = LIFT_3D;
@@ -209,7 +222,10 @@ export function liftBlocks(
     box(...at(-c.depth / 2), travel, c.bar, chairWidth, seatBase, seatBase + c.back, LIFT_3D_COLORS.chair);
     if (carriers.bubble) box(...at(-0.3), travel, c.depth + 1, chairWidth + 0.6, seatBase + c.back, seatBase + c.back + c.bar, LIFT_3D_COLORS.hood);
   };
-  const spacing = carriers.kind === 'chair' ? s.chair.spacing : carriers.kind === 'mixed' ? s.cabin.spacing / 2 : s.cabin.spacing;
+  // Further out ("coarse") chairs are a pixel or two and are left out, and cabins hang half as often.
+  const coarse = detail === 'coarse';
+  const showChairs = !coarse;
+  const spacing = (carriers.kind === 'chair' ? s.chair.spacing : carriers.kind === 'mixed' ? s.cabin.spacing / 2 : s.cabin.spacing) * (coarse ? 2 : 1);
 
   // Cables in short pieces, with carriers every so often on each track (staggered between the two).
   for (let i = 1; i < sup.length; i++) {
@@ -219,16 +235,27 @@ export function liftBlocks(
     if (span < 1) continue;
     const dir = unit(bx - ax, by - ay);
     const across: [number, number] = [-dir[1], dir[0]];
+    // The drawn ground under the span, every groundStep metres; terrain lookups are the slow part.
+    const m = Math.max(1, Math.ceil(span / s.groundStep));
+    const samples: number[] = [];
+    for (let j = 0; j <= m; j++) {
+      const g = j === 0 ? ground[i - 1] : j === m ? ground[i] : groundAt(...f.toLonLat(ax + ((bx - ax) * j) / m, ay + ((by - ay) * j) / m));
+      if (g === null) return null;
+      samples.push(g);
+    }
+    const groundAlong = (t: number) => {
+      const x = t * m;
+      const j = Math.min(Math.floor(x), m - 1);
+      return samples[j] + (samples[j + 1] - samples[j]) * (x - j);
+    };
     // Each piece is flat, so it is as thick as the cable rises over it: the pieces then join into
     // one line instead of a staircase.
-    const n = Math.max(1, Math.round(span / s.piece), Math.ceil(Math.abs(top[i] - top[i - 1]) / s.pieceRise));
+    const n = Math.max(1, Math.round(span / s.piece[detail]), Math.ceil(Math.abs(top[i] - top[i - 1]) / s.pieceRise[detail]));
     const rise = Math.abs(top[i] - top[i - 1]) / n;
     for (let k = 0; k < n; k++) {
       const t = (k + 0.5) / n;
       const [cx, cy] = [ax + (bx - ax) * t, ay + (by - ay) * t];
-      const [lon, lat] = f.toLonLat(cx, cy);
-      const g = groundAt(lon, lat);
-      if (g === null) return null;
+      const g = groundAlong(t);
       const cable = top[i - 1] + (top[i] - top[i - 1]) * t - 4 * s.sag * span * t * (1 - t);
       const base = Math.max(s.clearance, cable - g - rise / 2);
       for (const side of [-1, 1]) {
@@ -241,6 +268,7 @@ export function liftBlocks(
     // track on the left of the line goes up, the other comes down.
     const d0 = sup[i - 1].d;
     const d1 = sup[i].d;
+    if (carriers.kind === 'chair' && !showChairs) continue;
     for (const side of [-1, 1]) {
       const phase = side === 1 ? 0 : spacing / 2;
       const travel: [number, number] = side === 1 ? dir : [-dir[0], -dir[1]];
@@ -249,14 +277,12 @@ export function liftBlocks(
         // Keep clear of the stations and pylons.
         if (t * span < 15 || (1 - t) * span < 15) continue;
         const [cx, cy] = [ax + (bx - ax) * t + across[0] * track * side, ay + (by - ay) * t + across[1] * track * side];
-        const [lon, lat] = f.toLonLat(cx, cy);
-        const g = groundAt(lon, lat);
-        if (g === null) return null;
-        const cable = Math.max(s.clearance, top[i - 1] + (top[i] - top[i - 1]) * t - 4 * s.sag * span * t * (1 - t) - g);
+        const cable = Math.max(s.clearance, top[i - 1] + (top[i] - top[i - 1]) * t - 4 * s.sag * span * t * (1 - t) - groundAlong(t));
         // A mixed lift alternates: a cabin, then chairs, by its place on the cable.
         const isChair = carriers.kind === 'chair' || (carriers.kind === 'mixed' && Math.round((d - phase) / spacing) % 2 === 1);
-        if (isChair) chair(cx, cy, travel, cable);
-        else cabin(cx, cy, dir, cable);
+        if (isChair) {
+          if (showChairs) chair(cx, cy, travel, cable);
+        } else cabin(cx, cy, dir, cable);
       }
     }
   }

@@ -368,6 +368,20 @@ describe('lifts in 3D', async () => {
     expect(count(mixed, LIFT_3D_COLORS.chair) > 0 && count(mixed, LIFT_3D_COLORS.cabin) > 0).toBe(true);
   });
 
+  it('builds less from afar: rougher cables, no chairs, half the cabins', () => {
+    const count = (blocks: { properties: { color: string } }[], color: string) => blocks.filter((b) => b.properties.color === color).length;
+    const fine = liftBlocks('w1', line, null, slope, carriersFor('chair_lift'), 'fine')!;
+    const medium = liftBlocks('w1', line, null, slope, carriersFor('chair_lift'), 'medium')!;
+    const coarse = liftBlocks('w1', line, null, slope, carriersFor('chair_lift'), 'coarse')!;
+    expect(count(medium, LIFT_3D_COLORS.cable)).toBeLessThan(count(fine, LIFT_3D_COLORS.cable) / 1.5);
+    expect(count(coarse, LIFT_3D_COLORS.cable)).toBeLessThan(count(medium, LIFT_3D_COLORS.cable));
+    expect(count(medium, LIFT_3D_COLORS.chair)).toBe(count(fine, LIFT_3D_COLORS.chair));
+    expect(count(coarse, LIFT_3D_COLORS.chair)).toBe(0);
+    const cabins = (d: 'fine' | 'coarse') => count(liftBlocks('w1', line, null, slope, carriersFor('gondola'), d)!, LIFT_3D_COLORS.cabin);
+    expect(cabins('coarse')).toBeLessThan(cabins('fine'));
+    expect(cabins('coarse')).toBeGreaterThan(0);
+  });
+
   it('waits while the ground is not loaded', () => {
     expect(liftBlocks('w1', line, null, () => null)).toBeNull();
   });

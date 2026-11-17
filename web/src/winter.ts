@@ -13,7 +13,7 @@ import { websiteUrl } from './ferratas.ts';
 import { factsHtml } from './placeHtml.ts';
 import { inArea } from './island.ts';
 import type { IconName } from './app/icons.ts';
-import { type Block, carriersFor, liftBlocks } from './lifts3d.ts';
+import { type Block, carriersFor, type Detail, liftBlocks } from './lifts3d.ts';
 
 export const WINTER_KINDS = ['lift', 'downhill', 'nordic', 'sled', 'skitour'] as const;
 export type WinterKind = (typeof WINTER_KINDS)[number];
@@ -84,8 +84,16 @@ const SOURCE = 'winter';
 const LIFT_3D = 'winter-lift-3d';
 /** Zoom from which aerial lifts stand in 3D (lifts3d.ts) above their lines. */
 export const LIFT_3D_ZOOM = 13.3;
-/** At most this many lifts are built in 3D at once (a ski area in view). */
-const LIFT_3D_MAX = 50;
+/** At most this many lifts are built in 3D at once, the ones nearest the centre of the view. */
+const LIFT_3D_MAX = 30;
+/** Zooms from which the lifts get chairs and every cabin, and then smooth cables (lifts3d.ts, `Detail`). */
+const LIFT_3D_DETAIL_ZOOM = { medium: 14.3, fine: 15.3 };
+/**
+ * Highest zoom the winter sources are cut into tiles at; closer views reuse those tiles, so zooming
+ * in from there does not re-tile the 5 MB file or the 3D lifts in the worker. A z14 tile is about
+ * 2.4 km across in 8192 units: 0.3 m, finer than anything drawn.
+ */
+const SOURCE_MAXZOOM = 14;
 const HIT = 'winter-hit';
 /** Layer that answers hover and click. */
 export const WINTER_LAYER_IDS = [HIT, LIFT_3D];
@@ -287,7 +295,7 @@ export interface WinterLayer {
  */
 export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature) => void, beforeId?: string): WinterLayer {
   const empty: FeatureCollection = { type: 'FeatureCollection', features: [] };
-  map.addSource(SOURCE, { type: 'geojson', data: empty, promoteId: 'id' });
+  map.addSource(SOURCE, { type: 'geojson', data: empty, promoteId: 'id', maxzoom: SOURCE_MAXZOOM });
   map.addSource(`${SOURCE}-ends`, { type: 'geojson', data: empty });
   const hidden = { visibility: 'none' } as const;
   const round = { 'line-cap': 'round', 'line-join': 'round' } as const;
@@ -349,7 +357,7 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
   add({ id: HIT, type: 'line', source: SOURCE, layout: { ...hidden, ...round }, paint: { 'line-color': '#000000', 'line-opacity': 0, 'line-width': 16 } });
 
   // Aerial lifts in 3D, built for the lifts in view once zoomed in close enough.
-  map.addSource(LIFT_3D, { type: 'geojson', data: empty });
+  map.addSource(LIFT_3D, { type: 'geojson', data: empty, maxzoom: SOURCE_MAXZOOM, tolerance: 0 });
   map.addLayer(
     {
       id: LIFT_3D,
@@ -436,8 +444,14 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
     if (f) onSelect(f);
   });
 
-  /** What the 3D lifts were last built for: the lifts, the terrain height and, if some were skipped, the view. */
+  /** What the 3D lifts were last built for: the lifts, the terrain height, the detail. */
   let built = '';
+  /** Each lift's blocks, by id, terrain height and detail, so a move only builds the lifts new to the view. */
+  const cache = new Map<string, Block[]>();
+  /** Lifts whose ground was not loaded at the last build; they are tried again after the next move. */
+  let pending = false;
+  let moved = 0;
+  map.on('moveend', () => moved++);
   const update3d = () => {
     const source = map.getSource(LIFT_3D) as maplibregl.GeoJSONSource;
     if (!features || !wanted || !kindsShown.includes('lift') || map.getZoom() < LIFT_3D_ZOOM) {
@@ -446,27 +460,66 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
       return;
     }
     const b = map.getBounds();
+    const center = map.getCenter();
+    const near = (f: WinterFeature) => {
+      const c = (f.geometry as LineString).coordinates;
+      return Math.min(...c.map(([lon, lat]) => Math.hypot((lon - center.lng) * Math.cos((center.lat * Math.PI) / 180), lat - center.lat)));
+    };
     const lifts = [...features.values()]
       .filter((f) => f.properties.kind === 'lift' && AERIAL_LIFTS.includes(f.properties.lift ?? '') && f.geometry.type === 'LineString')
       .filter((f) => (f.geometry as LineString).coordinates.some(([lon, lat]) => b.contains([lon, lat])) || crosses(b, (f.geometry as LineString).coordinates))
-      .slice(0, LIFT_3D_MAX);
+      .map((f) => ({ f, d: near(f) }))
+      .sort((x, y) => x.d - y.d)
+      .slice(0, LIFT_3D_MAX)
+      .map((x) => x.f);
     const exaggeration = map.getTerrain()?.exaggeration ?? 1;
-    const ground = (lon: number, lat: number) => map.queryTerrainElevation([lon, lat]);
-    const blocks: Block[] = [];
-    const skipped: string[] = [];
-    for (const f of lifts) {
-      const p = f.properties;
-      const parts = liftBlocks(p.id, (f.geometry as LineString).coordinates, p.pylons, ground, carriersFor(p.lift, p.occupancy, p.bubble));
-      if (parts) blocks.push(...parts);
-      else skipped.push(f.properties.id);
-    }
-    // Lifts whose ground is not loaded yet are tried again once the view moves.
-    const view = skipped.length ? map.getCenter().toArray().map((v) => v.toFixed(4)).join() : '';
-    const key = `${lifts.map((f) => f.properties.id).join()}|${exaggeration}|${skipped.join()}|${view}`;
+    const z = map.getZoom();
+    const detail: Detail = z >= LIFT_3D_DETAIL_ZOOM.fine ? 'fine' : z >= LIFT_3D_DETAIL_ZOOM.medium ? 'medium' : 'coarse';
+    // Nothing new to build: the same lifts at the same terrain height and detail, and none waiting
+    // for their ground since the last move.
+    const key = `${lifts.map((f) => f.properties.id).join()}|${exaggeration}|${detail}|${pending ? moved : ''}`;
     if (key === built) return;
     built = key;
+    const t0 = performance.now();
+    const ground = (lon: number, lat: number) => map.queryTerrainElevation([lon, lat]);
+    const blocks: Block[] = [];
+    pending = false;
+    for (const f of lifts) {
+      const p = f.properties;
+      const id = `${p.id}|${exaggeration}|${detail}`;
+      let parts = cache.get(id);
+      if (!parts) {
+        parts = liftBlocks(p.id, (f.geometry as LineString).coordinates, p.pylons, ground, carriersFor(p.lift, p.occupancy, p.bubble), detail) ?? undefined;
+        if (parts) cache.set(id, parts);
+        else pending = true;
+      }
+      if (parts) blocks.push(...parts);
+    }
+    // Keep the cache to a few ski areas' worth.
+    for (const id of [...cache.keys()].slice(0, Math.max(0, cache.size - 4 * LIFT_3D_MAX))) cache.delete(id);
     source.setData({ type: 'FeatureCollection', features: blocks });
+    // For browser checks: the last build's time, size and count.
+    Object.assign(document.body.dataset, {
+      lift3dMs: (performance.now() - t0).toFixed(1),
+      lift3dBlocks: String(blocks.length),
+      lift3dLifts: String(lifts.length),
+      lift3dBuilds: String(Number(document.body.dataset.lift3dBuilds ?? 0) + 1),
+    });
   };
+  // Built as soon as the map stops moving, not on 'idle', which waits for every tile up to the
+  // horizon. Lifts whose ground was not loaded yet are tried again as terrain tiles arrive.
+  let timer: number | undefined;
+  const soon = (ms: number) => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(update3d, ms);
+  };
+  map.on('moveend', () => soon(80));
+  map.on('sourcedata', (e) => {
+    if (pending && e.sourceId === map.getTerrain()?.source && e.isSourceLoaded !== undefined) {
+      moved++;
+      soon(300);
+    }
+  });
   map.on('idle', update3d);
 
   return {
