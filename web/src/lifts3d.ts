@@ -33,8 +33,11 @@ export const LIFT_3D = {
   clearance: 3,
   station: { width: 20, length: 28, height: 10, cable: 9 },
   cabin: { size: 6, height: 5.5, hanger: 2.5, spacing: 120 },
-  /** Chairs: width per seat, seat depth, hanger, backrest; closer together than cabins, as on a real lift. */
-  chair: { seat: 1.1, depth: 1.7, hanger: 4.5, back: 2.2, spacing: 50, defaultSeats: 4 },
+  /**
+   * Chairs, about 3.5 times life so they read as chairs from a few hundred metres: width per seat,
+   * seat depth and thickness, hanger, backrest, bar thickness; closer together than cabins, as on a real lift.
+   */
+  chair: { seat: 1.9, depth: 2.8, thickness: 0.8, hanger: 6, back: 3.6, bar: 0.6, spacing: 55, defaultSeats: 4 },
   /** Pylons where none are mapped: spans of at most this length. */
   span: 220,
 } as const;
@@ -149,6 +152,11 @@ export function liftBlocks(
     blocks.push({ type: 'Feature', geometry: { type: 'Polygon', coordinates: [[...ring, ring[0]]] }, properties: { id, base, height, color } });
   };
 
+  const seats = Math.min(Math.max(carriers.seats ?? s.chair.defaultSeats, 1), 8);
+  const chairWidth = seats * s.chair.seat;
+  // Wide chairs need the cables further apart, so the chairs on the two cables pass each other.
+  const track = carriers.kind === 'cabin' ? s.track : Math.max(s.track, chairWidth / 2 + 1.5);
+
   const sup = supports(line, pylons);
   const ground: number[] = [];
   for (const p of sup) {
@@ -174,7 +182,7 @@ export function liftBlocks(
       box(x, y, dir, s.station.length + 1.5, s.station.width + 1.5, s.station.height, s.station.height + 1.2, LIFT_3D_COLORS.roof);
     } else {
       box(x, y, dir, s.pylonWidth, s.pylonWidth, 0, s.pylonHeight, LIFT_3D_COLORS.pylon);
-      box(x, y, dir, s.armThickness * 1.5, s.track * 2 + 2, s.pylonHeight - s.armThickness, s.pylonHeight, LIFT_3D_COLORS.arm);
+      box(x, y, dir, s.armThickness * 1.5, track * 2 + 2, s.pylonHeight - s.armThickness, s.pylonHeight, LIFT_3D_COLORS.arm);
     }
   });
 
@@ -186,22 +194,20 @@ export function liftBlocks(
     box(cx, cy, dir, s.cabin.size, s.cabin.size, bottom, cable - s.cabin.hanger - 0.6, LIFT_3D_COLORS.cabin);
     box(cx, cy, dir, s.cabin.size + 0.3, s.cabin.size + 0.3, cable - s.cabin.hanger - 0.6, cable - s.cabin.hanger, LIFT_3D_COLORS.cabinRoof);
   };
-  const seats = Math.min(Math.max(carriers.seats ?? s.chair.defaultSeats, 1), 8);
-  const chairWidth = seats * s.chair.seat;
   /**
    * A chair: a hanger, a bar across, the seat, and the backrest behind the riders, who face
    * `travel` (up on one track, down on the other). A weather hood where OSM maps one.
    */
   const chair = (cx: number, cy: number, travel: [number, number], cable: number) => {
     const c = s.chair;
-    const seatBase = cable - c.hanger - 0.6;
+    const seatBase = cable - c.hanger - c.bar;
     if (seatBase < 0.5) return;
     const at = (shift: number): [number, number] => [cx + travel[0] * shift, cy + travel[1] * shift];
-    box(cx, cy, travel, 0.35, 0.35, seatBase + 0.6, cable, LIFT_3D_COLORS.arm);
-    box(cx, cy, travel, 0.35, chairWidth, seatBase + 0.6, seatBase + 0.9, LIFT_3D_COLORS.arm);
-    box(...at(0.2), travel, c.depth, chairWidth, seatBase, seatBase + 0.5, LIFT_3D_COLORS.chair);
-    box(...at(-c.depth / 2), travel, 0.4, chairWidth, seatBase, seatBase + c.back, LIFT_3D_COLORS.chair);
-    if (carriers.bubble) box(...at(-0.2), travel, c.depth + 0.6, chairWidth + 0.4, seatBase + c.back, seatBase + c.back + 0.4, LIFT_3D_COLORS.hood);
+    box(cx, cy, travel, c.bar, c.bar, seatBase + c.thickness, cable, LIFT_3D_COLORS.arm);
+    box(cx, cy, travel, c.bar, chairWidth, seatBase + c.thickness, seatBase + c.thickness + c.bar, LIFT_3D_COLORS.arm);
+    box(...at(0.3), travel, c.depth, chairWidth, seatBase, seatBase + c.thickness, LIFT_3D_COLORS.chair);
+    box(...at(-c.depth / 2), travel, c.bar, chairWidth, seatBase, seatBase + c.back, LIFT_3D_COLORS.chair);
+    if (carriers.bubble) box(...at(-0.3), travel, c.depth + 1, chairWidth + 0.6, seatBase + c.back, seatBase + c.back + c.bar, LIFT_3D_COLORS.hood);
   };
   const spacing = carriers.kind === 'chair' ? s.chair.spacing : carriers.kind === 'mixed' ? s.cabin.spacing / 2 : s.cabin.spacing;
 
@@ -226,8 +232,8 @@ export function liftBlocks(
       const cable = top[i - 1] + (top[i] - top[i - 1]) * t - 4 * s.sag * span * t * (1 - t);
       const base = Math.max(s.clearance, cable - g - rise / 2);
       for (const side of [-1, 1]) {
-        const ox = cx + across[0] * s.track * side;
-        const oy = cy + across[1] * s.track * side;
+        const ox = cx + across[0] * track * side;
+        const oy = cy + across[1] * track * side;
         box(ox, oy, dir, span / n + 0.3, s.cableWidth, base, base + s.cableThickness + rise, LIFT_3D_COLORS.cable);
       }
     }
@@ -242,7 +248,7 @@ export function liftBlocks(
         const t = (d - d0) / (d1 - d0);
         // Keep clear of the stations and pylons.
         if (t * span < 15 || (1 - t) * span < 15) continue;
-        const [cx, cy] = [ax + (bx - ax) * t + across[0] * s.track * side, ay + (by - ay) * t + across[1] * s.track * side];
+        const [cx, cy] = [ax + (bx - ax) * t + across[0] * track * side, ay + (by - ay) * t + across[1] * track * side];
         const [lon, lat] = f.toLonLat(cx, cy);
         const g = groundAt(lon, lat);
         if (g === null) return null;
