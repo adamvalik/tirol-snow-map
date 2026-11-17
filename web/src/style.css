@@ -907,24 +907,16 @@ body.dragging .track-add {
   background: repeating-linear-gradient(90deg, #868e96 0 4px, #fff 4px 7px);
 }
 
-/* Winter sports: the tile spans the row; the legend's chips hide and show each kind. */
-.tile-wide {
-  grid-column: 1 / -1;
-  height: auto;
-  min-height: 64px;
-  gap: 8px;
-}
-
-.tile-hint {
-  font-weight: 400;
-  font-size: 13px;
-  color: var(--muted);
-}
-
+/* Winter sports: chips under the tiles hide and show each kind while the layer is on. */
 .winter-keys {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-top: 8px;
+}
+
+.tiles:not(:has(#toggle-winter:checked)) + .winter-keys {
+  display: none;
 }
 
 .winter-chip {
@@ -950,15 +942,11 @@ body.dragging .track-add {
   background: var(--on);
   border-color: var(--on-line);
   color: var(--ink);
+  font-weight: 600;
 }
 
 .winter-chip[aria-pressed='false'] {
   color: var(--muted);
-  text-decoration: line-through;
-}
-
-.winter-chip[aria-pressed='false'] .winter-swatch {
-  opacity: 0.35;
 }
 
 .winter-swatch {

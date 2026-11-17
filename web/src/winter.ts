@@ -13,6 +13,7 @@ import { websiteUrl } from './ferratas.ts';
 import { factsHtml } from './placeHtml.ts';
 import { inArea } from './island.ts';
 import type { IconName } from './app/icons.ts';
+import { type Block, liftBlocks } from './lifts3d.ts';
 
 export const WINTER_KINDS = ['lift', 'downhill', 'nordic', 'sled', 'skitour'] as const;
 export type WinterKind = (typeof WINTER_KINDS)[number];
@@ -35,6 +36,8 @@ export interface WinterProps {
   heating: boolean;
   bubble: boolean;
   website: string | null;
+  /** Lifts: mapped pylons [lon, lat], bottom to top, or null. */
+  pylons: number[][] | null;
   osm: string;
   ways: number;
   lengthM: number;
@@ -60,6 +63,7 @@ const DEFAULTS: Omit<WinterProps, 'id' | 'kind' | 'osm' | 'minM' | 'maxM'> = {
   heating: false,
   bubble: false,
   website: null,
+  pylons: null,
   ways: 1,
   lengthM: 0,
   areaHa: null,
@@ -77,9 +81,14 @@ export function fullProps(stored: Partial<WinterProps> & Pick<WinterProps, 'id' 
 export type WinterFeature = Feature<LineString | MultiLineString | Polygon | MultiPolygon, WinterProps>;
 
 const SOURCE = 'winter';
+const LIFT_3D = 'winter-lift-3d';
+/** Zoom from which aerial lifts stand in 3D (lifts3d.ts) above their lines. */
+export const LIFT_3D_ZOOM = 13.3;
+/** At most this many lifts are built in 3D at once (a ski area in view). */
+const LIFT_3D_MAX = 50;
 const HIT = 'winter-hit';
 /** Layer that answers hover and click. */
-export const WINTER_LAYER_IDS = [HIT];
+export const WINTER_LAYER_IDS = [HIT, LIFT_3D];
 
 /** Slope colours as on European piste maps; colour is backed by the name in the legend and panel. */
 export const DIFFICULTY_CLASSES = [
@@ -339,6 +348,24 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
   // Thin lines are hard to hit, so a wide transparent copy takes hover and click (an area's edge too).
   add({ id: HIT, type: 'line', source: SOURCE, layout: { ...hidden, ...round }, paint: { 'line-color': '#000000', 'line-opacity': 0, 'line-width': 16 } });
 
+  // Aerial lifts in 3D, built for the lifts in view once zoomed in close enough.
+  map.addSource(LIFT_3D, { type: 'geojson', data: empty });
+  map.addLayer(
+    {
+      id: LIFT_3D,
+      type: 'fill-extrusion',
+      source: LIFT_3D,
+      minzoom: LIFT_3D_ZOOM,
+      paint: {
+        'fill-extrusion-color': ['get', 'color'],
+        'fill-extrusion-base': ['get', 'base'],
+        'fill-extrusion-height': ['get', 'height'],
+        'fill-extrusion-opacity': ['interpolate', ['linear'], ['zoom'], LIFT_3D_ZOOM, 0, LIFT_3D_ZOOM + 0.6, 1],
+      },
+    },
+    beforeId,
+  );
+
   let features: Map<string, WinterFeature> | null = null;
   let loading: Promise<void> | null = null;
   let wanted = false;
@@ -388,11 +415,58 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
       map.getCanvas().style.cursor = '';
       popup.remove();
     });
+    // The 3D lift answers like its line.
+    map.on('mousemove', LIFT_3D, (e: MapLayerMouseEvent) => {
+      const f = featureAt(e);
+      if (!f) return;
+      map.getCanvas().style.cursor = 'pointer';
+      popup.setLngLat(e.lngLat).setHTML(winterTooltipHtml(f.properties)).addTo(map);
+    });
+    map.on('mouseleave', LIFT_3D, () => {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
   }
   map.on('click', HIT, (e: MapLayerMouseEvent) => {
     const f = featureAt(e);
     if (f) onSelect(f);
   });
+  map.on('click', LIFT_3D, (e: MapLayerMouseEvent) => {
+    const f = featureAt(e);
+    if (f) onSelect(f);
+  });
+
+  /** What the 3D lifts were last built for: the lifts, the terrain height and, if some were skipped, the view. */
+  let built = '';
+  const update3d = () => {
+    const source = map.getSource(LIFT_3D) as maplibregl.GeoJSONSource;
+    if (!features || !wanted || !kindsShown.includes('lift') || map.getZoom() < LIFT_3D_ZOOM) {
+      if (built) source.setData(empty);
+      built = '';
+      return;
+    }
+    const b = map.getBounds();
+    const lifts = [...features.values()]
+      .filter((f) => f.properties.kind === 'lift' && AERIAL_LIFTS.includes(f.properties.lift ?? '') && f.geometry.type === 'LineString')
+      .filter((f) => (f.geometry as LineString).coordinates.some(([lon, lat]) => b.contains([lon, lat])) || crosses(b, (f.geometry as LineString).coordinates))
+      .slice(0, LIFT_3D_MAX);
+    const exaggeration = map.getTerrain()?.exaggeration ?? 1;
+    const ground = (lon: number, lat: number) => map.queryTerrainElevation([lon, lat]);
+    const blocks: Block[] = [];
+    const skipped: string[] = [];
+    for (const f of lifts) {
+      const parts = liftBlocks(f.properties.id, (f.geometry as LineString).coordinates, f.properties.pylons, ground);
+      if (parts) blocks.push(...parts);
+      else skipped.push(f.properties.id);
+    }
+    // Lifts whose ground is not loaded yet are tried again once the view moves.
+    const view = skipped.length ? map.getCenter().toArray().map((v) => v.toFixed(4)).join() : '';
+    const key = `${lifts.map((f) => f.properties.id).join()}|${exaggeration}|${skipped.join()}|${view}`;
+    if (key === built) return;
+    built = key;
+    source.setData({ type: 'FeatureCollection', features: blocks });
+  };
+  map.on('idle', update3d);
 
   return {
     async setVisible(v) {
@@ -402,6 +476,7 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
       if (wanted !== v) return null;
       for (const id of own.keys()) map.setLayoutProperty(id, 'visibility', (id === 'winter-lift-ends' ? endsVisible() : v) ? 'visible' : 'none');
       if (!v) popup.remove();
+      update3d();
       return v ? [...features!.values()] : null;
     },
     setKinds(kinds) {
@@ -412,9 +487,26 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
         if (id === 'winter-lift-ends') map.setLayoutProperty(id, 'visibility', endsVisible() ? 'visible' : 'none');
         else map.setFilter(id, filter ? ['all', filter, shown] : shown);
       }
+      update3d();
     },
     select(id) {
       map.setFilter('winter-selected', ['==', ['get', 'id'], id ?? '']);
     },
   };
+}
+
+/** Whether a straight lift line crosses the view without a vertex in it (a long lift seen up close). */
+function crosses(b: maplibregl.LngLatBounds, line: number[][]): boolean {
+  const [w, s, e, n] = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()];
+  return line.some((p, i) => {
+    if (!i) return false;
+    const q = line[i - 1];
+    // Sample the segment; lifts are short against a view, so a few points are enough.
+    for (let t = 0.1; t < 1; t += 0.1) {
+      const lon = q[0] + (p[0] - q[0]) * t;
+      const lat = q[1] + (p[1] - q[1]) * t;
+      if (lon >= w && lon <= e && lat >= s && lat <= n) return true;
+    }
+    return false;
+  });
 }

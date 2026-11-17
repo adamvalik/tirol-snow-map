@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { LonLat, OsmRelation, OsmWay } from '../src/ferratas.ts';
+import { readOsmXml } from '../src/osm-xml.ts';
 import {
   difficulty,
   durationMinutes,
@@ -73,6 +74,19 @@ describe('parseWinter', () => {
     });
     expect(items).toHaveLength(1);
     expect(items[0]).toMatchObject({ id: 'w1', kind: 'lift', lift: 'chair_lift', name: 'Ciampinoi', occupancy: 6, capacity: 2400, durationMin: 5.5, bubble: true, heating: false });
+  });
+
+  it('keeps the pylons mapped on a lift, bottom to top, without the stations', () => {
+    const [lift] = parseWinter({
+      elements: [
+        way(1, [1, 2, 3, 4], [[11, 46.5], [11, 46.501], [11, 46.502], [11, 46.503]], { aerialway: 'gondola' }),
+        { type: 'node', id: 2, lat: 46.501, lon: 11, tags: { aerialway: 'pylon' } },
+        { type: 'node', id: 4, lat: 46.503, lon: 11, tags: { aerialway: 'pylon' } },
+      ],
+    });
+    expect(lift.pylons).toEqual([[11, 46.501]]);
+    const [bare] = parseWinter({ elements: [way(1, [1, 2], [[11, 46.5], [11, 46.6]], { aerialway: 'gondola' })] });
+    expect(bare.pylons).toBeNull();
   });
 
   it('joins named sections that meet and share a difficulty, but not unnamed ones', () => {
@@ -205,5 +219,47 @@ describe('Overpass requests', () => {
     const a = { elements: [{ type: 'way', id: 1 }, { type: 'relation', id: 1 }] };
     const b = { elements: [{ type: 'way', id: 1 }, { type: 'way', id: 2 }] };
     expect(mergeResponses([a, b]).elements.map((e) => `${e.type}/${e.id}`)).toEqual(['way/1', 'relation/1', 'way/2']);
+  });
+});
+
+describe('OSM XML', () => {
+  it('reads ways, relations and pylons inside the box, with escaped tags', async () => {
+    const xml = `<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6" generator="osmium/1.15.0">
+  <node id="1" version="1" lat="46.5" lon="11.0"/>
+  <node id="2" version="1" lat="46.6" lon="11.0">
+    <tag k="aerialway" v="pylon"/>
+  </node>
+  <node id="3" version="1" lat="46.7" lon="11.0"/>
+  <node id="9" version="1" lat="10.0" lon="10.0">
+    <tag k="aerialway" v="pylon"/>
+  </node>
+  <way id="10" version="1">
+    <nd ref="1"/>
+    <nd ref="2"/>
+    <nd ref="3"/>
+    <tag k="aerialway" v="gondola"/>
+    <tag k="name" v="Ski &amp; Sun &quot;Express&quot;"/>
+  </way>
+  <way id="11" version="1">
+    <nd ref="9"/>
+    <tag k="piste:type" v="downhill"/>
+  </way>
+  <relation id="20" version="1">
+    <member type="way" ref="10" role=""/>
+    <tag k="piste:type" v="nordic"/>
+  </relation>
+  <relation id="21" version="1">
+    <member type="way" ref="11" role=""/>
+    <tag k="piste:type" v="nordic"/>
+  </relation>
+</osm>`;
+    async function* lines() {
+      yield* xml.split('\n');
+    }
+    const { elements } = await readOsmXml(lines(), { west: 10.5, south: 46, east: 11.5, north: 47 });
+    expect(elements.map((e) => `${e.type}/${e.id}`)).toEqual(['node/2', 'way/10', 'relation/20']);
+    const items = parseWinter({ elements });
+    expect(items.find((i) => i.kind === 'lift')).toMatchObject({ name: 'Ski & Sun "Express"', pylons: [[11, 46.6]] });
   });
 });

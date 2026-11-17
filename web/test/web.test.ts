@@ -316,3 +316,35 @@ describe('winter sports', () => {
     expect(parseHash('#layers=snow,winter').layers).toEqual(['snow', 'winter']);
   });
 });
+
+describe('lifts in 3D', async () => {
+  const { LIFT_3D, liftBlocks, supports } = await import('../src/lifts3d.ts');
+  // About 1.1 km north, rising 400 m.
+  const line = [[11, 46.5, 1500], [11, 46.51, 1900]];
+  const slope = (_lon: number, lat: number) => 1500 + (lat - 46.5) * 40000;
+
+  it('puts pylons where OSM maps them, or evenly where it maps none', () => {
+    expect(supports(line, [[11, 46.503], [11, 46.506]]).map((s) => s.station)).toEqual([true, false, false, true]);
+    // A pylon mapped on a station is left to the station.
+    expect(supports(line, [[11, 46.50001]]).length).toBe(2);
+    const even = supports(line, null);
+    expect(even.length).toBe(2 + Math.ceil(1112 / LIFT_3D.span) - 1);
+    const gaps = even.slice(1).map((s, i) => s.d - even[i].d);
+    expect(Math.max(...gaps) - Math.min(...gaps)).toBeLessThan(1);
+  });
+
+  it('builds stations, pylons, cables and cabins that stay above the ground', () => {
+    const blocks = liftBlocks('w1', line, [[11, 46.505]], slope)!;
+    const colors = new Set(blocks.map((b) => b.properties.color));
+    expect(colors.size).toBeGreaterThanOrEqual(5);
+    expect(blocks.every((b) => b.properties.base >= 0 && b.properties.height > b.properties.base && b.properties.id === 'w1')).toBe(true);
+    // Cables leave the stations at the station's height and hang at least the clearance above the ground.
+    const cable = blocks.filter((b) => b.properties.color === '#212529');
+    expect(cable.length).toBeGreaterThan(100);
+    expect(Math.min(...cable.map((b) => b.properties.base))).toBeGreaterThanOrEqual(LIFT_3D.clearance);
+  });
+
+  it('waits while the ground is not loaded', () => {
+    expect(liftBlocks('w1', line, null, () => null)).toBeNull();
+  });
+});

@@ -12,7 +12,6 @@ import {
   NORDIC_COLOR,
   SKITOUR_COLOR,
   SLED_COLOR,
-  UNKNOWN_SLOPE_COLOR,
   WINTER_KINDS,
   WINTER_LAYER_IDS,
   winterFootHtml,
@@ -85,7 +84,7 @@ export const winter: LayerModule = {
     $('winter-slope-keys').innerHTML =
       DIFFICULTY_CLASSES.filter((c) => c.key !== 'expert')
         .map((c) => `<span class="ferrata-key"><i style="background:${c.color}"></i>${c.label}</span>`)
-        .join('') + `<span class="ferrata-key"><i style="background:${UNKNOWN_SLOPE_COLOR}"></i>not mapped</span>`;
+        .join('');
     app.point.extend({ close: () => layer?.select(null) });
   },
 

@@ -133,12 +133,19 @@
               <span class="tile-top"><i data-icon="ladder-simple" data-size="22"></i><span class="tile-meta" id="ferrata-count"></span><span class="tile-off">Off</span></span>
               <span class="tile-name">Via ferratas</span>
             </label>
-            <label class="tile tile-wide">
+            <label class="tile">
               <input type="checkbox" id="toggle-winter" />
               <span class="tile-top"><i data-icon="person-simple-ski" data-size="22"></i><span class="tile-off">Off</span></span>
-              <span class="tile-name">Winter sports <span class="tile-hint">lifts and pistes</span></span>
+              <span class="tile-name">Winter sports</span>
+            </label>
+            <label class="tile">
+              <input type="checkbox" id="toggle-sun" />
+              <span class="tile-top"><i data-icon="sun" data-size="22"></i><span class="tile-off">Off</span></span>
+              <span class="tile-name">Sun and shade</span>
             </label>
           </div>
+          <!-- While Winter sports is on: which kinds are shown (layers/winter.ts). -->
+          <div id="winter-keys" class="winter-keys" role="group" aria-label="Winter sports shown"></div>
 
           <!-- GPX: filled by app/track.ts (add, reading, the track's row). -->
           <section id="track" class="track" aria-label="Your track"></section>
@@ -158,13 +165,11 @@
             </details>
             <details id="group-map" class="group">
               <summary>
-                <span class="group-head"><span class="group-title">Map and light</span><span class="group-sub">Satellite photo, sun and shade, map style</span></span>
+                <span class="group-head"><span class="group-title">Map and light</span><span class="group-sub">Satellite photo, map style</span></span>
                 <i data-icon="caret-down" data-size="18"></i>
               </summary>
               <div class="group-body">
                 <label class="row"><span class="row-label">Satellite photo <span id="satellite-date" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-satellite" /></label>
-                <label class="row"><span class="row-label">Sun and shade</span><input type="checkbox" class="switch" id="toggle-sun" /></label>
-                <label class="row sub-row"><span class="row-label">Cast shadows <span class="hint">250 m terrain</span></span><input type="checkbox" class="switch" id="toggle-shadows" checked /></label>
                 <label class="row"><span class="row-label">Roads, rivers, towns</span><input type="checkbox" class="switch" id="toggle-basemap" checked /></label>
                 <label class="row"><span class="row-label">Labels</span><input type="checkbox" class="switch" id="toggle-labels" checked /></label>
                 <label class="row"><span class="row-label">Hillshade</span><input type="checkbox" class="switch" id="toggle-hillshade" checked /></label>
@@ -219,10 +224,8 @@
           <p class="legend-note">Wider lines are harder, faded ones are marked closed. From OpenStreetMap volunteers, not for navigation.</p>
         </div>
         <div id="winter-legend" class="legend" aria-label="Winter sports legend" hidden>
-          <div class="legend-title">Winter sports <span class="hint">tap to hide or show</span></div>
-          <div id="winter-keys" class="winter-keys" role="group" aria-label="Kinds shown"></div>
+          <div class="legend-title">Ski slopes</div>
           <div id="winter-slope-keys" class="ferrata-keys"></div>
-          <p class="legend-note">Dashed lifts are drag lifts. Not whether a lift runs or a piste is open. Not for navigation.</p>
         </div>
       </div>
 

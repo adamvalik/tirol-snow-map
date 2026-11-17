@@ -12,7 +12,8 @@ import { MODEL_GRID } from '../../shared/grid.ts';
 import type { Box } from './osm-xml.ts';
 import { joinLines, type LonLat, type LonLatEle, type OsmRelation, type OsmWay, simplify, UnionFind } from './ferratas.ts';
 
-type OsmElement = OsmWay | OsmRelation | { type: 'node'; id: number };
+export type OsmNode = { type: 'node'; id: number; lat?: number; lon?: number; tags?: Record<string, string> };
+type OsmElement = OsmWay | OsmRelation | OsmNode;
 type Tags = Record<string, string>;
 
 export const PISTE_KINDS = ['downhill', 'nordic', 'sled', 'skitour'] as const;
@@ -50,6 +51,8 @@ export interface WinterItem {
   heating: boolean;
   bubble: boolean;
   website: string | null;
+  /** Lifts: the pylons mapped along the line (aerialway=pylon nodes), bottom to top; null when none are. */
+  pylons: LonLat[] | null;
   /** `relation/<id>` or `way/<id>`, for a link to openstreetmap.org. */
   osm: string;
   ways: number;
@@ -73,8 +76,9 @@ export function queryBoxes(area: Box = MODEL_GRID, stepLon = 0.5, stepLat = 0.4)
 }
 
 /**
- * Lift ways and piste ways in a box, then piste relations and all their member ways (a relation's
- * ways often carry no piste tags of their own). `out geom` keeps the node ids for joining sections.
+ * Lift ways and piste ways in a box, the pylons on those ways, then piste relations and all their
+ * member ways (a relation's ways often carry no piste tags of their own). `out geom` keeps the node
+ * ids for joining sections and finding the pylons.
  */
 export function overpassQuery(b: Box): string {
   const bbox = `${b.south},${b.west},${b.north},${b.east}`;
@@ -84,6 +88,8 @@ export function overpassQuery(b: Box): string {
   way["piste:type"~"^(${PISTE_KINDS.join('|')})$"](${bbox});
 );
 out geom;
+node(w)["aerialway"="pylon"];
+out;
 relation["piste:type"~"^(${PISTE_KINDS.join('|')})$"](${bbox})->.r;
 .r out body;
 way(r.r);
@@ -210,7 +216,7 @@ function mostCommon<T>(values: (T | null)[]): T | null {
   return [...counts].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
 }
 
-const empty = { lift: null, occupancy: null, capacity: null, durationMin: null, heating: false, bubble: false } as const;
+const empty = { lift: null, occupancy: null, capacity: null, durationMin: null, heating: false, bubble: false, pylons: null } as const;
 
 /** Overpass JSON -> lifts and pistes, sorted by kind and id so repeated runs give clean diffs. */
 export function parseWinter(osm: { elements: OsmElement[] }): WinterItem[] {
@@ -222,8 +228,9 @@ export function parseWinter(osm: { elements: OsmElement[] }): WinterItem[] {
   }
   const relations = osm.elements.filter((e): e is OsmRelation => e.type === 'relation' && !isGone(e.tags)).sort((a, b) => a.id - b.id);
   const items: WinterItem[] = [];
+  const pylonIds = new Set(osm.elements.filter((e) => e.type === 'node' && e.tags?.aerialway === 'pylon').map((e) => e.id));
 
-  // Lifts: one way each.
+  // Lifts: one way each, with the pylons among its inner nodes.
   for (const w of wayById.values()) {
     const t = w.tags ?? {};
     const lift = (LIFT_TYPES as readonly string[]).includes(t.aerialway) ? (t.aerialway as LiftType) : null;
@@ -243,6 +250,11 @@ export function parseWinter(osm: { elements: OsmElement[] }): WinterItem[] {
       heating: isYes(t['aerialway:heating']),
       bubble: isYes(t['aerialway:bubble']),
       website: siteOf(t),
+      pylons: (() => {
+        const coords = coordsOf(w);
+        const pylons = w.nodes.flatMap((n, i) => (i > 0 && i < w.nodes.length - 1 && pylonIds.has(n) ? [coords[i]] : []));
+        return pylons.length ? pylons : null;
+      })(),
       osm: `way/${w.id}`,
       ways: 1,
       geometry: { type: 'lines', lines: [coordsOf(w)] },
@@ -421,7 +433,7 @@ const DRAW_TOLERANCE_M = 4;
  * gives: about a third of the file otherwise. The app fills the defaults back in (winter.ts).
  */
 export function compactProps(p: Record<string, unknown>): Record<string, unknown> {
-  return Object.fromEntries(Object.entries(p).filter(([k, v]) => k !== 'osm' && v !== null && v !== false && !(k === 'ways' && v === 1) && !(k === 'lengthM' && v === 0)));
+  return Object.fromEntries(Object.entries(p).filter(([k, v]) => k !== 'osm' && v !== null && v !== false && !(Array.isArray(v) && !v.length) && !(k === 'ways' && v === 1) && !(k === 'lengthM' && v === 0)));
 }
 
 /** The layer file: one feature per item, positions [lon, lat, elevation m] for the snow check in the app. */

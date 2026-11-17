@@ -8,6 +8,9 @@ import { Readable } from 'node:stream';
 import { createGunzip } from 'node:zlib';
 import type { OsmRelation, OsmWay } from './ferratas.ts';
 
+/** A node kept for its tags (lift pylons). */
+export type OsmNode = { type: 'node'; id: number; lat: number; lon: number; tags: Record<string, string> };
+
 export interface Box {
   west: number;
   south: number;
@@ -27,21 +30,30 @@ const attr = (line: string, name: string) => {
 
 /**
  * Ways with at least one node in `box` (nodes outside it come back as null in `geometry`, like
- * Overpass outside a bounding box), and relations with at least one of those ways as a member.
+ * Overpass outside a bounding box), relations with at least one of those ways as a member, and the
+ * lift pylons (aerialway=pylon nodes) in the box.
  */
-export async function readOsmXml(lines: AsyncIterable<string>, box: Box): Promise<{ elements: (OsmWay | OsmRelation)[] }> {
+export async function readOsmXml(lines: AsyncIterable<string>, box: Box): Promise<{ elements: (OsmWay | OsmRelation | OsmNode)[] }> {
   const nodes = new Map<number, { lat: number; lon: number }>();
   const ways = new Map<number, OsmWay>();
-  const elements: (OsmWay | OsmRelation)[] = [];
+  const elements: (OsmWay | OsmRelation | OsmNode)[] = [];
+  let node: OsmNode | null = null;
   let way: OsmWay | null = null;
   let relation: OsmRelation | null = null;
   let tags: Record<string, string> = {};
   for await (const raw of lines) {
     const line = raw.trimStart();
     if (line.startsWith('<node ')) {
+      // Tags of a node outside the box land in a throwaway object.
+      tags = {};
       const lat = Number(attr(line, 'lat'));
       const lon = Number(attr(line, 'lon'));
-      if (lat >= box.south && lat <= box.north && lon >= box.west && lon <= box.east) nodes.set(Number(attr(line, 'id')), { lat, lon });
+      if (lat >= box.south && lat <= box.north && lon >= box.west && lon <= box.east) {
+        const id = Number(attr(line, 'id'));
+        nodes.set(id, { lat, lon });
+        // A node with tags spans lines up to </node>.
+        if (!line.endsWith('/>')) node = { type: 'node', id, lat, lon, tags: (tags = {}) };
+      }
     } else if (line.startsWith('<way ')) {
       tags = {};
       way = { type: 'way', id: Number(attr(line, 'id')), nodes: [], geometry: [], tags };
@@ -57,6 +69,9 @@ export async function readOsmXml(lines: AsyncIterable<string>, box: Box): Promis
     } else if (line.startsWith('<tag ')) {
       const k = attr(line, 'k');
       if (k !== undefined) tags[k] = attr(line, 'v') ?? '';
+    } else if (line.startsWith('</node>')) {
+      if (node?.tags.aerialway === 'pylon') elements.push(node);
+      node = null;
     } else if (line.startsWith('</way>') && way) {
       if (way.geometry.some(Boolean)) {
         ways.set(way.id, way);
