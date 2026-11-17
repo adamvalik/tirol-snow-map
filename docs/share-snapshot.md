@@ -48,7 +48,7 @@ What the mock-ups taught:
 - **Poster beats Minimal.** The white bar takes a sixth of the picture and makes it look like an app screenshot. The poster keeps the map edge to edge and reads at thumbnail size: the title in the sky, the numbers big on the scrim. The Minimal look is still right for Wide, as a floating card, because a 16:9 picture is looked at on a large screen.
 - **The camera depends on the frame.** The track has to sit in the space the frame leaves free (between the title and the numbers), so the frame layout gives the camera its padding. With the Minimal bar the camera comes closer.
 - **The elevation profile with the snow along it is the one thing no other app shows.** It gets a row of its own on track pictures.
-- **The island is the strongest "South Tyrol" picture.** A block on a plain floor, like a printed relief. It is the natural Square default when the whole area is in view, and a good base for the link preview image.
+- **The island is the strongest "South Tyrol" picture.** A block on a plain floor, like a printed relief. It is the natural Square default when the whole area is in view, and a candidate look for the link preview.
 - **Bilingual labels are long** ("Wilde Kreuzspitze / Picco della Croce 3,135 m"). Summits only keeps them few. The title uses one name, editable.
 
 ## Two kinds of picture
@@ -147,7 +147,7 @@ Composition in the app: a 2D canvas, the captured map, then the frame drawn with
 
 ## Link preview
 
-Unchanged in intent (release plan, 5): `og:` and `twitter:` tags, and an `og.png` of 1200 × 630 made in the deploy workflow with Playwright. New: make it with the same frame as the Wide picture, from the island with today's snow and the date. The mock-up script already captures and frames that way, so the deploy step can grow from it.
+Shipped in v0.2.1: `scripts/og-image.mjs` renders `dist/og.jpg` (1200 × 630, under 280 KB for WhatsApp) from the default view in the deploy workflow. Once the picture frame exists, give the preview the same look as the Wide picture (or the island poster) by drawing it with the app's own layout function, so the two never drift apart. Not needed for v0.3.0.
 
 ## Analytics
 
