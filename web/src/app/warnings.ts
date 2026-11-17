@@ -8,7 +8,7 @@ import { isOn, switchOn } from './switches.ts';
  * Warnings are shown in this order, so the line does not depend on which data file arrived first.
  * It is the order the files are usually loaded in; topics not listed follow in the order they came.
  */
-const ORDER = ['basemap', 'snow', 'stations', 'forecast', 'status', 'ferratas'];
+const ORDER = ['basemap', 'snow', 'stations', 'forecast', 'status', 'ferratas', 'winter'];
 const rank = (key: string) => (ORDER.includes(key) ? ORDER.indexOf(key) : ORDER.length);
 
 const warnings = new Map<string, string>();

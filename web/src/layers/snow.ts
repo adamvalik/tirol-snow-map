@@ -46,9 +46,9 @@ export const shownSnow = () => shown;
 /** The snow summary at a point, or '' while the depth values are not loaded. */
 export const pointSnow = (lon: number, lat: number): string => (shown && values ? pointSnowHtml(shown, values.at(lon, lat)) : '');
 
-/** The snow summary along evenly spaced points of a route, or ''. */
-export const routeSnowSummary = (points: readonly number[][]): string =>
-  shown && values ? routeSnowHtml(shown, routeSnow(values, points)) : '';
+/** The snow summary along evenly spaced points of a route, or ''; `what` names it ("route", "slope"). */
+export const routeSnowSummary = (points: readonly number[][], what?: string): string =>
+  shown && values ? routeSnowHtml(shown, routeSnow(values, points), what) : '';
 
 /** Snow seen from space along a route, as numbers for a panel or a chart. */
 export interface SnowAlong {

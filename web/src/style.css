@@ -901,6 +901,82 @@ body.dragging .track-add {
   background: repeating-linear-gradient(90deg, #868e96 0 4px, #fff 4px 7px);
 }
 
+/* Winter sports: the tile spans the row; the legend's chips hide and show each kind. */
+.tile-wide {
+  grid-column: 1 / -1;
+  height: auto;
+  min-height: 64px;
+  gap: 8px;
+}
+
+.tile-hint {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.winter-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.winter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.winter-chip:hover {
+  background: var(--hover);
+}
+
+.winter-chip[aria-pressed='true'] {
+  background: var(--on);
+  border-color: var(--on-line);
+  color: var(--ink);
+}
+
+.winter-chip[aria-pressed='false'] {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.winter-chip[aria-pressed='false'] .winter-swatch {
+  opacity: 0.35;
+}
+
+.winter-swatch {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.winter-swatch i {
+  display: inline-block;
+  width: 14px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.winter-swatch i.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.winter-swatch i.dotted {
+  background: radial-gradient(circle, currentColor 1.5px, transparent 1.8px) 0 50% / 5px 4px repeat-x;
+}
+
 .footer {
   display: flex;
   align-items: center;

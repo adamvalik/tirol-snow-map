@@ -113,6 +113,11 @@
               <span class="tile-top"><i data-icon="ladder-simple" data-size="22"></i><span class="tile-meta" id="ferrata-count"></span><span class="tile-off">Off</span></span>
               <span class="tile-name">Via ferratas</span>
             </label>
+            <label class="tile tile-wide">
+              <input type="checkbox" id="toggle-winter" />
+              <span class="tile-top"><i data-icon="person-simple-ski" data-size="22"></i><span class="tile-off">Off</span></span>
+              <span class="tile-name">Winter sports <span class="tile-hint">lifts and pistes</span></span>
+            </label>
           </div>
 
           <!-- GPX: filled by app/track.ts (add, reading, the track's row). -->
@@ -158,7 +163,7 @@
           <div id="place-empty" class="place-empty">
             <span class="place-empty-icon" aria-hidden="true"><i data-icon="mountains" data-size="26"></i></span>
             <strong>Nothing picked yet</strong>
-            <span>Tap a station, a bivouac, a via ferrata or any point of the terrain. Right-drag or two fingers to tilt.</span>
+            <span>Tap a station, a bivouac, a via ferrata, a lift, a slope or any point of the terrain. Right-drag or two fingers to tilt.</span>
           </div>
           <div id="details" class="details" aria-live="polite" hidden>
             <div class="place-head">
@@ -192,6 +197,12 @@
           <div class="legend-title">Via ferrata grade, hardest section</div>
           <div id="ferrata-keys" class="ferrata-keys"></div>
           <p class="legend-note">Wider lines are harder, faded ones are marked closed. From OpenStreetMap volunteers, not for navigation.</p>
+        </div>
+        <div id="winter-legend" class="legend" aria-label="Winter sports legend" hidden>
+          <div class="legend-title">Winter sports <span class="hint">tap to hide or show</span></div>
+          <div id="winter-keys" class="winter-keys" role="group" aria-label="Kinds shown"></div>
+          <div id="winter-slope-keys" class="ferrata-keys"></div>
+          <p class="legend-note">Dashed lifts are drag lifts. Not whether a lift runs or a piste is open. Not for navigation.</p>
         </div>
       </div>
 

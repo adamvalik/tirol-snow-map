@@ -11,6 +11,7 @@ export const LAYER_KEYS = [
   'bivouacs',
   'favourites',
   'ferratas',
+  'winter',
   'satellite',
   'cover',
   'depth',

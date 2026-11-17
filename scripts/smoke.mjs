@@ -1,6 +1,6 @@
 // Smoke test for the built app: serves dist/, opens it in Chromium (desktop and phone profiles),
 // and reports time to first rendered map, console errors, and a rough frame rate while rotating;
-// on desktop also the day slider, forecast playback, the via ferrata layer and a shared link.
+// on desktop also the day slider, forecast playback, the via ferrata and winter sports layers and a shared link.
 //
 //   npm run build && node scripts/smoke.mjs [--out <screenshot dir>]
 //
@@ -175,6 +175,38 @@ for (const profile of profiles) {
         .then(() => 'OK', () => 'FAILED (no panel)');
     }
     await page.screenshot({ path: path.join(outDir, 'desktop-v3.png'), timeout: SHOT_TIMEOUT_MS });
+    // Winter sports: switch the layer on over Val Gardena and open a lift's panel.
+    await page.evaluate(() => {
+      document.getElementById('details-close')?.click();
+      window.__snowmap.map.jumpTo({ center: [11.76, 46.545], zoom: 12.8, pitch: 50, bearing: 20 });
+      document.getElementById('toggle-winter').click();
+    });
+    const liftPoint = await page
+      .waitForFunction(
+        () => {
+          const { map } = window.__snowmap;
+          const box = map.getContainer().getBoundingClientRect();
+          for (const f of map.queryRenderedFeatures({ layers: ['winter-hit'] })) {
+            if (f.properties.kind !== 'lift' || f.geometry.type !== 'LineString') continue;
+            const c = f.geometry.coordinates;
+            const p = map.project([(c[0][0] + c.at(-1)[0]) / 2, (c[0][1] + c.at(-1)[1]) / 2]);
+            const hit = map.queryRenderedFeatures([p.x, p.y], { layers: ['winter-hit'] })[0];
+            if (hit?.properties.kind === 'lift' && document.elementFromPoint(p.x + box.left, p.y + box.top)?.tagName === 'CANVAS') return { x: p.x + box.left, y: p.y + box.top };
+          }
+          return null;
+        },
+        null,
+        { timeout: 60_000, polling: 1000 },
+      )
+      .then((h) => h.jsonValue(), () => null);
+    let winter = 'FAILED (no lift drawn)';
+    if (liftPoint) {
+      await page.mouse.click(liftPoint.x, liftPoint.y);
+      winter = await page
+        .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Top station'), null, { timeout: 5000 })
+        .then(() => 'OK', () => 'FAILED (no panel)');
+    }
+    await page.screenshot({ path: path.join(outDir, 'desktop-winter.png'), timeout: SHOT_TIMEOUT_MS });
     await page.waitForTimeout(500);
     const hash = await page.evaluate(() => window.location.hash);
     const shared = await context.newPage();
@@ -187,14 +219,15 @@ for (const profile of profiles) {
         zoom: m.getZoom(),
         forecast: document.getElementById('toggle-forecast').checked,
         ferratas: document.getElementById('toggle-ferratas').checked,
+        winter: document.getElementById('toggle-winter').checked,
         day: document.querySelector('#days [aria-checked="true"]')?.dataset.date ?? null,
       };
     });
-    const linkOk = hash.includes('map=') && Math.abs(restored.zoom - 12.6) < 0.05 && restored.forecast && restored.ferratas;
+    const linkOk = hash.includes('map=') && Math.abs(restored.zoom - 12.8) < 0.05 && restored.forecast && restored.ferratas && restored.winter;
     await shared.close();
     await page.bringToFront();
-    v3 = `timeline day ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}`;
-    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || !linkOk) errors.push(`V3 checks: ${v3}`);
+    v3 = `timeline day ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, winter sports ${winter}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}`;
+    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || winter !== 'OK' || !linkOk) errors.push(`V3 checks: ${v3}`);
   }
 
   console.log(

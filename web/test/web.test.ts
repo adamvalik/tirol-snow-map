@@ -8,6 +8,7 @@ import { compass, fmtChange, formatAge, formatTimeShort, weatherText } from '../
 import { frameLabel } from '../src/forecastAnim.ts';
 import { routeSnow, routeSnowPoints } from '../src/snow.ts';
 import { parseHash, toHash, type ViewState } from '../src/viewState.ts';
+import { fullProps, LIFT_COLOR, liftEnds, slopeColor, UNKNOWN_SLOPE_COLOR, winterColor, winterHtml, winterSub, winterTitle, type WinterFeature } from '../src/winter.ts';
 import type { ForecastFile } from '../../shared/types.ts';
 
 describe('forecastUrl', () => {
@@ -235,5 +236,48 @@ describe('via ferratas', () => {
 
   it('keeps ferratas in shared links', () => {
     expect(parseHash('#layers=snow,ferratas').layers).toEqual(['snow', 'ferratas']);
+  });
+});
+
+describe('winter sports', () => {
+  const lift = fullProps({ id: 'w4388461', kind: 'lift', lift: 'chair_lift', name: 'Ciampinoi', occupancy: 6, capacity: 2400, lengthM: 1346, minM: 1500, maxM: 2025, startM: 1502, endM: 2025 });
+  const slope = fullProps({ id: 'r12', kind: 'downhill', difficulty: 'intermediate', ref: '3', name: 'Saslong', ways: 3, lengthM: 3400, minM: 1400, maxM: 2250 });
+
+  it('fills in what the file leaves out', () => {
+    expect(lift).toMatchObject({ osm: 'way/4388461', ways: 1, lit: false, grooming: null, areaHa: null, climbM: null });
+    expect(slope.osm).toBe('relation/12');
+  });
+
+  it('names and describes lifts and pistes', () => {
+    expect(winterSub(lift)).toBe('Chairlift, 6 seats');
+    expect(winterSub(fullProps({ id: 'w1', kind: 'lift', lift: 'gondola', occupancy: 8, minM: 0, maxM: 0 }))).toBe('Gondola, 8 per cabin');
+    expect(winterSub(slope)).toBe('Red slope, intermediate');
+    expect(winterSub(fullProps({ id: 'w1', kind: 'nordic', grooming: 'classic+skating', minM: 0, maxM: 0 }))).toBe('Cross-country trail, classic and skating');
+    expect(winterTitle(slope)).toBe('3 Saslong');
+    expect(winterTitle({ kind: 'lift', lift: 't-bar', name: null, ref: '12' })).toBe('T-bar 12');
+    expect(winterTitle({ kind: 'sled', lift: null, name: null, ref: null })).toBe('Toboggan run');
+  });
+
+  it('colours slopes by difficulty and the rest by kind', () => {
+    expect(slopeColor('easy')).toBe('#1c7ed6');
+    expect(slopeColor(null)).toBe(UNKNOWN_SLOPE_COLOR);
+    expect(winterColor(lift)).toBe(LIFT_COLOR);
+  });
+
+  it('shows a lift its rise and top station, and escapes OSM text', () => {
+    const html = winterHtml(lift);
+    expect(html).toContain('523 m');
+    expect(html).toContain('2,025 m');
+    expect(html).toContain('2,400 people an hour');
+    expect(winterHtml({ ...slope, website: 'javascript:alert(1)' })).not.toContain('javascript');
+  });
+
+  it('puts a dot at both ends of every lift', () => {
+    const f = { type: 'Feature', properties: lift, geometry: { type: 'LineString', coordinates: [[11, 46, 1500], [11.01, 46.01, 2000]] } } as WinterFeature;
+    expect(liftEnds([f]).map((e) => e.geometry.coordinates)).toEqual([[11, 46, 1500], [11.01, 46.01, 2000]]);
+  });
+
+  it('keeps the layer in shared links', () => {
+    expect(parseHash('#layers=snow,winter').layers).toEqual(['snow', 'winter']);
   });
 });
