@@ -1,7 +1,7 @@
 // Aerial lifts in 3D, built from fill-extrusion blocks like the bivouac cabins (cabins.ts): a
 // station at each end, a pylon with a cross-arm at every mapped pylon (or evenly spaced where OSM
-// maps none), two cables between the cross-arms and cabins hanging from them. One model for all
-// aerial lifts for now; chairlifts may get chairs later.
+// maps none), two cables between the cross-arms, and the carriers hanging from them: cabins on
+// gondolas and cable cars, chairs on chairlifts, both in turn on mixed lifts.
 //
 // A fill-extrusion stands on the terrain the map draws (exaggerated with "Terrain height"), and
 // its base and height are metres above that ground. So the cables are cut into short pieces, and
@@ -33,6 +33,8 @@ export const LIFT_3D = {
   clearance: 3,
   station: { width: 20, length: 28, height: 10, cable: 9 },
   cabin: { size: 6, height: 5.5, hanger: 2.5, spacing: 120 },
+  /** Chairs: width per seat, seat depth, hanger, backrest; closer together than cabins, as on a real lift. */
+  chair: { seat: 1.1, depth: 1.7, hanger: 4.5, back: 2.2, spacing: 50, defaultSeats: 4 },
   /** Pylons where none are mapped: spans of at most this length. */
   span: 220,
 } as const;
@@ -45,11 +47,27 @@ export const LIFT_3D_COLORS = {
   roof: '#495057',
   cabin: '#d6336c',
   cabinRoof: '#343a40',
+  chair: '#1c7ed6',
+  hood: '#f59f00',
 } as const;
 
 export type Ground = (lon: number, lat: number) => number | null;
 type Pos = readonly number[];
 export type Block = Feature<Polygon, { id: string; base: number; height: number; color: string }>;
+
+/** What hangs on the cable: from the OSM aerialway type, seats per chair and a weather hood. */
+export interface Carriers {
+  kind: 'cabin' | 'chair' | 'mixed';
+  seats?: number | null;
+  bubble?: boolean;
+}
+
+/** Chairs for chairlifts, both for mixed lifts, cabins for the rest. */
+export const carriersFor = (lift: string | null, seats: number | null = null, bubble = false): Carriers => ({
+  kind: lift === 'chair_lift' ? 'chair' : lift === 'mixed_lift' ? 'mixed' : 'cabin',
+  seats,
+  bubble,
+});
 
 /** Local metres east and north of `origin`, and back. */
 function frame(origin: Pos) {
@@ -111,7 +129,13 @@ export function supports(line: readonly Pos[], pylons: readonly Pos[] | null): {
  * The blocks of one lift, or null while the ground under it is not known (terrain tiles still
  * loading). `line` is [lon, lat, ...] bottom to top.
  */
-export function liftBlocks(id: string, line: readonly Pos[], pylons: readonly Pos[] | null, groundAt: Ground): Block[] | null {
+export function liftBlocks(
+  id: string,
+  line: readonly Pos[],
+  pylons: readonly Pos[] | null,
+  groundAt: Ground,
+  carriers: Carriers = { kind: 'cabin' },
+): Block[] | null {
   if (line.length < 2) return null;
   const s = LIFT_3D;
   const blocks: Block[] = [];
@@ -154,7 +178,34 @@ export function liftBlocks(id: string, line: readonly Pos[], pylons: readonly Po
     }
   });
 
-  // Cables in short pieces, with cabins every so often on each track (staggered between the two).
+  /** A cabin hanging from the cable at `cable` metres above the ground. */
+  const cabin = (cx: number, cy: number, dir: [number, number], cable: number) => {
+    const bottom = cable - s.cabin.hanger - s.cabin.height;
+    if (bottom < 0.5) return;
+    box(cx, cy, dir, 0.4, 0.4, cable - s.cabin.hanger, cable, LIFT_3D_COLORS.arm);
+    box(cx, cy, dir, s.cabin.size, s.cabin.size, bottom, cable - s.cabin.hanger - 0.6, LIFT_3D_COLORS.cabin);
+    box(cx, cy, dir, s.cabin.size + 0.3, s.cabin.size + 0.3, cable - s.cabin.hanger - 0.6, cable - s.cabin.hanger, LIFT_3D_COLORS.cabinRoof);
+  };
+  const seats = Math.min(Math.max(carriers.seats ?? s.chair.defaultSeats, 1), 8);
+  const chairWidth = seats * s.chair.seat;
+  /**
+   * A chair: a hanger, a bar across, the seat, and the backrest behind the riders, who face
+   * `travel` (up on one track, down on the other). A weather hood where OSM maps one.
+   */
+  const chair = (cx: number, cy: number, travel: [number, number], cable: number) => {
+    const c = s.chair;
+    const seatBase = cable - c.hanger - 0.6;
+    if (seatBase < 0.5) return;
+    const at = (shift: number): [number, number] => [cx + travel[0] * shift, cy + travel[1] * shift];
+    box(cx, cy, travel, 0.35, 0.35, seatBase + 0.6, cable, LIFT_3D_COLORS.arm);
+    box(cx, cy, travel, 0.35, chairWidth, seatBase + 0.6, seatBase + 0.9, LIFT_3D_COLORS.arm);
+    box(...at(0.2), travel, c.depth, chairWidth, seatBase, seatBase + 0.5, LIFT_3D_COLORS.chair);
+    box(...at(-c.depth / 2), travel, 0.4, chairWidth, seatBase, seatBase + c.back, LIFT_3D_COLORS.chair);
+    if (carriers.bubble) box(...at(-0.2), travel, c.depth + 0.6, chairWidth + 0.4, seatBase + c.back, seatBase + c.back + 0.4, LIFT_3D_COLORS.hood);
+  };
+  const spacing = carriers.kind === 'chair' ? s.chair.spacing : carriers.kind === 'mixed' ? s.cabin.spacing / 2 : s.cabin.spacing;
+
+  // Cables in short pieces, with carriers every so often on each track (staggered between the two).
   for (let i = 1; i < sup.length; i++) {
     const [ax, ay] = xy[i - 1];
     const [bx, by] = xy[i];
@@ -180,12 +231,14 @@ export function liftBlocks(id: string, line: readonly Pos[], pylons: readonly Po
         box(ox, oy, dir, span / n + 0.3, s.cableWidth, base, base + s.cableThickness + rise, LIFT_3D_COLORS.cable);
       }
     }
-    // Cabins, placed by distance from the bottom station so spacing runs on across pylons.
+    // Carriers, placed by distance from the bottom station so spacing runs on across pylons. The
+    // track on the left of the line goes up, the other comes down.
     const d0 = sup[i - 1].d;
     const d1 = sup[i].d;
     for (const side of [-1, 1]) {
-      const phase = side === 1 ? 0 : s.cabin.spacing / 2;
-      for (let d = Math.ceil((d0 - phase) / s.cabin.spacing) * s.cabin.spacing + phase; d < d1; d += s.cabin.spacing) {
+      const phase = side === 1 ? 0 : spacing / 2;
+      const travel: [number, number] = side === 1 ? dir : [-dir[0], -dir[1]];
+      for (let d = Math.ceil((d0 - phase) / spacing) * spacing + phase; d < d1; d += spacing) {
         const t = (d - d0) / (d1 - d0);
         // Keep clear of the stations and pylons.
         if (t * span < 15 || (1 - t) * span < 15) continue;
@@ -194,11 +247,10 @@ export function liftBlocks(id: string, line: readonly Pos[], pylons: readonly Po
         const g = groundAt(lon, lat);
         if (g === null) return null;
         const cable = Math.max(s.clearance, top[i - 1] + (top[i] - top[i - 1]) * t - 4 * s.sag * span * t * (1 - t) - g);
-        const bottom = cable - s.cabin.hanger - s.cabin.height;
-        if (bottom < 0.5) continue;
-        box(cx, cy, dir, 0.4, 0.4, cable - s.cabin.hanger, cable, LIFT_3D_COLORS.arm);
-        box(cx, cy, dir, s.cabin.size, s.cabin.size, bottom, cable - s.cabin.hanger - 0.6, LIFT_3D_COLORS.cabin);
-        box(cx, cy, dir, s.cabin.size + 0.3, s.cabin.size + 0.3, cable - s.cabin.hanger - 0.6, cable - s.cabin.hanger, LIFT_3D_COLORS.cabinRoof);
+        // A mixed lift alternates: a cabin, then chairs, by its place on the cable.
+        const isChair = carriers.kind === 'chair' || (carriers.kind === 'mixed' && Math.round((d - phase) / spacing) % 2 === 1);
+        if (isChair) chair(cx, cy, travel, cable);
+        else cabin(cx, cy, dir, cable);
       }
     }
   }

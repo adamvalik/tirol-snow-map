@@ -318,7 +318,7 @@ describe('winter sports', () => {
 });
 
 describe('lifts in 3D', async () => {
-  const { LIFT_3D, liftBlocks, supports } = await import('../src/lifts3d.ts');
+  const { carriersFor, LIFT_3D, LIFT_3D_COLORS, liftBlocks, supports } = await import('../src/lifts3d.ts');
   // About 1.1 km north, rising 400 m.
   const line = [[11, 46.5, 1500], [11, 46.51, 1900]];
   const slope = (_lon: number, lat: number) => 1500 + (lat - 46.5) * 40000;
@@ -342,6 +342,30 @@ describe('lifts in 3D', async () => {
     const cable = blocks.filter((b) => b.properties.color === '#212529');
     expect(cable.length).toBeGreaterThan(100);
     expect(Math.min(...cable.map((b) => b.properties.base))).toBeGreaterThanOrEqual(LIFT_3D.clearance);
+  });
+
+  it('hangs chairs on chairlifts, wider with more seats and with a hood where mapped', () => {
+    const count = (blocks: { properties: { color: string } }[], color: string) => blocks.filter((b) => b.properties.color === color).length;
+    const width = (b: { geometry: { coordinates: number[][][] } }) => {
+      const [a, , c] = b.geometry.coordinates[0];
+      return Math.abs(c[0] - a[0]) * 111_320 * Math.cos((46.5 * Math.PI) / 180);
+    };
+    expect(carriersFor('chair_lift', 6, true)).toEqual({ kind: 'chair', seats: 6, bubble: true });
+    expect(carriersFor('gondola').kind).toBe('cabin');
+    const gondola = liftBlocks('w1', line, null, slope, carriersFor('gondola'))!;
+    const chairs4 = liftBlocks('w1', line, null, slope, carriersFor('chair_lift', 4))!;
+    const chairs8 = liftBlocks('w1', line, null, slope, carriersFor('chair_lift', 8, true))!;
+    expect(count(gondola, LIFT_3D_COLORS.chair)).toBe(0);
+    expect(count(chairs4, LIFT_3D_COLORS.cabin)).toBe(0);
+    // Seat and backrest per chair, closer together than cabins.
+    expect(count(chairs4, LIFT_3D_COLORS.chair) / 2).toBeGreaterThan(count(gondola, LIFT_3D_COLORS.cabin) * 2);
+    expect(count(chairs4, LIFT_3D_COLORS.hood)).toBe(0);
+    expect(count(chairs8, LIFT_3D_COLORS.hood)).toBeGreaterThan(0);
+    // The line runs north, so a chair's width lies east–west.
+    const seat = (bs: typeof chairs4) => bs.find((b) => b.properties.color === LIFT_3D_COLORS.chair)!;
+    expect(width(seat(chairs8)) / width(seat(chairs4))).toBeCloseTo(2, 1);
+    const mixed = liftBlocks('w1', line, null, slope, carriersFor('mixed_lift'))!;
+    expect(count(mixed, LIFT_3D_COLORS.chair) > 0 && count(mixed, LIFT_3D_COLORS.cabin) > 0).toBe(true);
   });
 
   it('waits while the ground is not loaded', () => {

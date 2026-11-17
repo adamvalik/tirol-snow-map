@@ -13,7 +13,7 @@ import { websiteUrl } from './ferratas.ts';
 import { factsHtml } from './placeHtml.ts';
 import { inArea } from './island.ts';
 import type { IconName } from './app/icons.ts';
-import { type Block, liftBlocks } from './lifts3d.ts';
+import { type Block, carriersFor, liftBlocks } from './lifts3d.ts';
 
 export const WINTER_KINDS = ['lift', 'downhill', 'nordic', 'sled', 'skitour'] as const;
 export type WinterKind = (typeof WINTER_KINDS)[number];
@@ -455,7 +455,8 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
     const blocks: Block[] = [];
     const skipped: string[] = [];
     for (const f of lifts) {
-      const parts = liftBlocks(f.properties.id, (f.geometry as LineString).coordinates, f.properties.pylons, ground);
+      const p = f.properties;
+      const parts = liftBlocks(p.id, (f.geometry as LineString).coordinates, p.pylons, ground, carriersFor(p.lift, p.occupancy, p.bubble));
       if (parts) blocks.push(...parts);
       else skipped.push(f.properties.id);
     }
