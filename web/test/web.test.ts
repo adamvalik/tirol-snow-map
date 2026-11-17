@@ -237,3 +237,46 @@ describe('via ferratas', () => {
     expect(parseHash('#layers=snow,ferratas').layers).toEqual(['snow', 'ferratas']);
   });
 });
+
+describe('shortPlaceName', async () => {
+  const { expression } = await import('@maplibre/maplibre-gl-style-spec');
+  const { shortPlaceName, SHORT_NAME_MAX_ZOOM } = await import('../src/basemap.ts');
+  const label = (props: Record<string, string>, zoom: number) => {
+    const e = expression.createExpression(shortPlaceName(['get', 'name']), { type: 'formatted' } as never);
+    if (e.result !== 'success') throw new Error(JSON.stringify(e.value));
+    return String(e.value.evaluate({ zoom }, { properties: props } as never));
+  };
+  const ortisei = { name: 'Urtijëi - St. Ulrich - Ortisei', 'name:it': 'Ortisei', 'name:de': 'St. Ulrich in Gröden' };
+
+  it('prefers the Italian, then the German name at low zoom', () => {
+    expect(label(ortisei, 10)).toBe('Ortisei');
+    expect(label({ name: 'Bruneck - Brunico', 'name:de': 'Bruneck' }, 10)).toBe('Bruneck');
+    expect(label({ name: 'Lungiarü - Campill' }, 10)).toBe('Lungiarü');
+  });
+
+  it('keeps the full name when zoomed in and single-language names as they are', () => {
+    expect(label(ortisei, SHORT_NAME_MAX_ZOOM)).toBe(ortisei.name);
+    expect(label({ name: 'Innsbruck', 'name:it': 'Innsbruck' }, 8)).toBe('Innsbruck');
+    expect(label({ name: 'Lienz', 'name:it': 'Lienz' }, 8)).toBe('Lienz');
+  });
+});
+
+describe('shortPlaceName with a zoom step', async () => {
+  const { shortPlaceName, SHORT_NAME_MAX_ZOOM: Z } = await import('../src/basemap.ts');
+  const short = (shortPlaceName(['get', 'name']) as unknown[])[2];
+  const wrap = (o: unknown) => JSON.stringify(shortPlaceName(o));
+  it('merges into the existing step instead of nesting one', () => {
+    const a = ['get', 'name'];
+    const b = ['coalesce', ['get', 'name:en'], a];
+    const c = ['coalesce', ['get', 'pgf:name'], a];
+    const ref = ['get', 'ref'];
+    expect(wrap(['step', ['zoom'], ref, 6, b])).toBe(JSON.stringify(['step', ['zoom'], ref, 6, swap(short, b), Z, b]));
+    expect(wrap(['step', ['zoom'], a, 6, b, Z, c])).toBe(JSON.stringify(['step', ['zoom'], swap(short, a), 6, swap(short, b), Z, c]));
+    expect(wrap(['step', ['zoom'], a, 14, c])).toBe(JSON.stringify(['step', ['zoom'], swap(short, a), Z, a, 14, c]));
+  });
+  function swap(e: unknown, out: unknown) {
+    const c = structuredClone(e) as unknown[];
+    c[3] = out;
+    return c;
+  }
+});

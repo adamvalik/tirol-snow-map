@@ -42,6 +42,41 @@ export function basemapSources(): Record<string, SourceSpecification> {
 /** Layers that are not wanted on a 3D terrain map (opaque land would hide relief and hillshade). */
 const DROP = new Set(['background', 'earth', 'water_label_ocean', 'earth_label_islands']);
 
+/** Below this zoom, multilingual place names ("Urtijëi - St. Ulrich - Ortisei") show one name only. */
+export const SHORT_NAME_MAX_ZOOM = 12;
+
+const NAME = ['get', 'name'];
+const isMultilingual = ['any', ['in', ' - ', NAME], ['in', ' / ', NAME]];
+
+/**
+ * One name for a place whose OSM name lists several languages: Italian, then German, then the
+ * first part of the combined name. Single-language names are left to the original expression.
+ */
+export function shortPlaceName(original: unknown): unknown {
+  const firstPart = ['case', ['in', ' - ', NAME], ['slice', NAME, 0, ['index-of', ' - ', NAME]], NAME];
+  const short = ['format', ['coalesce', ['get', 'name:it'], ['get', 'name:de'], firstPart], {}];
+  // Outputs that do not show the name (region abbreviations at the lowest zooms) stay as they are.
+  const shorten = (out: unknown) =>
+    JSON.stringify(out).includes('"name"') ? ['case', ['all', ['has', 'name'], isMultilingual], short, out] : out;
+
+  // MapLibre allows only one zoom step per expression, so merge into one the original already has.
+  const isZoomStep = (e: unknown): e is unknown[] =>
+    Array.isArray(e) && e[0] === 'step' && Array.isArray(e[1]) && e[1][0] === 'zoom';
+  if (!isZoomStep(original)) return ['step', ['zoom'], shorten(original), SHORT_NAME_MAX_ZOOM, original];
+
+  const outputs = [original[2], ...original.slice(4).filter((_, i) => i % 2 === 0)];
+  const stops = original.slice(3).filter((_, i) => i % 2 === 0) as number[];
+  const merged: unknown[] = ['step', ['zoom'], shorten(outputs[0])];
+  let split = false;
+  stops.forEach((stop, i) => {
+    if (!split && stop > SHORT_NAME_MAX_ZOOM) merged.push(SHORT_NAME_MAX_ZOOM, outputs[i]);
+    if (stop >= SHORT_NAME_MAX_ZOOM) split = true;
+    merged.push(stop, split ? outputs[i + 1] : shorten(outputs[i + 1]));
+  });
+  if (!split) merged.push(SHORT_NAME_MAX_ZOOM, outputs.at(-1));
+  return merged;
+}
+
 export interface BasemapLayers {
   /** Land cover, land use and water fills; drawn translucently between the relief tint and the hillshade. */
   fills: LayerSpecification[];
@@ -62,7 +97,12 @@ export function basemapLayers(): BasemapLayers {
       // Water stays solid; land cover only tints so the terrain shading shows through.
       if (l.id !== 'water') l.paint = { ...l.paint, 'fill-opacity': 0.45 };
       fills.push(l);
-    } else if (l.type === 'symbol') labels.push(l);
+    } else if (l.type === 'symbol') {
+      if (l.id.startsWith('places_') && l.id !== 'places_country' && l.layout?.['text-field']) {
+        l.layout = { ...l.layout, 'text-field': shortPlaceName(l.layout['text-field']) as never };
+      }
+      labels.push(l);
+    }
     else lines.push(l);
   }
 
