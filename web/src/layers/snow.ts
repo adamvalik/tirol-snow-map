@@ -126,10 +126,12 @@ export const snow: LayerModule = {
         return null;
       },
     );
-    // The depth legend: one bar of the classes, with the class boundaries in cm underneath, shown
-    // while the station dots or the depth estimate (which share its colours) are on.
+    // The depth legend: one bar of the classes (no snow in brown, set a little apart), with the class
+    // boundaries in cm underneath, shown while the station dots or the depth estimate (which share
+    // its colours) are on.
     $('legend-bar').innerHTML = SNOW_CLASSES.map((c) => `<span style="background:${c.color}" title="${c.label}"></span>`).join('');
     $('legend-ticks').innerHTML = SNOW_CLASSES.map((c) => `<span>${parseInt(c.label, 10)}</span>`).join('');
+    $('bare-swatch').style.background = SNOW_CLASSES[0].color;
     $('no-sensor-swatch').style.background = NO_SNOW_SENSOR_COLOR;
   },
 
