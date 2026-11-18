@@ -794,19 +794,29 @@ body.dragging .track-add {
   color: var(--muted);
 }
 
-/* --- Legends (Layers tab only) ---------------------------------------------- */
+/* --- Legends ----------------------------------------------------------------- */
 
+/* Wider screens: a small card in the map's top-left corner, so the panel keeps its height. */
 .legends {
+  position: fixed;
+  left: 380px;
+  top: 20px;
+  z-index: 1;
+  width: 260px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 0 20px 14px;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgb(255 255 255 / 0.95);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.08), 0 6px 20px rgb(15 23 42 / 0.12);
 }
 
 .legends:not(:has(.legend:not([hidden]))) {
   display: none;
 }
 
+/* Phones: at the end of the Layers tab. */
 .panel:not([data-tab='layers']) .legends {
   display: none;
 }
@@ -907,68 +917,47 @@ body.dragging .track-add {
   background: repeating-linear-gradient(90deg, #868e96 0 4px, #fff 4px 7px);
 }
 
-/* Winter sports: chips under the tiles hide and show each kind while the layer is on. */
-.winter-keys {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.tiles:not(:has(#toggle-winter:checked)) + .winter-keys {
+/* Winter sports: its group shows only while the layer is on; each row hides and shows one kind. */
+.tabpanel:not(:has(#toggle-winter:checked)) #group-winter {
   display: none;
 }
 
-.winter-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 30px;
-  padding: 3px 10px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #fff;
-  color: var(--ink-2);
-  font: inherit;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.winter-chip:hover {
-  background: var(--hover);
-}
-
-.winter-chip[aria-pressed='true'] {
-  background: var(--on);
-  border-color: var(--on-line);
-  color: var(--ink);
-  font-weight: 600;
-}
-
-.winter-chip[aria-pressed='false'] {
-  color: var(--muted);
+.tabpanel:not(:has(#toggle-winter:checked)) #group-winter + .group {
+  border-top: 0;
 }
 
 .winter-swatch {
   display: inline-flex;
-  gap: 2px;
+  width: 16px;
 }
 
 .winter-swatch i {
   display: inline-block;
-  width: 14px;
+  width: 16px;
   height: 4px;
   border-radius: 2px;
 }
 
-.winter-swatch i.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-
 .winter-swatch i.dotted {
   background: radial-gradient(circle, currentColor 1.5px, transparent 1.8px) 0 50% / 5px 4px repeat-x;
+}
+
+/* The slope colours under the Slopes row. */
+.winter-slope-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.winter-slope-keys .ferrata-key i {
+  width: 12px;
+}
+
+#winter-kinds .row:has(.winter-slope-keys) {
+  padding: 4px 0;
 }
 
 .footer {
@@ -2515,7 +2504,12 @@ details[open] > .act .caret {
   }
 
   .legends {
+    position: static;
+    width: auto;
     padding: 0 0 12px;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .footer {

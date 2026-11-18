@@ -1,5 +1,6 @@
 // Winter sports: lifts, slopes, cross-country trails, toboggan runs and ski touring routes. The data
-// is fetched the first time the layer is switched on; the legend's chips hide and show each kind.
+// is fetched the first time the layer is switched on; the switches in its group hide and show each
+// kind, and the Slopes row carries the slope colours.
 import * as maplibregl from 'maplibre-gl';
 import { $ } from '../app/dom.ts';
 import { isOn } from '../app/switches.ts';
@@ -35,12 +36,20 @@ const shownKinds = new Set<WinterKind>(WINTER_KINDS);
 /** How many of each kind are drawn, once loaded (for "About the data"). */
 export const winterCounts = () => counts;
 
-const CHIPS: { kind: WinterKind; label: string; swatch: string }[] = [
-  { kind: 'lift', label: 'Lifts', swatch: `<i style="background:${LIFT_COLOR}"></i>` },
-  { kind: 'downhill', label: 'Slopes', swatch: DIFFICULTY_CLASSES.filter((c) => c.key !== 'expert' && c.key !== 'novice').map((c) => `<i class="dot" style="background:${c.color}"></i>`).join('') },
-  { kind: 'nordic', label: 'Cross-country', swatch: `<i style="background:${NORDIC_COLOR}"></i>` },
-  { kind: 'sled', label: 'Toboggan', swatch: `<i style="background:${SLED_COLOR}"></i>` },
-  { kind: 'skitour', label: 'Ski touring', swatch: `<i class="dotted" style="color:${SKITOUR_COLOR}"></i>` },
+const line = (color: string, cls = '') => `<i${cls ? ` class="${cls}"` : ''} style="${cls === 'dotted' ? 'color' : 'background'}:${color}"></i>`;
+
+/** Slope colours under the Slopes row: Nursery, Blue, Red, Black, Freeride (expert is drawn as black). */
+const slopeKeys = () =>
+  DIFFICULTY_CLASSES.filter((c) => c.key !== 'expert')
+    .map((c) => `<span class="ferrata-key"><i style="background:${c.color}"></i>${c.label}</span>`)
+    .join('');
+
+const KINDS: { kind: WinterKind; label: string; swatch: string; keys?: string }[] = [
+  { kind: 'lift', label: 'Lifts', swatch: line(LIFT_COLOR) },
+  { kind: 'downhill', label: 'Slopes', swatch: `<i style="background:linear-gradient(90deg, ${DIFFICULTY_CLASSES[1].color} 0 33%, ${DIFFICULTY_CLASSES[2].color} 33% 67%, ${DIFFICULTY_CLASSES[3].color} 67%)"></i>`, keys: slopeKeys() },
+  { kind: 'nordic', label: 'Cross-country', swatch: line(NORDIC_COLOR) },
+  { kind: 'sled', label: 'Toboggan', swatch: line(SLED_COLOR) },
+  { kind: 'skitour', label: 'Ski touring', swatch: line(SKITOUR_COLOR, 'dotted') },
 ];
 
 /** What a feature's snow card calls it: "About 40 % of the slope in snow". */
@@ -63,28 +72,24 @@ function show(on: boolean) {
 
 export const winter: LayerModule = {
   keys: ['winter'],
-  legends: { 'winter-legend': ['winter'] },
   clickLayers: WINTER_LAYER_IDS,
 
   setup(app) {
-    const keys = $('winter-keys');
-    keys.innerHTML = CHIPS.map(
-      (c) =>
-        `<button type="button" class="winter-chip" data-kind="${c.kind}" aria-pressed="true"><span class="winter-swatch">${c.swatch}</span>${c.label}</button>`,
+    const box = $('winter-kinds');
+    box.innerHTML = KINDS.map(
+      (k) =>
+        `<label class="row"><span class="winter-swatch" aria-hidden="true">${k.swatch}</span><span class="row-label">${k.label}${
+          k.keys ? `<span class="winter-slope-keys">${k.keys}</span>` : ''
+        }</span><input type="checkbox" class="switch" data-kind="${k.kind}" checked /></label>`,
     ).join('');
-    keys.addEventListener('click', (e) => {
-      const btn = (e.target as Element).closest<HTMLButtonElement>('.winter-chip');
-      if (!btn) return;
-      const kind = btn.dataset.kind as WinterKind;
-      if (shownKinds.has(kind)) shownKinds.delete(kind);
-      else shownKinds.add(kind);
-      btn.setAttribute('aria-pressed', String(shownKinds.has(kind)));
+    box.addEventListener('change', (e) => {
+      const input = e.target as HTMLInputElement;
+      const kind = input.dataset.kind as WinterKind | undefined;
+      if (!kind) return;
+      if (input.checked) shownKinds.add(kind);
+      else shownKinds.delete(kind);
       layer?.setKinds([...shownKinds]);
     });
-    $('winter-slope-keys').innerHTML =
-      DIFFICULTY_CLASSES.filter((c) => c.key !== 'expert')
-        .map((c) => `<span class="ferrata-key"><i style="background:${c.color}"></i>${c.label}</span>`)
-        .join('');
     app.point.extend({ close: () => layer?.select(null) });
   },
 
