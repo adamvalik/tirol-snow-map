@@ -101,7 +101,7 @@ function showSunLabel(sun: SunPosition) {
 
 function applyShadows(sun: ReturnType<typeof sunPosition> | null) {
   if (!shadowLayer) return;
-  if (!sun || sun.altitude <= 0 || !isOn('shadows')) {
+  if (!sun || sun.altitude <= 0) {
     shadowLayer.hide();
     return;
   }
@@ -210,7 +210,7 @@ function playSun() {
 }
 
 export const sun: LayerModule = {
-  keys: ['sun', 'shadows'],
+  keys: ['sun'],
 
   setup(a) {
     app = a;
@@ -286,13 +286,7 @@ export const sun: LayerModule = {
     applyLight();
   },
 
-  setVisible(key, on) {
-    if (key === 'shadows') {
-      // Shadows need the sun light; switching them on switches it on.
-      if (on && !isOn('sun')) switchOn('sun');
-      else applyLight();
-      return;
-    }
+  setVisible(_key, on) {
     sunGroup.hidden = !on;
     if (!on) pauseSun();
     // The light is drawn by the hillshade layer, so it has to be on.

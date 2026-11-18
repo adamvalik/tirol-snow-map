@@ -63,13 +63,18 @@ describe('local days', () => {
 
 describe('sun light on the map', () => {
   it('keeps the usual north-west light when off', () => {
-    expect(hillshadePaint(null, false)).toMatchObject({
-      'hillshade-method': 'standard',
-      'hillshade-exaggeration': 0.3,
-      'hillshade-illumination-direction': 335,
+    const paint = hillshadePaint(null, false);
+    expect(paint).toMatchObject({
+      'hillshade-method': 'multidirectional',
+      'hillshade-exaggeration': 0.45,
       'hillshade-illumination-anchor': 'viewport',
     });
-    expect(hillshadePaint(null, true)['hillshade-exaggeration']).toBe(0.12);
+    // The main light comes from the north-west; one colour per light.
+    const directions = paint['hillshade-illumination-direction'] as number[];
+    expect(directions[0]).toBe(335);
+    expect(paint['hillshade-shadow-color']).toHaveLength(directions.length);
+    expect(paint['hillshade-highlight-color']).toHaveLength(directions.length);
+    expect(hillshadePaint(null, true)['hillshade-exaggeration']).toBe(0.2);
   });
 
   it('lights from the sun, fixed to the map, never from below the horizon', () => {

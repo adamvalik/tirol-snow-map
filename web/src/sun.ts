@@ -88,14 +88,19 @@ export type HillshadePaint = NonNullable<HillshadeLayerSpecification['paint']>;
 
 export function hillshadePaint(sun: SunPosition | null, satellite: boolean): HillshadePaint {
   if (!sun) {
+    // A main light from the north-west and two soft side lights, as on Swiss relief maps: the main
+    // light models the big ridges, the side lights bring out gullies that face it head-on. Shadows
+    // are a cool blue-grey, highlights warm white.
+    const strength = satellite ? 0.35 : 1;
+    const a = (v: number) => +(v * strength).toFixed(2);
     return {
-      'hillshade-method': 'standard',
-      'hillshade-exaggeration': satellite ? 0.12 : 0.3,
-      'hillshade-illumination-direction': 335,
-      'hillshade-illumination-altitude': 45,
+      'hillshade-method': 'multidirectional',
+      'hillshade-exaggeration': satellite ? 0.2 : 0.45,
+      'hillshade-illumination-direction': [335, 285, 20],
+      'hillshade-illumination-altitude': [40, 30, 30],
       'hillshade-illumination-anchor': 'viewport',
-      'hillshade-shadow-color': '#4f5058',
-      'hillshade-highlight-color': '#ffffff',
+      'hillshade-shadow-color': [`rgba(36, 48, 74, ${a(0.6)})`, `rgba(52, 62, 86, ${a(0.22)})`, `rgba(52, 62, 86, ${a(0.22)})`],
+      'hillshade-highlight-color': [`rgba(255, 251, 238, ${a(0.55)})`, `rgba(255, 255, 255, ${a(0.15)})`, `rgba(255, 255, 255, ${a(0.15)})`],
     };
   }
   return {

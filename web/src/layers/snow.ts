@@ -46,9 +46,9 @@ export const shownSnow = () => shown;
 /** The snow summary at a point, or '' while the depth values are not loaded. */
 export const pointSnow = (lon: number, lat: number): string => (shown && values ? pointSnowHtml(shown, values.at(lon, lat)) : '');
 
-/** The snow summary along evenly spaced points of a route, or ''. */
-export const routeSnowSummary = (points: readonly number[][]): string =>
-  shown && values ? routeSnowHtml(shown, routeSnow(values, points)) : '';
+/** The snow summary along evenly spaced points of a route, or ''; `what` names it ("route", "slope"). */
+export const routeSnowSummary = (points: readonly number[][], what?: string): string =>
+  shown && values ? routeSnowHtml(shown, routeSnow(values, points), what) : '';
 
 /** Snow seen from space along a route, as numbers for a panel or a chart. */
 export interface SnowAlong {
@@ -126,10 +126,12 @@ export const snow: LayerModule = {
         return null;
       },
     );
-    // The depth legend: one bar of the classes, with the class boundaries in cm underneath, shown
-    // while the station dots or the depth estimate (which share its colours) are on.
+    // The depth legend: one bar of the classes (no snow in brown, set a little apart), with the class
+    // boundaries in cm underneath, shown while the station dots or the depth estimate (which share
+    // its colours) are on.
     $('legend-bar').innerHTML = SNOW_CLASSES.map((c) => `<span style="background:${c.color}" title="${c.label}"></span>`).join('');
     $('legend-ticks').innerHTML = SNOW_CLASSES.map((c) => `<span>${parseInt(c.label, 10)}</span>`).join('');
+    $('bare-swatch').style.background = SNOW_CLASSES[0].color;
     $('no-sensor-swatch').style.background = NO_SNOW_SENSOR_COLOR;
   },
 

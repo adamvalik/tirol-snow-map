@@ -133,12 +133,30 @@
               <span class="tile-top"><i data-icon="ladder-simple" data-size="22"></i><span class="tile-meta" id="ferrata-count"></span><span class="tile-off">Off</span></span>
               <span class="tile-name">Via ferratas</span>
             </label>
+            <label class="tile">
+              <input type="checkbox" id="toggle-winter" />
+              <span class="tile-top"><i data-icon="person-simple-ski" data-size="22"></i><span class="tile-off">Off</span></span>
+              <span class="tile-name">Winter sports</span>
+            </label>
+            <label class="tile">
+              <input type="checkbox" id="toggle-sun" />
+              <span class="tile-top"><i data-icon="sun" data-size="22"></i><span class="tile-off">Off</span></span>
+              <span class="tile-name">Sun and shade</span>
+            </label>
           </div>
 
           <!-- GPX: filled by app/track.ts (add, reading, the track's row). -->
           <section id="track" class="track" aria-label="Your track"></section>
 
           <div class="groups">
+            <!-- While Winter sports is on: which kinds are shown, with their colours (layers/winter.ts). -->
+            <details id="group-winter" class="group">
+              <summary>
+                <span class="group-head"><span class="group-title">Winter sports</span><span class="group-sub">Lifts, slopes, trails, toboggan, touring</span></span>
+                <i data-icon="caret-down" data-size="18"></i>
+              </summary>
+              <div id="winter-kinds" class="group-body"></div>
+            </details>
             <details id="group-snow" class="group">
               <summary>
                 <span class="group-head"><span class="group-title">Snow details</span><span class="group-sub">Depth estimate, forecast, snow share, uncertainty</span></span>
@@ -153,13 +171,11 @@
             </details>
             <details id="group-map" class="group">
               <summary>
-                <span class="group-head"><span class="group-title">Map and light</span><span class="group-sub">Satellite photo, sun and shade, map style</span></span>
+                <span class="group-head"><span class="group-title">Map style</span><span class="group-sub">Satellite photo, roads, labels, terrain</span></span>
                 <i data-icon="caret-down" data-size="18"></i>
               </summary>
               <div class="group-body">
                 <label class="row"><span class="row-label">Satellite photo <span id="satellite-date" class="chip"></span></span><input type="checkbox" class="switch" id="toggle-satellite" /></label>
-                <label class="row"><span class="row-label">Sun and shade</span><input type="checkbox" class="switch" id="toggle-sun" /></label>
-                <label class="row sub-row"><span class="row-label">Cast shadows <span class="hint">250 m terrain</span></span><input type="checkbox" class="switch" id="toggle-shadows" checked /></label>
                 <label class="row"><span class="row-label">Roads, rivers, towns</span><input type="checkbox" class="switch" id="toggle-basemap" checked /></label>
                 <label class="row"><span class="row-label">Labels</span><input type="checkbox" class="switch" id="toggle-labels" checked /></label>
                 <label class="row"><span class="row-label">Hillshade</span><input type="checkbox" class="switch" id="toggle-hillshade" checked /></label>
@@ -178,7 +194,7 @@
           <div id="place-empty" class="place-empty">
             <span class="place-empty-icon" aria-hidden="true"><i data-icon="mountains" data-size="26"></i></span>
             <strong>Nothing picked yet</strong>
-            <span>Tap a station, a bivouac, a via ferrata or any point of the terrain. Right-drag or two fingers to tilt.</span>
+            <span>Tap a station, a bivouac, a via ferrata, a lift, a slope or any point of the terrain. Right-drag or two fingers to tilt.</span>
           </div>
           <div id="details" class="details" aria-live="polite" hidden>
             <div class="place-head">
@@ -204,7 +220,7 @@
           <div id="legend-bar" class="legend-bar"></div>
           <div id="legend-ticks" class="legend-ticks"></div>
           <div class="legend-extra">
-            <span><span class="legend-dot measured"></span>Measured</span>
+            <span><span class="legend-dot measured" id="bare-swatch"></span>No snow</span>
             <span><span class="legend-dot" id="no-sensor-swatch"></span>No snow sensor</span>
           </div>
         </div>

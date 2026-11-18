@@ -203,7 +203,7 @@ export function routeSnowPoints(values: Pick<SnowValues, 'at'>, points: readonly
   return { route: n ? { snow: snow / n, unseen: unseen / n, lowestSnowM, maxDepthCm } : null, points: states };
 }
 
-/** The Place card for a via ferrata or a track: how much of it lies in snow seen from space. */
+/** The Place card for a via ferrata, a track, a lift or a piste: how much of it lies in snow seen from space. */
 export function routeSnowHtml(file: SnowFile, s: RouteSnow | null, what = 'route'): string {
   if (!s || !file.cover.available) return '';
   const pct = (x: number) => `${Math.round(x * 100)} %`;

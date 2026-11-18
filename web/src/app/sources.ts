@@ -7,6 +7,7 @@ import { forecastInfoHtml } from '../forecastAnim.ts';
 import { escapeHtml, formatAge, formatTime } from '../format.ts';
 import { AREA } from '../island.ts';
 import { ferrataCount as ferrataRoutes } from '../layers/ferratas.ts';
+import { winterCounts } from '../layers/winter.ts';
 import { forecastFile as forecast } from '../layers/forecast.ts';
 import { satelliteFile as satellite } from '../layers/satellite.ts';
 import { latestSnow } from '../layers/snow.ts';
@@ -67,6 +68,7 @@ function render() {
   const forecastFile = forecast();
   const historyFile = history();
   const ferrataCount = ferrataRoutes();
+  const winter = winterCounts();
 
   const stationProblem =
     problem('stations') ??
@@ -121,6 +123,11 @@ function render() {
     <code>route=via_ferrata</code> relations), a static list. Linked sections are one route. Grades A–E from the OSM scale 0–6; a route takes its hardest
     section's grade. Length, elevation and climb come from the Mapterhorn terrain over the mapped sections only. Drawn by volunteers, so it may be
     incomplete, wrong or out of date. Not for navigation.</p>
+    <p>Winter sports${winter ? ` (${winter.lift} lifts, ${winter.downhill} slopes, ${winter.nordic} cross-country trails, ${winter.sled} toboggan runs and
+    ${winter.skitour} ski touring routes)` : ''}: lifts tagged <code>aerialway</code> and pistes tagged <code>piste:type</code> in OpenStreetMap, a static
+    list. Slope colours follow <code>piste:difficulty</code>; a route relation is one piste, and named sections that meet are joined. Lengths and elevations
+    come from the Mapterhorn terrain. Whether a lift runs or a piste is open or groomed is not known here. Not for navigation.</p>
+
     <p>Avalanche warning regions: the ${ext('https://regions.avalanches.org', 'EAWS micro-regions')} (CC0), a static copy simplified to about 30 m,
     so a place within a few hundred metres of a border may be given the neighbouring region. The place panel only names the region and links
     to the service that publishes its bulletin; this app never shows or judges avalanche danger.</p>`;
@@ -141,7 +148,7 @@ function render() {
         ${row('satellite', 'Satellite photo', satSub, satBody, { problem: problem('satellite') })}
         ${row('forecast', 'Forecast', 'Open-Meteo, 3 days ahead, CC BY 4.0', fcBody, { problem: problem('forecast') })}
         ${row('map', 'Terrain and map', 'Mapterhorn, OpenStreetMap, Protomaps', mapBody, { status: false })}
-        ${row('features', 'Bivouacs, via ferratas, avalanche regions', 'OpenStreetMap volunteers, EAWS, static lists', featuresBody, { status: false })}
+        ${row('features', 'Bivouacs, via ferratas, winter sports, avalanche regions', 'OpenStreetMap volunteers, EAWS, static lists', featuresBody, { status: false })}
         ${row('software', 'Software', 'MapLibre GL JS, SunCalc, Barlow, Noto Sans', softwareBody, { status: false })}
       </div>
     </section>
