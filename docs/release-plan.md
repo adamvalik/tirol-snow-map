@@ -44,7 +44,7 @@ Feature freeze on `dev` from Thursday Nov 19: only the items below.
 
 1. **Review** winter sports (on `dev`) and #18: done Nov 18, findings and fixes under [Review findings](#review-findings-nov-18).
 2. **`claude/busy-tesla-thyopa` → `dev`:** this plan, #18 merged in with its fixes, the winter sports fixes and the What's new card, in one pull request. Then close #18 (its work is in). If the phone check (4) shows the shade is too slow, revert #18's merge commit on `dev` (`git revert -m 1`, no history rewrite) and keep it for `v0.4.0`.
-3. **#19** analytics → `dev`.
+3. **#19** analytics → `dev`: merged Nov 18.
 4. **#20** stays open for `v0.4.0`. Its base is `sun-shade`; once #18's work is on `dev`, change the base to `dev`.
 5. **Share picture concept:** a pull request `share-picture-concept` → `dev` (docs only), so all plans live on `dev`.
 6. **Cloud height:** no pull request yet (see [Cloud height](#cloud-height-before-it-ships)).
@@ -53,8 +53,8 @@ Feature freeze on `dev` from Thursday Nov 19: only the items below.
 
 Only what the shipped layers need. The rest waits for the `v0.4.0` UI.
 
-- **Phone quick row** (Snow, Stations, Bivouacs, Ferratas, More) has no Winter sports. Suggested in winter: Snow, Stations, Winter sports, Ferratas, More (bivouacs one tap away in More).
-- **Desktop legend card covers popups.** The card in the map's top-left lay over a lift's popup at Col Raiser. Keep popups above it, or hide the card while a popup is open.
+- **Phone quick row** (done Nov 18): Snow, Stations, Skiing (Winter sports), Ferratas, More. Bivouacs are one tap away in More.
+- **Desktop legend card covers popups** (done Nov 18). The map is a layer of its own on the page, so its popups cannot be drawn above the card; the card fades out while a popup lies under it (`app/layout.ts`).
 - **With Sun and shade on, two time controls on the phone** (the sun row with its own play button and date, above the day timeline). Check whether `dev` with #18 alone shows the same; the sun maps hint line is not in `v0.3.0`. If it does, keep one play button in view and make the dates agree. The labels under the sun slider ran together in the trial build ("Sunrise 07:20NowSunset 16:38").
 
 ### 3. What's new and first view (Thu–Fri)
@@ -95,10 +95,10 @@ Still open from the `v0.2.0` checklist. For a phone to reach a build before the 
 - [x] Winter sports: the two must-fix findings fixed (Nov 18, on `claude/busy-tesla-thyopa`)
 - [x] #18: the two must-fix findings fixed (Nov 18, on `claude/busy-tesla-thyopa`, which carries #18)
 - [ ] `claude/busy-tesla-thyopa` merged into `dev`; #18 closed, its work merged with it
-- [ ] #19 merged
+- [x] #19 merged (Nov 18)
 - [ ] Share picture concept merged into `dev`
-- [ ] Phone quick row decided
-- [ ] Legend card does not cover popups
+- [x] Phone quick row: Snow, Stations, Skiing (Winter sports), Ferratas, More (Nov 18)
+- [x] Legend card does not cover popups: it fades out while a popup lies under it (Nov 18)
 - [ ] Sun and shade on a phone: one play button in view, labels fit
 - [x] What's new and first view card (Nov 18)
 - [ ] iOS Safari and Android Chrome checked (lifts in 3D, sun and shade)
