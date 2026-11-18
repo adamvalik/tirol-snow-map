@@ -7,6 +7,7 @@
 // Button states follow the control: off; waiting (asked, no fix yet); on (the map follows); and
 // background (the dot still moves, the map was panned away; a tap brings it back).
 import * as maplibregl from 'maplibre-gl';
+import { track } from './analytics.ts';
 import { inArea } from '../island.ts';
 import { $ } from './dom.ts';
 import { icon } from './icons.ts';
@@ -42,6 +43,7 @@ export function setupLocate(map: maplibregl.Map) {
 
   const outside = 'You are outside the map area. The snow data covers South Tyrol and around it.';
   btn.addEventListener('click', () => {
+    track('locate');
     if (state === 'off') warnedOutside = false;
     geo.trigger();
   });
