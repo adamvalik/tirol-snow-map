@@ -5,8 +5,14 @@
 # a month. A failed upstream never stops the deploy: the app then shows the last good data with a
 # warning, and scripts/monitor.mjs opens an issue when a step keeps failing.
 #
+# Every deploy also builds the dev branch into /dev/ (the dev preview), for testing on a phone with
+# live data before a merge. A push to dev redeploys both without running main's pipeline. The
+# preview gets main's data, or, when dev changes pipeline/ or shared/ (or by hand, "dev_pipeline"),
+# the output of dev's own pipeline, run on a copy of main's data that is never saved.
+#
 # One-time setup: Settings → Pages → Source "GitHub Actions"; secrets CDSE_USERNAME, CDSE_PASSWORD,
-# CDSE_CLIENT_ID, CDSE_CLIENT_SECRET. Scheduled runs only happen on the default branch.
+# CDSE_CLIENT_ID, CDSE_CLIENT_SECRET; Settings → Environments → github-pages lets main and dev
+# deploy. Scheduled runs only happen on the default branch.
 name: Update data and deploy
 
 on:
@@ -17,8 +23,13 @@ on:
   schedule:
     - cron: '47 3,11,17 * * *'
   push:
-    branches: [main]
+    branches: [main, dev]
   workflow_dispatch:
+    inputs:
+      dev_pipeline:
+        description: Run dev's pipeline for the dev preview, even if dev does not change it
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -45,7 +56,10 @@ jobs:
       actions: write # prune old data caches
       issues: write # monitoring issue
     steps:
+      # Always main at the root, whichever branch started the run; dev is checked out further down.
       - uses: actions/checkout@v5
+        with:
+          ref: main
       - uses: actions/setup-node@v5
         with:
           node-version: 22
@@ -73,8 +87,12 @@ jobs:
         if: steps.basemap.outputs.cache-hit != 'true'
         run: npm run basemap
 
+      # Only runs from main run the pipeline and write the data cache: a cache saved by a run from dev
+      # is only visible to dev, and the prune below would count it. A push to dev, or a run started
+      # by hand from dev, only rebuilds the site with the last data.
       - name: Run the pipeline
         id: pipeline
+        if: github.ref_name == 'main'
         env:
           CDSE_USERNAME: ${{ secrets.CDSE_USERNAME }}
           CDSE_PASSWORD: ${{ secrets.CDSE_PASSWORD }}
@@ -89,14 +107,17 @@ jobs:
           echo "exit=$code" >> "$GITHUB_OUTPUT"
           exit 0
 
+      # Checks the conclusion too: a skipped step has no output, and null == '0' is true here.
       - name: Save data for the next run
-        if: steps.pipeline.outputs.exit == '0' || steps.pipeline.outputs.exit == '2'
+        if: steps.pipeline.conclusion == 'success' && (steps.pipeline.outputs.exit == '0' || steps.pipeline.outputs.exit == '2')
         uses: actions/cache/save@v4
         with:
           path: ${{ env.DATA_PATHS }}
           key: pipeline-data-${{ github.run_id }}-${{ github.run_attempt }}
 
-      - run: npm run build
+      # GITHUB_SHA is the commit that started the run, which is dev's on a push to dev; the About tab
+      # shows the commit that was built.
+      - run: GITHUB_SHA=$(git rev-parse HEAD) npm run build
         env:
           # Optional repository variables (Settings → Secrets and variables → Actions → Variables):
           # the address the feedback links write to, and the GoatCounter site code. Unset turns
@@ -116,12 +137,61 @@ jobs:
       - name: Note which data is in the build
         id: built
         run: echo "generated_at=$(node -p "require('./dist/data/status.json').generatedAt" 2>/dev/null || true)" >> "$GITHUB_OUTPUT"
+
+      # The dev preview at /dev/: dev's code with this run's data and basemap. No visit counting, no
+      # search engines, "Dev –" in the title. If it does not build, main still deploys without it.
+      - name: Look for the dev branch
+        id: dev
+        run: |
+          if git ls-remote --exit-code --heads origin dev >/dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::No dev branch; deploying main only."
+          fi
+      - uses: actions/checkout@v5
+        if: steps.dev.outputs.exists == 'true'
+        with:
+          ref: dev
+          path: dev-src
+      - name: Build the dev preview into /dev/
+        if: steps.dev.outputs.exists == 'true'
+        continue-on-error: true
+        working-directory: dev-src
+        env:
+          FEEDBACK_EMAIL: ${{ vars.FEEDBACK_EMAIL }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          FORCE_DEV_PIPELINE: ${{ inputs.dev_pipeline }}
+          CDSE_USERNAME: ${{ secrets.CDSE_USERNAME }}
+          CDSE_PASSWORD: ${{ secrets.CDSE_PASSWORD }}
+          CDSE_CLIENT_ID: ${{ secrets.CDSE_CLIENT_ID }}
+          CDSE_CLIENT_SECRET: ${{ secrets.CDSE_CLIENT_SECRET }}
+        run: |
+          npm ci
+          cp -r ../web/public/data ../web/public/basemap web/public/
+          # dev's own pipeline, on a copy of this run's data and state. It starts from main's caches,
+          # so it only renders what main has not. Nothing is saved: the next run starts from main's
+          # data again. If it crashes, the preview keeps main's data.
+          data="main's pipeline"
+          if [ "$FORCE_DEV_PIPELINE" = "true" ] || ! diff -rq ../pipeline pipeline >/dev/null || ! diff -rq ../shared shared >/dev/null; then
+            mkdir -p data && { cp -r ../data/state data/ 2>/dev/null || true; }
+            set +e; npm run pipeline; code=$?; set -e
+            if [ "$code" = 0 ] || [ "$code" = 2 ]; then
+              data="dev's pipeline (exit $code)"
+            else
+              echo "::warning::dev's pipeline failed (exit $code); the dev preview shows main's data."
+              rm -rf web/public/data && cp -r ../web/public/data web/public/
+            fi
+          fi
+          GITHUB_SHA=$(git rev-parse HEAD) npm run build
+          sed -i -e 's|<head>|<head>\n    <meta name="robots" content="noindex" />|' -e 's|<title>|<title>Dev – |' dist/index.html
+          mv dist ../dist/dev
+          echo "Dev preview: $(git rev-parse --short=7 HEAD), data from $data" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist
 
       - name: Report data problems
-        if: always()
+        if: always() && steps.pipeline.conclusion != 'skipped'
         env:
           GH_TOKEN: ${{ github.token }}
           PIPELINE_EXIT: ${{ steps.pipeline.outputs.exit }}
@@ -129,7 +199,7 @@ jobs:
         run: node scripts/monitor.mjs
 
       - name: Prune old data caches
-        if: always()
+        if: always() && github.ref_name == 'main'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
