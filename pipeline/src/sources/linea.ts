@@ -3,9 +3,11 @@
 // Some providers leave SMET's no-data value (-777, sometimes -999) in the numbers.
 
 import {
+  cleanHumidity,
   cleanSnowChange,
   cleanSnowDepth,
   hoursBetween,
+  humidityFromDewPoint,
   inBbox,
   msToKmh,
   num,
@@ -82,6 +84,13 @@ export function parseLinea(
     const taK = val(p.TA);
     const dw = val(p.DW);
     const psum = val(p.PSUM_24);
+    const rh = val(p.RH);
+    const tdK = val(p.TD);
+    const iswr = val(p.ISWR);
+    // SMET gives RH as a fraction; some feeds may give %. Without RH, the dew point gives it.
+    const humidityPct = cleanHumidity(
+      rh !== null ? (rh <= 1.5 ? rh * 100 : rh) : taK !== null && tdK !== null ? humidityFromDewPoint(taK - 273.15, tdK - 273.15) : null,
+    );
     const snowDepthCm = cleanSnowDepth(hsM === null ? null : hsM * 100);
     const change = (key: string) => {
       const m = val(p[key]);
@@ -108,6 +117,10 @@ export function parseLinea(
       snowChange24hCm: change('HSD_24'),
       snowChange48hCm: change('HSD_48'),
       snowChange72hCm: change('HSD_72'),
+      humidityPct,
+      radiationWm2: iswr === null || iswr < 0 ? null : round(iswr, 0),
+      sunshineShare: null,
+      sunshine: null,
     };
     const hasData =
       record.snowDepthCm !== null || record.airTempC !== null || record.windSpeedKmh !== null;

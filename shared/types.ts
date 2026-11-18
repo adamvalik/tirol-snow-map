@@ -31,6 +31,14 @@ export interface Station {
   snowChange24hCm?: number | null;
   snowChange48hCm?: number | null;
   snowChange72hCm?: number | null;
+  /** Relative humidity (%). Missing in files written before Dec 2026 (treat as null). */
+  humidityPct?: number | null;
+  /**
+   * Whether the station measured sunshine at the reading time: true in the sun; false when the sun
+   * stood clear of the station's skyline but did not reach it (cloud or fog); null at night, when
+   * the terrain hides the sun, or with no radiation or sunshine sensor. Missing in older files.
+   */
+  sunshine?: boolean | null;
 }
 
 export interface SourceStatus {

@@ -150,6 +150,7 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 | Orbit video | 10-second turn around a peak for stories | M, after share pictures |
 | New app icon | A clearer home-screen and favicon mark; do it together with the name | S |
 | Accessibility pass | Keyboard reach, contrast, labels on dock outputs | S |
+| Fog and inversion (spike Nov 18, [`cloud-height-spike.md`](cloud-height-spike.md)) | Step 1 built: from the stations, how high the fog reaches and from where it is sunny, or an inversion. Next: a forecast profile from Open-Meteo pressure levels, then map shading below the fog top | S each |
 
 ## 8. Order
 

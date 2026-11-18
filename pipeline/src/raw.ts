@@ -23,6 +23,14 @@ export interface RawStation {
   snowChange24hCm: number | null;
   snowChange48hCm: number | null;
   snowChange72hCm: number | null;
+  /** Relative humidity (%). */
+  humidityPct?: number | null;
+  /** Global radiation on flat ground (W/m²) at the reading time. */
+  radiationWm2?: number | null;
+  /** Share of the last 10 minutes with sunshine, 0–1 (the province's SD sensor). */
+  sunshineShare?: number | null;
+  /** Filled in by markSunshine (sunshine.ts) from the two above; see Station.sunshine. */
+  sunshine?: boolean | null;
 }
 
 export const round = (v: number, digits = 1): number => {
@@ -54,6 +62,21 @@ export function cleanSnowChange(cm: number | null, depthCm: number | null): numb
   if (cm === null || depthCm === null || Math.abs(cm) > SNOW_CHANGE_MAX_CM) return null;
   if (depthCm - cm < SNOW_NOISE_FLOOR_CM) return null;
   return round(cm, 0) || 0; // || 0 turns -0 into 0
+}
+
+/**
+ * Relative humidity in %, or null when out of range. Sensors read up to a few % over 100 in fog;
+ * below 5 % is a broken sensor (even föhn rarely goes under 10 % here).
+ */
+export function cleanHumidity(pct: number | null): number | null {
+  if (pct === null || pct < 5 || pct > 110) return null;
+  return round(Math.min(pct, 100), 0);
+}
+
+/** Relative humidity (%) from air temperature and dew point (°C), Magnus formula over water. */
+export function humidityFromDewPoint(tC: number, tdC: number): number {
+  const e = (t: number) => Math.exp((17.62 * t) / (243.12 + t));
+  return (100 * e(tdC)) / e(tC);
 }
 
 export const inBbox = (

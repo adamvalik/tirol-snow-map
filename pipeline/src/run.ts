@@ -24,6 +24,7 @@ import { runSatelliteStep } from './satellite/run-satellite.ts';
 import { runSnowStep } from './snow/run-snow.ts';
 import { parseProvince } from './sources/provinceBz.ts';
 import { writeStatus } from './status.ts';
+import { markSunshine, terrainOf } from './sunshine.ts';
 import { runUsage, tightestLimit } from './usage.ts';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -198,6 +199,10 @@ async function main() {
   );
 
   const anyOk = results.some((r) => r.status.ok);
+  const dem = await loadDemGrid();
+  // Sun or shade at each station, for the fog and inversion note (shared/inversion.ts).
+  const terrain = terrainOf(dem);
+  for (const r of results) markSunshine(r.records, terrain);
   let file: StationsFile;
   if (anyOk) {
     file = {
@@ -238,7 +243,6 @@ async function main() {
     }
   };
   const log = (msg: string) => console.log(`  ${msg}`);
-  const dem = await loadDemGrid();
 
   // Snow cover and depth estimate, then the day's time slider snapshot. A failure here must not
   // take the station data down with it; the previous snow files stay in place.

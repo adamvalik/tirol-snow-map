@@ -3,6 +3,7 @@ import * as maplibregl from 'maplibre-gl';
 import './style.css';
 import { hydrateIcons } from './app/icons.ts';
 import { trackVisit } from './app/analytics.ts';
+import { selectedDay } from './app/day.ts';
 import { setupLayout, syncQuick } from './app/layout.ts';
 import { setupLocate } from './app/locate.ts';
 import { PointPanel } from './app/point.ts';
@@ -13,10 +14,12 @@ import { dayView, loadHistory, setupTimeline } from './app/timeline.ts';
 import { setupTrack } from './app/track.ts';
 import { setupBasemapRetry } from './app/basemapRetry.ts';
 import { setupWarnings } from './app/warnings.ts';
+import { pointAirHtml } from './air.ts';
 import { basemapLayers, SUMMIT_ICON, summitIcon } from './basemap.ts';
 import { flyToGpx, gpxSnow, gpxTrack, loadGpxFile, loadGpxText, removeGpx } from './layers/gpx.ts';
 import { initLayers, layersView, onMapClick, setupLayers } from './layers/registry.ts';
 import { pointSnow } from './layers/snow.ts';
+import { latestStations } from './layers/stations.ts';
 import { edgeStyle, terrainExaggeration } from './layers/terrain.ts';
 import type { App } from './layers/types.ts';
 import { createMap, DEFAULT_VIEW } from './map.ts';
@@ -50,7 +53,10 @@ const app: App = {
   basemap: basemapLayers(),
   initial,
   syncHash: setupShare(map, () => [...layersView(), dayView()]),
-  point: new PointPanel(map, terrainExaggeration, pointSnow),
+  // The fog note is about now, so it is left out while the slider shows an earlier day.
+  point: new PointPanel(map, terrainExaggeration, pointSnow, (lon, lat) =>
+    selectedDay() ? '' : pointAirHtml(latestStations()?.stations ?? null, lon, lat),
+  ),
 };
 setupLayers(app);
 setupSources();

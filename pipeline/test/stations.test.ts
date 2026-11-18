@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { STATION_BBOX } from '../src/config.ts';
 import { mergeStations } from '../src/merge.ts';
-import { cleanSnowChange, cleanSnowDepth, romeOffsetMinutes, type RawStation } from '../src/raw.ts';
+import { cleanHumidity, cleanSnowChange, cleanSnowDepth, humidityFromDewPoint, romeOffsetMinutes, type RawStation } from '../src/raw.ts';
 import { newestLineaDate, parseLinea, parseLineaDate } from '../src/sources/linea.ts';
 import { parseProvince, parseProvinceDate } from '../src/sources/provinceBz.ts';
 
@@ -35,6 +35,33 @@ describe('province API v1', () => {
     expect(s.windSpeedKmh).toBeCloseTo(1.2 * 3.6, 1);
   });
 
+  it('reads humidity, radiation and sunshine for the fog note', () => {
+    const s = province.find((x) => x.code === '74200MS')!;
+    expect(s.humidityPct).toBe(98);
+    expect(s.radiationWm2).toBe(87);
+    expect(s.sunshineShare).toBe(0);
+  });
+
+  it('reads radiation and sunshine only together with the other sensors', () => {
+    const stations = { features: [{ properties: { SCODE: 'X', NAME_D: 'X', ALT: 500, LAT: 46.5, LONG: 11.3 } }] };
+    const row = (TYPE: string, VALUE: number, DATE: string) => ({ SCODE: 'X', TYPE, VALUE, DATE });
+    const [s] = parseProvince(
+      stations,
+      [
+        // The fixture lists stopped sensors twice, with an old row; the newer one wins.
+        row('SD', 0, '2026-10-20T13:30:00CEST'),
+        row('SD', 600, '2026-10-20T08:00:00CEST'),
+        row('LT', 9, '2026-10-20T13:30:00CEST'),
+        row('GS', 400, '2026-10-20T09:00:00CEST'),
+        row('LF', 100.3, '2026-10-20T13:30:00CEST'),
+      ],
+      opts,
+    );
+    expect(s.sunshineShare).toBe(0);
+    expect(s.radiationWm2).toBeNull(); // 4.5 h older than the rest
+    expect(s.humidityPct).toBe(100);
+  });
+
   it('finds all 26 snow depth sensors', () => {
     expect(province.filter((s) => s.snowDepthCm !== null)).toHaveLength(26);
   });
@@ -47,6 +74,19 @@ describe('Euregio linea feed', () => {
     expect(s.airTempC).toBe(6.3); // TA 279.45 K
     expect(s.windSpeedKmh).toBe(3.2); // VW 0.89 m/s
     expect(s.elevation).toBe(2152);
+  });
+
+  it('takes humidity from RH (a fraction) or else from the dew point', () => {
+    const s = linea.find((x) => x.code === 'ALBINA/GPFI2')!; // TA 279.45 K, TD 278.435 K, no RH
+    expect(s.humidityPct).toBe(Math.round(humidityFromDewPoint(6.3, 5.285)));
+    expect(s.humidityPct).toBe(93);
+    expect(s.radiationWm2).toBe(146);
+    const withRh = linea.filter((x) => x.humidityPct != null);
+    expect(withRh.length).toBeGreaterThan(300);
+    for (const x of withRh) {
+      expect(x.humidityPct!).toBeGreaterThanOrEqual(5);
+      expect(x.humidityPct!).toBeLessThanOrEqual(100);
+    }
   });
 
   it('reinterprets future "Z" timestamps as Europe/Rome local time', () => {
@@ -127,6 +167,21 @@ describe('snow depth cleaning', () => {
   });
 });
 
+describe('humidity', () => {
+  it('clamps fog readings over 100 % and drops broken ones', () => {
+    expect(cleanHumidity(100.3)).toBe(100);
+    expect(cleanHumidity(85.14)).toBe(85);
+    expect(cleanHumidity(0)).toBeNull();
+    expect(cleanHumidity(150)).toBeNull();
+    expect(cleanHumidity(null)).toBeNull();
+  });
+
+  it('is 100 % at the dew point and half 10 °C above it', () => {
+    expect(humidityFromDewPoint(5, 5)).toBeCloseTo(100, 5);
+    expect(humidityFromDewPoint(10, 0)).toBeCloseTo(50, 0);
+  });
+});
+
 describe('mergeStations', () => {
   const base: RawStation = {
     source: 'province-bz',
@@ -148,6 +203,13 @@ describe('mergeStations', () => {
     snowChange48hCm: null,
     snowChange72hCm: null,
   };
+
+  it('fills humidity and sunshine from a duplicate that has them', () => {
+    const other: RawStation = { ...base, source: 'euregio-linea', provider: 'ALBINA', code: 'X1', humidityPct: 97, sunshine: false };
+    const [s] = mergeStations([[base], [other]]);
+    expect(s.humidityPct).toBe(97);
+    expect(s.sunshine).toBe(false);
+  });
 
   it('merges the same station from two providers and fills missing fields', () => {
     const other: RawStation = {

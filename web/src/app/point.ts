@@ -1,4 +1,4 @@
-// The Place tab for a clicked point of the terrain, a bivouac or a via ferrata: elevation, snow, and
+// The Place tab for a clicked point of the terrain, a bivouac or a via ferrata: elevation, snow, fog, and
 // the rows for the point forecast (open) and the sun. Layers can hook into opening and closing.
 import * as maplibregl from 'maplibre-gl';
 import { actionsHtml, openPanel, type PanelHead } from '../panel.ts';
@@ -42,11 +42,13 @@ export class PointPanel {
   /**
    * `exaggeration`: the terrain's current exaggeration, to turn the map's elevation back into metres.
    * `snowAt`: the snow summary for a point, or ''.
+   * `airAt`: the fog or inversion note for a point, or ''.
    */
   constructor(
     private readonly map: maplibregl.Map,
     private readonly exaggeration: () => number,
     private readonly snowAt: (lon: number, lat: number) => string,
+    private readonly airAt: (lon: number, lat: number) => string = () => '',
   ) {}
 
   extend(e: PointExtension) {
@@ -79,6 +81,7 @@ export class PointPanel {
     const html =
       (place?.html ?? '') +
       (place?.snowHtml ?? this.snowAt(lngLat.lng, lngLat.lat)) +
+      this.airAt(lngLat.lng, lngLat.lat) +
       actionsHtml({ lon: lngLat.lng, lat: lngLat.lat, ele: elevation }, { forecastOpen: true, forecastLabel: place?.forecastLabel }) +
       (place?.footHtml ?? '');
     // Opening replaces whatever was shown, whose close handler (this.clear for a point) runs first.
