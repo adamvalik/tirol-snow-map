@@ -19,7 +19,8 @@ Work is tracked on GitHub, not in docs (`docs/README.md`, "How work is tracked")
 
 - Start from an issue. If there is none for the task, say so and suggest one; do not open issues the person did not ask for, except for findings below.
 - A pull request names its issue ("Closes #12") and fills in the template's checks.
-- Findings along the way (a bug, a leftover, a review point, an idea) become issues with a type label (`feature`, `bug`, `review`, `idea`, `docs`, `chore`) and an area label (`area: ui`, `area: sun`, `area: winter`, `area: snow`, `area: pipeline`, `area: release`), in the milestone of the version they block, or none for later. Not notes in the docs.
+- Findings along the way (a bug, a leftover, a review point, an idea) become issues with a type label (`feature`, `bug`, `review`, `idea`, `docs`, `chore`) and an area label (`area: ui`, `area: sun`, `area: winter`, `area: snow`, `area: pipeline`, `area: release`), in the milestone of the version they block. Only `idea` issues go without a milestone ("later"). Not notes in the docs.
+- When you touch issues, check that none is untriaged (open, not an `idea`, no milestone) and suggest a milestone for each. Sessions cannot reach the project board; it shows the milestones and labels.
 - Docs say how things work and why. No task lists, no "to do", no status lines in them.
 - What goes into which version is the milestones; `docs/release-plan.md` only says how releases work.
 
