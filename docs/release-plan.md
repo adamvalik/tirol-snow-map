@@ -1,102 +1,163 @@
-# First release – friends and testers
+# Release plan
 
-Nov 7, 2026, backend plan added Nov 9 (section 10). Builds on [`roadmap.md`](roadmap.md) and [`share-snapshot.md`](share-snapshot.md)
+Revised Nov 18, 2026. The tester plan of Nov 7 (`v0.2.0` to `v0.2.2`) is done; what it built is summed up under [Done](#done-v010-to-v022). The longer view is in [`roadmap.md`](roadmap.md), the share picture design in [`share-snapshot.md`](share-snapshot.md).
 
-Goal: hand a link to a small group of friends, see whether they use it, and hear what breaks. The new UI is being built in parallel; everything below is either needed before the link goes out or cheap enough to ride along.
+**The short version:** a lot is built and not released. This week ships it as **`v0.3.0`**, with only the work that makes it fit together: merge, make the UI hold the new features, check real phones, a "What's new" card. Webcam links come a week later in `v0.3.1`, the share picture in **`v0.4.0`** (it was `v0.3.0` before; the built work is ready first, so it moves up). Nothing new starts on `dev` until `v0.3.0` is out.
 
-## Scope at a glance
+## Where things stand (Nov 18)
 
-| # | Item | Needed for v1? | Effort |
+Live: `v0.2.2` (Nov 16). GoatCounter counted about 17 page views from Nov 12 to Nov 18, so the tester link has barely been used yet. Getting the release out and into testers' hands matters more than any new feature.
+
+| Work | Where | State | Goes into |
 | --- | --- | --- | --- |
-| 1 | App version and release tags | Yes | S |
-| 2 | Visit counting (GoatCounter, decided) | Yes | S |
-| 3 | Bug report / idea button | Yes | S |
-| 4 | GPX upload | Yes | M |
-| 5 | Link preview (og tags + daily `og.png`) | Yes, it is how the link looks in chats | S–M |
-| 6 | Live location ("Where am I") | Nice to have | S |
-| 7 | Share picture for Strava etc. | After v1 (v1.1) | M–L |
-| 8 | Domain | No, postponed until after testing | S |
+| Map look: land cover, softer relief light, valley names, brown for no snow, one place name below zoom 12 | `dev` | Merged, not released | `v0.3.0` |
+| Winter sports: slopes by difficulty, lifts (in 3D from zoom 13.3), cross-country, toboggan, ski touring; Winter sports group, legend card on the map, "Map style" group | `dev` | Merged, not released | `v0.3.0` |
+| Sun and shade: soft detailed shadows, smooth sunrise, gentler light | [PR #18](https://github.com/adamvalik/tirol-snow-map/pull/18) (`sun-shade` → `dev`) | Ready, CI green | `v0.3.0` |
+| Sun maps: first sun, last sun, sun hours for a day; sun or shade hint under the slider | [PR #20](https://github.com/adamvalik/tirol-snow-map/pull/20) (`claude/dreamy-edison-z332uz` → `sun-shade`, stacked on #18) | Ready | `v0.3.0` |
+| Analytics: health and core-use events (`point`, `timeline`, `locate`, `arrive/link`, `warning/…`, `error/…`) | [PR #19](https://github.com/adamvalik/tirol-snow-map/pull/19) (`claude/exciting-lamport-3t3mcs` → `dev`) | Ready, CI green | `v0.3.0` |
+| Cloud height, step 1: fog and inversion note in the Place tab, from the stations ([`cloud-height-spike.md`](cloud-height-spike.md) on the branch) | `claude/laughing-shannon-wtds54`, no pull request yet | Built, tests pass | `v0.3.0` |
+| Share picture: concept, mock-ups, capture spike | `share-picture-concept` (docs and `scripts/share-mockups.mjs` only) | Concept; 5 decisions open | Docs now, the feature in `v0.4.0` |
+| What's new, first view, feature overview | Not started | | `v0.3.0` |
+| UI fit for the new features, mobile polish | Not started; findings below | | Fixes in `v0.3.0`, the rework later |
+| Links to webcams | Not started | | `v0.3.1` |
 
-Hosting stays on GitHub Pages (see 9).
+**Trial merge (Nov 18).** `dev` with #20 (which carries #18), #19 and the cloud height branch merged together: one conflict, two import lines in `web/src/main.ts` (keep both: `track, trackVisit` from `analytics.ts` and `selectedDay` from `day.ts`). Typecheck clean, 257 tests pass, build fine. The smoke test gives the same result as `dev` alone: only the via ferrata panel check fails, and it fails only in cloud sessions (CI is green). `share-picture-concept` merges into `dev` without conflicts.
 
-## 1. Versions and releases
+**Branches.** Fully contained in `dev`, safe to delete by hand: `claude/3d-map-visual-usability-4o9y17`, `claude/great-cerf-qp6etb`, `frontend-c2`. The branches above are deleted by GitHub when their pull request merges. Never delete `dev`.
 
-There are two kinds of deploy and they should not be confused:
+## `v0.3.0` – winter release (this week)
 
-- **Data deploys**, three times a day from `main`: same code, fresh data. Not a release.
-- **Code releases**: a new version of the app. These get a tag.
+Feature freeze on `dev` from Thursday Nov 19: only the items below. Anything else goes on its own branch for `v0.3.1` or later.
 
-Plan:
+### 1. Merge what is built (Wed Nov 18)
 
-- **Semantic version in `package.json`.** What is live today (MVP, V2, V3 and everything beyond the plan, up to the layer registry) is **`v0.1.0`**, tagged on `main` at `444afeb`. Still `0.x` because nobody outside has used it yet. Testers' release is **`v0.2.0`**, the share picture **`v0.3.0`**; patch versions (`0.2.1`) for fixes; `1.0.0` for a public launch.
-- **Tag and GitHub Release** for each version: `git tag v0.1.0`, a Release with short notes ("What's new"). Notes double as a changelog; no extra tool (changesets etc.) needed at this size.
-- **Version in the app** (done Nov 7): Vite `define` injects `__APP_VERSION__` (from `package.json`) and `__APP_COMMIT__` (short SHA from `GITHUB_SHA` in CI, `dev` locally). Shown at the end of the About tab as "Version 0.2.0" and "Build 3972dcd" with a link to the release notes, and sent along with bug reports (3) as `v0.2.0 (3972dcd)` and with analytics page views (2).
-- **Data age stays separate**: the data-age line (roadmap 2.4) already tells when data was refreshed.
-- Optional later: a small "What's new" toast once per version (remember the last seen version in localStorage).
-- Keep deploying from `main` for now. If `main` should be able to move ahead of what testers see, switch the deploy to check out the latest `v*` tag and use `main` only for development; not needed for a handful of friends.
+In this order, each after its CI is green:
 
-## 2. Analytics – is anyone using it?
+1. **#18** sun and shade → `dev`.
+2. **#20** sun maps. When `sun-shade` is deleted after #18, GitHub moves #20's base to `dev` by itself; check that it says `dev` before merging.
+3. **#19** analytics → `dev`.
+4. **Cloud height:** open a pull request `claude/laughing-shannon-wtds54` → `dev`, merge `dev` into it first and fix the import conflict above.
+5. **Share picture concept:** a pull request `share-picture-concept` → `dev` (docs only), so all plans live on `dev`.
 
-GitHub Pages has **no visitor analytics**. The repository's *Insights → Traffic* counts visits to the repository on github.com, not to the Pages site. So something small has to be added. Building our own is not worth it (would need a server to receive the counts).
+### 2. Make the UI hold the new features (Thu Nov 19)
 
-Options, all free at this scale:
+Found in phone (Pixel 7 profile) and desktop screenshots of the trial merge:
 
-| Tool | Cost | Cookies / banner | Notes |
-| --- | --- | --- | --- |
-| **GoatCounter** (recommended) | Free for non-commercial use | No cookies, no banner needed | One script tag, open source, simple dashboard, custom events ("gpx-loaded", "share") via `goatcounter.count()` |
-| Cloudflare Web Analytics | Free | No cookies | Works without moving DNS to Cloudflare; only page views, no custom events |
-| Umami Cloud | Free tier (~100k events/month) | No cookies | Nicer dashboards, custom events |
-| Google Analytics | Free | Cookies, needs consent banner in the EU | Overkill and against the "keep it simple" rule |
+- **Two time controls on the phone.** With Sun and shade on, the sheet shows the sun row (play button, "Sun 10:56", a slider) above the day timeline (its own play button, "Tue 20 Oct"). Two play buttons and two dates fill the half-open sheet before any layer tile shows. Keep one play button in view, and make the sun row's day match the timeline's or say which day it is.
+- **Labels under the sun slider run together** on the phone ("Sunrise 07:20NowSunset 16:38"). Give them room or drop "Now".
+- **Phone quick row** (Snow, Stations, Bivouacs, Ferratas, More) has neither Winter sports nor Sun and shade. Decide which four tiles it shows in winter. Suggested: Snow, Stations, Winter sports, Sun and shade, More; bivouacs and via ferratas stay one tap away in More.
+- **Layers tab:** six tiles and four groups now (Winter sports, Sun and shade, Snow details, Map style). Groups stay closed unless their layer is on; check the order on a phone.
+- **Desktop legend card covers popups.** The card in the map's top-left lay over a lift's popup at Col Raiser. Keep popups above it, or hide the card while a popup is open.
 
-Recommendation: **GoatCounter**. Count page loads plus a few events that answer real questions:
+Rule from the roadmap still holds: remove and group, do not add. The deeper rework (one timeline that holds the hour of the day as well) is for later.
 
-- which layers get switched on (are via ferratas or sun and shade used at all?),
-- GPX loaded, share picture made, bug report opened,
-- app version (as a parameter), so it is visible when testers are on an old cached copy.
+### 3. What's new and first view (Thu–Fri)
 
-Privacy: no cookies and no personal data, so no consent banner; one sentence in "About the data" ("Anonymous visit counts via GoatCounter"). Skip counting on `localhost`.
+One small card, shown once, in the map's corner on desktop and at the top of the sheet on phones.
 
-Since the share link lives in the hash, only `/` shows up as a page; layers and places are not leaked into analytics unless sent on purpose.
+- **Returning visitor** whose last seen version is older: "What's new in 0.3.0" with the items of the version's row in the Releases table below (the same list as the GitHub Release, read at build time like `__APP_VERSION__`) and a link to all release notes.
+- **First visit:** the same card as "What you can do": four short lines (where the snow is, the timeline, tap a place, more layers: winter sports and sun), shortened from the README.
+- Closing it keeps the version in `localStorage`, nothing else. "What's new" also stays reachable from the About tab next to the version.
+- Effort S–M. Replaces the "What's new toast" idea of Nov 7.
 
-## 3. Bug report and ideas
+### 4. Check on real phones (Fri Nov 20)
 
-Friends mostly do not have GitHub accounts, so GitHub Issues alone is not enough.
+Still open from the `v0.2.0` checklist, and the new layers are the heaviest yet:
 
-Plan: one **"Feedback"** item in "About the data" (and the menu of the new UI) with two choices, *Something is wrong* and *Idea*, opening a short form.
+- iOS Safari and Android Chrome, one desktop browser.
+- Lifts in 3D at zoom 14–15 (frame rate while panning).
+- Sun and shade while dragging the slider: about 60 ms per position was estimated in Node, never measured on a phone. Sun maps: about 1 s in Node.
+- Winter sports and Sun and shade on together: memory, no reload of the tab by the browser.
+- The fog card, the What's new card and the sheet on an iPhone with the home bar.
+- Link preview in WhatsApp and Signal (open since `v0.2.1`).
 
-| Option | For testers | For you | Notes |
-| --- | --- | --- | --- |
-| **Tally or Google Form** (recommended for v1) | No account, works on phones | Answers in a sheet / email | Prefill hidden fields from the URL: version, commit, the current view link, device (user agent), screen size |
-| GitHub issue link with template | Needs a GitHub account | Lands in the repo | Keep as the second link for technical testers; add `.github/ISSUE_TEMPLATE/bug.yml` and `idea.yml` |
-| `mailto:` with prefilled body | Opens mail app | Inbox | Zero setup fallback |
+### 5. Release (Sat Nov 21, Sunday as buffer)
 
-The view link matters most: "what was on the screen" is then one click away. A screenshot field is optional (Tally free supports file upload).
+`npm run release 0.3.0` on `dev`, rewrite the row, pull request `dev` → `main`, merge when green. A suggested row, to shorten as needed:
 
-Later, if wanted: a tiny Cloudflare Worker that turns form posts into GitHub issues, so everything lands in one place. Not for v1.
+> Winter sports layer (slopes by difficulty, lifts in 3D, cross-country, toboggan and ski touring), first sun, last sun and sun hours for a day, softer and more detailed shadows with a smooth sunrise, fog and inversion note for a place (from the stations), new map look (land cover, softer relief light, valley names, brown for no snow), What's new card, phone fixes
 
-## 4. GPX upload
+### 6. After the deploy
 
-Already designed in [`share-snapshot.md`](share-snapshot.md) ("GPX tracks on the snow"). For v1:
+- The fog card on live data: it can only show fog from the midday run (about 12:50), so check one afternoon.
+- The run log prints Sentinel Hub processing units above 0 (open since `v0.2.1`, section 10.3 of the old plan).
+- A week later, read the new analytics events: which layers and places are used, which warnings show. It feeds the UI rework.
 
-- "Add GPX track" in the layer card: file input, parsed in the browser with `DOMParser`; nothing is uploaded anywhere.
-- Drawn as a line on the 3D terrain with start and end markers; the map flies to fit the track.
-- Small summary in a panel: distance, climb, highest point, share of the track on snow (from the snow-from-space layer for the chosen day).
-- One track at a time; a remove button. Remember the last track in IndexedDB so it survives a reload (per device only).
-- Not in the share link (tracks are too big for a URL and are personal). Share pictures will include it later.
-- New layer module `web/src/layers/gpx.ts` following the registry pattern (roadmap 3).
-- Tests: parse fixtures (track with and without elevation, with several segments, routes `<rte>` as well as tracks `<trk>`, a broken file).
-- Analytics event `gpx/add`.
+### Checklist for `v0.3.0`
 
-**Status (Nov 12): built and released in `v0.2.0`.** The logic and the layer came first; the control and the panel came with the new UI (`web/src/app/track.ts`).
+- [ ] #18, #20 and #19 merged into `dev`
+- [ ] Cloud height branch: pull request opened, conflict fixed, merged
+- [ ] Share picture concept merged into `dev`
+- [ ] One play button in view on phones, sun slider labels fit
+- [ ] Phone quick row decided
+- [ ] Legend card does not cover popups
+- [ ] What's new and first view card
+- [ ] iOS Safari and Android Chrome checked (lifts in 3D, sun and shade, sun maps)
+- [ ] Link preview checked in WhatsApp and Signal
+- [ ] Tests, typecheck and smoke test green (CI)
+- [ ] Release row written, `dev` → `main` merged, release published
+- [ ] After the deploy: fog card seen on live data, processing units in the run log
 
-- `web/src/gpx.ts`: `parseGpx` (GPX 1.0 and 1.1, any namespace; tracks win over routes when a file has both; bad points and one-point segments are dropped; a segment keeps elevation only if every point has it), `trackStats` (distance without the gaps between segments, climb with the via ferrata hysteresis, now in `shared/geo.ts`, highest and lowest point), `trackProfile` and camera helpers. Clear messages for broken XML, other XML, waypoints only, a file over 25 MB and a track outside the map area.
-- Tracks without elevation (most planned routes) get it from the terrain model: a point every 10 m, read from the ~26 m Mapterhorn tiles, or the 250 m grid when the track spans more than 48 tiles (`terrainAlong` in `terrainSampler.ts`).
-- `web/src/gpxStore.ts`: the file's text in IndexedDB (one entry), so a newer parser reads old tracks too. Storage blocked: the track works until the page closes.
-- `web/src/layers/gpx.ts` draws the purple line with a white casing (above the via ferratas, below labels), green start and red end dots, a label "Seiser Alm & Schlern  5.2 km" halfway along, and a wide invisible line for taps. It opens no panel itself.
-- The layer has no switch (`keys: []`), so nothing about it reaches the link.
-- Tests: `web/test/gpx.test.ts` with fixtures in `fixtures/gpx/`. Checked in headless Chromium: load with progress, errors, terrain fill, label, snow along the track on two slider days, reload, remove.
+## `v0.3.1` – week of Nov 23
 
-What the new panel and controls can use:
+- **Links to webcams** in the Place tab: "Webcams nearby", the three nearest within about 10 km with their height, each opening the webcam's page in a new tab. Links only, no thumbnails: a picture from another host would break the rule that the browser calls only the site, Mapterhorn and Open-Meteo. A static file built by a script, like `npm run bivouacs`: OpenStreetMap's `contact:webcam` and `webcam` tags on huts, lifts and summits, plus a short hand-made list of the big providers' cameras (foto-webcam.eu, Panomax, the lift companies) after checking that linking to them is allowed. Spike first: how many cameras OpenStreetMap has in the area. Effort S–M.
+- Fixes from testers and from the phone check.
+
+## `v0.4.0` – share picture (December)
+
+Designed and spiked in [`share-snapshot.md`](share-snapshot.md): the visible map resized behind a sheet, a Poster frame (Minimal card for Wide), track pictures first (profile with the snow along it), a picture link copied at share time. Effort M–L, about one to two weeks. The decisions it needs, best answered this week so building can start on Nov 23:
+
+1. Frame: Poster for 3:4, story and square, Minimal card for Wide, no picker (recommended)?
+2. QR code on by default only on Wide (recommended)?
+3. "Hide start and end" off by default (recommended)?
+4. Story frame inside Instagram's covered zones (recommended)?
+5. Name and address printed on every picture: settle the name first, or ship with "South Tyrol Snow" and the `github.io` address (recommended for `v0.4.0`; the name waits for the public launch)?
+
+Also part of it: reading the first `<time>` of a GPX file, shorter picture links in `parseHash`, the `uqr` dependency, a smoke test step for every format.
+
+## Later
+
+Kept out of `v0.3` and `v0.4` on purpose:
+
+- **Cloud height, steps 2 and 3:** a fog and inversion forecast from Open-Meteo pressure levels for the clicked point (in the browser), then shading of the ground under the fog on the map, then perhaps a satellite low-cloud mask.
+- **UI rework, after reading the analytics:** one timeline from days to hours (the sun row merged into the day timeline), fewer tiles by season.
+- **Offline repeat visits and lazy-loaded layers** (roadmap 3 and 7).
+- **Accessibility pass** (roadmap 7).
+- **Station history:** a season snow-depth curve in the station panel.
+- **Region as a configuration entry**, then the Euregio (roadmap 4.2).
+- **Orbit video** (after the share picture).
+- **A Tally form** instead of the feedback e-mail, if testers do not write.
+
+## `1.0.0` – public launch (not before January)
+
+When all of these hold:
+
+- The name and the domain are settled (roadmap 5; about €5 a year).
+- The share picture has shipped and been used by testers.
+- Real-phone checks pass on iOS and Android.
+- A few weeks of tester use with no serious bug left open, and no data outage the monitor missed.
+- The accessibility pass is done.
+
+## Done (`v0.1.0` to `v0.2.2`)
+
+Everything the Nov 7 plan asked for, with what is worth remembering:
+
+- **Versions and releases.** `0.x` semver in `package.json`; version and commit at the end of the About tab and in bug reports. A merge to `main` with a new version is tagged and published by `deploy.yml` after the deploy (see [How to make a release](#how-to-make-a-release)). Data deploys three times a day are not releases.
+- **CI on pull requests** (`ci.yml`): tests, typecheck, release check, build and the smoke test, on fixture data.
+- **Visit counting with GoatCounter** (`web/src/app/analytics.ts`): an image request, no script and no cookies, off without `GOATCOUNTER_CODE`, on localhost and in automated browsers. Page views carry the version; events once per page load (the list is in the README). The view in the hash is never sent.
+- **Feedback:** *Something is wrong* and *Idea* in the About tab open an e-mail to `FEEDBACK_EMAIL` with version, view link, browser and screen size, and the GitHub issue forms for testers with an account.
+- **GPX tracks** (`web/src/gpx.ts`, `layers/gpx.ts`, `app/track.ts`): parse, heights from the terrain when the file has none, distance, climb, profile, snow along the track, kept in IndexedDB, never in links. The data API is below; the share picture builds on it.
+- **Link preview:** `og.jpg` (1200 × 630, under 280 KB for WhatsApp) rendered in the deploy by `scripts/og-image.mjs`, with a cache-busting date.
+- **Where am I:** MapLibre's geolocate control behind one round button; the position stays on the device.
+- **Avalanche warning region** of a place, named with a link to its service's bulletin (avalanche.report has no link to a single region). Never a danger level.
+- **New snow at stations:** 24/48/72 h depth change from the Euregio feed.
+- **Keeping it running:** the deploy workflow re-enables its own schedule (GitHub switches it off after 60 days without commits) and opens an issue at 50 days; Sentinel Hub and Open-Meteo use is counted in `status.json` with an issue at 80 % of the free limits; `model-error.json` keeps the depth model's daily error for 400 days.
+- **Hosting:** GitHub Pages is enough for testers and likely a regional launch (most of a first visit's 7–12 MB is Mapterhorn tiles). The real limits are the upstream quotas. If the basemap passes 100 MB (Euregio), Cloudflare R2 for that one file.
+- **Domain:** postponed until the name is settled. Old `github.io` links keep working after a custom domain, because GitHub redirects them.
+
+## Reference: GPX data API
+
+For the share picture and anything else that uses the track.
 
 | Need | API |
 | --- | --- |
@@ -107,132 +168,17 @@ What the new panel and controls can use:
 | Numbers | `ShownTrack`: `title`, `stats` (`distanceM`, `ascentM`, `descentM`, `highest` [lon, lat, ele], `lowestM`; elevation ones null without heights), `source` (`'file'`, `'terrain'` or null), `fileName`, `track.kind` |
 | Elevation profile | `ShownTrack.profile`: `points` every 25 m with `distM` (gaps not counted), `ele`, `segment` (break the line where it changes), plus `distanceM` and `highestAtM` |
 | Snow along the track, for the day on the map | `gpxSnow()` → `SnowAlong` or null: `route` (`snow` and `unseen` shares, `lowestSnowM`, `maxDepthCm`), `points` (`'snow'`, `'bare'`, `'unseen'` or null for each profile point, same order), `sensor`, `date` (newest pass), `day` (slider day, null for latest), `depth`. `onGpxSnow(cb)` calls again on a new track, when the snow loads and when the day slider moves. |
-| Forecast for a coordinate | `getForecast(lat, lon, elevation, signal)` (forecast.ts), drawn alone by `forecastHtml` (panel.ts). Works for a track's highest point and for stations. |
-| Sun for a coordinate | `sunHereAt(lon, lat)` (layers/sun.ts) → `SunHere`, drawn by `sunHereHtml`; skylines are kept for the last 8 places, so asking again is instant. `onSunDayChange(cb)` when the sun slider moves to another day; `sunDate()` is the day used. |
+| Forecast for a coordinate | `getForecast(lat, lon, elevation, signal)` (forecast.ts), drawn alone by `forecastHtml` (panel.ts). |
+| Sun for a coordinate | `sunHereAt(lon, lat)` (layers/sun.ts) → `SunHere`, drawn by `sunHereHtml`; skylines are kept for the last 8 places. `onSunDayChange(cb)` when the sun slider moves to another day; `sunDate()` is the day used. |
 | Toast with icon and action | `toast(text, { icon, action: { label, run }, durationMs })` (app/toast.ts); with an action it stays 8 s |
 
-The UI on top (`web/src/app/track.ts`): "Add a GPX track" in the Layers tab (choose a file, or drop it on the map), a reading state, the track's row, and its Place panel with the numbers, an elevation profile with the snow-covered stretches marked, and the forecast at the highest point. Loading a track counts the analytics event `gpx/add`. A track can still be loaded from the console: `__snowmap.gpx.loadFile(file)` or `__snowmap.gpx.load(text, 'name.gpx')`.
-
-## 5. Link preview
-
-Designed in [`share-snapshot.md`](share-snapshot.md) ("Link previews"). Worth doing for v1, because the first thing testers see is the link in a chat. `og:` and `twitter:` tags in `index.html`, plus `og.png` (1200 × 630) rendered by the deploy workflow with Playwright from today's default view. Needs an absolute URL, so it is easiest to do after the domain decision (8), or with the Pages address and changed later.
-
-**Built Nov 13 (for `v0.2.1`).** Tags in `web/index.html`, filled from `SITE_URL` (a repository variable, defaulting to the Pages address) by `vite.config.ts`. `scripts/og-image.mjs` renders the picture in the deploy after the build: the default view a little wider and steeper (more peaks, a strip of sky), panels hidden, a centred card with the icon, the name and "Snow on <day of the data>", credits in the corner. Two changes from the plan: it is **`og.jpg`**, not PNG, kept under 280 KB because WhatsApp drops larger pictures (a PNG of terrain is around 1 MB); and the card is centred, because WhatsApp and Signal often show a square cut from the middle. The address carries the build date (`og.jpg?v=20261113`) against chat apps' caches. If rendering fails, the deploy copies the live site's picture. The build job moved to `ubuntu-24.04`, like CI, for Playwright 1.56. **To do: check the preview in WhatsApp and Signal after the next deploy.**
-
-## 6. Live location ("Where am I")
-
-Roadmap 2.5 kept this for later; small enough to add now. **Built Nov 13** (`web/src/app/locate.ts`): a round location button under the map buttons on desktop and phone, with the toast outside the data area. MapLibre 6 has no heading arrow, so there is none. The smoke test checks it on desktop.
-
-- MapLibre's built-in `GeolocateControl`: blue dot, accuracy circle, heading on phones, optional follow mode. Pages is HTTPS, which the browser requires.
-- One round button near the zoom controls (fits the "every control earns its place" rule, since on a hike this is the first question).
-- Outside the data area: still show the dot, plus a short toast "You are outside the map area".
-- Only asks for permission when tapped; the position never leaves the device and is not in share links or analytics.
-- Later, with GPX: "Record track" is a different, much larger feature (background tracking does not work reliably in a web app). Out of scope.
-
-## 7. Share picture (Strava, Instagram)
-
-Fully designed in [`share-snapshot.md`](share-snapshot.md). Larger than the rest, and it depends on the new UI, the name and the icon. Plan it as **v0.3.0**, the first update testers get, which also tests the release flow (1).
-
-## 8. Domain
-
-No reliable free domains exist any more (Freenom is gone, free subdomain services come and go). Cheap and solid options, prices per year roughly:
-
-| Option | Price | Notes |
-| --- | --- | --- |
-| Keep `adamvalik.github.io/tirol-snow-map` | Free | Fine for testers |
-| Free subdomain, e.g. `*.is-a.dev`, `*.pages.dev` | Free | Depends on a third party; `.pages.dev` means moving to Cloudflare Pages |
-| `.eu`, `.it`, `.at`, `.cz` | ~€5–12 | `.it` / `.at` fit South Tyrol; `.it` needs an EU resident |
-| `.app`, `.dev` | ~€12–15 | HTTPS-only by design, fine on Pages |
-| `.xyz`, `.online` etc. | ~€1–2 first year | Renewals cost far more; avoid |
-
-Buy at cost at **Cloudflare Registrar** or Porkbun (no markup, free WHOIS privacy). GitHub Pages supports a custom domain with free HTTPS: a `CNAME` file in the build output plus DNS records, then tick *Enforce HTTPS*.
-
-**Decided (Nov 7): postponed.** The `github.io` address stays through testing. After testing, once the name is settled, buy one at about €5 a year (a `.eu` or similar). The domain follows the name (roadmap 5). If the domain comes later, old links keep working because GitHub redirects the `github.io` address to the custom domain.
-
-## 9. Is GitHub Pages free enough?
-
-Yes, by a wide margin for a tester group, and likely for a public launch in the region.
-
-| Limit (GitHub Pages) | Ours |
-| --- | --- |
-| Published site up to 1 GB | App + data + basemap well below; basemap is the big file and is under the 100 MB file limit |
-| ~100 GB bandwidth per month (soft) | Most first-visit weight (7–12 MB) is terrain tiles from Mapterhorn, not Pages. Even at ~3 MB from Pages per visit that is ~30,000 visits a month |
-| 10 builds per hour (soft) | Three scheduled deploys a day |
-| Public repo for free Pages | Already public |
-| Not for commercial use / no SaaS | Fine for a free hobby app |
-
-What actually limits scale is the **upstream quotas**, not Pages: Mapterhorn terrain tiles (watch their usage policy if visits grow), Sentinel Hub processing units and the Open-Meteo free tier, all used by the pipeline, not per visit. If the Euregio extension (roadmap 4.2) makes the basemap pass 100 MB, Cloudflare R2 (10 GB free, no egress fees) is the next step for that one file.
-
-## 10. Backend and other work alongside the UI
-
-Added Nov 9. The new UI is built in parallel; this is the work that does not touch it (or only adds a link or a button to it).
-
-### 10.1 Needed for `v0.2.0`
-
-| Item | What | Effort |
-| --- | --- | --- |
-| **CI on pull requests** (done Nov 9) | `.github/workflows/ci.yml`: tests, typecheck, build and the browser smoke test on every pull request, on fixture data (no secrets), with the basemap from production's cache when there is one. Smoke screenshots are uploaded as an artifact, handy for reviewing the UI branch. Before this, pull requests were not checked at all and the smoke test never ran in CI | S |
-| **GoatCounter** (2, built Nov 9) | `web/src/app/analytics.ts`: an image request to GoatCounter's counting endpoint instead of its script (no foreign code, one host), off without the `GOATCOUNTER_CODE` repository variable, on localhost and in automated browsers. Page views carry the version as title; events `layer/<key>`, `share`, `about`, `feedback/…`, once per page load. `gpx/add` came with the GPX panel. Variable set Nov 12 | S |
-| **Feedback** (3, built Nov 9) | `mailto:` for v1 instead of Tally: *Something is wrong* and *Idea* at the top of "About the data" open an e-mail to the `FEEDBACK_EMAIL` repository variable with version, view link, browser and screen size filled in; GitHub issue forms `.github/ISSUE_TEMPLATE/bug.yml` and `idea.yml`, prefilled from the URL. Without the variable only the GitHub links show. A Tally form can replace the e-mail later. Variable set Nov 12; the new UI's menu links to the same thing | S |
-| **GPX logic, without drawing** (4) | A pure module in `shared/`: parse `<trk>` and `<rte>`, several segments, missing elevation, broken files; distance, climb (the ferrata 5 m hysteresis), highest point, share on snow (the ferrata "snow along the route" code). Fixture tests. The layer module then only draws it, so this can land before the new UI | M |
-| **Link preview plumbing** (5) | `og:` and `twitter:` tags; a deploy step that renders `og.png` (1200 × 630) with Playwright after the build. Can be built now; it picks up the new look when the UI lands | S–M |
-| **Release on tag** (1, built Nov 13) | A workflow on `v*` tags: check the tag matches `package.json`, create a draft GitHub Release. Replaces step 4 of "How to make a release". Built as `.github/workflows/release.yml`; it also checks the tagged commit is on `main`, and fills the draft from the tag's row of the Releases table. **Nov 16:** releases need no tag push any more. A merge to `main` with a new version is tagged and published by `deploy.yml` after the deploy, CI checks the version and the row before the merge, and `npm run release` bumps the version and drafts the row | S |
-
-### 10.2 Data that comes cheap
-
-The Euregio station feed the pipeline already reads carries more than it uses:
-
-- **New snow at stations** (roadmap 7, done Nov 9). Features have `HSD_24`, `HSD_48`, `HSD_72` (change in snow depth) and `PSUM_6`, `PSUM_48`, `PSUM_72`. Add them as optional fields on `Station` in `shared/types.ts` (optional, so no `SCHEMA_VERSION` bump) and map them in `pipeline/src/sources/linea.ts`; for province-only stations, take the difference from the pipeline's own 14-day history. Effort S. Built from the feed alone: provincial stations get the change from the feed's avalanche-service copy when they merge, which covers 186 of 196 snow stations on the map in the fixtures, so the history fallback was left out. Shown as "Depth change" in the station panel and next to the depth in the tooltip. Also feeds the "new snow since the satellite view" warning, and later a storm correction of the depth estimate (an open item from `plan.md`).
-- **Avalanche region for any point** (roadmap 7, built Nov 13). Stations carry `microRegionID` (for example `IT-32-BZ-03 Schnalser Kamm`). For a clicked point, a pipeline script like `bivouacs-run.ts` fetches the EAWS micro-region outlines, cuts them to the grid, simplifies them and commits `web/src/data/regions.json`; the app finds the region of the point and links to that region's bulletin. Effort S–M. Check the licence of the outlines and the exact avalanche.report link format first. **Built:** the outlines are CC0 (`regions.avalanches.org`, the EAWS repository); `npm run regions` keeps the 103 regions valid now that touch the data area, simplified to about 30 m (225 KB, 57 KB compressed, fetched on the first panel). avalanche.report has **no link to a single region** (only `/bulletin/latest` and `/bulletin/<date>`, checked in its code), so the bulletin row names the region in English and the local languages with its id, and links to `avalanche.report/bulletin/latest` for Euregio regions and to the neighbours' services (AINEVA, SLF, Salzburg, Carinthia, Livigno) at the edges.
-
-### 10.3 Keep it running while friends test
-
-- **The schedule can switch itself off.** GitHub disables scheduled workflows in a public repository after 60 days without commits, and data deploys do not count. A monthly step that runs `gh workflow enable` on the deploy workflow, or a warning from `scripts/monitor.mjs` before the 60 days are up. Effort S. **Built Nov 13:** both. A `keep-schedule` job in `deploy.yml` re-enables the workflow through the API on every scheduled run (the approach of the keepalive-workflow action, which restarts the count without dummy commits), and opens an issue once the last commit is 50 days old, in case that ever stops working. It also runs on a manual start, so it can be tried from the Actions tab.
-- **Upstream budgets in `status.json`.** Record Sentinel Hub processing units used per run and Open-Meteo calls (273 points per fetch); the monitor opens an issue when monthly use nears the free limit. These quotas, not Pages, are what limits growth (see 9). Effort S. **Built Nov 13:** `pipeline/src/usage.ts` counts Sentinel Hub requests and the processing units from the `x-processingunits-spent` header, and Open-Meteo calls; `status.json` keeps the month's totals (`usage`) against 10,000 PU and 10,000 requests a month (CDSE "Copernicus General") and 10,000 calls a day, 300,000 a month (Open-Meteo); the monitor opens an `upstream-budget` issue at 80 %. **To check after the first live run:** that the PU header arrives (the run log prints the run's PU; 0 PU with requests > 0 means it does not), and that the CDSE dashboard agrees.
-- **Model error over time.** Keep each day's leave-one-out error in `history.json`, so a few weeks of testing show whether the depth estimate holds this winter. Effort S. **Built Nov 13** as its own file, `model-error.json`, since `history.json` drops days after 14: one entry per day (method, error, both methods' errors, station count, error per elevation band), kept 400 days. Published with the data, not shown in the app yet.
-
-### 10.4 After `v0.2.0`
-
-- **Region as a configuration entry** (box, station sources, basemap file) instead of the fixed `MODEL_GRID`: prepares the Euregio extension (roadmap 4.2) without changing the area yet. M.
-- **Station history**: the feed lists SMET week and winter files per station, enough for a season snow-depth curve in the station panel. M.
-- **Offline repeat visits and lazy-loaded layers** (roadmap 3, 7): frontend performance, after the new UI settles.
-
-## 11. Order
-
-1. **Version and tags** (1) – needed by everything else that reports the version. Done.
-2. **CI on pull requests** (10.1) – done Nov 9.
-3. **New snow at stations** (10.2) – done Nov 9.
-4. **Analytics** (2) and **feedback** (3) – built Nov 9; the repository variables `GOATCOUNTER_CODE` and `FEEDBACK_EMAIL` still to set.
-5. **GPX logic** (10.1), then the **GPX layer** (4) once the UI is in.
-6. **Keep the schedule alive** and **upstream budgets** (10.3).
-7. **Avalanche region link** (10.2).
-8. **Live location** (6) – if the new UI has room for the button.
-9. **New UI** lands (in progress, roadmap 2).
-10. **Link preview** (5) – plumbing any time, final `og.png` after the UI.
-11. **Release on tag** (10.1), then tag **`v0.2.0`**, write the release notes, send the link.
-12. **v0.3.0**: share picture (7). Name and domain (8) after testing.
-
-Items 2, 3, 5 (logic) and 6 do not touch the UI files, so they do not conflict with the UI branch.
-
-### Release checklist for `v0.2.0`
-
-- [x] Version and commit visible in "About the data"
-- [x] GoatCounter counting on the live site, not on localhost (built; needs `GOATCOUNTER_CODE`)
-- [x] Feedback e-mail opens with version and view link prefilled (built; needs `FEEDBACK_EMAIL`)
-- [x] GPX: load, fly to, summary, remove, survives reload
-- [ ] Link preview checked in WhatsApp and Signal
-- [ ] Tested on iOS Safari and Android Chrome (phone), one desktop browser
-- [x] Tests, typecheck and smoke test green (checked on every pull request by `ci.yml`)
-- [x] New snow at stations
-- [x] Avalanche region link (Nov 13)
-- [x] Deploy schedule protected against the 60-day switch-off (Nov 13)
-- [x] Release notes written, tag pushed
+A track can also be loaded from the console: `__snowmap.gpx.loadFile(file)` or `__snowmap.gpx.load(text, 'name.gpx')`.
 
 ## How to make a release
 
-1. On `dev`: `npm run release 0.2.2` (`scripts/release.mjs`). It bumps `version` in `package.json` and `package-lock.json` and adds a row to the Releases table below, drafted from the commit subjects since the last tag. Rewrite the row's "What" into short user-facing notes: a comma-separated list, one item per change (commas inside brackets do not split). Commit.
+1. On `dev`: `npm run release 0.3.0` (`scripts/release.mjs`). It bumps `version` in `package.json` and `package-lock.json` and adds a row to the Releases table below, drafted from the commit subjects since the last tag. Rewrite the row's "What" into short user-facing notes: a comma-separated list, one item per change (commas inside brackets do not split). Commit.
 2. Open the pull request `dev` → `main`. CI's release check (`ci.yml`, job `check`) fails if the version is not above the last tag, is tagged already, or has no row, and prints the notes as they will appear. Merge when green, or turn on auto-merge.
-3. The deploy publishes it. Once the live site serves the build, `deploy.yml` (job `release`) tags the deployed commit `v0.2.2` and publishes the GitHub Release with the row as a list. Nothing to tag or publish by hand.
+3. The deploy publishes it. Once the live site serves the build, `deploy.yml` (job `release`) tags the deployed commit `v0.3.0` and publishes the GitHub Release with the row as a list. Nothing to tag or publish by hand.
 
 A merge without a version bump only deploys. If the release job fails, the next deploy from `main` (at most 8 hours later) tries again; it can also be started from the Actions tab (*Update data and deploy*, Run workflow). A tag pushed by hand still works: `release.yml` checks it against `package.json` and `main` and publishes the release. The notes can be edited on GitHub after publishing.
 
