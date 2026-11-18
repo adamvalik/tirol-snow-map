@@ -18,7 +18,7 @@ On GitHub, in the [issues](https://github.com/adamvalik/tirol-snow-map/issues), 
 
 - **One issue per piece of work**: a feature, a bug, something to review, an idea, a doc or a chore. A loose note becomes an issue labelled `idea`, so nothing lives only in a head or a branch.
 - **Labels.** The type: `feature`, `bug`, `review` (built or to check, not yet trusted), `idea`, `docs`, `chore`, and `feedback` for what testers send. The area, optional: `area: ui`, `area: sun`, `area: winter`, `area: snow`, `area: pipeline`, `area: release`.
-- **Milestones are versions** (`v0.3.0`, `v0.4.0`, `v0.5.0`, `1.0.0`). An issue without one is "later". A version is ready when its milestone has no open issues; then it is released as in [`release-plan.md`](release-plan.md).
+- **Milestones are versions** (`v0.3.0`, `v0.4.0`, `v0.5.0`, `1.0.0`). An issue without one is "later". Each milestone has an "Update the README for vX.Y.Z" issue (labels `docs` and `area: release`); open one, with the checklist of #47, when a new milestone is made. A version is ready when its milestone has no open issues; then it is released as in [`release-plan.md`](release-plan.md).
 - **The board** shows the state: Inbox (new, not sorted), Planned (has a milestone), In progress, Needs review, Done.
 - **At most two features in progress at a time.** A new idea is an issue in the Inbox, not a new branch.
 - **Branches are named after their issue**: `<type>/<issue>-<short-name>`, for example `feat/28-webcam-links` or `fix/34-lift-cache`. Types: `feat`, `fix`, `docs`, `chore`, `spike`.

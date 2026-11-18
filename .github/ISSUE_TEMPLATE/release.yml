@@ -13,7 +13,7 @@ body:
       options:
         - label: Every other issue in the milestone is closed or moved to a later one
         - label: Checked on real phones (iOS Safari, Android Chrome) and one desktop browser
-        - label: README.md and docs/ say how the new things work
+        - label: README.md and docs/ say how the new things work (the milestone's "Update the README" issue is closed)
         - label: "`npm run release X.Y.Z` on dev, the Releases row rewritten into short user-facing notes"
         - label: Pull request dev → main green and merged
   - type: checkboxes
