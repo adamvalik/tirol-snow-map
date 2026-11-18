@@ -1,6 +1,7 @@
-// Sun light: the hillshade is lit from where the real sun stands at a chosen date and time of
-// day, so slopes facing the sun are bright and slopes turned away stay dark. MapLibre's hillshade
-// shades each slope against the light only; one mountain does not cast a shadow onto the next.
+// Sun light: the map is lit for where the real sun stands at a chosen date and time of day. The
+// hillshade models the relief, lit from the sun's direction; where the sun does not reach (behind
+// a ridge, on slopes turned away, below the horizon) the shade layer of shadows.ts lies on top.
+// This module has the sun's position and day, and the colours of light, shade, night and sky.
 //
 // SunCalc 2.x returns degrees with azimuth clockwise from north (1.x used radians from south),
 // which is also how MapLibre's illumination direction is measured, so it passes straight in.
@@ -8,6 +9,7 @@
 import type { HillshadeLayerSpecification, SkySpecification } from 'maplibre-gl';
 import { getPosition, getTimes } from 'suncalc';
 import { TZ } from './format.ts';
+import type { ShadeLook } from './shadowWorker.ts';
 
 export interface SunPosition {
   /** Degrees clockwise from north. */
@@ -70,22 +72,37 @@ export const sunParam = (t: number): string => `${new Date(t).toISOString().slic
 type Rgba = readonly [number, number, number, number];
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+/** 0 at `from`, 1 at `to`, linear in between and clamped. */
+const ramp = (v: number, from: number, to: number) => clamp01((v - from) / (to - from));
 const mix = (a: Rgba, b: Rgba, f: number): Rgba => a.map((v, i) => v + (b[i] - v) * clamp01(f)) as unknown as Rgba;
+const withAlpha = (c: Rgba, a: number): Rgba => [c[0], c[1], c[2], a];
 const css = ([r, g, b, a]: Rgba): string => `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${+a.toFixed(2)})`;
 const hex = (c: Rgba): string => `#${c.slice(0, 3).map((v) => Math.round(v).toString(16).padStart(2, '0')).join('')}`;
 
-/** Shade turned away from the sun is bluish, as on snow; the light is warm when the sun is low. */
-const SHADOW: Rgba = [32, 40, 68, 0.75];
-const LOW_LIGHT: Rgba = [255, 210, 160, 0.55];
-const HIGH_LIGHT: Rgba = [255, 252, 240, 0.65];
+export type HillshadePaint = NonNullable<HillshadeLayerSpecification['paint']>;
+
+/**
+ * Height of the light on the relief. Fixed, not the sun's, so flat ground keeps its colour at any
+ * time of day; a little higher under a high summer sun, which flattens the relief.
+ */
+const reliefAltitude = (h: number) => 30 + 10 * ramp(h, 30, 60);
+/** Highlight colours: rose as the first light touches the summits, golden when low, warm white high up. */
+const ROSE: Rgba = [255, 172, 156, 1];
+const GOLD: Rgba = [255, 206, 146, 1];
+const WARM: Rgba = [255, 236, 206, 1];
+const WHITE_LIGHT: Rgba = [255, 246, 230, 1];
+/** Relief shading, and the shade where the sun does not reach: a cool blue, as shade on snow. */
+const RELIEF_SHADOW: Rgba = [30, 42, 80, 1];
+const SHADE_RGB = [22, 38, 96] as const;
 
 /**
  * Paint for the hillshade layer. Without a sun it is the style's usual light: the cartographic
- * north-west light that turns with the screen. With a sun the light is fixed to the map.
- * The satellite photo has its own light and shade, so the drawn shading is toned down over it.
+ * north-west light that turns with the screen. With a sun the light comes from the sun's direction,
+ * fixed to the map, and only models the relief: slopes facing the sun lighten and slopes turned
+ * away darken a little, also inside the shade. Where the sun really does not reach is the shade
+ * layer's job (shadows.ts). The satellite photo has its own light and shade, so the drawn shading
+ * is toned down over it.
  */
-export type HillshadePaint = NonNullable<HillshadeLayerSpecification['paint']>;
-
 export function hillshadePaint(sun: SunPosition | null, satellite: boolean): HillshadePaint {
   if (!sun) {
     // A main light from the north-west and two soft side lights, as on Swiss relief maps: the main
@@ -103,27 +120,37 @@ export function hillshadePaint(sun: SunPosition | null, satellite: boolean): Hil
       'hillshade-highlight-color': [`rgba(255, 251, 238, ${a(0.55)})`, `rgba(255, 255, 255, ${a(0.15)})`, `rgba(255, 255, 255, ${a(0.15)})`],
     };
   }
+  const h = sun.altitude;
+  // A high sun flattens the relief; the photo has its own.
+  const contrast = (1 - 0.4 * ramp(h, 25, 65)) * (satellite ? 0.45 : 1);
+  // Direct light fades out as the last summits lose the sun (about 2° below the horizon).
+  const direct = ramp(h, -2.5, 0.5);
+  const light = h >= 20 ? mix(WARM, WHITE_LIGHT, ramp(h, 20, 45)) : h >= 2 ? mix(GOLD, WARM, ramp(h, 2, 20)) : mix(ROSE, GOLD, ramp(h, -2, 2));
+  const glow = 0.26 + 0.08 * (1 - ramp(h, 3, 15));
   return {
-    // 'standard' ignores the light's altitude; 'basic' shades by the angle between the sun and each slope.
+    // 'standard' ignores the light's altitude; 'basic' shades by the angle between the light and each slope.
     'hillshade-method': 'basic',
-    'hillshade-exaggeration': satellite ? 0.25 : 0.5,
+    'hillshade-exaggeration': satellite ? 0.3 : 0.6,
     'hillshade-illumination-direction': ((sun.azimuth % 360) + 360) % 360,
-    // MapLibre takes no negative altitude; below the horizon the night overlay darkens the map instead.
-    'hillshade-illumination-altitude': Math.max(0, sun.altitude),
+    'hillshade-illumination-altitude': reliefAltitude(h),
     'hillshade-illumination-anchor': 'map',
-    'hillshade-shadow-color': css(SHADOW),
-    'hillshade-highlight-color': css(sunlight(sun.altitude)),
+    'hillshade-shadow-color': css(withAlpha(RELIEF_SHADOW, 0.5 * contrast)),
+    'hillshade-highlight-color': css(withAlpha(light, glow * contrast * direct)),
   };
 }
 
-/** Warm near the horizon, near white high up, fading out once the sun is 3° below the horizon. */
-function sunlight(altitude: number): Rgba {
-  const [r, g, b, a] = mix(LOW_LIGHT, HIGH_LIGHT, (altitude - 3) / 22);
-  return [r, g, b, a * clamp01((altitude + 3) / 3)];
-}
+/** Colour and opacity of full shade, where the sun does not reach (shadows.ts). */
+export const shadeLook = (satellite: boolean): ShadeLook => ({
+  color: SHADE_RGB,
+  opacity: satellite ? 0.36 : 0.42,
+});
 
-/** Opacity of the dark overlay: none while the sun is up, deepest at the end of nautical twilight. */
-export const nightOpacity = (altitude: number): number => +(0.6 * clamp01(-altitude / 12)).toFixed(3);
+/**
+ * Opacity of the dark overlay: a faint dimming as the sun sinks towards the horizon, deepening
+ * through twilight once the summits have lost the sun, deepest at the end of nautical twilight.
+ */
+export const nightOpacity = (altitude: number): number =>
+  +(0.06 * (1 - ramp(altitude, 0, 10)) + 0.44 * ramp(-altitude, 2, 12)).toFixed(3);
 
 export const NIGHT_COLOR = '#0b1330';
 
