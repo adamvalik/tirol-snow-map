@@ -6,7 +6,7 @@ import { isOn, switchOn } from '../app/switches.ts';
 import { toast } from '../app/toast.ts';
 import { registerLoader, reloadRows } from '../panel.ts';
 import { type Horizon, horizonProfile } from '../../../shared/horizon.ts';
-import { MAX_BOUNDS } from '../map.ts';
+import { MAPTERHORN_TILES, MAX_BOUNDS } from '../map.ts';
 import { ShadowLayer } from '../shadows.ts';
 import {
   clockTime,
@@ -19,6 +19,7 @@ import {
   localMidnight,
   NIGHT_COLOR,
   nightOpacity,
+  shadeLook,
   skyFor,
   sunDay,
   sunParam,
@@ -99,26 +100,25 @@ function showSunLabel(sun: SunPosition) {
     sun.altitude >= 0.5 ? `${Math.round(sun.altitude)}° high` : sun.altitude > -6 ? 'on the horizon' : 'night';
 }
 
-function applyShadows(sun: ReturnType<typeof sunPosition> | null) {
+function applyShadows(sun: SunPosition | null) {
   if (!shadowLayer) return;
-  if (!sun || sun.altitude <= 0) {
+  if (!sun) {
     shadowLayer.hide();
     return;
   }
-  if (terrainGrid) shadowLayer.show(terrainGrid, sunTime, sun.azimuth);
-  else if (!terrainGridLoading) {
-    terrainGridLoading = true;
-    loadGrid().then(
-      (g) => {
-        terrainGrid = g;
-        applyLight();
-      },
-      (e: unknown) => {
-        terrainGridLoading = false;
-        toast(`Shadows unavailable: ${e instanceof Error ? e.message : String(e)}`);
-      },
-    );
-  }
+  // Also at night: the shade then covers everything, under the night overlay.
+  if (shadowLayer.show(terrainGrid, sunTime, sun.azimuth, shadeLook(isOn('satellite'))) || terrainGridLoading) return;
+  terrainGridLoading = true;
+  loadGrid().then(
+    (g) => {
+      terrainGrid = g;
+      applyLight();
+    },
+    (e: unknown) => {
+      terrainGridLoading = false;
+      toast(`Shadows unavailable: ${e instanceof Error ? e.message : String(e)}`);
+    },
+  );
 }
 
 function setSunTime(t: number) {
@@ -278,8 +278,8 @@ export const sun: LayerModule = {
       },
       basemap.labels[0]?.id,
     );
-    // Under the night overlay, over the snow cells and roads.
-    shadowLayer = new ShadowLayer(map, NIGHT_LAYER);
+    // Right above the hillshade, which it completes: under the snow cells, roads and the night overlay.
+    shadowLayer = new ShadowLayer(map, basemap.lines[0]?.id, MAPTERHORN_TILES);
     // For browser checks and debugging: how long the last shadow computation took.
     shadowLayer.onDrawn = (ms) => (document.body.dataset.shadowMs = ms.toFixed(1));
     lightReady = true;
