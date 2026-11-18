@@ -177,15 +177,13 @@ function showScale(scale: SunMapScale | null, note = '') {
     title.textContent = note;
     return;
   }
-  title.textContent = scale.title;
+  title.textContent = `${scale.title}, ${$('sun-date-label').textContent}`;
   bar.style.background = scaleGradient(scale);
   ticks.innerHTML = scale.ticks.map((t) => `<span>${t}</span>`).join('');
 }
 
 function showSunKeys() {
-  for (const b of document.querySelectorAll<HTMLButtonElement>('#sun-keys .winter-chip')) {
-    b.setAttribute('aria-pressed', String((b.dataset.map === 'shade' ? null : b.dataset.map) === sunMap));
-  }
+  for (const r of document.querySelectorAll<HTMLInputElement>('#sun-maps input[name="sun-map"]')) r.checked = r.value === (sunMap ?? 'shade');
 }
 
 /** Shows a day's map, or the shade at the slider's time for null. */
@@ -339,9 +337,8 @@ export const sun: LayerModule = {
     if (app.initial.sun) sunTime = Date.parse(app.initial.sun);
     sunMap = app.initial.sunMap ?? null;
     showSunKeys();
-    $('sun-keys').addEventListener('click', (e) => {
-      const kind = (e.target as Element).closest<HTMLButtonElement>('.winter-chip')?.dataset.map;
-      if (!kind) return;
+    $('sun-maps').addEventListener('change', (e) => {
+      const kind = (e.target as HTMLInputElement).value;
       setSunMap((SUN_MAP_KINDS as readonly string[]).includes(kind) ? (kind as SunMapKind) : null);
     });
     // The hint under the slider follows the picked point.

@@ -91,8 +91,7 @@ export function sunMapScale(kind: SunMapKind, day: SunDayResult): SunMapScale {
   return { title: titleOf(kind), lo, hi, sunnyLeft: kind === 'first', ticks };
 }
 
-const titleOf = (kind: SunMapKind) =>
-  kind === 'first' ? 'First sun, terrain only' : kind === 'last' ? 'Last sun, terrain only' : 'Hours of sun, terrain only';
+const titleOf = (kind: SunMapKind) => (kind === 'first' ? 'First sun' : kind === 'last' ? 'Last sun' : 'Sun hours');
 
 /** The bar's background, left to right as the scale has it. */
 export function scaleGradient(s: SunMapScale): string {

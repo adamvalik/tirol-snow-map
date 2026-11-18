@@ -2,7 +2,7 @@
 // `npm run winter`), fetched the first time the layer is switched on: ski lifts, downhill slopes
 // coloured by difficulty (lines, and areas where a slope is mapped as one), cross-country trails,
 // toboggan runs and ski touring routes. Everything drapes on the terrain; a wide invisible line
-// takes the clicks. The legend's chips hide and show each kind.
+// takes the clicks. Switches in the Winter sports group hide and show each kind.
 
 import * as maplibregl from 'maplibre-gl';
 import type { ExpressionSpecification, MapLayerMouseEvent } from 'maplibre-gl';

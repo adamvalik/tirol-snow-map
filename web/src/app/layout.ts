@@ -54,7 +54,7 @@ export function syncQuick() {
 
 /**
  * Keeps the timeline in the sheet on phones and floating over the map on wider screens; the legends
- * scroll with the Layers tab on phones and stay above the footer on wider screens.
+ * scroll with the Layers tab on phones and float over the map's top-left corner on wider screens.
  */
 function placeTimeline() {
   const timeline = $('timeline');
@@ -62,7 +62,7 @@ function placeTimeline() {
   if (timeline.parentElement !== target) target.append(timeline);
   const legends = document.querySelector<HTMLElement>('.legends')!;
   if (isPhone()) $('tab-layers').append(legends);
-  else document.querySelector('.footer')!.before(legends);
+  else if (legends.parentElement !== document.body) document.body.append(legends);
 }
 
 /** A drag on the sheet's handle raises or lowers it; a tap toggles it. */

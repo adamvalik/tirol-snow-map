@@ -144,20 +144,32 @@
               <span class="tile-name">Sun and shade</span>
             </label>
           </div>
-          <!-- While Winter sports is on: which kinds are shown (layers/winter.ts). -->
-          <div id="winter-keys" class="winter-keys" role="group" aria-label="Winter sports shown"></div>
-          <!-- While Sun and shade is on: the shade at the slider's time, or a map of the whole day (layers/sun.ts). -->
-          <div id="sun-keys" class="winter-keys sun-keys" role="group" aria-label="Sun map shown">
-            <button type="button" class="winter-chip" data-map="shade" aria-pressed="true">Shade at the time</button>
-            <button type="button" class="winter-chip" data-map="first" aria-pressed="false">First sun</button>
-            <button type="button" class="winter-chip" data-map="last" aria-pressed="false">Last sun</button>
-            <button type="button" class="winter-chip" data-map="hours" aria-pressed="false">Sun hours</button>
-          </div>
 
           <!-- GPX: filled by app/track.ts (add, reading, the track's row). -->
           <section id="track" class="track" aria-label="Your track"></section>
 
           <div class="groups">
+            <!-- While Winter sports is on: which kinds are shown, with their colours (layers/winter.ts). -->
+            <details id="group-winter" class="group">
+              <summary>
+                <span class="group-head"><span class="group-title">Winter sports</span><span class="group-sub">Lifts, slopes, trails, toboggan, touring</span></span>
+                <i data-icon="caret-down" data-size="18"></i>
+              </summary>
+              <div id="winter-kinds" class="group-body"></div>
+            </details>
+            <!-- While Sun and shade is on: the shade at the slider's time, or a map of the whole day (layers/sun.ts). -->
+            <details id="group-sun" class="group">
+              <summary>
+                <span class="group-head"><span class="group-title">Sun and shade</span><span class="group-sub">Shade at a time, or the whole day</span></span>
+                <i data-icon="caret-down" data-size="18"></i>
+              </summary>
+              <div id="sun-maps" class="group-body" role="radiogroup" aria-label="Sun map shown">
+                <label class="row"><span class="row-label">Shade at the slider's time</span><input type="radio" class="choice" name="sun-map" value="shade" checked /></label>
+                <label class="row"><span class="row-label">First sun <span class="hint">when it arrives</span></span><input type="radio" class="choice" name="sun-map" value="first" /></label>
+                <label class="row"><span class="row-label">Last sun <span class="hint">when it leaves</span></span><input type="radio" class="choice" name="sun-map" value="last" /></label>
+                <label class="row"><span class="row-label">Sun hours <span class="hint">over the day</span></span><input type="radio" class="choice" name="sun-map" value="hours" /></label>
+              </div>
+            </details>
             <details id="group-snow" class="group">
               <summary>
                 <span class="group-head"><span class="group-title">Snow details</span><span class="group-sub">Depth estimate, forecast, snow share, uncertainty</span></span>
@@ -172,7 +184,7 @@
             </details>
             <details id="group-map" class="group">
               <summary>
-                <span class="group-head"><span class="group-title">Map and light</span><span class="group-sub">Satellite photo, map style</span></span>
+                <span class="group-head"><span class="group-title">Map style</span><span class="group-sub">Satellite photo, roads, labels, terrain</span></span>
                 <i data-icon="caret-down" data-size="18"></i>
               </summary>
               <div class="group-body">
@@ -230,18 +242,15 @@
           <div id="ferrata-keys" class="ferrata-keys"></div>
           <p class="legend-note">Wider lines are harder, faded ones are marked closed. From OpenStreetMap volunteers, not for navigation.</p>
         </div>
-        <div id="winter-legend" class="legend" aria-label="Winter sports legend" hidden>
-          <div class="legend-title">Ski slopes</div>
-          <div id="winter-slope-keys" class="ferrata-keys"></div>
-        </div>
         <div id="sun-legend" class="legend" aria-label="Sun map legend" hidden>
           <div id="sun-legend-title" class="legend-title"></div>
-          <div id="sun-legend-bar" class="sun-legend-bar"></div>
-          <div id="sun-legend-ticks" class="sun-legend-ticks"></div>
-          <div class="legend-extra">
-            <span><span class="sun-no-swatch"></span>No sun all day</span>
+          <div class="sun-scale">
+            <span class="sun-none" title="The sun does not reach these places on this day"></span>
+            <span id="sun-legend-bar" class="sun-bar"></span>
+            <span class="sun-tick">None</span>
+            <span id="sun-legend-ticks" class="sun-ticks"></span>
           </div>
-          <p class="legend-note">For the day of the sun slider, on the 250 m terrain grid with a clear sky. Trees, buildings, cloud and small ridges are not included.</p>
+          <p class="legend-note">250 m terrain, clear sky. Tap a point for exact times.</p>
         </div>
       </div>
 
