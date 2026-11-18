@@ -13,6 +13,7 @@ import { dayView, loadHistory, setupTimeline } from './app/timeline.ts';
 import { setupTrack } from './app/track.ts';
 import { setupBasemapRetry } from './app/basemapRetry.ts';
 import { setupWarnings } from './app/warnings.ts';
+import { setupWhatsNew } from './app/whatsNew.ts';
 import { basemapLayers, SUMMIT_ICON, summitIcon } from './basemap.ts';
 import { flyToGpx, gpxSnow, gpxTrack, loadGpxFile, loadGpxText, removeGpx } from './layers/gpx.ts';
 import { initLayers, layersView, onMapClick, setupLayers } from './layers/registry.ts';
@@ -61,6 +62,7 @@ if (window.location.hash.length > 1) track('arrive/link');
 // MapLibre needs WebGL 2; without it the map stays empty.
 if (!document.createElement('canvas').getContext('webgl2')) track('error/webgl');
 loadHistory();
+setupWhatsNew();
 
 map.on('load', async () => {
   await initLayers(app);

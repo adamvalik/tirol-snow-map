@@ -12,7 +12,7 @@ South Tyrol Snow Map: a 3D snow map of South Tyrol in the browser (MapLibre GL J
 
 ## Releases
 
-Versions follow `0.x` semver (`v0.2.0` testers, `v0.3.0` share picture, `1.0.0` public launch; patches for fixes). Data deploys are not releases. Steps (also in `docs/release-plan.md`, "How to make a release"):
+Versions follow `0.x` semver (`v0.2.0` testers, `v0.3.0` winter release, `v0.4.0` UI for all features, `v0.5.0` share picture, `1.0.0` public launch; patches for fixes). What goes into which version is in `docs/release-plan.md`. Data deploys are not releases. Steps (also in `docs/release-plan.md`, "How to make a release"):
 
 1. On `dev`: `npm run release X.Y.Z`. It bumps `package.json` and the lockfile and adds a row to the Releases table in `docs/release-plan.md`, drafted from the commit subjects since the last tag. Rewrite the row's "What" into short user-facing notes, a comma-separated list; it becomes the release notes as is. Commit.
 2. Pull request `dev` → `main`. CI's release check fails if the version is not above the last tag or has no row. Merge when green (or turn on auto-merge).

@@ -816,6 +816,16 @@ body.dragging .track-add {
   display: none;
 }
 
+/* A map popup lies under the card (app/layout.ts): out of its way while it is there. */
+.legends {
+  transition: opacity 0.12s;
+}
+
+.legends.behind-popup {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* Phones: at the end of the Layers tab. */
 .panel:not([data-tab='layers']) .legends {
   display: none;
@@ -1876,6 +1886,103 @@ details[open] > .act .caret {
   font-weight: 500;
 }
 
+/* --- What's new and first view (app/whatsNew.ts) ------------------------------ */
+
+.intro-card {
+  position: fixed;
+  z-index: 6;
+  top: 20px;
+  right: 76px;
+  width: min(340px, calc(100vw - 460px));
+  max-height: calc(100vh - 140px);
+  overflow: auto;
+  padding: 14px 16px 14px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.intro-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.intro-head h2 {
+  margin: 6px 0 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.intro-head .icon-btn {
+  width: 32px;
+  height: 32px;
+  margin: -2px -6px 0 0;
+  color: var(--muted);
+}
+
+.intro-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.intro-list li {
+  display: flex;
+  gap: 10px;
+  color: var(--ink-2);
+}
+
+.intro-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--on);
+  color: var(--accent);
+}
+
+.intro-notes {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+  color: var(--ink-2);
+}
+
+.intro-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.intro-foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 500;
+}
+
+.intro-ok {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+}
+
 /* --- Timeline ---------------------------------------------------------------- */
 
 .timeline {
@@ -2696,6 +2803,15 @@ details[open] > .act .caret {
     bottom: auto;
     transform: none;
     max-width: none;
+  }
+
+  /* Under the name pill, clear of the map buttons on the right. */
+  .intro-card {
+    top: calc(92px + env(safe-area-inset-top));
+    left: 12px;
+    right: 68px;
+    width: auto;
+    max-height: 48vh;
   }
 
   .maplibregl-ctrl-bottom-left {

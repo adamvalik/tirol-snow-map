@@ -14,7 +14,7 @@ import { latestSnow } from '../layers/snow.ts';
 import { latestStations, stationsError as stationsLoadError } from '../layers/stations.ts';
 import { satelliteInfoHtml, shortDate } from '../satellite.ts';
 import { snowInfoHtml } from '../snow.ts';
-import { APP_COMMIT, APP_VERSION } from '../version.ts';
+import { APP_COMMIT, APP_VERSION, RELEASE_NOTES } from '../version.ts';
 import { analyticsEnabled, track } from './analytics.ts';
 import { $ } from './dom.ts';
 import { feedbackHtml } from './feedback.ts';
@@ -178,6 +178,7 @@ function render() {
     <section class="version-row" aria-label="Version">
       <span class="info-icon" aria-hidden="true">${icon('tag', 20)}</span>
       <span><span>Version ${escapeHtml(APP_VERSION)}</span><small>Build ${escapeHtml(APP_COMMIT)}</small></span>
+      ${RELEASE_NOTES.length ? `<button type="button" class="link-btn" data-whats-new>What's new</button>` : ''}
       <a href="https://github.com/adamvalik/tirol-snow-map/releases" target="_blank" rel="noopener">Release notes${icon('arrow-up-right', 13)}</a>
     </section>`;
 }

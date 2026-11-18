@@ -412,34 +412,22 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
     const id = e.features?.[0]?.properties.id as string | undefined;
     return id ? features?.get(id) : undefined;
   };
+  // The 3D lift answers like its line. Both layers share one handler each, so a click on a cabin
+  // over its line opens the panel once, and the tooltip does not flicker between the two.
+  const targets = [HIT, LIFT_3D];
   if (matchMedia('(hover: hover)').matches) {
-    map.on('mousemove', HIT, (e: MapLayerMouseEvent) => {
+    map.on('mousemove', targets, (e: MapLayerMouseEvent) => {
       const f = featureAt(e);
       if (!f) return;
       map.getCanvas().style.cursor = 'pointer';
       popup.setLngLat(e.lngLat).setHTML(winterTooltipHtml(f.properties)).addTo(map);
     });
-    map.on('mouseleave', HIT, () => {
-      map.getCanvas().style.cursor = '';
-      popup.remove();
-    });
-    // The 3D lift answers like its line.
-    map.on('mousemove', LIFT_3D, (e: MapLayerMouseEvent) => {
-      const f = featureAt(e);
-      if (!f) return;
-      map.getCanvas().style.cursor = 'pointer';
-      popup.setLngLat(e.lngLat).setHTML(winterTooltipHtml(f.properties)).addTo(map);
-    });
-    map.on('mouseleave', LIFT_3D, () => {
+    map.on('mouseleave', targets, () => {
       map.getCanvas().style.cursor = '';
       popup.remove();
     });
   }
-  map.on('click', HIT, (e: MapLayerMouseEvent) => {
-    const f = featureAt(e);
-    if (f) onSelect(f);
-  });
-  map.on('click', LIFT_3D, (e: MapLayerMouseEvent) => {
+  map.on('click', targets, (e: MapLayerMouseEvent) => {
     const f = featureAt(e);
     if (f) onSelect(f);
   });

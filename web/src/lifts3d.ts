@@ -46,6 +46,11 @@ export const LIFT_3D = {
   chair: { seat: 1.9, depth: 2.8, thickness: 0.8, hanger: 6, back: 3.6, bar: 0.6, spacing: 55, defaultSeats: 4 },
   /** Pylons where none are mapped: spans of at most this length. */
   span: 220,
+  /**
+   * An inner vertex is an angle station where the line turns by at least this many degrees; a
+   * smaller kink is a pylon. Drawing a real small-angle station as a pylon still looks right.
+   */
+  angleStation: 10,
 } as const;
 
 export const LIFT_3D_COLORS = {
@@ -94,6 +99,15 @@ function frame(origin: Pos) {
   };
 }
 
+/** How far the line turns at `b`, in degrees (0 for a straight line). */
+function turnDeg(a: Pos, b: Pos, c: Pos): number {
+  const f = frame(b);
+  const [ax, ay] = f.toXY(a);
+  const [cx, cy] = f.toXY(c);
+  const d = Math.abs(Math.atan2(cy, cx) - Math.atan2(-ay, -ax));
+  return ((d > Math.PI ? 2 * Math.PI - d : d) * 180) / Math.PI;
+}
+
 /** Supports along the line, bottom to top: the stations, the angle stations and the pylons. */
 export function supports(line: readonly Pos[], pylons: readonly Pos[] | null): { at: [number, number]; d: number; station: boolean }[] {
   // Distance along the line of each vertex.
@@ -124,13 +138,25 @@ export function supports(line: readonly Pos[], pylons: readonly Pos[] | null): {
     { at: [line[0][0], line[0][1]] as [number, number], d: 0, station: true },
     { at: [line.at(-1)![0], line.at(-1)![1]] as [number, number], d: length, station: true },
   ];
-  // Angle stations: where the line bends.
-  for (let i = 1; i < line.length - 1; i++) out.push({ at: [line[i][0], line[i][1]], d: dist[i], station: true });
+  // Inner vertices: an angle station where the line really bends, a pylon where it only kinks. OSM
+  // lines often kink by a few metres at pylons, which the 4 m simplify of the pipeline keeps.
+  for (let i = 1; i < line.length - 1; i++) {
+    const station = turnDeg(line[i - 1], line[i], line[i + 1]) >= LIFT_3D.angleStation;
+    out.push({ at: [line[i][0], line[i][1]], d: dist[i], station });
+  }
   if (pylons?.length) {
     for (const p of pylons) out.push({ at: [p[0], p[1]], d: along(p), station: false });
   } else {
-    const n = Math.ceil(length / LIFT_3D.span);
-    for (let k = 1; k < n; k++) out.push({ at: pointAt((length * k) / n), d: (length * k) / n, station: false });
+    // Evenly spaced between the stations, so no span is longer than `span`.
+    const ends = out.filter((s) => s.station).map((s) => s.d).sort((a, b) => a - b);
+    for (let j = 1; j < ends.length; j++) {
+      const [d0, d1] = [ends[j - 1], ends[j]];
+      const n = Math.ceil((d1 - d0) / LIFT_3D.span);
+      for (let k = 1; k < n; k++) {
+        const d = d0 + ((d1 - d0) * k) / n;
+        out.push({ at: pointAt(d), d, station: false });
+      }
+    }
   }
   // A pylon at a station (OSM sometimes maps both) is left to the station; a pylon mapped twice is one.
   const stations = out.filter((s) => s.station);
