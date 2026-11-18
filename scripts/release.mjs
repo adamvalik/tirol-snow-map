@@ -7,11 +7,11 @@
 //   node scripts/release.mjs notes v0.2.2   Release notes from the tag's row, printed as Markdown;
 //                                          exits 3 when there is no row
 //
-// The "What" column of a row is a comma-separated list; commas inside brackets do not split, so
-// "GPX tracks (load, measure, draw, keep)" stays one item. Tags are read with `git tag`, so fetch
-// them first in a shallow clone (`git fetch --tags`).
+// The table is read by release-notes.mjs, shared with the app's What's new card. Tags are read
+// with `git tag`, so fetch them first in a shallow clone (`git fetch --tags`).
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
+import { releaseNotes, row } from './release-notes.mjs';
 
 const PLAN = 'docs/release-plan.md';
 const SITE = 'https://adamvalik.github.io/tirol-snow-map/';
@@ -39,32 +39,12 @@ function tags() {
 }
 const packageVersion = () => JSON.parse(readFileSync('package.json', 'utf8')).version;
 
-function row(md, tag) {
-  return md.split('\n').find((l) => l.startsWith(`| \`${tag}\` |`));
-}
-function items(what) {
-  const out = [];
-  let depth = 0;
-  let cur = '';
-  for (const ch of what) {
-    if (ch === '(') depth++;
-    if (ch === ')') depth--;
-    if (ch === ',' && depth === 0) {
-      out.push(cur.trim());
-      cur = '';
-    } else cur += ch;
-  }
-  if (cur.trim()) out.push(cur.trim());
-  return out.filter(Boolean);
-}
-
 function notes(tag) {
-  const r = row(readFileSync(PLAN, 'utf8'), tag);
-  if (!r) {
+  const list = releaseNotes(readFileSync(PLAN, 'utf8'), tag).map((i) => `- ${i}`);
+  if (!list.length) {
     console.error(`No row for ${tag} in the Releases table of ${PLAN}.`);
     process.exit(3);
   }
-  const list = items(r.split('|')[3].trim()).map((i) => `- ${i[0].toUpperCase()}${i.slice(1)}`);
   console.log(["## What's new", '', ...list, '', `Live at ${SITE}`].join('\n'));
 }
 

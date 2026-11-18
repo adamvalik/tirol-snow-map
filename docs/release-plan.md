@@ -42,10 +42,10 @@ Feature freeze on `dev` from Thursday Nov 19: only the items below.
 
 ### 1. Review and merge (Wed–Thu)
 
-1. **Review** winter sports (on `dev`) and #18. Findings and their fixes are listed under [Review findings](#review-findings-nov-18).
-2. **#19** analytics → `dev`.
-3. **#18** sun and shade → `dev`, once its review findings are fixed. If the phone check (4) shows it is too slow, revert the merge on `dev` (`git revert -m 1`, no history rewrite) and keep it for `v0.4.0`.
-4. **#20** stays open. When `sun-shade` is deleted after #18's merge, GitHub moves its base to `dev`; do not merge it before `v0.4.0`.
+1. **Review** winter sports (on `dev`) and #18: done Nov 18, findings and fixes under [Review findings](#review-findings-nov-18).
+2. **`claude/busy-tesla-thyopa` → `dev`:** this plan, #18 merged in with its fixes, the winter sports fixes and the What's new card, in one pull request. Then close #18 (its work is in). If the phone check (4) shows the shade is too slow, revert #18's merge commit on `dev` (`git revert -m 1`, no history rewrite) and keep it for `v0.4.0`.
+3. **#19** analytics → `dev`.
+4. **#20** stays open for `v0.4.0`. Its base is `sun-shade`; once #18's work is on `dev`, change the base to `dev`.
 5. **Share picture concept:** a pull request `share-picture-concept` → `dev` (docs only), so all plans live on `dev`.
 6. **Cloud height:** no pull request yet (see [Cloud height](#cloud-height-before-it-ships)).
 
@@ -59,12 +59,13 @@ Only what the shipped layers need. The rest waits for the `v0.4.0` UI.
 
 ### 3. What's new and first view (Thu–Fri)
 
-One card with two texts, so the overview comes almost for free. Shown once, in the map's corner on desktop and at the top of the sheet on phones.
+**Built Nov 18** (`web/src/app/whatsNew.ts`). One card with two texts, so the overview came almost for free. Shown once per version: top right of the map on desktop, under the name pill on phones.
 
 - **Returning visitor** whose last seen version is older: "What's new in 0.3.0" with the items of the version's row in the Releases table below (the same list as the GitHub Release, read at build time like `__APP_VERSION__`), and a link to all release notes.
 - **First visit:** "What you can do", four short lines: where the snow is, the timeline, tap a place, more layers (winter sports, sun and shade). Shortened from the README.
-- Closing it keeps the version in `localStorage`, nothing else. "What's new" also stays reachable from the About tab next to the version.
-- Effort S–M. Tests: which text shows for no version, an older and the same version; storage blocked shows the card and does not throw.
+- Opening it keeps the version in `localStorage`, nothing else, so it shows once even if never closed. Visitors from before the card (favourites or cached forecasts in storage) count as returning. "What's new" also stays reachable from the About tab next to the version.
+- Not shown in automated browsers (smoke test, link preview picture). Counted as `intro/welcome` or `intro/new`.
+- Tests in `web/test/whatsNew.test.ts`: which card shows for a first visit, an older, the same and a newer version, and a version without notes; notes escaped; the table parser shared with `npm run release`.
 
 ### 4. Check on real phones (Fri Nov 20)
 
@@ -91,14 +92,15 @@ Still open from the `v0.2.0` checklist. For a phone to reach a build before the 
 ### Checklist for `v0.3.0`
 
 - [x] Winter sports and #18 reviewed (Nov 18)
-- [ ] Winter sports: the two must-fix findings fixed
-- [ ] #18: the two must-fix findings fixed, merged
+- [x] Winter sports: the two must-fix findings fixed (Nov 18, on `claude/busy-tesla-thyopa`)
+- [x] #18: the two must-fix findings fixed (Nov 18, on `claude/busy-tesla-thyopa`, which carries #18)
+- [ ] `claude/busy-tesla-thyopa` merged into `dev`; #18 closed, its work merged with it
 - [ ] #19 merged
 - [ ] Share picture concept merged into `dev`
 - [ ] Phone quick row decided
 - [ ] Legend card does not cover popups
 - [ ] Sun and shade on a phone: one play button in view, labels fit
-- [ ] What's new and first view card
+- [x] What's new and first view card (Nov 18)
 - [ ] iOS Safari and Android Chrome checked (lifts in 3D, sun and shade)
 - [ ] Link preview checked in WhatsApp and Signal
 - [ ] Tests, typecheck and smoke test green (CI)
@@ -106,16 +108,16 @@ Still open from the `v0.2.0` checklist. For a phone to reach a build before the 
 
 ### Review findings (Nov 18)
 
-Both can ship once the "must fix" rows are done and the phone check passes. Nothing found is a reason to hold them back.
+Both can ship: the "must fix" rows are fixed (Nov 18), and the phone check decides the rest. Nothing found is a reason to hold them back.
 
 **Winter sports** (on `dev`):
 
 | | Finding | Where |
 | --- | --- | --- |
-| Must fix | Every vertex the pipeline keeps on a lift line (4 m simplify) becomes an angle station: a 20 × 28 m building mid-span, with the cable dipping to station height. Count a vertex as a station only at a real bend or where OSM maps one | `web/src/lifts3d.ts`, `supports()` |
-| Must fix | A click on a 3D lift opens the panel twice (the 3D layer and the line under it both answer), so two forecast requests go to Open-Meteo | `web/src/winter.ts`, click handlers |
+| Fixed | Every vertex the pipeline keeps on a lift line (4 m simplify) becomes an angle station: a 20 × 28 m building mid-span, with the cable dipping to station height. Count a vertex as a station only at a real bend or where OSM maps one | `web/src/lifts3d.ts`, `supports()` |
+| Fixed | A click on a 3D lift opens the panel twice (the 3D layer and the line under it both answer), so two forecast requests go to Open-Meteo | `web/src/winter.ts`, click handlers |
 | Should fix | 3D lifts built while only coarse terrain was loaded stay cached after the finer tiles arrive; the cables then wobble or clip steep slopes | `web/src/winter.ts`, `update3d` cache |
-| Should fix | The tooltip flickers when the pointer moves between a 3D lift and its line | `web/src/winter.ts`, hover handlers |
+| Fixed | The tooltip flickers when the pointer moves between a 3D lift and its line | `web/src/winter.ts`, hover handlers |
 | Measure | First use downloads 1.4 MB (5.4 MB raw) and parses it on the main thread; up to about 7,000 blocks per move for the 3D lifts. On Friday's phones. If slow: drop the elevations and some decimals from the file, flat lifts on phones | `web/src/data/winter.json`, `web/src/winter.ts` |
 | Later | The lift cache drops the oldest entries, not the least used; `update3d` scans all lifts on every `idle` | `web/src/winter.ts` |
 
@@ -123,11 +125,11 @@ Both can ship once the "must fix" rows are done and the phone check passes. Noth
 
 | | Finding | Where |
 | --- | --- | --- |
-| Must fix | If the shadow worker fails without an `error` event (an exception in its async `answer()`, for example low memory on a phone), the request stays pending for ever: play stops and the light freezes until a reload. Catch in the worker and answer with an error, and give up after a timeout | `web/src/shadows.ts`, `web/src/shadowWorker.ts` |
-| Must fix | Switching the sun on shows the night overlay at its last opacity (up to 0.5) until the first shade arrives, so the map flashes dark | `web/src/layers/sun.ts`, `applyLight` |
+| Fixed | If the shadow worker fails without an `error` event (an exception in its async `answer()`, for example low memory on a phone), the request stays pending for ever: play stops and the light freezes until a reload. Catch in the worker and answer with an error, and give up after a timeout | `web/src/shadows.ts`, `web/src/shadowWorker.ts` |
+| Fixed | Switching the sun on shows the night overlay at its last opacity (up to 0.5) until the first shade arrives, so the map flashes dark | `web/src/layers/sun.ts`, `applyLight` |
 | Check on iOS | Image bitmap options and `OffscreenCanvas` in the worker: the shade may look too strong, or the finer shade may silently never appear on older iOS | `web/src/shadowWorker.ts` |
 | Check by eye | `transition: 0` now applies to every layer's paint changes, not only the sun's: check the day switch and the satellite toggle | `web/src/map.ts` |
-| Later | Tile arrival can work out the same shade two or three times; the tile cache drops the oldest tile, not the least used; showing again right after hiding can reveal the previous shade for a moment | `web/src/shadowWorker.ts`, `web/src/shadows.ts` |
+| Later | Tile arrival can work out the same shade two or three times; the tile cache drops the oldest tile, not the least used; showing again right after hiding could reveal the previous shade for a moment (fixed with the worker fix) | `web/src/shadowWorker.ts`, `web/src/shadows.ts` |
 
 ## `v0.3.1`
 

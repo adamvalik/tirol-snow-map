@@ -13,6 +13,7 @@ import { dayView, loadHistory, setupTimeline } from './app/timeline.ts';
 import { setupTrack } from './app/track.ts';
 import { setupBasemapRetry } from './app/basemapRetry.ts';
 import { setupWarnings } from './app/warnings.ts';
+import { setupWhatsNew } from './app/whatsNew.ts';
 import { basemapLayers, SUMMIT_ICON, summitIcon } from './basemap.ts';
 import { flyToGpx, gpxSnow, gpxTrack, loadGpxFile, loadGpxText, removeGpx } from './layers/gpx.ts';
 import { initLayers, layersView, onMapClick, setupLayers } from './layers/registry.ts';
@@ -57,6 +58,7 @@ setupSources();
 setupTrack();
 trackVisit();
 loadHistory();
+setupWhatsNew();
 
 map.on('load', async () => {
   await initLayers(app);
