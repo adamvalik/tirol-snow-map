@@ -27,6 +27,7 @@ export function setupShare(map: maplibregl.Map, parts: () => Partial<ViewState>[
         day: null,
         frame: null,
         sun: null,
+        sunMap: null,
       },
       ...parts(),
     );

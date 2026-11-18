@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Horizon } from '../../shared/horizon.ts';
 import { localMidnight, sunPosition } from '../src/sun.ts';
-import { horizonChartSvg, sunHereFor, sunHereHtml } from '../src/sunHere.ts';
+import { horizonChartSvg, sunHereFor, sunHereHtml, sunHint } from '../src/sunHere.ts';
 
 const LON = 11.35;
 const LAT = 46.5;
@@ -56,5 +56,26 @@ describe('sun at a clicked point', () => {
     expect(svg).toMatch(/>12<\/text>/);
     // At midnight the sun is far below the chart: no marker.
     expect(horizonChartSvg(s, s.start)).not.toContain('sun-now');
+  });
+});
+
+describe('hint under the sun slider', () => {
+  const day = '2026-12-21';
+  const at = (hhmm: string) => localMidnight(day) + (Number(hhmm.slice(0, 2)) * 60 + Number(hhmm.slice(3))) * 60_000;
+
+  it('gives the shade until the sun clears the ridge, then the sun until it sets', () => {
+    const s = sunHereFor(LON, LAT, ridgeSE(), day, sunAt);
+    const [w] = s.windows;
+    const clock = (t: number) => new Date(t).toLocaleTimeString('en-GB', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' });
+    expect(sunHint(s, at('08:30'))).toBe(`Shade here 07:55–${clock(w.start)}`);
+    expect(sunHint(s, at('13:00'))).toBe(`Sun here ${clock(w.start)}–${clock(w.end)}`);
+    expect(sunHint(s, at('22:00'))).toBe(`First sun here ${clock(w.start)}, last ${clock(w.end)}`);
+  });
+
+  it('says so when the sun never clears the skyline', () => {
+    const wall: Horizon = { stepDeg: 1, angles: new Float32Array(360).fill(40), distances: new Float32Array(360).fill(500) };
+    const s = sunHereFor(LON, LAT, wall, day, sunAt);
+    expect(sunHint(s, at('12:00'))).toBe('Shade here all day');
+    expect(sunHint(s, at('20:00'))).toBe('No sun here on this day');
   });
 });

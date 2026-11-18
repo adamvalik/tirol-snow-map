@@ -47,6 +47,27 @@ function skyline(h: Horizon, azimuth: number, preposition: string): string {
   return `${preposition} a ridge ${where}, ${Math.round(angle)}° high, ${km} away`;
 }
 
+/**
+ * One line for under the time slider: the stretch of sun or shade the point is in at time t,
+ * "Shade here 09:40–11:10" or "Sun here 11:10–14:20". At night, the day's first and last sun.
+ */
+export function sunHint(s: SunHere, t: number): string {
+  const { windows } = s;
+  const span = (a: number, b: number) => `${clockTime(a)}–${clockTime(b)}`;
+  const w = windows.find((x) => t >= x.start && t < x.end);
+  if (w) return `Sun here ${span(w.start, w.end)}`;
+  const { sunrise, sunset } = s.flat;
+  if (sunrise !== null && sunset !== null && t >= sunrise && t < sunset) {
+    // Shade while the sun is up: from the last sun before (or sunrise) to the next (or sunset).
+    const from = Math.max(sunrise, ...windows.filter((x) => x.end <= t).map((x) => x.end));
+    const next = windows.find((x) => x.start > t);
+    const to = next ? Math.min(next.start, sunset) : sunset;
+    return windows.length ? `Shade here ${span(from, to)}` : 'Shade here all day';
+  }
+  if (!windows.length) return 'No sun here on this day';
+  return `First sun here ${clockTime(windows[0].start)}, last ${clockTime(windows.at(-1)!.end)}`;
+}
+
 // --- Chart ------------------------------------------------------------------------
 
 const W = 328;

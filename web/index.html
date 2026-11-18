@@ -146,6 +146,13 @@
           </div>
           <!-- While Winter sports is on: which kinds are shown (layers/winter.ts). -->
           <div id="winter-keys" class="winter-keys" role="group" aria-label="Winter sports shown"></div>
+          <!-- While Sun and shade is on: the shade at the slider's time, or a map of the whole day (layers/sun.ts). -->
+          <div id="sun-keys" class="winter-keys sun-keys" role="group" aria-label="Sun map shown">
+            <button type="button" class="winter-chip" data-map="shade" aria-pressed="true">Shade at the time</button>
+            <button type="button" class="winter-chip" data-map="first" aria-pressed="false">First sun</button>
+            <button type="button" class="winter-chip" data-map="last" aria-pressed="false">Last sun</button>
+            <button type="button" class="winter-chip" data-map="hours" aria-pressed="false">Sun hours</button>
+          </div>
 
           <!-- GPX: filled by app/track.ts (add, reading, the track's row). -->
           <section id="track" class="track" aria-label="Your track"></section>
@@ -227,6 +234,15 @@
           <div class="legend-title">Ski slopes</div>
           <div id="winter-slope-keys" class="ferrata-keys"></div>
         </div>
+        <div id="sun-legend" class="legend" aria-label="Sun map legend" hidden>
+          <div id="sun-legend-title" class="legend-title"></div>
+          <div id="sun-legend-bar" class="sun-legend-bar"></div>
+          <div id="sun-legend-ticks" class="sun-legend-ticks"></div>
+          <div class="legend-extra">
+            <span><span class="sun-no-swatch"></span>No sun all day</span>
+          </div>
+          <p class="legend-note">For the day of the sun slider, on the 250 m terrain grid with a clear sky. Trees, buildings, cloud and small ridges are not included.</p>
+        </div>
       </div>
 
       <footer class="footer">
@@ -249,6 +265,7 @@
             <button id="sun-now" class="link-btn" type="button" title="Jump to the current time">Now</button>
             <button id="sun-set" class="link-btn" type="button" title="Jump to sunset"></button>
           </div>
+          <p id="sun-here" class="sun-here" aria-live="polite" hidden></p>
         </div>
         <label class="sun-date-btn" title="Date for the sun light">
           <i data-icon="calendar-blank" data-size="16"></i><span id="sun-date-label"></span>

@@ -27,6 +27,19 @@ const DETAIL_TILES = 2;
 /** Below this altitude even the highest summits (3905 m) have lost the sun, so the shade is the same everywhere. */
 const ALL_SHADE = -(horizonDip(4000) + SUN_RADIUS + 0.05);
 
+/** The sun's altitude over the 250 m grid at time t, on the lattice the shade interpolates. */
+export function sunLattice(t: number): { cols: number; rows: number; values: number[] } {
+  const { width, height } = MODEL_GRID;
+  const values: number[] = [];
+  for (let j = 0; j < LATTICE.rows; j++) {
+    for (let i = 0; i < LATTICE.cols; i++) {
+      const p = cellCenter(MODEL_GRID, (i / (LATTICE.cols - 1)) * (width - 1), (j / (LATTICE.rows - 1)) * (height - 1));
+      values.push(sunPosition(t, p.lat, p.lon).altitude);
+    }
+  }
+  return { ...LATTICE, values };
+}
+
 type Coordinates = [[number, number], [number, number], [number, number], [number, number]];
 
 /** Corners of a block of tiles, in MapLibre's order: top-left, top-right, bottom-right, bottom-left. */
@@ -125,14 +138,8 @@ export class ShadowLayer {
    */
   show(grid: Grid | null, t: number, azimuth: number, look: ShadeLook, quick: boolean, shown: () => void): boolean {
     this.visible = true;
-    const { width, height } = MODEL_GRID;
-    const values: number[] = [];
-    for (let j = 0; j < LATTICE.rows; j++) {
-      for (let i = 0; i < LATTICE.cols; i++) {
-        const p = cellCenter(MODEL_GRID, (i / (LATTICE.cols - 1)) * (width - 1), (j / (LATTICE.rows - 1)) * (height - 1));
-        values.push(sunPosition(t, p.lat, p.lon).altitude);
-      }
-    }
+    const altitude = sunLattice(t);
+    const { values } = altitude;
     const night = Math.max(...values) < ALL_SHADE;
     const c = this.map.getCenter();
     const detail = night || quick ? null : detailBlock(this.map.getZoom(), c.lng, c.lat);
@@ -156,7 +163,7 @@ export class ShadowLayer {
     if (!grid) return false;
     this.lastKey = key;
     if (!this.worker) this.startWorker(grid);
-    const request: ShadowRequest = { type: 'sun', id: ++this.nextId, sun: { azimuth, altitude: { ...LATTICE, values } }, look, detail };
+    const request: ShadowRequest = { type: 'sun', id: ++this.nextId, sun: { azimuth, altitude }, look, detail };
     this.pending.set(request.id, shown);
     this.worker!.postMessage(request);
     return true;

@@ -1,5 +1,6 @@
-// Sun and shade: the light for a time of day, the night overlay, cast shadows, the sun row of the
-// timeline, and "Sunrise, sunset and shade here" (the skyline and sun hours) in the Place tab.
+// Sun and shade: the light for a time of day, the night overlay, cast shadows, the day's sun maps
+// (first sun, last sun, sun hours), the sun row of the timeline with its hint for the picked point,
+// and "Sunrise, sunset and shade here" (the skyline and sun hours) in the Place tab.
 import { $ } from '../app/dom.ts';
 import { PAUSE_ICON, PLAY_ICON } from '../app/icons.ts';
 import { isOn, switchOn } from '../app/switches.ts';
@@ -25,7 +26,9 @@ import {
   sunParam,
   sunPosition,
 } from '../sun.ts';
-import { type SunHere, sunHereFor, sunHereHtml } from '../sunHere.ts';
+import { type SunHere, sunHereFor, sunHereHtml, sunHint } from '../sunHere.ts';
+import { scaleGradient, SunMapLayer, type SunMapScale } from '../sunMaps.ts';
+import { SUN_MAP_KINDS, type SunMapKind } from '../viewState.ts';
 import type { SunPosition } from '../sun.ts';
 import { type Grid, loadGrid, NEAR_RADIUS, pointTerrain } from '../terrainSampler.ts';
 import type { App, LayerModule } from './types.ts';
@@ -40,6 +43,9 @@ let sunTime = Date.now();
 /** Set once the style has loaded and the light can be painted. */
 let lightReady = false;
 let shadowLayer: ShadowLayer | null = null;
+let sunMapLayer: SunMapLayer | null = null;
+/** The day's map shown instead of the shade at the slider's time, or null for the shade. */
+let sunMap: SunMapKind | null = null;
 /** The 250 m terrain for cast shadows, loaded the first time they are shown. */
 let terrainGrid: Grid | null = null;
 let terrainGridLoading = false;
@@ -91,8 +97,19 @@ export function applyLight(quick = false) {
     map.setSky(sun ? skyFor(sun.altitude) : DEFAULT_SKY);
     if (sun) map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
   };
-  map.setLayoutProperty(NIGHT_LAYER, 'visibility', sun ? 'visible' : 'none');
   if (sun) showSunLabel(sun);
+  if (sun && sunMap) {
+    // A map of the whole day: no light, shade or night for one time, the usual relief under it.
+    map.setLayoutProperty(NIGHT_LAYER, 'visibility', 'none');
+    shadowLayer?.hide();
+    const paint = hillshadePaint(null, satellite);
+    for (const k of Object.keys(paint) as (keyof HillshadePaint)[]) map.setPaintProperty('hillshade', k, paint[k]);
+    map.setSky(DEFAULT_SKY);
+    showSunMap();
+    return;
+  }
+  hideSunMap();
+  map.setLayoutProperty(NIGHT_LAYER, 'visibility', sun ? 'visible' : 'none');
   if (!sun || !shadowLayer) {
     shadowLayer?.hide();
     light();
@@ -102,6 +119,11 @@ export function applyLight(quick = false) {
   if (shadowLayer.show(terrainGrid, sunTime, sun.azimuth, shadeLook(satellite), quick, light)) return;
   // The terrain for the shade is not in yet: light now, shade once it is.
   light();
+  loadTerrainGrid();
+}
+
+/** Loads the 250 m terrain once, then applies the light again. */
+function loadTerrainGrid() {
   if (terrainGridLoading) return;
   terrainGridLoading = true;
   loadGrid().then(
@@ -114,6 +136,65 @@ export function applyLight(quick = false) {
       toast(`Shadows unavailable: ${e instanceof Error ? e.message : String(e)}`);
     },
   );
+}
+
+// --- Sun maps for the whole day --------------------------------------------------
+
+const sunLegend = $('sun-legend');
+
+function showSunMap() {
+  if (!sunMap || !sunMapLayer) return;
+  sunLegend.hidden = false;
+  if (!terrainGrid) {
+    showScale(null, 'Loading the terrain…');
+    loadTerrainGrid();
+    return;
+  }
+  const kind = sunMap;
+  const date = localDate(sunTime);
+  showScale(null, 'Working out the day…');
+  sunMapLayer.show(terrainGrid, date, kind).then(
+    (scale) => scale && showScale(scale),
+    (e: unknown) => {
+      showScale(null, 'Could not work out the day.');
+      toast(`Sun map unavailable: ${e instanceof Error ? e.message : String(e)}`);
+    },
+  );
+}
+
+function hideSunMap() {
+  sunMapLayer?.hide();
+  sunLegend.hidden = true;
+}
+
+/** The legend for a drawn map, or a note while it is on its way. */
+function showScale(scale: SunMapScale | null, note = '') {
+  const title = $('sun-legend-title');
+  const bar = $('sun-legend-bar');
+  const ticks = $('sun-legend-ticks');
+  if (!scale) {
+    // The last scale stays under the note until the next one is drawn.
+    title.textContent = note;
+    return;
+  }
+  title.textContent = scale.title;
+  bar.style.background = scaleGradient(scale);
+  ticks.innerHTML = scale.ticks.map((t) => `<span>${t}</span>`).join('');
+}
+
+function showSunKeys() {
+  for (const b of document.querySelectorAll<HTMLButtonElement>('#sun-keys .winter-chip')) {
+    b.setAttribute('aria-pressed', String((b.dataset.map === 'shade' ? null : b.dataset.map) === sunMap));
+  }
+}
+
+/** Shows a day's map, or the shade at the slider's time for null. */
+function setSunMap(kind: SunMapKind | null) {
+  if (kind === sunMap) return;
+  sunMap = kind;
+  showSunKeys();
+  applyLight();
+  app.syncHash();
 }
 
 /** "Sun 14:20" and "21° high in the SW" in the sun row. */
@@ -133,7 +214,40 @@ function setSunTime(t: number, quick = false) {
     reloadRows('sun');
     for (const l of sunDayListeners) l(localDate(t));
   }
+  showHint();
   app.syncHash();
+}
+
+// --- Hint under the slider for the picked point ---------------------------------------
+
+const hintEl = $('sun-here');
+/** The picked point, and its sun for the shown day once worked out. */
+let hintPoint: { lon: number; lat: number } | null = null;
+let hintHere: SunHere | null = null;
+
+function showHint() {
+  const p = hintPoint;
+  if (!p || !isOn('sun')) {
+    hintEl.hidden = true;
+    return;
+  }
+  const date = localDate(sunTime);
+  if (hintHere && hintHere.lon === p.lon && hintHere.lat === p.lat && hintHere.date === date) {
+    hintEl.textContent = sunHint(hintHere, sunTime);
+    hintEl.hidden = false;
+    return;
+  }
+  sunHereAt(p.lon, p.lat, date).then(
+    (here) => {
+      // Still the point and day asked for.
+      if (hintPoint !== p || localDate(sunTime) !== date) return;
+      hintHere = here;
+      showHint();
+    },
+    () => {
+      if (hintPoint === p) hintEl.hidden = true;
+    },
+  );
 }
 
 // --- Sun at a place --------------------------------------------------------------
@@ -200,6 +314,7 @@ function pauseSun() {
 }
 
 function playSun() {
+  setSunMap(null);
   const { sunrise, sunset } = shownSunDay();
   if (sunrise === null || sunset === null) return;
   const from = sunrise - PLAY_MARGIN;
@@ -222,11 +337,31 @@ export const sun: LayerModule = {
   setup(a) {
     app = a;
     if (app.initial.sun) sunTime = Date.parse(app.initial.sun);
+    sunMap = app.initial.sunMap ?? null;
+    showSunKeys();
+    $('sun-keys').addEventListener('click', (e) => {
+      const kind = (e.target as Element).closest<HTMLButtonElement>('.winter-chip')?.dataset.map;
+      if (!kind) return;
+      setSunMap((SUN_MAP_KINDS as readonly string[]).includes(kind) ? (kind as SunMapKind) : null);
+    });
+    // The hint under the slider follows the picked point.
+    app.point.extend({
+      open: (p) => {
+        hintPoint = { lon: p.lngLat.lng, lat: p.lngLat.lat };
+        showHint();
+      },
+      close: () => {
+        hintPoint = null;
+        showHint();
+      },
+    });
     sunPlayBtn.innerHTML = PLAY_ICON;
     sunGroup.hidden = !isOn('sun');
     showSunControls();
     sunSlider.addEventListener('input', () => {
       pauseSun();
+      // The time of day is the shade's; a day's map gives way to it.
+      setSunMap(null);
       // The slider only moves the time of day; the date changes with the date button.
       const date = localDate(sunTime);
       const minute = Math.min(Number(sunSlider.value), dayMinutes(date) - 1);
@@ -254,6 +389,7 @@ export const sun: LayerModule = {
       const t = pick();
       if (t === null) return;
       pauseSun();
+      setSunMap(null);
       setSunTime(t);
     };
     $('sun-rise').addEventListener('click', jump(() => shownSunDay().sunrise));
@@ -290,6 +426,8 @@ export const sun: LayerModule = {
     );
     // Right above the hillshade, which it completes: under the snow cells, roads and the night overlay.
     shadowLayer = new ShadowLayer(map, basemap.lines[0]?.id, MAPTERHORN_TILES);
+    // Added on first use, so it lies above the snow layers added after this one.
+    sunMapLayer = new SunMapLayer(map, () => basemap.lines[0]?.id);
     // For browser checks and debugging: how long the last shadow computation took.
     shadowLayer.onDrawn = (ms) => (document.body.dataset.shadowMs = ms.toFixed(1));
     lightReady = true;
@@ -302,8 +440,9 @@ export const sun: LayerModule = {
     // The light is drawn by the hillshade layer, so it has to be on.
     if (on && !isOn('hillshade')) switchOn('hillshade');
     applyLight();
+    showHint();
     if (on) for (const row of document.querySelectorAll<HTMLDetailsElement>('#details-body details[data-kind="sun"]')) row.open = true;
   },
 
-  view: () => ({ sun: isOn('sun') ? sunParam(sunTime) : null }),
+  view: () => ({ sun: isOn('sun') ? sunParam(sunTime) : null, sunMap }),
 };

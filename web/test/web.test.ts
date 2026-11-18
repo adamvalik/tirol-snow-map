@@ -66,16 +66,17 @@ describe('view link', () => {
     day: '2026-10-18',
     frame: 5,
     sun: '2026-10-21T06:30Z',
+    sunMap: 'first',
   };
 
-  it('round-trips camera, layers, day, frame and sun time', () => {
+  it('round-trips camera, layers, day, frame, sun time and sun map', () => {
     const hash = toHash(view);
-    expect(hash).toBe('#map=10.40/46.4700/11.3540/340/60&x=1.5&layers=snow,stations,forecast&day=2026-10-18&f=5&sun=2026-10-21T06:30Z');
+    expect(hash).toBe('#map=10.40/46.4700/11.3540/340/60&x=1.5&layers=snow,stations,forecast&day=2026-10-18&f=5&sun=2026-10-21T06:30Z&sunmap=first');
     expect(parseHash(hash)).toEqual({ ...view, bearing: 340, layers: ['snow', 'stations', 'forecast'] });
   });
 
   it('drops invalid or out-of-range parts and keeps the rest', () => {
-    const p = parseHash('#map=25/99/11/abc/90&x=9&layers=snow,bogus&day=yesterday&f=-1&sun=2026-10-21T25:00Z');
+    const p = parseHash('#map=25/99/11/abc/90&x=9&layers=snow,bogus&day=yesterday&f=-1&sun=2026-10-21T25:00Z&sunmap=noon');
     expect(p).toEqual({ layers: ['snow'] });
     expect(parseHash('')).toEqual({});
     // An empty layer list is a valid choice: everything off.

@@ -39,7 +39,12 @@ export interface ViewState {
   frame: number | null;
   /** Time the sun light is shown for, as a UTC minute (2026-10-21T06:30Z), or null. */
   sun: string | null;
+  /** The sun map shown instead of the shade at that time, or null for the shade. */
+  sunMap: SunMapKind | null;
 }
+
+export const SUN_MAP_KINDS = ['first', 'last', 'hours'] as const;
+export type SunMapKind = (typeof SUN_MAP_KINDS)[number];
 
 /** Limits match the map: maxBounds, zoom and pitch range, exaggeration slider. */
 const LIMITS = { lon: [9.4, 13.4], lat: [45.6, 47.75], zoom: [7.5, 16], pitch: [0, 75], exaggeration: [1, 3] } as const;
@@ -75,6 +80,8 @@ export function parseHash(hash: string): Partial<ViewState> {
   if (f !== null) out.frame = Math.floor(f);
   const sun = p.get('sun');
   if (sun && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z$/.test(sun) && !Number.isNaN(Date.parse(sun))) out.sun = sun;
+  const sunMap = p.get('sunmap');
+  if (sunMap && (SUN_MAP_KINDS as readonly string[]).includes(sunMap)) out.sunMap = sunMap as SunMapKind;
   return out;
 }
 
@@ -88,5 +95,6 @@ export function toHash(s: ViewState): string {
   if (s.day) parts.push(`day=${s.day}`);
   if (s.frame !== null) parts.push(`f=${s.frame}`);
   if (s.sun) parts.push(`sun=${s.sun}`);
+  if (s.sun && s.sunMap) parts.push(`sunmap=${s.sunMap}`);
   return `#${parts.join('&')}`;
 }
