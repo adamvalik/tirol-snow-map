@@ -90,8 +90,9 @@ Still open from the `v0.2.0` checklist. For a phone to reach a build before the 
 
 ### Checklist for `v0.3.0`
 
-- [ ] Winter sports reviewed, findings fixed
-- [ ] #18 reviewed, findings fixed, merged
+- [x] Winter sports and #18 reviewed (Nov 18)
+- [ ] Winter sports: the two must-fix findings fixed
+- [ ] #18: the two must-fix findings fixed, merged
 - [ ] #19 merged
 - [ ] Share picture concept merged into `dev`
 - [ ] Phone quick row decided
@@ -105,7 +106,28 @@ Still open from the `v0.2.0` checklist. For a phone to reach a build before the 
 
 ### Review findings (Nov 18)
 
-Filled in by the reviews of winter sports and #18.
+Both can ship once the "must fix" rows are done and the phone check passes. Nothing found is a reason to hold them back.
+
+**Winter sports** (on `dev`):
+
+| | Finding | Where |
+| --- | --- | --- |
+| Must fix | Every vertex the pipeline keeps on a lift line (4 m simplify) becomes an angle station: a 20 × 28 m building mid-span, with the cable dipping to station height. Count a vertex as a station only at a real bend or where OSM maps one | `web/src/lifts3d.ts`, `supports()` |
+| Must fix | A click on a 3D lift opens the panel twice (the 3D layer and the line under it both answer), so two forecast requests go to Open-Meteo | `web/src/winter.ts`, click handlers |
+| Should fix | 3D lifts built while only coarse terrain was loaded stay cached after the finer tiles arrive; the cables then wobble or clip steep slopes | `web/src/winter.ts`, `update3d` cache |
+| Should fix | The tooltip flickers when the pointer moves between a 3D lift and its line | `web/src/winter.ts`, hover handlers |
+| Measure | First use downloads 1.4 MB (5.4 MB raw) and parses it on the main thread; up to about 7,000 blocks per move for the 3D lifts. On Friday's phones. If slow: drop the elevations and some decimals from the file, flat lifts on phones | `web/src/data/winter.json`, `web/src/winter.ts` |
+| Later | The lift cache drops the oldest entries, not the least used; `update3d` scans all lifts on every `idle` | `web/src/winter.ts` |
+
+**Sun and shade, #18:**
+
+| | Finding | Where |
+| --- | --- | --- |
+| Must fix | If the shadow worker fails without an `error` event (an exception in its async `answer()`, for example low memory on a phone), the request stays pending for ever: play stops and the light freezes until a reload. Catch in the worker and answer with an error, and give up after a timeout | `web/src/shadows.ts`, `web/src/shadowWorker.ts` |
+| Must fix | Switching the sun on shows the night overlay at its last opacity (up to 0.5) until the first shade arrives, so the map flashes dark | `web/src/layers/sun.ts`, `applyLight` |
+| Check on iOS | Image bitmap options and `OffscreenCanvas` in the worker: the shade may look too strong, or the finer shade may silently never appear on older iOS | `web/src/shadowWorker.ts` |
+| Check by eye | `transition: 0` now applies to every layer's paint changes, not only the sun's: check the day switch and the satellite toggle | `web/src/map.ts` |
+| Later | Tile arrival can work out the same shade two or three times; the tile cache drops the oldest tile, not the least used; showing again right after hiding can reveal the previous shade for a moment | `web/src/shadowWorker.ts`, `web/src/shadows.ts` |
 
 ## `v0.3.1`
 
