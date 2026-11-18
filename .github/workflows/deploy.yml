@@ -87,11 +87,12 @@ jobs:
         if: steps.basemap.outputs.cache-hit != 'true'
         run: npm run basemap
 
-      # A push to dev only rebuilds the site with the last data: the three runs a day stay the only
-      # ones that call the upstreams and write the data cache.
+      # Only runs from main run the pipeline and write the data cache: a cache saved by a run from dev
+      # is only visible to dev, and the prune below would count it. A push to dev, or a run started
+      # by hand from dev, only rebuilds the site with the last data.
       - name: Run the pipeline
         id: pipeline
-        if: github.event_name != 'push' || github.ref_name == 'main'
+        if: github.ref_name == 'main'
         env:
           CDSE_USERNAME: ${{ secrets.CDSE_USERNAME }}
           CDSE_PASSWORD: ${{ secrets.CDSE_PASSWORD }}
@@ -106,8 +107,9 @@ jobs:
           echo "exit=$code" >> "$GITHUB_OUTPUT"
           exit 0
 
+      # Checks the conclusion too: a skipped step has no output, and null == '0' is true here.
       - name: Save data for the next run
-        if: steps.pipeline.outputs.exit == '0' || steps.pipeline.outputs.exit == '2'
+        if: steps.pipeline.conclusion == 'success' && (steps.pipeline.outputs.exit == '0' || steps.pipeline.outputs.exit == '2')
         uses: actions/cache/save@v4
         with:
           path: ${{ env.DATA_PATHS }}
@@ -197,7 +199,7 @@ jobs:
         run: node scripts/monitor.mjs
 
       - name: Prune old data caches
-        if: always()
+        if: always() && github.ref_name == 'main'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
