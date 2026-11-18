@@ -6,7 +6,7 @@ South Tyrol Snow Map: a 3D snow map of South Tyrol in the browser (MapLibre GL J
 
 - **Work happens on `dev`.** Commit and push there. Feature branches are fine for parallel work, but they merge into `dev`, not `main`.
 - **`dev` reaches `main` through a pull request** (`dev` → `main`), so `ci.yml` checks it: CI runs only on pull requests, and a push to `main` deploys to the live site straight away. Merge it with a normal merge commit (**Create a merge commit**). No sync back is needed: `main` only gets commits through these merges, so `dev` never misses code (GitHub may still show `dev` as behind by the merge commits).
-- **A push to `dev` deploys the dev preview** at `/dev/` of the live site (same data, see README, Deployment). A push to `main` deploys both.
+- **A push to `dev` deploys the dev preview** at `/dev/` of the live site, with `main`'s data, or with `dev`'s own pipeline when `dev` changes `pipeline/` or `shared/` (README, Deployment). A push to `main` deploys both.
 - **Never delete `dev`.** The repository deletes head branches after a merge; a ruleset protects `dev` from deletion. Do not work around it.
 - Never push to `main` directly, and never rewrite history on `main` or `dev`.
 - Wait for CI to be green before merging (`check` and `smoke` are required on `main`; auto-merge waits for them). Do not open or merge a pull request unless asked.
@@ -54,7 +54,7 @@ Before pushing, run `npm test` and `npm run typecheck`; for UI changes also `bui
 - `shared/` – types and code used by both; `shared/types.ts` is the data contract.
 - `fixtures/` – real API responses used by the tests.
 - `docs/` – `README.md` (index, how work is tracked), `release-plan.md` (how releases work, the Releases table), `roadmap.md` (direction and decisions), `design/`, `spikes/`.
-- `.github/workflows/` – `ci.yml` (pull requests), `deploy.yml` (schedule and pushes to `main`; tags and publishes a new version), `release.yml` (fallback for a `v*` tag pushed by hand), `snow-check.yml` (live pipeline check by hand).
+- `.github/workflows/` – `ci.yml` (pull requests), `deploy.yml` (schedule and pushes to `main` and `dev`, builds the dev preview; tags and publishes a new version), `release.yml` (fallback for a `v*` tag pushed by hand), `snow-check.yml` (live pipeline check by hand).
 
 ## Rules for the app
 

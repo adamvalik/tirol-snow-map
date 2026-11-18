@@ -5,8 +5,10 @@
 # a month. A failed upstream never stops the deploy: the app then shows the last good data with a
 # warning, and scripts/monitor.mjs opens an issue when a step keeps failing.
 #
-# Every deploy also builds the dev branch into /dev/ (the dev preview), with the same data, for
-# testing on a phone before a merge. A push to dev redeploys both without running the pipeline.
+# Every deploy also builds the dev branch into /dev/ (the dev preview), for testing on a phone with
+# live data before a merge. A push to dev redeploys both without running main's pipeline. The
+# preview gets main's data, or, when dev changes pipeline/ or shared/ (or by hand, "dev_pipeline"),
+# the output of dev's own pipeline, run on a copy of main's data that is never saved.
 #
 # One-time setup: Settings → Pages → Source "GitHub Actions"; secrets CDSE_USERNAME, CDSE_PASSWORD,
 # CDSE_CLIENT_ID, CDSE_CLIENT_SECRET; Settings → Environments → github-pages lets main and dev
@@ -23,6 +25,11 @@ on:
   push:
     branches: [main, dev]
   workflow_dispatch:
+    inputs:
+      dev_pipeline:
+        description: Run dev's pipeline for the dev preview, even if dev does not change it
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -151,13 +158,32 @@ jobs:
         env:
           FEEDBACK_EMAIL: ${{ vars.FEEDBACK_EMAIL }}
           SITE_URL: ${{ vars.SITE_URL }}
+          FORCE_DEV_PIPELINE: ${{ inputs.dev_pipeline }}
+          CDSE_USERNAME: ${{ secrets.CDSE_USERNAME }}
+          CDSE_PASSWORD: ${{ secrets.CDSE_PASSWORD }}
+          CDSE_CLIENT_ID: ${{ secrets.CDSE_CLIENT_ID }}
+          CDSE_CLIENT_SECRET: ${{ secrets.CDSE_CLIENT_SECRET }}
         run: |
           npm ci
           cp -r ../web/public/data ../web/public/basemap web/public/
+          # dev's own pipeline, on a copy of this run's data and state. It starts from main's caches,
+          # so it only renders what main has not. Nothing is saved: the next run starts from main's
+          # data again. If it crashes, the preview keeps main's data.
+          data="main's pipeline"
+          if [ "$FORCE_DEV_PIPELINE" = "true" ] || ! diff -rq ../pipeline pipeline >/dev/null || ! diff -rq ../shared shared >/dev/null; then
+            mkdir -p data && { cp -r ../data/state data/ 2>/dev/null || true; }
+            set +e; npm run pipeline; code=$?; set -e
+            if [ "$code" = 0 ] || [ "$code" = 2 ]; then
+              data="dev's pipeline (exit $code)"
+            else
+              echo "::warning::dev's pipeline failed (exit $code); the dev preview shows main's data."
+              rm -rf web/public/data && cp -r ../web/public/data web/public/
+            fi
+          fi
           GITHUB_SHA=$(git rev-parse HEAD) npm run build
           sed -i -e 's|<head>|<head>\n    <meta name="robots" content="noindex" />|' -e 's|<title>|<title>Dev – |' dist/index.html
           mv dist ../dist/dev
-          echo "Dev preview: $(git rev-parse --short=7 HEAD)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Dev preview: $(git rev-parse --short=7 HEAD), data from $data" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist
