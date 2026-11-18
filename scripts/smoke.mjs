@@ -21,6 +21,10 @@ await mkdir(outDir, { recursive: true });
 // CI runners draw WebGL in software, so a screenshot while the map is still drawing new terrain can
 // take well over Playwright's default 30 s; every screenshot gets the same allowance.
 const SHOT_TIMEOUT_MS = 120_000;
+// Whether a panel opens, not how fast: in software GL the page is busy for seconds after a click
+// (a frame of the 3D map, the place's skyline), so a panel that opened at once was seen after the
+// old 5 s. Checked every 250 ms rather than once a frame (Playwright's default), as frames are slow.
+const PANEL_WAIT = { timeout: 20_000, polling: 250 };
 
 const server = await preview({ preview: { port: 4174, strictPort: true }, logLevel: 'silent' });
 const url = 'http://localhost:4174/';
@@ -100,7 +104,7 @@ for (const profile of profiles) {
   if (stationPoint) {
     await page.mouse.click(stationPoint.x, stationPoint.y);
     stationOk = await page
-      .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Snow depth'), null, { timeout: 5000 })
+      .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Snow depth'), null, PANEL_WAIT)
       .then(() => true, () => false);
     await page.screenshot({ path: path.join(outDir, `${profile.name}-station.png`), timeout: SHOT_TIMEOUT_MS });
   }
@@ -177,8 +181,19 @@ for (const profile of profiles) {
     if (ferrataPoint) {
       await page.mouse.click(ferrataPoint.x, ferrataPoint.y);
       ferrata = await page
-        .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Mapped length'), null, { timeout: 5000 })
-        .then(() => 'OK', () => 'FAILED (no panel)');
+        .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Mapped length'), null, PANEL_WAIT)
+        .then(
+          () => 'OK',
+          // What the click hit and what the panel shows instead, to tell a slow panel from a wrong one.
+          () =>
+            page.evaluate(([x, y]) => {
+              const { map } = window.__snowmap;
+              const box = map.getContainer().getBoundingClientRect();
+              const hit = map.queryRenderedFeatures([x - box.left, y - box.top]).map((f) => f.layer.id).slice(0, 5).join(', ');
+              const title = document.getElementById('details-title')?.textContent ?? '';
+              return `FAILED (no panel; under the click: ${document.elementFromPoint(x, y)?.className || '?'}, layers ${hit || 'none'}; panel: "${title}", tab ${document.getElementById('panel').dataset.tab})`;
+            }, [ferrataPoint.x, ferrataPoint.y]),
+        );
     }
     await page.screenshot({ path: path.join(outDir, 'desktop-v3.png'), timeout: SHOT_TIMEOUT_MS });
     // Winter sports: switch the layer on over Val Gardena and open a lift's panel.
@@ -209,7 +224,7 @@ for (const profile of profiles) {
     if (liftPoint) {
       await page.mouse.click(liftPoint.x, liftPoint.y);
       winter = await page
-        .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Top station'), null, { timeout: 5000 })
+        .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Top station'), null, PANEL_WAIT)
         .then(() => 'OK', () => 'FAILED (no panel)');
     }
     await page.screenshot({ path: path.join(outDir, 'desktop-winter.png'), timeout: SHOT_TIMEOUT_MS });

@@ -1,4 +1,4 @@
-// Shade on a terrain grid for one sun position (tier 3 of docs/sun-shade-spike.md).
+// Shade on a terrain grid for one sun position (tier 3 of docs/spikes/sun-shade-spike.md).
 //
 // One sweep from the sun's side of the grid: each cell's shadow line, the height of the line
 // from the sun past the highest terrain so far, is the line one step towards the sun lowered by
