@@ -9,7 +9,7 @@ import type * as maplibregl from 'maplibre-gl';
 import { cellCenter, gridCorners, MODEL_GRID } from '../../shared/grid.ts';
 import { horizonDip, SUN_RADIUS } from '../../shared/shadow.ts';
 import { lonLatToPixel, TERRARIUM_TILE } from '../../shared/terrarium.ts';
-import type { DetailBlock, ShadeLook, ShadowImage, ShadowRequest, ShadowResult } from './shadowWorker.ts';
+import type { DetailBlock, ShadeLook, ShadowImage, ShadowReply, ShadowRequest, ShadowResult } from './shadowWorker.ts';
 import { sunPosition } from './sun.ts';
 import type { Grid } from './terrainSampler.ts';
 
@@ -24,6 +24,12 @@ const DETAIL_MIN_ZOOM = 9.5;
 const DETAIL_MAX_TILE_ZOOM = 12;
 /** The finer grid is 2 × 2 tiles of 512 px: 1.4–2.9 thousand screen pixels across. */
 const DETAIL_TILES = 2;
+/**
+ * A shade not back after this long is given up: the light changes without it and play goes on.
+ * Far above a slow phone's time for one sun (well under a second), but short enough that the map
+ * never seems stuck.
+ */
+export const SHADE_TIMEOUT_MS = 8000;
 /** Below this altitude even the highest summits (3905 m) have lost the sun, so the shade is the same everywhere. */
 const ALL_SHADE = -(horizonDip(4000) + SUN_RADIUS + 0.05);
 
@@ -80,8 +86,12 @@ export class ShadowLayer {
   private hasDetail = false;
   /** The image on each source, closed once replaced. */
   private readonly shown = new Map<string, ShadowImage>();
+  /** Gives up on the pending shade when the worker does not answer (see SHADE_TIMEOUT_MS). */
+  private watchdog: ReturnType<typeof setTimeout> | undefined;
   /** Called with the worker's time for each drawn result, in ms. */
   onDrawn: ((ms: number) => void) | null = null;
+  /** Called once when the worker fails or stops answering; the shade is then left off. */
+  onFailed: ((reason: string) => void) | null = null;
 
   constructor(
     private readonly map: maplibregl.Map,
@@ -113,6 +123,9 @@ export class ShadowLayer {
   hide() {
     this.visible = false;
     this.pending.clear();
+    // Whatever is on its way is not wanted any more: the next show asks again.
+    this.lastKey = '';
+    clearTimeout(this.watchdog);
     this.map.setLayoutProperty(SHADOW_LAYER, 'visibility', 'none');
     this.map.setLayoutProperty(DETAIL_LAYER, 'visibility', 'none');
   }
@@ -154,32 +167,57 @@ export class ShadowLayer {
       return true;
     }
     if (!grid) return false;
+    // The worker failed before: no shade, only the light.
+    if (this.failed) {
+      shown();
+      return true;
+    }
     this.lastKey = key;
     if (!this.worker) this.startWorker(grid);
     const request: ShadowRequest = { type: 'sun', id: ++this.nextId, sun: { azimuth, altitude: { ...LATTICE, values } }, look, detail };
     this.pending.set(request.id, shown);
     this.worker!.postMessage(request);
+    clearTimeout(this.watchdog);
+    this.watchdog = setTimeout(() => this.fail('the shade took too long'), SHADE_TIMEOUT_MS);
     return true;
+  }
+
+  private failed = false;
+
+  /**
+   * The worker failed or stopped answering: let the light change and the day play on without the
+   * shade, and leave it off from now on (a reload tries again).
+   */
+  private fail(reason: string) {
+    clearTimeout(this.watchdog);
+    if (this.failed) return;
+    this.failed = true;
+    this.worker?.terminate();
+    this.worker = null;
+    for (const shown of this.pending.values()) shown();
+    this.pending.clear();
+    this.map.setLayoutProperty(SHADOW_LAYER, 'visibility', 'none');
+    this.map.setLayoutProperty(DETAIL_LAYER, 'visibility', 'none');
+    this.drawn = false;
+    this.onFailed?.(reason);
   }
 
   private startWorker(grid: Grid) {
     const worker = new Worker(new URL('./shadowWorker.ts', import.meta.url), { type: 'module' });
     const message: ShadowRequest = { type: 'terrain', values: grid.values, tiles: this.tiles };
     worker.postMessage(message);
-    worker.onmessage = (e: MessageEvent<ShadowResult>) => this.draw(e.data);
-    // Nothing more is coming: let the light change and the day play on without the shade.
-    worker.onerror = () => {
-      for (const shown of this.pending.values()) shown();
-      this.pending.clear();
-    };
+    worker.onmessage = (e: MessageEvent<ShadowReply>) => ('error' in e.data ? this.fail(e.data.error) : this.draw(e.data));
+    // The worker did not start or crashed.
+    worker.onerror = (e) => this.fail(e.message || 'the shade worker stopped');
     this.worker = worker;
   }
 
   private draw(result: ShadowResult) {
-    if (result.id < this.minId) return;
+    if (result.id < this.minId || this.failed) return;
     // The light for this shade; requests the worker skipped are dropped with theirs.
     const shown = this.pending.get(result.id);
     for (const id of this.pending.keys()) if (id <= result.id) this.pending.delete(id);
+    if (!this.pending.size) clearTimeout(this.watchdog);
     // A new image (and its corners) redraws the terrain it is draped on.
     const update = (id: string, image: ShadowImage, coordinates?: Coordinates) => {
       (this.map.getSource(id) as maplibregl.ImageSource).updateImage({ image, coordinates });

@@ -333,6 +333,20 @@ describe('lifts in 3D', async () => {
     expect(Math.max(...gaps) - Math.min(...gaps)).toBeLessThan(1);
   });
 
+  it('makes a small kink a pylon and a real bend an angle station', () => {
+    // A kink of about 8 m sideways halfway up: about 1.6 degrees.
+    const kinked = [[11, 46.5], [11.0001, 46.505], [11, 46.51]];
+    const k = supports(kinked, null);
+    expect(k.filter((s) => s.station).length).toBe(2);
+    expect(k.some((s) => !s.station && Math.abs(s.d - k.find((t) => t.d > 500)!.d) < 1)).toBe(true);
+    // A turn of about 45 degrees: a station, with pylons spaced on each stretch.
+    const bent = [[11, 46.5], [11, 46.505], [11.007, 46.51]];
+    const b = supports(bent, null);
+    expect(b.filter((s) => s.station).length).toBe(3);
+    const gaps = b.slice(1).map((s, i) => s.d - b[i].d);
+    expect(Math.max(...gaps)).toBeLessThanOrEqual(LIFT_3D.span + 1);
+  });
+
   it('builds stations, pylons, cables and cabins that stay above the ground', () => {
     const blocks = liftBlocks('w1', line, [[11, 46.505]], slope)!;
     const colors = new Set(blocks.map((b) => b.properties.color));

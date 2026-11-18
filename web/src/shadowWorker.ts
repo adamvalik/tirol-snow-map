@@ -40,9 +40,12 @@ export interface ShadowResult {
   ms: number;
 }
 
+/** The worker's answer: the shade, or why there is none for this request. */
+export type ShadowReply = ShadowResult | { id: number; error: string };
+
 const scope = self as unknown as {
   onmessage: ((e: MessageEvent<ShadowRequest>) => void) | null;
-  postMessage(message: ShadowResult, transfer: Transferable[]): void;
+  postMessage(message: ShadowReply, transfer?: Transferable[]): void;
 };
 
 /** The finer grid fades into the 250 m one over this distance from its edge. */
@@ -81,7 +84,12 @@ async function run() {
       latest = null;
       // Set first: tiles that arrive while this is answered ask for it again.
       last = req;
-      await answer(req, coarse);
+      try {
+        await answer(req, coarse);
+      } catch (e) {
+        // An error here would otherwise only reach the console: the page would wait for ever.
+        scope.postMessage({ id: req.id, error: e instanceof Error ? e.message : String(e) });
+      }
     }
   } finally {
     running = false;

@@ -91,6 +91,11 @@ export function applyLight(quick = false) {
     map.setSky(sun ? skyFor(sun.altitude) : DEFAULT_SKY);
     if (sun) map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
   };
+  // Coming on: the overlay starts at this time's opacity, not the one it had when last shown (a
+  // night view would darken the map until the first shade is in).
+  if (sun && map.getLayoutProperty(NIGHT_LAYER, 'visibility') !== 'visible') {
+    map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
+  }
   map.setLayoutProperty(NIGHT_LAYER, 'visibility', sun ? 'visible' : 'none');
   if (sun) showSunLabel(sun);
   if (!sun || !shadowLayer) {
@@ -292,6 +297,10 @@ export const sun: LayerModule = {
     shadowLayer = new ShadowLayer(map, basemap.lines[0]?.id, MAPTERHORN_TILES);
     // For browser checks and debugging: how long the last shadow computation took.
     shadowLayer.onDrawn = (ms) => (document.body.dataset.shadowMs = ms.toFixed(1));
+    shadowLayer.onFailed = (reason) => {
+      console.warn('Shadows:', reason);
+      toast('Shadows are not available on this device. The sun light still works.');
+    };
     lightReady = true;
     applyLight();
   },
