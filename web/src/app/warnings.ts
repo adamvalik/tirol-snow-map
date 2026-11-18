@@ -1,6 +1,7 @@
 // Warnings at the top of the Layers tab: stale or missing data (amber, amber only for that), and
 // the new-snow note with its fix ("Show depth").
 import { $ } from './dom.ts';
+import { track } from './analytics.ts';
 import { icon } from './icons.ts';
 import { isOn, switchOn } from './switches.ts';
 
@@ -20,7 +21,11 @@ function showMark() {
 
 /** Sets or clears (null) one warning in the Layers tab, by topic. */
 export function setWarning(key: string, text: string | null) {
-  if (text) warnings.set(key, text);
+  if (text) {
+    warnings.set(key, text);
+    // Only the topic is counted ("warning/snow"), never the text.
+    track(`warning/${key}`);
+  }
   else warnings.delete(key);
   const el = $('data-warning');
   el.hidden = warnings.size === 0;

@@ -2,6 +2,7 @@
 // A past day shows the snow layers and stations as of that day; a forecast day shows the forecast
 // snowfall accumulated by its evening; play runs the forecast frames. Replaces the day slider and
 // the forecast player of the first version (roadmap 2.1).
+import { track } from './analytics.ts';
 import type { HistoryDay, HistoryFile, SnowFile, StationsFile } from '../../../shared/types.ts';
 import {
   currentFrame,
@@ -160,6 +161,7 @@ async function showDay(index: number) {
 function select(i: number) {
   const c = cells[i];
   if (!c) return;
+  track('timeline');
   selected = i;
   if (c.kind === 'day') {
     pauseForecast();

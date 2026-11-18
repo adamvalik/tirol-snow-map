@@ -109,6 +109,11 @@ export function applyLight(quick = false) {
     return;
   }
   hideSunMap();
+  // Coming on (or back from a sun map): the overlay starts at this time's opacity, not the one it
+  // had when last shown (a night view would darken the map until the first shade is in).
+  if (sun && map.getLayoutProperty(NIGHT_LAYER, 'visibility') !== 'visible') {
+    map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
+  }
   map.setLayoutProperty(NIGHT_LAYER, 'visibility', sun ? 'visible' : 'none');
   if (!sun || !shadowLayer) {
     shadowLayer?.hide();
@@ -427,6 +432,10 @@ export const sun: LayerModule = {
     sunMapLayer = new SunMapLayer(map, () => basemap.lines[0]?.id);
     // For browser checks and debugging: how long the last shadow computation took.
     shadowLayer.onDrawn = (ms) => (document.body.dataset.shadowMs = ms.toFixed(1));
+    shadowLayer.onFailed = (reason) => {
+      console.warn('Shadows:', reason);
+      toast('Shadows are not available on this device. The sun light still works.');
+    };
     lightReady = true;
     applyLight();
   },
