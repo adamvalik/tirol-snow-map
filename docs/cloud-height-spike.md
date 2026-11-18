@@ -60,7 +60,7 @@ Readings of the province's stations within 22 km of Bolzano, every hour from Nov
 - **App** (`web/src/air.ts`): one card in the Place tab, only when there is something to say and the readings are under 6 hours old. Not shown while the slider shows an earlier day.
   - "Fog or low cloud up to about 1,100 m. Sun from about 1,400 m, 4 °C warmer. Stations within 20 km, read at 09:40."
   - Without sun above: "… Drier air from about 1,400 m, but no sun measured up there."
-  - "Inversion: 3 °C warmer at about 1,500 m. Than in the valley at about 300 m. …"
+  - "Inversion: 3 °C warmer at about 1,500 m. Compared with the valley floor at about 300 m. …"
 
 ## 4. Limits
 

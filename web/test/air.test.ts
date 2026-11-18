@@ -28,7 +28,7 @@ describe('fog and inversion note', () => {
   it('describes an inversion', () => {
     const html = airNoteHtml(inv, NOW);
     expect(html).toContain('Inversion: 6 °C warmer at about 1,100 m');
-    expect(html).toContain('Than in the valley at about 300 m.');
+    expect(html).toContain('Compared with the valley floor at about 300 m.');
   });
 
   it('shows nothing for old readings or no layer', () => {

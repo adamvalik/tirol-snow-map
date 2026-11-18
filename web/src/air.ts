@@ -25,7 +25,7 @@ export function airNoteHtml(r: FogLayer | Inversion | null, now = Date.now()): s
   return noteCardHtml(
     'thermometer-simple',
     `Inversion: ${r.warmerC} °C warmer at about ${metres(round100(r.topM))}`,
-    `Than in the valley at about ${metres(round100(r.valleyM))}. ${from}`,
+    `Compared with the valley floor at about ${metres(round100(r.valleyM))}. ${from}`,
   );
 }
 
