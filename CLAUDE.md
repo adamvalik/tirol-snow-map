@@ -6,15 +6,26 @@ South Tyrol Snow Map: a 3D snow map of South Tyrol in the browser (MapLibre GL J
 
 - **Work happens on `dev`.** Commit and push there. Feature branches are fine for parallel work, but they merge into `dev`, not `main`.
 - **`dev` reaches `main` through a pull request** (`dev` → `main`), so `ci.yml` checks it: CI runs only on pull requests, and a push to `main` deploys to the live site straight away. Merge it with a normal merge commit (**Create a merge commit**). No sync back is needed: `main` only gets commits through these merges, so `dev` never misses code (GitHub may still show `dev` as behind by the merge commits).
+- **A push to `dev` deploys the dev preview** at `/dev/` of the live site, with `main`'s data, or with `dev`'s own pipeline when `dev` changes `pipeline/` or `shared/` (README, Deployment). A push to `main` deploys both.
 - **Never delete `dev`.** The repository deletes head branches after a merge; a ruleset protects `dev` from deletion. Do not work around it.
 - Never push to `main` directly, and never rewrite history on `main` or `dev`.
 - Wait for CI to be green before merging (`check` and `smoke` are required on `main`; auto-merge waits for them). Do not open or merge a pull request unless asked.
 
+## Tracking work
+
+Work is tracked on GitHub, not in docs (`docs/README.md`, "How work is tracked"). In a session:
+
+- Start from an issue. If there is none for the task, say so and suggest one; do not open issues the person did not ask for, except for findings below.
+- A pull request names its issue ("Closes #12") and fills in the template's checks.
+- Findings along the way (a bug, a leftover, a review point, an idea) become issues with a type label (`feature`, `bug`, `review`, `idea`, `docs`, `chore`) and an area label (`area: ui`, `area: sun`, `area: winter`, `area: snow`, `area: pipeline`, `area: release`), in the milestone of the version they block, or none for later. Not notes in the docs.
+- Docs say how things work and why. No task lists, no "to do", no status lines in them.
+- What goes into which version is the milestones; `docs/release-plan.md` only says how releases work.
+
 ## Releases
 
-Versions follow `0.x` semver (`v0.2.0` testers, `v0.3.0` share picture, `1.0.0` public launch; patches for fixes). Data deploys are not releases. Steps (also in `docs/release-plan.md`, "How to make a release"):
+Versions follow `0.x` semver (`v0.2.0` testers, `v0.3.0` winter release, `v0.4.0` UI for all features, `v0.5.0` share picture, `1.0.0` public launch; patches for fixes). What goes into which version is its GitHub milestone. Data deploys are not releases. Steps (also in `docs/release-plan.md`, "How to make a release"):
 
-1. On `dev`: `npm run release X.Y.Z`. It bumps `package.json` and the lockfile and adds a row to the Releases table in `docs/release-plan.md`, drafted from the commit subjects since the last tag. Rewrite the row's "What" into short user-facing notes, a comma-separated list; it becomes the release notes as is. Commit.
+1. The milestone has no open issues and its release checklist issue is ticked off. On `dev`: `npm run release X.Y.Z`. It bumps `package.json` and the lockfile and adds a row to the Releases table in `docs/release-plan.md`, drafted from the commit subjects since the last tag. Rewrite the row's "What" into short user-facing notes, a comma-separated list; it becomes the release notes as is. Commit.
 2. Pull request `dev` → `main`. CI's release check fails if the version is not above the last tag or has no row. Merge when green (or turn on auto-merge).
 3. Nothing else: after the deploy is live, `deploy.yml` (job `release`) tags the deployed commit `vX.Y.Z` and publishes the GitHub Release. The About tab shows the new version and commit.
 
@@ -42,8 +53,8 @@ Before pushing, run `npm test` and `npm run typecheck`; for UI changes also `bui
 - `pipeline/src/` – data fetch, snow model, satellite, forecast, history, health (`status.ts`).
 - `shared/` – types and code used by both; `shared/types.ts` is the data contract.
 - `fixtures/` – real API responses used by the tests.
-- `docs/` – `release-plan.md` (current plan and checklist), `roadmap.md`, design notes and spike reports.
-- `.github/workflows/` – `ci.yml` (pull requests), `deploy.yml` (schedule and pushes to `main`; tags and publishes a new version), `release.yml` (fallback for a `v*` tag pushed by hand), `snow-check.yml` (live pipeline check by hand).
+- `docs/` – `README.md` (index, how work is tracked), `release-plan.md` (how releases work, the Releases table), `roadmap.md` (direction and decisions), `design/`, `spikes/`.
+- `.github/workflows/` – `ci.yml` (pull requests), `deploy.yml` (schedule and pushes to `main` and `dev`, builds the dev preview; tags and publishes a new version), `release.yml` (fallback for a `v*` tag pushed by hand), `snow-check.yml` (live pipeline check by hand).
 
 ## Rules for the app
 
@@ -58,4 +69,4 @@ Before pushing, run `npm test` and `npm run typecheck`; for UI changes also `bui
 - Plain, short English sentences in docs, commit messages and UI text.
 - Use an en dash (–), never an em dash (—).
 - Do not use middle dots (·) as separators. Write it out ("Stations 12 min, Satellite 5 d"), or use a comma, an en dash or a new line.
-- Keep `README.md` and `docs/release-plan.md` up to date when a change affects them (features, limits, checklist).
+- Keep `README.md` and `docs/` up to date when a change affects how things work (features, limits).

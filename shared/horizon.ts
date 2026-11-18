@@ -1,4 +1,4 @@
-// Horizon and visible sun for one viewpoint (tier 2 of docs/sun-shade-spike.md): how high the
+// Horizon and visible sun for one viewpoint (tier 2 of docs/spikes/sun-shade-spike.md): how high the
 // terrain rises above the eye in every compass direction, and when the sun clears it on a day.
 // It reads elevation through samplers, so the app (fine tiles near the point, the 250 m grid
 // further out) and the pipeline (the grid alone) can share it.

@@ -1,6 +1,6 @@
 # Fixtures
 
-These are real API responses captured during the spike on 2026-10-20, between about 11:43 and 11:52 UTC. The interpolation tests use them, and they serve as reference for the field names. See [`docs/spike-report.md`](../docs/spike-report.md) for what each source means.
+These are real API responses captured during the spike on 2026-10-20, between about 11:43 and 11:52 UTC. The interpolation tests use them, and they serve as reference for the field names. See [`docs/spikes/data-sources-spike.md`](../docs/spikes/data-sources-spike.md) for what each source means.
 
 | File | Source request |
 | --- | --- |

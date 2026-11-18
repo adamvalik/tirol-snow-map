@@ -7,6 +7,7 @@ import { forecastUrl } from '../src/forecast.ts';
 import { compass, fmtChange, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
 import { routeSnow, routeSnowPoints } from '../src/snow.ts';
 import { parseHash, toHash, type ViewState } from '../src/viewState.ts';
+import { fullProps, LIFT_COLOR, liftEnds, slopeColor, UNKNOWN_SLOPE_COLOR, winterColor, winterHtml, winterSub, winterTitle, type WinterFeature } from '../src/winter.ts';
 
 describe('forecastUrl', () => {
   it('passes the clicked elevation so Open-Meteo downscales to it', () => {
@@ -216,5 +217,186 @@ describe('via ferratas', () => {
 
   it('keeps ferratas in shared links', () => {
     expect(parseHash('#layers=snow,ferratas').layers).toEqual(['snow', 'ferratas']);
+  });
+});
+
+describe('shortPlaceName', async () => {
+  const { expression } = await import('@maplibre/maplibre-gl-style-spec');
+  const { shortPlaceName, SHORT_NAME_MAX_ZOOM } = await import('../src/basemap.ts');
+  const label = (props: Record<string, string>, zoom: number) => {
+    const e = expression.createExpression(shortPlaceName(['get', 'name']), { type: 'formatted' } as never);
+    if (e.result !== 'success') throw new Error(JSON.stringify(e.value));
+    return String(e.value.evaluate({ zoom }, { properties: props } as never));
+  };
+  const ortisei = { name: 'Urtijëi - St. Ulrich - Ortisei', 'name:it': 'Ortisei', 'name:de': 'St. Ulrich in Gröden' };
+
+  it('prefers the Italian, then the German name at low zoom', () => {
+    expect(label(ortisei, 10)).toBe('Ortisei');
+    expect(label({ name: 'Bruneck - Brunico', 'name:de': 'Bruneck' }, 10)).toBe('Bruneck');
+    expect(label({ name: 'Lungiarü - Campill' }, 10)).toBe('Lungiarü');
+  });
+
+  it('keeps the full name when zoomed in and single-language names as they are', () => {
+    expect(label(ortisei, SHORT_NAME_MAX_ZOOM)).toBe(ortisei.name);
+    expect(label({ name: 'Innsbruck', 'name:it': 'Innsbruck' }, 8)).toBe('Innsbruck');
+    expect(label({ name: 'Lienz', 'name:it': 'Lienz' }, 8)).toBe('Lienz');
+  });
+});
+
+describe('shortPlaceName with a zoom step', async () => {
+  const { shortPlaceName, SHORT_NAME_MAX_ZOOM: Z } = await import('../src/basemap.ts');
+  const short = (shortPlaceName(['get', 'name']) as unknown[])[2];
+  const wrap = (o: unknown) => JSON.stringify(shortPlaceName(o));
+  it('merges into the existing step instead of nesting one', () => {
+    const a = ['get', 'name'];
+    const b = ['coalesce', ['get', 'name:en'], a];
+    const c = ['coalesce', ['get', 'pgf:name'], a];
+    const ref = ['get', 'ref'];
+    expect(wrap(['step', ['zoom'], ref, 6, b])).toBe(JSON.stringify(['step', ['zoom'], ref, 6, swap(short, b), Z, b]));
+    expect(wrap(['step', ['zoom'], a, 6, b, Z, c])).toBe(JSON.stringify(['step', ['zoom'], swap(short, a), 6, swap(short, b), Z, c]));
+    expect(wrap(['step', ['zoom'], a, 14, c])).toBe(JSON.stringify(['step', ['zoom'], swap(short, a), Z, a, 14, c]));
+  });
+  function swap(e: unknown, out: unknown) {
+    const c = structuredClone(e) as unknown[];
+    c[3] = out;
+    return c;
+  }
+});
+
+describe('basemap labels', async () => {
+  const { basemapLayers } = await import('../src/basemap.ts');
+  it('shortens multilingual names of places and lakes, not countries', () => {
+    const shortened = basemapLayers()
+      .labels.filter((l) => JSON.stringify(l).includes('name:it'))
+      .map((l) => l.id);
+    expect(shortened).toEqual(expect.arrayContaining(['places_locality', 'places_region', 'water_label_lakes']));
+    expect(shortened).not.toContain('places_country');
+  });
+});
+
+describe('winter sports', () => {
+  const lift = fullProps({ id: 'w4388461', kind: 'lift', lift: 'chair_lift', name: 'Ciampinoi', occupancy: 6, capacity: 2400, lengthM: 1346, minM: 1500, maxM: 2025, startM: 1502, endM: 2025 });
+  const slope = fullProps({ id: 'r12', kind: 'downhill', difficulty: 'intermediate', ref: '3', name: 'Saslong', ways: 3, lengthM: 3400, minM: 1400, maxM: 2250 });
+
+  it('fills in what the file leaves out', () => {
+    expect(lift).toMatchObject({ osm: 'way/4388461', ways: 1, lit: false, grooming: null, areaHa: null, climbM: null });
+    expect(slope.osm).toBe('relation/12');
+  });
+
+  it('names and describes lifts and pistes', () => {
+    expect(winterSub(lift)).toBe('Chairlift, 6 seats');
+    expect(winterSub(fullProps({ id: 'w1', kind: 'lift', lift: 'gondola', occupancy: 8, minM: 0, maxM: 0 }))).toBe('Gondola, 8 per cabin');
+    expect(winterSub(slope)).toBe('Red slope, intermediate');
+    expect(winterSub(fullProps({ id: 'w1', kind: 'nordic', grooming: 'classic+skating', minM: 0, maxM: 0 }))).toBe('Cross-country trail, classic and skating');
+    expect(winterTitle(slope)).toBe('3 Saslong');
+    expect(winterTitle({ kind: 'lift', lift: 't-bar', name: null, ref: '12' })).toBe('T-bar 12');
+    expect(winterTitle({ kind: 'sled', lift: null, name: null, ref: null })).toBe('Toboggan run');
+  });
+
+  it('colours slopes by difficulty and the rest by kind', () => {
+    expect(slopeColor('easy')).toBe('#1c7ed6');
+    expect(slopeColor(null)).toBe(UNKNOWN_SLOPE_COLOR);
+    expect(winterColor(lift)).toBe(LIFT_COLOR);
+  });
+
+  it('shows a lift its rise and top station, and escapes OSM text', () => {
+    const html = winterHtml(lift);
+    expect(html).toContain('523 m');
+    expect(html).toContain('2,025 m');
+    expect(html).toContain('2,400 people an hour');
+    expect(winterHtml({ ...slope, website: 'javascript:alert(1)' })).not.toContain('javascript');
+  });
+
+  it('puts a dot at both ends of every lift', () => {
+    const f = { type: 'Feature', properties: lift, geometry: { type: 'LineString', coordinates: [[11, 46, 1500], [11.01, 46.01, 2000]] } } as WinterFeature;
+    expect(liftEnds([f]).map((e) => e.geometry.coordinates)).toEqual([[11, 46, 1500], [11.01, 46.01, 2000]]);
+  });
+
+  it('keeps the layer in shared links', () => {
+    expect(parseHash('#layers=snow,winter').layers).toEqual(['snow', 'winter']);
+  });
+});
+
+describe('lifts in 3D', async () => {
+  const { carriersFor, LIFT_3D, LIFT_3D_COLORS, liftBlocks, supports } = await import('../src/lifts3d.ts');
+  // About 1.1 km north, rising 400 m.
+  const line = [[11, 46.5, 1500], [11, 46.51, 1900]];
+  const slope = (_lon: number, lat: number) => 1500 + (lat - 46.5) * 40000;
+
+  it('puts pylons where OSM maps them, or evenly where it maps none', () => {
+    expect(supports(line, [[11, 46.503], [11, 46.506]]).map((s) => s.station)).toEqual([true, false, false, true]);
+    // A pylon mapped on a station is left to the station.
+    expect(supports(line, [[11, 46.50001]]).length).toBe(2);
+    const even = supports(line, null);
+    expect(even.length).toBe(2 + Math.ceil(1112 / LIFT_3D.span) - 1);
+    const gaps = even.slice(1).map((s, i) => s.d - even[i].d);
+    expect(Math.max(...gaps) - Math.min(...gaps)).toBeLessThan(1);
+  });
+
+  it('makes a small kink a pylon and a real bend an angle station', () => {
+    // A kink of about 8 m sideways halfway up: about 1.6 degrees.
+    const kinked = [[11, 46.5], [11.0001, 46.505], [11, 46.51]];
+    const k = supports(kinked, null);
+    expect(k.filter((s) => s.station).length).toBe(2);
+    expect(k.some((s) => !s.station && Math.abs(s.d - k.find((t) => t.d > 500)!.d) < 1)).toBe(true);
+    // A turn of about 45 degrees: a station, with pylons spaced on each stretch.
+    const bent = [[11, 46.5], [11, 46.505], [11.007, 46.51]];
+    const b = supports(bent, null);
+    expect(b.filter((s) => s.station).length).toBe(3);
+    const gaps = b.slice(1).map((s, i) => s.d - b[i].d);
+    expect(Math.max(...gaps)).toBeLessThanOrEqual(LIFT_3D.span + 1);
+  });
+
+  it('builds stations, pylons, cables and cabins that stay above the ground', () => {
+    const blocks = liftBlocks('w1', line, [[11, 46.505]], slope)!;
+    const colors = new Set(blocks.map((b) => b.properties.color));
+    expect(colors.size).toBeGreaterThanOrEqual(5);
+    expect(blocks.every((b) => b.properties.base >= 0 && b.properties.height > b.properties.base && b.properties.id === 'w1')).toBe(true);
+    // Cables leave the stations at the station's height and hang at least the clearance above the ground.
+    const cable = blocks.filter((b) => b.properties.color === '#212529');
+    expect(cable.length).toBeGreaterThan(100);
+    expect(Math.min(...cable.map((b) => b.properties.base))).toBeGreaterThanOrEqual(LIFT_3D.clearance);
+  });
+
+  it('hangs chairs on chairlifts, wider with more seats and with a hood where mapped', () => {
+    const count = (blocks: { properties: { color: string } }[], color: string) => blocks.filter((b) => b.properties.color === color).length;
+    const width = (b: { geometry: { coordinates: number[][][] } }) => {
+      const [a, , c] = b.geometry.coordinates[0];
+      return Math.abs(c[0] - a[0]) * 111_320 * Math.cos((46.5 * Math.PI) / 180);
+    };
+    expect(carriersFor('chair_lift', 6, true)).toEqual({ kind: 'chair', seats: 6, bubble: true });
+    expect(carriersFor('gondola').kind).toBe('cabin');
+    const gondola = liftBlocks('w1', line, null, slope, carriersFor('gondola'))!;
+    const chairs4 = liftBlocks('w1', line, null, slope, carriersFor('chair_lift', 4))!;
+    const chairs8 = liftBlocks('w1', line, null, slope, carriersFor('chair_lift', 8, true))!;
+    expect(count(gondola, LIFT_3D_COLORS.chair)).toBe(0);
+    expect(count(chairs4, LIFT_3D_COLORS.cabin)).toBe(0);
+    // Seat and backrest per chair, closer together than cabins.
+    expect(count(chairs4, LIFT_3D_COLORS.chair) / 2).toBeGreaterThan(count(gondola, LIFT_3D_COLORS.cabin) * 2);
+    expect(count(chairs4, LIFT_3D_COLORS.hood)).toBe(0);
+    expect(count(chairs8, LIFT_3D_COLORS.hood)).toBeGreaterThan(0);
+    // The line runs north, so a chair's width lies east–west.
+    const seat = (bs: typeof chairs4) => bs.find((b) => b.properties.color === LIFT_3D_COLORS.chair)!;
+    expect(width(seat(chairs8)) / width(seat(chairs4))).toBeCloseTo(2, 1);
+    const mixed = liftBlocks('w1', line, null, slope, carriersFor('mixed_lift'))!;
+    expect(count(mixed, LIFT_3D_COLORS.chair) > 0 && count(mixed, LIFT_3D_COLORS.cabin) > 0).toBe(true);
+  });
+
+  it('builds less from afar: rougher cables, no chairs, half the cabins', () => {
+    const count = (blocks: { properties: { color: string } }[], color: string) => blocks.filter((b) => b.properties.color === color).length;
+    const fine = liftBlocks('w1', line, null, slope, carriersFor('chair_lift'), 'fine')!;
+    const medium = liftBlocks('w1', line, null, slope, carriersFor('chair_lift'), 'medium')!;
+    const coarse = liftBlocks('w1', line, null, slope, carriersFor('chair_lift'), 'coarse')!;
+    expect(count(medium, LIFT_3D_COLORS.cable)).toBeLessThan(count(fine, LIFT_3D_COLORS.cable) / 1.5);
+    expect(count(coarse, LIFT_3D_COLORS.cable)).toBeLessThan(count(medium, LIFT_3D_COLORS.cable));
+    expect(count(medium, LIFT_3D_COLORS.chair)).toBe(count(fine, LIFT_3D_COLORS.chair));
+    expect(count(coarse, LIFT_3D_COLORS.chair)).toBe(0);
+    const cabins = (d: 'fine' | 'coarse') => count(liftBlocks('w1', line, null, slope, carriersFor('gondola'), d)!, LIFT_3D_COLORS.cabin);
+    expect(cabins('coarse')).toBeLessThan(cabins('fine'));
+    expect(cabins('coarse')).toBeGreaterThan(0);
+  });
+
+  it('waits while the ground is not loaded', () => {
+    expect(liftBlocks('w1', line, null, () => null)).toBeNull();
   });
 });

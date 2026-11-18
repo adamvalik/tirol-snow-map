@@ -2,7 +2,7 @@
 import * as maplibregl from 'maplibre-gl';
 import './style.css';
 import { hydrateIcons } from './app/icons.ts';
-import { trackVisit } from './app/analytics.ts';
+import { track, trackVisit } from './app/analytics.ts';
 import { setupLayout, syncQuick } from './app/layout.ts';
 import { setupLocate } from './app/locate.ts';
 import { PointPanel } from './app/point.ts';
@@ -13,7 +13,8 @@ import { dayView, loadHistory, setupTimeline } from './app/timeline.ts';
 import { setupTrack } from './app/track.ts';
 import { setupBasemapRetry } from './app/basemapRetry.ts';
 import { setupWarnings } from './app/warnings.ts';
-import { basemapLayers } from './basemap.ts';
+import { setupWhatsNew } from './app/whatsNew.ts';
+import { basemapLayers, SUMMIT_ICON, summitIcon } from './basemap.ts';
 import { flyToGpx, gpxSnow, gpxTrack, loadGpxFile, loadGpxText, removeGpx } from './layers/gpx.ts';
 import { initLayers, layersView, onMapClick, setupLayers } from './layers/registry.ts';
 import { pointSnow } from './layers/snow.ts';
@@ -56,7 +57,12 @@ setupLayers(app);
 setupSources();
 setupTrack();
 trackVisit();
+// Opened from a link with a view (a shared link, or a reload). Only that it has one, never the view.
+if (window.location.hash.length > 1) track('arrive/link');
+// MapLibre needs WebGL 2; without it the map stays empty.
+if (!document.createElement('canvas').getContext('webgl2')) track('error/webgl');
 loadHistory();
+setupWhatsNew();
 
 map.on('load', async () => {
   await initLayers(app);
@@ -66,9 +72,12 @@ map.on('load', async () => {
   map.on('click', (e: maplibregl.MapMouseEvent) => onMapClick(app, e));
 });
 
-// The Protomaps style names a few POI icons its sprite does not contain; draw those labels without an icon.
+// The summit triangle is drawn here, not in the sprite. The Protomaps style also names a few POI
+// icons its sprite does not contain; draw those labels without an icon.
 map.on('styleimagemissing', (e: { id: string }) => {
-  if (!map.hasImage(e.id)) map.addImage(e.id, { width: 1, height: 1, data: new Uint8Array(4) });
+  if (map.hasImage(e.id)) return;
+  if (e.id === SUMMIT_ICON) map.addImage(e.id, summitIcon(2), { pixelRatio: 2 });
+  else map.addImage(e.id, { width: 1, height: 1, data: new Uint8Array(4) });
 });
 
 // Hooks for the smoke test (scripts/smoke.mjs) and for debugging from the console.

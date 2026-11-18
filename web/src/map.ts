@@ -96,6 +96,10 @@ function createStyle(lowPower: boolean, edge: EdgeStyle): StyleSpecification {
     ],
     terrain: { source: 'terrain', exaggeration: DEFAULT_EXAGGERATION },
     sky: DEFAULT_SKY,
+    // No fades between paint values. With 3D terrain, MapLibre draws the flat layers into cached
+    // textures and redraws them when the style changes, not on every frame of a fade, so a fade
+    // froze at its first frame: the sun light then showed the previous time of day until the map moved.
+    transition: { duration: 0, delay: 0 },
   };
 }
 

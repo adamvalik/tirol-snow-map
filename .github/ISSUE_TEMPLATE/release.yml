@@ -1,0 +1,26 @@
+name: Release checklist
+description: Everything to check before a version goes to main (for the maintainer).
+title: 'Release vX.Y.Z'
+labels: [chore, 'area: release']
+body:
+  - type: markdown
+    attributes:
+      value: Put this issue in the version's milestone. The release steps are in docs/release-plan.md.
+  - type: checkboxes
+    id: before
+    attributes:
+      label: Before the release
+      options:
+        - label: Every other issue in the milestone is closed or moved to a later one
+        - label: Checked on real phones (iOS Safari, Android Chrome) and one desktop browser
+        - label: README.md and docs/ say how the new things work
+        - label: "`npm run release X.Y.Z` on dev, the Releases row rewritten into short user-facing notes"
+        - label: Pull request dev → main green and merged
+  - type: checkboxes
+    id: after
+    attributes:
+      label: After the deploy
+      options:
+        - label: The GitHub Release is published and the About tab shows the new version
+        - label: The What's new card shows the notes on a phone that saw the last version
+        - label: The milestone is closed

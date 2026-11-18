@@ -1,4 +1,4 @@
-// Snow depth estimate on the model grid (see plan.md, "Estimating snow depth at every point"):
+// Snow depth estimate on the model grid (see docs/initial-plan.md, "Estimating snow depth at every point"):
 //
 //   S(x,y) = max(0, a + b·h(x,y) + Σ wᵢ(x,y)·rᵢ),   rᵢ = Sᵢ − (a + b·hᵢ)
 //

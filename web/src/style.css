@@ -794,19 +794,39 @@ body.dragging .track-add {
   color: var(--muted);
 }
 
-/* --- Legends (Layers tab only) ---------------------------------------------- */
+/* --- Legends ----------------------------------------------------------------- */
 
+/* Wider screens: a small card in the map's top-left corner, so the panel keeps its height. */
 .legends {
+  position: fixed;
+  left: 380px;
+  top: 20px;
+  z-index: 1;
+  width: 260px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 0 20px 14px;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgb(255 255 255 / 0.95);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.08), 0 6px 20px rgb(15 23 42 / 0.12);
 }
 
 .legends:not(:has(.legend:not([hidden]))) {
   display: none;
 }
 
+/* A map popup lies under the card (app/layout.ts): out of its way while it is there. */
+.legends {
+  transition: opacity 0.12s;
+}
+
+.legends.behind-popup {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Phones: at the end of the Layers tab. */
 .panel:not([data-tab='layers']) .legends {
   display: none;
 }
@@ -834,6 +854,11 @@ body.dragging .track-add {
   border-radius: 5px;
   overflow: hidden;
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.1);
+}
+
+/* The first class is no snow: a small gap keeps it apart from the snow ramp. */
+.legend-bar > span:first-child {
+  margin-right: 2px;
 }
 
 .legend-ticks {
@@ -865,7 +890,6 @@ body.dragging .track-add {
 .legend-dot.measured {
   width: 10px;
   height: 10px;
-  background: #9ecae1;
   border: 2px solid #fff;
   box-shadow: 0 0 0 1px #c9d0d7;
 }
@@ -901,6 +925,49 @@ body.dragging .track-add {
 
 .ferrata-key i.ungraded {
   background: repeating-linear-gradient(90deg, #868e96 0 4px, #fff 4px 7px);
+}
+
+/* Winter sports: its group shows only while the layer is on; each row hides and shows one kind. */
+.tabpanel:not(:has(#toggle-winter:checked)) #group-winter {
+  display: none;
+}
+
+.tabpanel:not(:has(#toggle-winter:checked)) #group-winter + .group {
+  border-top: 0;
+}
+
+.winter-swatch {
+  display: inline-flex;
+  width: 16px;
+}
+
+.winter-swatch i {
+  display: inline-block;
+  width: 16px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.winter-swatch i.dotted {
+  background: radial-gradient(circle, currentColor 1.5px, transparent 1.8px) 0 50% / 5px 4px repeat-x;
+}
+
+/* The slope colours under the Slopes row. */
+.winter-slope-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.winter-slope-keys .ferrata-key i {
+  width: 12px;
+}
+
+#winter-kinds .row:has(.winter-slope-keys) {
+  padding: 4px 0;
 }
 
 .footer {
@@ -1819,6 +1886,103 @@ details[open] > .act .caret {
   font-weight: 500;
 }
 
+/* --- What's new and first view (app/whatsNew.ts) ------------------------------ */
+
+.intro-card {
+  position: fixed;
+  z-index: 6;
+  top: 20px;
+  right: 76px;
+  width: min(340px, calc(100vw - 460px));
+  max-height: calc(100vh - 140px);
+  overflow: auto;
+  padding: 14px 16px 14px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.intro-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.intro-head h2 {
+  margin: 6px 0 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.intro-head .icon-btn {
+  width: 32px;
+  height: 32px;
+  margin: -2px -6px 0 0;
+  color: var(--muted);
+}
+
+.intro-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.intro-list li {
+  display: flex;
+  gap: 10px;
+  color: var(--ink-2);
+}
+
+.intro-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--on);
+  color: var(--accent);
+}
+
+.intro-notes {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+  color: var(--ink-2);
+}
+
+.intro-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.intro-foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 500;
+}
+
+.intro-ok {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+}
+
 /* --- Timeline ---------------------------------------------------------------- */
 
 .timeline {
@@ -2447,7 +2611,12 @@ details[open] > .act .caret {
   }
 
   .legends {
+    position: static;
+    width: auto;
     padding: 0 0 12px;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .footer {
@@ -2634,6 +2803,15 @@ details[open] > .act .caret {
     bottom: auto;
     transform: none;
     max-width: none;
+  }
+
+  /* Under the name pill, clear of the map buttons on the right. */
+  .intro-card {
+    top: calc(92px + env(safe-area-inset-top));
+    left: 12px;
+    right: 68px;
+    width: auto;
+    max-height: 48vh;
   }
 
   .maplibregl-ctrl-bottom-left {

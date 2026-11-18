@@ -54,7 +54,7 @@ export function syncQuick() {
 
 /**
  * Keeps the timeline in the sheet on phones and floating over the map on wider screens; the legends
- * scroll with the Layers tab on phones and stay above the footer on wider screens.
+ * scroll with the Layers tab on phones and float over the map's top-left corner on wider screens.
  */
 function placeTimeline() {
   const timeline = $('timeline');
@@ -62,7 +62,30 @@ function placeTimeline() {
   if (timeline.parentElement !== target) target.append(timeline);
   const legends = document.querySelector<HTMLElement>('.legends')!;
   if (isPhone()) $('tab-layers').append(legends);
-  else document.querySelector('.footer')!.before(legends);
+  else if (legends.parentElement !== document.body) document.body.append(legends);
+}
+
+/** Whether two boxes on the screen overlap. */
+export const overlaps = (a: Pick<DOMRect, 'left' | 'right' | 'top' | 'bottom'>, b: Pick<DOMRect, 'left' | 'right' | 'top' | 'bottom'>) =>
+  a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+
+/**
+ * On wider screens the legend card floats over the map, and the map is a layer of its own on the
+ * page, so a popup (a lift's or a station's tooltip) cannot be drawn above the card. The card fades
+ * out while a popup would lie under it. Checked once a frame after the layers have moved their popups.
+ */
+function keepPopupsClear(map: maplibregl.Map) {
+  const legends = document.querySelector<HTMLElement>('.legends')!;
+  let frame = 0;
+  const check = () => {
+    frame = 0;
+    const card = legends.getBoundingClientRect();
+    const covered =
+      !isPhone() && [...map.getContainer().querySelectorAll('.maplibregl-popup')].some((p) => overlaps(p.getBoundingClientRect(), card));
+    legends.classList.toggle('behind-popup', covered);
+  };
+  const soon = () => (frame ||= requestAnimationFrame(check));
+  for (const type of ['mousemove', 'mouseout', 'move', 'click'] as const) map.on(type, soon);
 }
 
 /** A drag on the sheet's handle raises or lowers it; a tap toggles it. */
@@ -137,6 +160,7 @@ export function setupLayout(map: maplibregl.Map) {
   placeTimeline();
   phoneQuery.addEventListener('change', placeTimeline);
   setupMapButtons(map);
+  keepPopupsClear(map);
 
   // The map chip, the toast and the scale sit above the timeline, whose height changes with its rows.
   const timeline = $('timeline');

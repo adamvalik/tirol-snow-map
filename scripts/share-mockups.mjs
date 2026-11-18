@@ -1,12 +1,12 @@
-// Concept mock-ups for the share picture (docs/share-snapshot.md). Not part of the app.
+// Concept mock-ups for the share picture (docs/design/share-snapshot.md). Not part of the app.
 //
 // 1. Opens the built app in Chromium and captures the map at each export size the way the app
 //    would: the visible map is resized to the export size / 2 and drawn at pixel ratio 2, then
 //    read in the `render` event (no preserveDrawingBuffer). This is also the spike for that method.
 // 2. Composes the frame styles over the captures with HTML and the app's font (Barlow) and saves
-//    JPEGs plus a contact sheet into docs/share-snapshot/.
+//    JPEGs plus a contact sheet into docs/design/share-snapshot/.
 //
-//   npm run build && node scripts/share-mockups.mjs [--out docs/share-snapshot]
+//   npm run build && node scripts/share-mockups.mjs [--out docs/design/share-snapshot]
 //
 // The QR code uses `uqr` (the encoder the concept proposes, ~4 KB gzipped) when it can be
 // imported; set UQR=/path/to/uqr/dist/index.mjs if it is not installed. Without it a placeholder
@@ -21,7 +21,7 @@ import { chromium } from 'playwright';
 import { preview } from 'vite';
 
 const outIdx = process.argv.indexOf('--out');
-const outDir = path.resolve(outIdx >= 0 ? process.argv[outIdx + 1] : 'docs/share-snapshot');
+const outDir = path.resolve(outIdx >= 0 ? process.argv[outIdx + 1] : 'docs/design/share-snapshot');
 await mkdir(outDir, { recursive: true });
 
 const uqr = await import(process.env.UQR ?? 'uqr').catch(() => null);

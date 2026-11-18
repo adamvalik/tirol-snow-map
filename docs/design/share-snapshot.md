@@ -1,6 +1,6 @@
 # Share picture – concept
 
-Nov 3, 2026, reworked Nov 13 after mock-ups and a capture spike. Part of the [roadmap](roadmap.md), section 6.
+Nov 3, 2026, reworked Nov 13 after mock-ups and a capture spike. Part of the [roadmap](../roadmap.md). The open decisions and the work are in the [share picture issue](https://github.com/adamvalik/tirol-snow-map/issues/31).
 
 ## What changed since the first design (Nov 3)
 
@@ -8,7 +8,7 @@ The first design is still the base. Working it through with real captures change
 
 | Topic | Nov 3 | Now | Why |
 | --- | --- | --- | --- |
-| Main use | The current view | **Your track first**, the view second | The GPX track is built (release plan, 4). "After a tour, into Strava" is the case the picture exists for |
+| Main use | The current view | **Your track first**, the view second | The GPX track is built ([`gpx-api.md`](gpx-api.md)). "After a tour, into Strava" is the case the picture exists for |
 | Rendering | A second, hidden MapLibre map | **The visible map, resized behind the sheet** | Spike (below): sharp at every size, every layer comes along, no second WebGL context, no tile refetch |
 | Default format | 4:5, 1080 × 1350 | **3:4, 1080 × 1440** | Instagram's feed and profile grid are 3:4 since 2025; a 4:5 picture loses 34 px on each side in the grid |
 | Frame styles | Minimal or Poster, light and dark picked automatically | **One frame per format, no style picker**: Poster for portrait, story and square, a Minimal card for wide | Mock-ups below. Fewer choices; a light sky band and a dark scrim are always readable, so no brightness detection |
@@ -25,7 +25,7 @@ One tap turns a tour or a view into a picture that looks good as a Strava activi
 
 ## Mock-ups
 
-Rendered by [`scripts/share-mockups.mjs`](../scripts/share-mockups.mjs) from the built app with the fixture data (October 2026, so little snow; the views use the forecast's new snow). The map parts are real captures made as the app would make them, the frames are HTML with the app's font. The snow along the track is illustrative: the fixtures have no satellite day.
+Rendered by [`scripts/share-mockups.mjs`](../../scripts/share-mockups.mjs) from the built app with the fixture data (October 2026, so little snow; the views use the forecast's new snow). The map parts are real captures made as the app would make them, the frames are HTML with the app's font. The snow along the track is illustrative: the fixtures have no satellite day.
 
 ![All mock-ups](share-snapshot/overview.jpg)
 
@@ -90,7 +90,7 @@ Sizes in pixels of a 1080-wide picture; Wide scales by height.
 
 - **Sky band** at the top: white, 90 % to 0 over about 330 px. At the usual pitch the top of the picture is pale haze, so dark text works; at low pitch the band itself carries it. Title Barlow 700 at 78 px (96 px on stories), subline Barlow 500 at 32 px in `--ink-2`.
 - **Scrim** at the bottom: ink `#0c1622`, 0 → 86 % over 470–700 px. Numbers Barlow 700 at 66 px with small uppercase labels; one hero number at 92–118 px.
-- **Brand row**: the app icon, the app name, the address. One component reading `APP_NAME` and `ADDRESS` constants, so the name decision (roadmap 5) changes one line.
+- **Brand row**: the app icon, the app name, the address. One component reading `APP_NAME` and `ADDRESS` constants, so the name decision (roadmap, Name) changes one line. Until the name is settled: "South Tyrol Snow" and the `github.io` address.
 - **Credits**, 16–18 px at 78 % white: one line built from the layers in the picture, plus "Not for avalanche decisions" whenever a snow layer is shown.
 - **No middle dots as separators.** Texts are sentences or lists with commas ("Hike, Sun 18 Oct 2026, snow seen 16 Oct"), a colon for a label ("Forecast: new snow by …"), a slash for bilingual names ("Ortler / Ortles", as on the map), and a new line where a comma would make a line too long.
 - Margins 72 px left and right, so the 3:4 grid crop and rounded corners in apps never cut text.
@@ -161,11 +161,3 @@ Shipped in v0.2.1: `scripts/og-image.mjs` renders `dist/og.jpg` (1200 × 630, un
 - A picture link opens the same camera, layers and day; old links still open.
 - Credits for every source in the picture.
 - Tests: the layout function (texts fit at every format, numbers chosen by layer, credits by layer), the picture link round trip, the GPX `<time>` read; a smoke test step that exports every format without console errors and checks the size.
-
-## Decisions for you
-
-1. **Frame**: Poster for 3:4, story and square, Minimal card for Wide, no picker (recommended), or a picker between both?
-2. **QR**: only on Wide by default (recommended), or on everywhere as first planned?
-3. **Hide start and end**: off by default (recommended) or on?
-4. **Story safe zones**: frame inside 250 px top / 340 px bottom (recommended), or full bleed and accept the reply bar over the credits?
-5. **Name**: the picture prints the name and the address on every share. Settle it (roadmap 5) before pictures go to testers, or ship with "South Tyrol Snow" and the `github.io` address?
