@@ -75,39 +75,34 @@ function showSunControls() {
 
 /**
  * Light, sky and night overlay for the sun at the map centre, or the usual light when off.
- * The satellite photo tones the hillshade down, so it calls this too.
+ * The satellite photo tones the hillshade down, so it calls this too. With the sun, the light
+ * changes when the shade for it is on the map, so the two never disagree; `quick` (a slider being
+ * dragged, the day playing) leaves out the finer shade so it keeps up.
  */
-export function applyLight() {
+export function applyLight(quick = false) {
   if (!lightReady) return;
   const { map } = app;
   const c = map.getCenter();
   const sun = isOn('sun') ? sunPosition(sunTime, c.lat, c.lng) : null;
-  const paint = hillshadePaint(sun, isOn('satellite'));
-  for (const k of Object.keys(paint) as (keyof HillshadePaint)[]) map.setPaintProperty('hillshade', k, paint[k]);
-  map.setSky(sun ? skyFor(sun.altitude) : DEFAULT_SKY);
+  const satellite = isOn('satellite');
+  const light = () => {
+    const paint = hillshadePaint(sun, satellite);
+    for (const k of Object.keys(paint) as (keyof HillshadePaint)[]) map.setPaintProperty('hillshade', k, paint[k]);
+    map.setSky(sun ? skyFor(sun.altitude) : DEFAULT_SKY);
+    if (sun) map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
+  };
   map.setLayoutProperty(NIGHT_LAYER, 'visibility', sun ? 'visible' : 'none');
-  applyShadows(sun);
-  if (sun) {
-    map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
-    showSunLabel(sun);
-  }
-}
-
-/** "Sun 14:20" and "21° high in the SW" in the sun row. */
-function showSunLabel(sun: SunPosition) {
-  $('sun-label').textContent = `Sun ${clockTime(sunTime)}`;
-  $('sun-alt').textContent =
-    sun.altitude >= 0.5 ? `${Math.round(sun.altitude)}° high` : sun.altitude > -6 ? 'on the horizon' : 'night';
-}
-
-function applyShadows(sun: SunPosition | null) {
-  if (!shadowLayer) return;
-  if (!sun) {
-    shadowLayer.hide();
+  if (sun) showSunLabel(sun);
+  if (!sun || !shadowLayer) {
+    shadowLayer?.hide();
+    light();
     return;
   }
   // Also at night: the shade then covers everything, under the night overlay.
-  if (shadowLayer.show(terrainGrid, sunTime, sun.azimuth, shadeLook(isOn('satellite'))) || terrainGridLoading) return;
+  if (shadowLayer.show(terrainGrid, sunTime, sun.azimuth, shadeLook(satellite), quick, light)) return;
+  // The terrain for the shade is not in yet: light now, shade once it is.
+  light();
+  if (terrainGridLoading) return;
   terrainGridLoading = true;
   loadGrid().then(
     (g) => {
@@ -121,11 +116,18 @@ function applyShadows(sun: SunPosition | null) {
   );
 }
 
-function setSunTime(t: number) {
+/** "Sun 14:20" and "21° high in the SW" in the sun row. */
+function showSunLabel(sun: SunPosition) {
+  $('sun-label').textContent = `Sun ${clockTime(sunTime)}`;
+  $('sun-alt').textContent =
+    sun.altitude >= 0.5 ? `${Math.round(sun.altitude)}° high` : sun.altitude > -6 ? 'on the horizon' : 'night';
+}
+
+function setSunTime(t: number, quick = false) {
   const dayChanged = localDate(t) !== localDate(sunTime);
   sunTime = t;
   showSunControls();
-  applyLight();
+  applyLight(quick);
   // The skyline stays (traced once per place); the sun's path is worked out again for the new day.
   if (dayChanged) {
     reloadRows('sun');
@@ -189,9 +191,12 @@ function showSunPlaying(playing: boolean) {
 }
 
 function pauseSun() {
+  const playing = sunTimer !== undefined;
   window.clearInterval(sunTimer);
   sunTimer = undefined;
   showSunPlaying(false);
+  // Played with the quick shade; the finer one comes back where it stopped.
+  if (playing) applyLight();
 }
 
 function playSun() {
@@ -201,10 +206,12 @@ function playSun() {
   const to = sunset + PLAY_MARGIN;
   if (sunTime < from || sunTime >= to) setSunTime(from);
   showSunPlaying(true);
-  // About ten seconds for a winter day, a little more in summer.
+  // About ten seconds for a winter day, a little more in summer; slower on a device that takes
+  // longer for the shade, since each step waits for the one before to be on the map.
   sunTimer = window.setInterval(() => {
+    if (shadowLayer?.busy) return;
     const next = sunTime + 4 * MINUTE;
-    setSunTime(Math.min(next, to));
+    setSunTime(Math.min(next, to), true);
     if (next >= to) pauseSun();
   }, 60);
 }
@@ -223,8 +230,11 @@ export const sun: LayerModule = {
       // The slider only moves the time of day; the date changes with the date button.
       const date = localDate(sunTime);
       const minute = Math.min(Number(sunSlider.value), dayMinutes(date) - 1);
-      setSunTime(localMidnight(date) + minute * MINUTE);
+      // While dragging, the quick shade keeps up with the slider.
+      setSunTime(localMidnight(date) + minute * MINUTE, true);
     });
+    // Let go (or a key press): the finer shade for where it stopped.
+    sunSlider.addEventListener('change', () => applyLight());
     // The date input is invisible over its button. Clicking it opens the calendar, not only the
     // part of the native input that has the calendar icon.
     sunDateInput.addEventListener('click', () => {

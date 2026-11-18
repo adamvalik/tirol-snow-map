@@ -73,6 +73,8 @@ export class ShadowLayer {
   private nextId = 0;
   /** Worker answers older than this were overtaken by shade drawn without the worker. */
   private minId = 0;
+  /** What to do once a request's shade is on the map (the light that goes with it), by request id. */
+  private readonly pending = new Map<number, () => void>();
   private visible = false;
   private drawn = false;
   private hasDetail = false;
@@ -103,18 +105,25 @@ export class ShadowLayer {
     raster(DETAIL_LAYER);
   }
 
+  /** Whether shade asked for is still being worked out. */
+  get busy(): boolean {
+    return this.pending.size > 0;
+  }
+
   hide() {
     this.visible = false;
+    this.pending.clear();
     this.map.setLayoutProperty(SHADOW_LAYER, 'visibility', 'none');
     this.map.setLayoutProperty(DETAIL_LAYER, 'visibility', 'none');
   }
 
   /**
-   * Shade for the sun at time t, drawn when the worker has it; the old shade stays until then. Once
-   * every summit has lost the sun it is drawn at once, without the terrain. Returns false while it
-   * needs the terrain grid to go on.
+   * Shade for the sun at time t, drawn when the worker has it; the old shade stays until then, and
+   * `shown` runs once it is on the map, so the light can change with it. Once every summit has lost
+   * the sun it is drawn at once, without the terrain. `quick` leaves out the finer grid, for a
+   * slider being dragged. Returns false while it needs the terrain grid to go on.
    */
-  show(grid: Grid | null, t: number, azimuth: number, look: ShadeLook): boolean {
+  show(grid: Grid | null, t: number, azimuth: number, look: ShadeLook, quick: boolean, shown: () => void): boolean {
     this.visible = true;
     const { width, height } = MODEL_GRID;
     const values: number[] = [];
@@ -126,16 +135,20 @@ export class ShadowLayer {
     }
     const night = Math.max(...values) < ALL_SHADE;
     const c = this.map.getCenter();
-    const detail = night ? null : detailBlock(this.map.getZoom(), c.lng, c.lat);
+    const detail = night || quick ? null : detailBlock(this.map.getZoom(), c.lng, c.lat);
     // Redraw only when the sun, the look or the finer grid's block has changed.
     const key = `${night ? 'night' : `${Math.round(t / 60_000)}/${azimuth.toFixed(1)}`}/${look.color.join(',')}/${look.opacity.toFixed(3)}/${blockKey(detail)}`;
     if (key === this.lastKey) {
+      // Still on its way: the light follows it; already shown: change the light now.
+      if (this.pending.size) this.pending.set(this.nextId, shown);
+      else shown();
       this.reveal();
       return true;
     }
     if (night) {
       this.lastKey = key;
       this.minId = ++this.nextId;
+      this.pending.set(this.minId, shown);
       const [r, g, b] = look.color;
       this.draw({ id: this.minId, coarse: new ImageData(new Uint8ClampedArray([r, g, b, Math.round(255 * look.opacity)]), 1, 1), detail: null, ms: 0 });
       return true;
@@ -144,6 +157,7 @@ export class ShadowLayer {
     this.lastKey = key;
     if (!this.worker) this.startWorker(grid);
     const request: ShadowRequest = { type: 'sun', id: ++this.nextId, sun: { azimuth, altitude: { ...LATTICE, values } }, look, detail };
+    this.pending.set(request.id, shown);
     this.worker!.postMessage(request);
     return true;
   }
@@ -153,11 +167,19 @@ export class ShadowLayer {
     const message: ShadowRequest = { type: 'terrain', values: grid.values, tiles: this.tiles };
     worker.postMessage(message);
     worker.onmessage = (e: MessageEvent<ShadowResult>) => this.draw(e.data);
+    // Nothing more is coming: let the light change and the day play on without the shade.
+    worker.onerror = () => {
+      for (const shown of this.pending.values()) shown();
+      this.pending.clear();
+    };
     this.worker = worker;
   }
 
   private draw(result: ShadowResult) {
     if (result.id < this.minId) return;
+    // The light for this shade; requests the worker skipped are dropped with theirs.
+    const shown = this.pending.get(result.id);
+    for (const id of this.pending.keys()) if (id <= result.id) this.pending.delete(id);
     // A new image (and its corners) redraws the terrain it is draped on.
     const update = (id: string, image: ShadowImage, coordinates?: Coordinates) => {
       (this.map.getSource(id) as maplibregl.ImageSource).updateImage({ image, coordinates });
@@ -171,6 +193,7 @@ export class ShadowLayer {
     this.onDrawn?.(result.ms);
     this.drawn = true;
     this.reveal();
+    shown?.();
   }
 
   /** Shows the layers once they have something drawn, unless hidden meanwhile. */
