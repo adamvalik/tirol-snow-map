@@ -2,125 +2,148 @@
 
 Revised Nov 18, 2026. The tester plan of Nov 7 (`v0.2.0` to `v0.2.2`) is done; what it built is summed up under [Done](#done-v010-to-v022). The longer view is in [`roadmap.md`](roadmap.md), the share picture design in [`share-snapshot.md`](share-snapshot.md).
 
-**The short version:** a lot is built and not released. This week ships it as **`v0.3.0`**, with only the work that makes it fit together: merge, make the UI hold the new features, check real phones, a "What's new" card. Webcam links come a week later in `v0.3.1`, the share picture in **`v0.4.0`** (it was `v0.3.0` before; the built work is ready first, so it moves up). Nothing new starts on `dev` until `v0.3.0` is out.
+**The short version:** a lot is built, not all of it is good enough to show. This week **`v0.3.0`** ships only what is already on `dev` or fixes an existing layer, after a review and a check on real phones: the new map look, winter sports, the sun and shade fixes, the analytics events, and one new card (What's new, and a short overview on the first visit). Features that add controls or are still drafts wait: **`v0.4.0`** brings a UI designed for the whole feature set, with sun maps and webcam links in it; the fog note joins when it has been checked against real fog days; the share picture is **`v0.5.0`**.
+
+## How versions are numbered
+
+`MAJOR.MINOR.PATCH`, as in semantic versioning, read for an app (there is no API to keep compatible, so the numbers tell people what to expect):
+
+- **`0.x`** means "not launched": testers and friends, things may still change a lot. **`1.0.0`** is the public launch, the first version we would post where strangers see it.
+- **Minor** (`0.2.0` → `0.3.0`): new features. Each one is a release with notes and a What's new card.
+- **Patch** (`0.3.0` → `0.3.1`): fixes only, no new feature.
+- Data deploys three times a day change no number.
+
+So the number follows the audience, not the amount of work. If this week's release goes only to friends and testers, it is `v0.3.0`. If it is posted publicly (forums, social media), call it `1.0.0` instead: `npm run release 1.0.0`, nothing else changes. A public launch before the name and domain are settled is possible, but a rename after it costs more (links, the picture people remember), see `1.0.0` below.
 
 ## Where things stand (Nov 18)
 
-Live: `v0.2.2` (Nov 16). GoatCounter counted about 17 page views from Nov 12 to Nov 18, so the tester link has barely been used yet. Getting the release out and into testers' hands matters more than any new feature.
+Live: `v0.2.2` (Nov 16). GoatCounter counted about 17 page views from Nov 12 to Nov 18, so the tester link has barely been used yet. A solid first impression matters more than the number of features.
 
 | Work | Where | State | Goes into |
 | --- | --- | --- | --- |
 | Map look: land cover, softer relief light, valley names, brown for no snow, one place name below zoom 12 | `dev` | Merged, not released | `v0.3.0` |
-| Winter sports: slopes by difficulty, lifts (in 3D from zoom 13.3), cross-country, toboggan, ski touring; Winter sports group, legend card on the map, "Map style" group | `dev` | Merged, not released | `v0.3.0` |
-| Sun and shade: soft detailed shadows, smooth sunrise, gentler light | [PR #18](https://github.com/adamvalik/tirol-snow-map/pull/18) (`sun-shade` → `dev`) | Ready, CI green | `v0.3.0` |
-| Sun maps: first sun, last sun, sun hours for a day; sun or shade hint under the slider | [PR #20](https://github.com/adamvalik/tirol-snow-map/pull/20) (`claude/dreamy-edison-z332uz` → `sun-shade`, stacked on #18) | Ready | `v0.3.0` |
-| Analytics: health and core-use events (`point`, `timeline`, `locate`, `arrive/link`, `warning/…`, `error/…`) | [PR #19](https://github.com/adamvalik/tirol-snow-map/pull/19) (`claude/exciting-lamport-3t3mcs` → `dev`) | Ready, CI green | `v0.3.0` |
-| Cloud height, step 1: fog and inversion note in the Place tab, from the stations ([`cloud-height-spike.md`](cloud-height-spike.md) on the branch) | `claude/laughing-shannon-wtds54`, no pull request yet | Built, tests pass | `v0.3.0` |
-| Share picture: concept, mock-ups, capture spike | `share-picture-concept` (docs and `scripts/share-mockups.mjs` only) | Concept; 5 decisions open | Docs now, the feature in `v0.4.0` |
-| What's new, first view, feature overview | Not started | | `v0.3.0` |
-| UI fit for the new features, mobile polish | Not started; findings below | | Fixes in `v0.3.0`, the rework later |
-| Links to webcams | Not started | | `v0.3.1` |
+| Winter sports: slopes by difficulty, lifts (in 3D from zoom 13.3), cross-country, toboggan, ski touring; Winter sports group, legend card on the map, "Map style" group | `dev` | Merged, two days old; review and phone check | `v0.3.0` |
+| Sun and shade fixes: no more day light at night, soft detailed shadows, smooth sunrise | [PR #18](https://github.com/adamvalik/tirol-snow-map/pull/18) (`sun-shade` → `dev`) | CI green; review and phone check | `v0.3.0` if fast enough on phones |
+| Analytics: health and core-use events (`point`, `timeline`, `locate`, `arrive/link`, `warning/…`, `error/…`) | [PR #19](https://github.com/adamvalik/tirol-snow-map/pull/19) (`claude/exciting-lamport-3t3mcs` → `dev`) | CI green, small | `v0.3.0` |
+| What's new and first view card | Not started | | `v0.3.0` |
+| Sun maps: first sun, last sun, sun hours for a day; sun or shade hint under the slider | [PR #20](https://github.com/adamvalik/tirol-snow-map/pull/20), stacked on #18 | Built; adds controls | `v0.4.0`, in the new UI |
+| UI designed for the whole feature set | Not started | | `v0.4.0` |
+| Links to webcams | Not started | | `v0.4.0` |
+| Cloud height, step 1: fog and inversion note in the Place tab ([`cloud-height-spike.md`](cloud-height-spike.md) on the branch) | `claude/laughing-shannon-wtds54`, no pull request | Draft: method not checked on real fog days | After it is checked (`v0.4.x`) |
+| Share picture: concept, mock-ups, capture spike | `share-picture-concept` (docs and `scripts/share-mockups.mjs` only) | Concept; 5 decisions open | Docs now, the feature in `v0.5.0` |
 
-**Trial merge (Nov 18).** `dev` with #20 (which carries #18), #19 and the cloud height branch merged together: one conflict, two import lines in `web/src/main.ts` (keep both: `track, trackVisit` from `analytics.ts` and `selectedDay` from `day.ts`). Typecheck clean, 257 tests pass, build fine. The smoke test gives the same result as `dev` alone: only the via ferrata panel check fails, and it fails only in cloud sessions (CI is green). `share-picture-concept` merges into `dev` without conflicts.
+**Trial merge (Nov 18).** `dev` with #20 (which carries #18), #19 and the cloud height branch merged together: one conflict, two import lines in `web/src/main.ts` (keep both). Typecheck clean, 257 tests pass, build fine, smoke test as on `dev` (only the via ferrata panel check fails, and only in cloud sessions). So holding a branch back costs nothing later.
 
-**Branches.** Fully contained in `dev`, safe to delete by hand: `claude/3d-map-visual-usability-4o9y17`, `claude/great-cerf-qp6etb`, `frontend-c2`. The branches above are deleted by GitHub when their pull request merges. Never delete `dev`.
+**Branches.** Fully contained in `dev`, safe to delete by hand: `claude/3d-map-visual-usability-4o9y17`, `claude/great-cerf-qp6etb`, `frontend-c2`. Held branches stay as they are until their version. Never delete `dev`.
 
 ## `v0.3.0` – winter release (this week)
 
-Feature freeze on `dev` from Thursday Nov 19: only the items below. Anything else goes on its own branch for `v0.3.1` or later.
+Feature freeze on `dev` from Thursday Nov 19: only the items below.
 
-### 1. Merge what is built (Wed Nov 18)
+### 1. Review and merge (Wed–Thu)
 
-In this order, each after its CI is green:
-
-1. **#18** sun and shade → `dev`.
-2. **#20** sun maps. When `sun-shade` is deleted after #18, GitHub moves #20's base to `dev` by itself; check that it says `dev` before merging.
-3. **#19** analytics → `dev`.
-4. **Cloud height:** open a pull request `claude/laughing-shannon-wtds54` → `dev`, merge `dev` into it first and fix the import conflict above.
+1. **Review** winter sports (on `dev`) and #18. Findings and their fixes are listed under [Review findings](#review-findings-nov-18).
+2. **#19** analytics → `dev`.
+3. **#18** sun and shade → `dev`, once its review findings are fixed. If the phone check (4) shows it is too slow, revert the merge on `dev` (`git revert -m 1`, no history rewrite) and keep it for `v0.4.0`.
+4. **#20** stays open. When `sun-shade` is deleted after #18's merge, GitHub moves its base to `dev`; do not merge it before `v0.4.0`.
 5. **Share picture concept:** a pull request `share-picture-concept` → `dev` (docs only), so all plans live on `dev`.
+6. **Cloud height:** no pull request yet (see [Cloud height](#cloud-height-before-it-ships)).
 
-### 2. Make the UI hold the new features (Thu Nov 19)
+### 2. UI fixes for what ships (Thu Nov 19)
 
-Found in phone (Pixel 7 profile) and desktop screenshots of the trial merge:
+Only what the shipped layers need. The rest waits for the `v0.4.0` UI.
 
-- **Two time controls on the phone.** With Sun and shade on, the sheet shows the sun row (play button, "Sun 10:56", a slider) above the day timeline (its own play button, "Tue 20 Oct"). Two play buttons and two dates fill the half-open sheet before any layer tile shows. Keep one play button in view, and make the sun row's day match the timeline's or say which day it is.
-- **Labels under the sun slider run together** on the phone ("Sunrise 07:20NowSunset 16:38"). Give them room or drop "Now".
-- **Phone quick row** (Snow, Stations, Bivouacs, Ferratas, More) has neither Winter sports nor Sun and shade. Decide which four tiles it shows in winter. Suggested: Snow, Stations, Winter sports, Sun and shade, More; bivouacs and via ferratas stay one tap away in More.
-- **Layers tab:** six tiles and four groups now (Winter sports, Sun and shade, Snow details, Map style). Groups stay closed unless their layer is on; check the order on a phone.
+- **Phone quick row** (Snow, Stations, Bivouacs, Ferratas, More) has no Winter sports. Suggested in winter: Snow, Stations, Winter sports, Ferratas, More (bivouacs one tap away in More).
 - **Desktop legend card covers popups.** The card in the map's top-left lay over a lift's popup at Col Raiser. Keep popups above it, or hide the card while a popup is open.
-
-Rule from the roadmap still holds: remove and group, do not add. The deeper rework (one timeline that holds the hour of the day as well) is for later.
+- **With Sun and shade on, two time controls on the phone** (the sun row with its own play button and date, above the day timeline). Check whether `dev` with #18 alone shows the same; the sun maps hint line is not in `v0.3.0`. If it does, keep one play button in view and make the dates agree. The labels under the sun slider ran together in the trial build ("Sunrise 07:20NowSunset 16:38").
 
 ### 3. What's new and first view (Thu–Fri)
 
-One small card, shown once, in the map's corner on desktop and at the top of the sheet on phones.
+One card with two texts, so the overview comes almost for free. Shown once, in the map's corner on desktop and at the top of the sheet on phones.
 
-- **Returning visitor** whose last seen version is older: "What's new in 0.3.0" with the items of the version's row in the Releases table below (the same list as the GitHub Release, read at build time like `__APP_VERSION__`) and a link to all release notes.
-- **First visit:** the same card as "What you can do": four short lines (where the snow is, the timeline, tap a place, more layers: winter sports and sun), shortened from the README.
+- **Returning visitor** whose last seen version is older: "What's new in 0.3.0" with the items of the version's row in the Releases table below (the same list as the GitHub Release, read at build time like `__APP_VERSION__`), and a link to all release notes.
+- **First visit:** "What you can do", four short lines: where the snow is, the timeline, tap a place, more layers (winter sports, sun and shade). Shortened from the README.
 - Closing it keeps the version in `localStorage`, nothing else. "What's new" also stays reachable from the About tab next to the version.
-- Effort S–M. Replaces the "What's new toast" idea of Nov 7.
+- Effort S–M. Tests: which text shows for no version, an older and the same version; storage blocked shows the card and does not throw.
 
 ### 4. Check on real phones (Fri Nov 20)
 
-Still open from the `v0.2.0` checklist, and the new layers are the heaviest yet:
+Still open from the `v0.2.0` checklist. For a phone to reach a build before the release: `npm run build`, then `npx vite preview --host` on a computer in the same Wi-Fi network.
 
 - iOS Safari and Android Chrome, one desktop browser.
-- Lifts in 3D at zoom 14–15 (frame rate while panning).
-- Sun and shade while dragging the slider: about 60 ms per position was estimated in Node, never measured on a phone. Sun maps: about 1 s in Node.
-- Winter sports and Sun and shade on together: memory, no reload of the tab by the browser.
-- The fog card, the What's new card and the sheet on an iPhone with the home bar.
+- Lifts in 3D at zoom 14–15: frame rate while panning. If poor, flat lifts on phones.
+- Sun and shade while dragging the slider: about 60 ms per position was estimated in Node, never measured on a phone.
+- Winter sports and Sun and shade on together: memory, the tab is not reloaded by the browser.
+- The What's new card and the sheet on an iPhone with the home bar.
 - Link preview in WhatsApp and Signal (open since `v0.2.1`).
 
 ### 5. Release (Sat Nov 21, Sunday as buffer)
 
-`npm run release 0.3.0` on `dev`, rewrite the row, pull request `dev` → `main`, merge when green. A suggested row, to shorten as needed:
+`npm run release 0.3.0` on `dev`, rewrite the row, pull request `dev` → `main`, merge when green. A suggested row, without what does not make it:
 
-> Winter sports layer (slopes by difficulty, lifts in 3D, cross-country, toboggan and ski touring), first sun, last sun and sun hours for a day, softer and more detailed shadows with a smooth sunrise, fog and inversion note for a place (from the stations), new map look (land cover, softer relief light, valley names, brown for no snow), What's new card, phone fixes
+> Winter sports layer (slopes by difficulty, lifts in 3D, cross-country, toboggan and ski touring), new map look (land cover, softer relief light, valley names, brown for no snow), sun and shade without the day light at night, softer and more detailed shadows with a smooth sunrise, What's new card, phone fixes
 
 ### 6. After the deploy
 
-- The fog card on live data: it can only show fog from the midday run (about 12:50), so check one afternoon.
-- The run log prints Sentinel Hub processing units above 0 (open since `v0.2.1`, section 10.3 of the old plan).
-- A week later, read the new analytics events: which layers and places are used, which warnings show. It feeds the UI rework.
+- The run log prints Sentinel Hub processing units above 0 (open since `v0.2.1`).
+- A week later, read the new analytics events: which layers and places are used, which warnings show. It feeds the `v0.4.0` UI.
 
 ### Checklist for `v0.3.0`
 
-- [ ] #18, #20 and #19 merged into `dev`
-- [ ] Cloud height branch: pull request opened, conflict fixed, merged
+- [ ] Winter sports reviewed, findings fixed
+- [ ] #18 reviewed, findings fixed, merged
+- [ ] #19 merged
 - [ ] Share picture concept merged into `dev`
-- [ ] One play button in view on phones, sun slider labels fit
 - [ ] Phone quick row decided
 - [ ] Legend card does not cover popups
+- [ ] Sun and shade on a phone: one play button in view, labels fit
 - [ ] What's new and first view card
-- [ ] iOS Safari and Android Chrome checked (lifts in 3D, sun and shade, sun maps)
+- [ ] iOS Safari and Android Chrome checked (lifts in 3D, sun and shade)
 - [ ] Link preview checked in WhatsApp and Signal
 - [ ] Tests, typecheck and smoke test green (CI)
 - [ ] Release row written, `dev` → `main` merged, release published
-- [ ] After the deploy: fog card seen on live data, processing units in the run log
 
-## `v0.3.1` – week of Nov 23
+### Review findings (Nov 18)
 
+Filled in by the reviews of winter sports and #18.
+
+## `v0.3.1`
+
+Fixes only: what testers and the phone check find after the release.
+
+## `v0.4.0` – a UI for the whole feature set (December)
+
+Design once for everything planned, then fit each feature in as it is ready:
+
+- **Layout:** the Layers tab and the phone quick row for 7 layers and their groups, by season; one place for time (the day timeline and the hour of the day as one control instead of two); room for the share button and the fog note. Use the analytics of the first weeks: which layers people switch on.
+- **Sun maps** (#20): first sun, last sun and sun hours, in the new layout.
 - **Links to webcams** in the Place tab: "Webcams nearby", the three nearest within about 10 km with their height, each opening the webcam's page in a new tab. Links only, no thumbnails: a picture from another host would break the rule that the browser calls only the site, Mapterhorn and Open-Meteo. A static file built by a script, like `npm run bivouacs`: OpenStreetMap's `contact:webcam` and `webcam` tags on huts, lifts and summits, plus a short hand-made list of the big providers' cameras (foto-webcam.eu, Panomax, the lift companies) after checking that linking to them is allowed. Spike first: how many cameras OpenStreetMap has in the area. Effort S–M.
-- Fixes from testers and from the phone check.
+- Rule from the roadmap still holds: remove and group, do not add.
 
-## `v0.4.0` – share picture (December)
+### Cloud height, before it ships
 
-Designed and spiked in [`share-snapshot.md`](share-snapshot.md): the visible map resized behind a sheet, a Poster frame (Minimal card for Wide), track pictures first (profile with the snow along it), a picture link copied at share time. Effort M–L, about one to two weeks. The decisions it needs, best answered this week so building can start on Nov 23:
+The branch `claude/laughing-shannon-wtds54` is a first draft. Before it goes into a release:
+
+- **Check the method on real fog days.** The spike's two weeks had no sea of fog around Bolzano. Collect the province readings (`v1/timeseries`) on a few fog days this winter and compare the note with what was really there: the Sentinel-2 cloud mask on the days it has one, webcams, the forecasters' text. Note when it says fog wrongly, and when it misses fog.
+- **Review the code**, as for winter sports.
+- **Decide where it sits** in the `v0.4.0` Place tab.
+- Then a pull request into `dev`; the `web/src/main.ts` import conflict with #19 is two lines (keep both).
+
+## `v0.5.0` – share picture
+
+Designed and spiked in [`share-snapshot.md`](share-snapshot.md): the visible map resized behind a sheet, a Poster frame (Minimal card for Wide), track pictures first (profile with the snow along it), a picture link copied at share time. Effort M–L, about one to two weeks. Its button needs the `v0.4.0` layout. The decisions it needs:
 
 1. Frame: Poster for 3:4, story and square, Minimal card for Wide, no picker (recommended)?
 2. QR code on by default only on Wide (recommended)?
 3. "Hide start and end" off by default (recommended)?
 4. Story frame inside Instagram's covered zones (recommended)?
-5. Name and address printed on every picture: settle the name first, or ship with "South Tyrol Snow" and the `github.io` address (recommended for `v0.4.0`; the name waits for the public launch)?
+5. Name and address printed on every picture: settle the name first, or ship with "South Tyrol Snow" and the `github.io` address (recommended for testers; the name waits for the public launch)?
 
 Also part of it: reading the first `<time>` of a GPX file, shorter picture links in `parseHash`, the `uqr` dependency, a smoke test step for every format.
 
 ## Later
 
-Kept out of `v0.3` and `v0.4` on purpose:
-
 - **Cloud height, steps 2 and 3:** a fog and inversion forecast from Open-Meteo pressure levels for the clicked point (in the browser), then shading of the ground under the fog on the map, then perhaps a satellite low-cloud mask.
-- **UI rework, after reading the analytics:** one timeline from days to hours (the sun row merged into the day timeline), fewer tiles by season.
 - **Offline repeat visits and lazy-loaded layers** (roadmap 3 and 7).
 - **Accessibility pass** (roadmap 7).
 - **Station history:** a season snow-depth curve in the station panel.
@@ -128,15 +151,14 @@ Kept out of `v0.3` and `v0.4` on purpose:
 - **Orbit video** (after the share picture).
 - **A Tally form** instead of the feedback e-mail, if testers do not write.
 
-## `1.0.0` – public launch (not before January)
+## `1.0.0` – public launch
 
-When all of these hold:
+When it goes where strangers see it. Before that:
 
-- The name and the domain are settled (roadmap 5; about €5 a year).
-- The share picture has shipped and been used by testers.
+- The name and the domain are settled (roadmap 5; about €5 a year). Renaming after a public launch breaks what people remember, so do it first.
 - Real-phone checks pass on iOS and Android.
 - A few weeks of tester use with no serious bug left open, and no data outage the monitor missed.
-- The accessibility pass is done.
+- Good to have, not required: the share picture (it is how a launch spreads) and the accessibility pass.
 
 ## Done (`v0.1.0` to `v0.2.2`)
 

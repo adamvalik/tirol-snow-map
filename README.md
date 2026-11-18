@@ -23,7 +23,7 @@ It works on phones and desktop browsers. Something wrong or an idea? Use *Someth
 
 ## Status
 
-**[v0.2.0](https://github.com/adamvalik/tirol-snow-map/releases/tag/v0.2.0)** (Nov 12, 2026): the first release for testers, with the new interface, GPX tracks, the Euregio station feeds and the snow depth change at stations. **v0.2.1** (Nov 13) adds link previews, a location button and the avalanche warning region of a place; **v0.2.2** (Nov 16) fixes. **v0.3.0**, the winter release with winter sports, sun maps and the fog note, is planned for the week of Nov 16. See [Releases](https://github.com/adamvalik/tirol-snow-map/releases) for what changed in each version.
+**[v0.2.0](https://github.com/adamvalik/tirol-snow-map/releases/tag/v0.2.0)** (Nov 12, 2026): the first release for testers, with the new interface, GPX tracks, the Euregio station feeds and the snow depth change at stations. **v0.2.1** (Nov 13) adds link previews, a location button and the avalanche warning region of a place; **v0.2.2** (Nov 16) fixes. **v0.3.0**, the winter release with winter sports and the new map look, is planned for Nov 21. See [Releases](https://github.com/adamvalik/tirol-snow-map/releases) for what changed in each version.
 
 What comes next: [`docs/release-plan.md`](docs/release-plan.md) (what ships in which version, and what waits) and [`docs/roadmap.md`](docs/roadmap.md) (the longer view). The original build plan is [`plan.md`](plan.md) and the spike findings are in [`docs/spike-report.md`](docs/spike-report.md).
 

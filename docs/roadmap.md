@@ -21,7 +21,7 @@ The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to
 - [ ] **Frame style for the share picture** (minimal or poster). Open until mock-ups exist.
 - [x] **Visit counting: GoatCounter** (no cookies, free), Nov 7, see [`release-plan.md`](release-plan.md).
 - [x] **Versions: today's app is `v0.1.0`; first release to friends and testers is `v0.2.0`** (Nov 7): versions, feedback form, GPX, live location, link preview. See [`release-plan.md`](release-plan.md).
-- [x] **Wrap up before adding more** (Nov 18): what is built (winter sports, sun maps, fog note, map look, analytics) ships as `v0.3.0`; webcam links in `v0.3.1`; the share picture moves to `v0.4.0`; `1.0.0` not before January.
+- [x] **Ship only what is solid** (Nov 18): `v0.3.0` brings the map look, winter sports, the sun and shade fixes and a What's new card, after a review and a phone check. Sun maps and webcam links wait for a UI designed for all features (`v0.4.0`), the fog note until it is checked on real fog days, the share picture is `v0.5.0`. `1.0.0` is the public launch.
 
 ## 1. What was done
 
@@ -34,7 +34,7 @@ The original build plan ([`plan.md`](../plan.md)) is finished: every phase up to
 | V3 | 14-day day slider, 72 h forecast snowfall animation, shareable view links, scheduled deploy to GitHub Pages three times a day, monitoring issue on failures |
 | Beyond the plan | Bivouacs (icons, then 3D cabins), favourites, via ferratas with A–E grades and snow along the route, sun and shade with cast shadows and real sunrise/sunset at a point, "new snow since the satellite view" warning, home-screen icon |
 | `v0.2` (Nov 12–16) | New UI (design C2), GPX tracks, Euregio station feeds, depth change at stations, feedback, visit counting, link preview, Where am I, avalanche warning region, releases on merge |
-| Built for `v0.3.0` (Nov 13–18) | New map look, winter sports with lifts in 3D, softer and finer shadows, first sun, last sun and sun hours maps, fog and inversion note from the stations, more analytics events |
+| Built Nov 13–18 | New map look, winter sports with lifts in 3D, softer and finer shadows, more analytics events (for `v0.3.0`); first sun, last sun and sun hours maps, fog and inversion note from the stations (held back, see the release plan) |
 
 ### What the live site looks like (Nov 3, headless Chromium)
 
@@ -148,7 +148,7 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 | Idea | What it gives | Effort |
 | --- | --- | --- |
 | ~~Avalanche bulletin link per region~~ (done Nov 13) | Point panel names the region and links to its bulletin | S |
-| Webcam links (`v0.3.1`) | "Webcams nearby" in the Place tab, links only, no thumbnails | S–M |
+| Webcam links (`v0.4.0`) | "Webcams nearby" in the Place tab, links only, no thumbnails | S–M |
 | ~~New snow 24/48/72 h at stations~~ (done Nov 9) | The change in snow depth, not only the total, in the station panel | S |
 | Offline repeat visits | Service worker for the app, latest data and recent terrain tiles | M |
 | Orbit video | 10-second turn around a peak for stories | M, after share pictures |
@@ -162,7 +162,7 @@ Design in [`share-snapshot.md`](share-snapshot.md): a camera button that renders
 3. ~~**UI round** (2.1–2.4)~~: rebuilt after design C2 (Nov 12).
 4. ~~**Avalanche bulletin link** and **new snow at stations**~~ (Nov 9–13).
 5. ~~**Tester release `v0.2.0`**~~ (Nov 12), with fixes in `v0.2.1` and `v0.2.2`.
-6. **`v0.3.0`, the winter release** (this week): merge what is built, fit the UI around it, check real phones, a What's new card. See [`release-plan.md`](release-plan.md).
-7. **`v0.3.1`**: webcam links, tester fixes.
-8. **`v0.4.0`**: share picture (6).
-9. **Later:** fog forecast, UI rework from the analytics (one timeline down to hours), lazy-loaded layers and offline visits, accessibility, station history, wider area. Name and domain before `1.0.0`.
+6. **`v0.3.0`, the winter release** (this week): map look, winter sports, sun and shade fixes, What's new card, after a review and a phone check. See [`release-plan.md`](release-plan.md).
+7. **`v0.4.0`**: a UI designed for the whole feature set (one control for day and hour, layers by season), with sun maps and webcam links. The fog note when it has been checked on real fog days.
+8. **`v0.5.0`**: share picture (6).
+9. **Later:** fog forecast, lazy-loaded layers and offline visits, accessibility, station history, wider area. Name and domain before `1.0.0`, the public launch.
