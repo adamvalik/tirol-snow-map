@@ -2,8 +2,9 @@
 // counted where the requests are made, and the month's running totals kept in status.json. The
 // workflow monitor opens an issue when a total nears its limit (scripts/monitor.mjs).
 //
-// Only production runs add up: the check workflow (snow-check.yml) starts from a copy of
-// production's data and its counts are thrown away with it, so the totals here are a lower bound.
+// Only production runs add up: the check workflow (snow-check.yml) and the dev preview (deploy.yml)
+// start from a copy of production's data and their counts are thrown away with it, so the totals
+// here are a lower bound.
 
 import type { StatusFile, UpstreamUsage } from '../../shared/types.ts';
 
