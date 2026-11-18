@@ -5,6 +5,8 @@ South Tyrol Snow Map: a 3D snow map of South Tyrol in the browser (MapLibre GL J
 ## Branches and merging
 
 - **Work happens on `dev`.** Commit and push there. Feature branches are fine for parallel work, but they merge into `dev`, not `main`.
+- **Branch names: `<type>/<issue>-<short-name>`**, lowercase words joined by hyphens, two to four words, for example `feat/28-webcam-links`, `fix/34-lift-cache`, `docs/25-share-picture-concept`. Types: `feat` (feature), `fix` (bug), `docs`, `chore`, `spike` (trying out an idea). Leave out the issue number only when there is no issue.
+- **Cloud sessions get a branch named `claude/<random>`. Do not use it.** Create a branch named as above and push there instead; this rule is the permission to. Name it at the start of the work, from the issue.
 - **`dev` reaches `main` through a pull request** (`dev` → `main`), so `ci.yml` checks it: CI runs only on pull requests, and a push to `main` deploys to the live site straight away. Merge it with a normal merge commit (**Create a merge commit**). No sync back is needed: `main` only gets commits through these merges, so `dev` never misses code (GitHub may still show `dev` as behind by the merge commits).
 - **A push to `dev` deploys the dev preview** at `/dev/` of the live site, with `main`'s data, or with `dev`'s own pipeline when `dev` changes `pipeline/` or `shared/` (README, Deployment). A push to `main` deploys both.
 - **Never delete `dev`.** The repository deletes head branches after a merge; a ruleset protects `dev` from deletion. Do not work around it.

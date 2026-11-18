@@ -21,5 +21,6 @@ On GitHub, in the [issues](https://github.com/adamvalik/tirol-snow-map/issues), 
 - **Milestones are versions** (`v0.3.0`, `v0.4.0`, `v0.5.0`, `1.0.0`). An issue without one is "later". A version is ready when its milestone has no open issues; then it is released as in [`release-plan.md`](release-plan.md).
 - **The board** shows the state: Inbox (new, not sorted), Planned (has a milestone), In progress, Needs review, Done.
 - **At most two features in progress at a time.** A new idea is an issue in the Inbox, not a new branch.
+- **Branches are named after their issue**: `<type>/<issue>-<short-name>`, for example `feat/28-webcam-links` or `fix/34-lift-cache`. Types: `feat`, `fix`, `docs`, `chore`, `spike`.
 - **A pull request names its issue** ("Closes #12"), and the template asks whether `README.md` and these docs still say how things work.
 - **Once a week, about 15 minutes:** sort the Inbox (a milestone or later), look at Needs review, check that the next milestone still fits.
