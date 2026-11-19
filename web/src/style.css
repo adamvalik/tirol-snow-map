@@ -2492,8 +2492,9 @@ details[open] > .act .caret {
 /* --- Phones: a bottom sheet -------------------------------------------------- */
 
 @media (max-width: 700px) {
+  /* --app-gap: see fillStandaloneGap() in app/layout.ts; 0 everywhere but an iPhone home screen app. */
   #map {
-    inset: 0;
+    inset: 0 0 calc(-1 * var(--app-gap, 0px));
   }
 
   .phone-only {
@@ -2570,22 +2571,6 @@ details[open] > .act .caret {
     right: 12px;
   }
 
-  /*
-   * As a home screen app the map runs under the status bar (black-translucent in index.html), whose
-   * text is white: a light shade keeps it readable on a bright map. No height in the browser, which
-   * has its own bar there.
-   */
-  body::before {
-    content: '';
-    position: fixed;
-    z-index: 4;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: env(safe-area-inset-top);
-    background: linear-gradient(rgb(15 23 42 / 0.45), rgb(15 23 42 / 0.15));
-    pointer-events: none;
-  }
 
   .map-btn-stack {
     border-radius: 50%;
@@ -2605,6 +2590,7 @@ details[open] > .act .caret {
 
   .panel {
     top: auto;
+    bottom: calc(-1 * var(--app-gap, 0px));
     width: auto;
     right: 0;
     border-radius: 22px 22px 0 0;
