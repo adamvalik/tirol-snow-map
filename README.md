@@ -56,7 +56,7 @@ Other scripts:
 | `npm run typecheck` | TypeScript check of app, pipeline and tests |
 | `npm run build` | Typecheck and production build into `dist/` (includes whatever is in `web/public/data`) |
 | `node scripts/og-image.mjs` | After `build`: renders the link preview picture `dist/og.jpg` (see Deployment). Set `CHROMIUM_PATH` if Playwright's browser is not installed |
-| `npm run smoke` | After `build`: opens the built app in Chromium (desktop and phone profiles) and reports load time, console errors, whether the station and forecast panels work, and on desktop the timeline (a past day, forecast playback), via ferratas, winter sports and a shared link. Set `CHROMIUM_PATH` if Playwright's browser is not installed |
+| `npm run smoke` | After `build`: opens the built app in Chromium (desktop and phone profiles) and reports load time, console errors, whether the station and forecast panels work, and on desktop the timeline (a past day, forecast playback), via ferratas, winter sports (with the flat layers in one terrain texture per tile, see `web/src/drape.ts`) and a shared link. Set `CHROMIUM_PATH` if Playwright's browser is not installed |
 
 ## How data flows
 
