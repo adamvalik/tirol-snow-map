@@ -2623,6 +2623,19 @@ details[open] > .act .caret {
     padding: 10px 0 calc(14px + env(safe-area-inset-bottom));
   }
 
+  /* Sheet hidden: the handle on a small bar, the rest is map. */
+  .panel[data-sheet='hidden'] > :not(.sheet-handle) {
+    display: none !important;
+  }
+
+  .panel[data-sheet='hidden'] {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .panel[data-sheet='hidden'] .sheet-handle {
+    width: 100%;
+  }
+
   /* Sheet lowered: the timeline and the main layers, nothing else. */
   .panel[data-sheet='peek'] .tabs,
   .panel[data-sheet='peek'] .tabpanels,
