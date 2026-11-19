@@ -22,8 +22,15 @@ on:
   # GitHub often starts scheduled runs late, so none sits on the full hour.
   schedule:
     - cron: '47 3,11,17 * * *'
+  # A push that only changes Markdown or docs/ has nothing to deploy. docs/release-plan.md still
+  # counts: the build reads the release notes from it. A push that changes anything else deploys.
   push:
     branches: [main, dev]
+    paths:
+      - '**'
+      - '!**/*.md'
+      - '!docs/**'
+      - 'docs/release-plan.md'
   workflow_dispatch:
     inputs:
       dev_pipeline:
