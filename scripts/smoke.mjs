@@ -1,6 +1,7 @@
 // Smoke test for the built app: serves dist/, opens it in Chromium (desktop and phone profiles),
 // and reports time to first rendered map, console errors, and a rough frame rate while rotating;
-// on desktop also the day slider, forecast playback, the via ferrata and winter sports layers, a shared link
+// on desktop also the day slider, forecast playback, the via ferrata and winter sports layers (drawn
+// with one terrain texture per tile), a shared link
 // and "Where am I".
 //
 //   npm run build && node scripts/smoke.mjs [--out <screenshot dir>]
@@ -228,6 +229,11 @@ for (const profile of profiles) {
         .then(() => 'OK', () => 'FAILED (no panel)');
     }
     await page.screenshot({ path: path.join(outDir, 'desktop-winter.png'), timeout: SHOT_TIMEOUT_MS });
+    // With via ferratas and winter sports on, the flat layers still share one texture per terrain
+    // tile (web/src/drape.ts); each extra one cost phones about 21 MB a tile, and the tab (#55).
+    // Reads MapLibre's render-to-texture stacks, an internal of the last frame.
+    const stacks = await page.evaluate(() => window.__snowmap.map.painter.renderToTexture?._stacks.length ?? 0);
+    const drape = stacks === 1 ? 'OK' : `FAILED (${stacks} textures per terrain tile)`;
     await page.waitForTimeout(500);
     const hash = await page.evaluate(() => window.location.hash);
     const shared = await context.newPage();
@@ -258,8 +264,8 @@ for (const profile of profiles) {
         },
         () => 'FAILED (no position)',
       );
-    v3 = `timeline day ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, winter sports ${winter}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}, where am I ${locate}`;
-    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || winter !== 'OK' || !linkOk || locate !== 'OK') v3Failed = true;
+    v3 = `timeline day ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, winter sports ${winter}, draped layers ${drape}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}, where am I ${locate}`;
+    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || winter !== 'OK' || drape !== 'OK' || !linkOk || locate !== 'OK') v3Failed = true;
   }
 
   console.log(
