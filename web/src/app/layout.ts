@@ -139,7 +139,7 @@ function drawSheet(h: number, heights: Record<SheetState, number>) {
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 /** Moves the sheet from the height it has now to a position, then leaves it to the stylesheet. */
-function settleSheet(to: SheetState, from?: number) {
+export function settleSheet(to: SheetState, from?: number) {
   const heights = sheetHeights();
   const start = from ?? heights[sheetState()];
   const end = heights[to];
