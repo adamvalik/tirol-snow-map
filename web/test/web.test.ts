@@ -7,7 +7,7 @@ import { forecastUrl } from '../src/forecast.ts';
 import { compass, fmtChange, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
 import { routeSnow, routeSnowPoints } from '../src/snow.ts';
 import { parseHash, toHash, type ViewState } from '../src/viewState.ts';
-import { fullProps, LIFT_COLOR, liftEnds, slopeColor, UNKNOWN_SLOPE_COLOR, winterColor, winterHtml, winterSub, winterTitle, type WinterFeature } from '../src/winter.ts';
+import { aerialLifts, fullProps, highestPoint as winterTop, inView, LIFT_COLOR, liftEnds, slopeColor, UNKNOWN_SLOPE_COLOR, winterColor, winterHtml, winterSub, winterTitle, type WinterFeature } from '../src/winter.ts';
 
 describe('forecastUrl', () => {
   it('passes the clicked elevation so Open-Meteo downscales to it', () => {
@@ -308,8 +308,35 @@ describe('winter sports', () => {
   });
 
   it('puts a dot at both ends of every lift', () => {
-    const f = { type: 'Feature', properties: lift, geometry: { type: 'LineString', coordinates: [[11, 46, 1500], [11.01, 46.01, 2000]] } } as WinterFeature;
-    expect(liftEnds([f]).map((e) => e.geometry.coordinates)).toEqual([[11, 46, 1500], [11.01, 46.01, 2000]]);
+    const f = { type: 'Feature', properties: lift, geometry: { type: 'LineString', coordinates: [[11, 46], [11.01, 46.01]] } } as WinterFeature;
+    expect(liftEnds([f]).map((e) => e.geometry.coordinates)).toEqual([[11, 46], [11.01, 46.01]]);
+  });
+
+  it('asks for the forecast at the top station or the highest drawn point', () => {
+    const line = (p: WinterFeature['properties'], coordinates: number[][]) => ({ type: 'Feature', properties: p, geometry: { type: 'LineString', coordinates } }) as WinterFeature;
+    expect(winterTop(line({ ...lift, top: 1 }, [[11, 46], [11.01, 46.01]]))).toEqual([11.01, 46.01, 2025]);
+    // A slope drawn as two lines: the index runs on across them.
+    const twoLines = { type: 'Feature', properties: { ...slope, top: 3 }, geometry: { type: 'MultiLineString', coordinates: [[[11, 46], [11.1, 46]], [[11.2, 46], [11.3, 46.2]]] } } as WinterFeature;
+    expect(winterTop(twoLines)).toEqual([11.3, 46.2, 2250]);
+    // An older file without `top`: the first point.
+    expect(winterTop(line(slope, [[11, 46], [11.01, 46.01]]))).toEqual([11, 46, 2250]);
+  });
+
+  it('finds the aerial lifts in view by their box first', async () => {
+    const { LngLatBounds } = await import('maplibre-gl');
+    const line = (id: string, p: Partial<WinterFeature['properties']>, coordinates: number[][]) =>
+      ({ type: 'Feature', properties: { ...lift, id, ...p }, geometry: { type: 'LineString', coordinates } }) as WinterFeature;
+    const lifts = aerialLifts([
+      line('w1', {}, [[11, 46], [11.02, 46.01]]),
+      line('w2', { lift: 't-bar' }, [[11, 46], [11.02, 46.01]]),
+      line('w3', { lift: 'gondola' }, [[11.5, 46.5], [11.6, 46.6]]),
+      // A long lift seen up close, without a point in the view.
+      line('w4', { lift: 'cable_car' }, [[10.9, 46.005], [11.1, 46.005]]),
+    ]);
+    expect(lifts.map((l) => l.f.properties.id)).toEqual(['w1', 'w3', 'w4']);
+    expect(lifts[0].box).toEqual([11, 46, 11.02, 46.01]);
+    const view = new LngLatBounds([10.99, 45.99], [11.03, 46.02]);
+    expect(inView(lifts, view).map((l) => l.f.properties.id)).toEqual(['w1', 'w4']);
   });
 
   it('keeps the layer in shared links', () => {

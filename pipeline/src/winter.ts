@@ -10,7 +10,7 @@
 import { ascentDescent, lineLengthM, resample } from '../../shared/geo.ts';
 import { MODEL_GRID } from '../../shared/grid.ts';
 import type { Box } from './osm-xml.ts';
-import { joinLines, type LonLat, type LonLatEle, type OsmRelation, type OsmWay, simplify, UnionFind } from './ferratas.ts';
+import { joinLines, type LonLat, type OsmRelation, type OsmWay, simplify, UnionFind } from './ferratas.ts';
 
 export type OsmNode = { type: 'node'; id: number; lat?: number; lon?: number; tags?: Record<string, string> };
 type OsmElement = OsmWay | OsmRelation | OsmNode;
@@ -429,16 +429,25 @@ export function winterStats(item: WinterItem, elevationAt: (lon: number, lat: nu
 const DRAW_TOLERANCE_M = 4;
 
 /**
- * Properties without the empty ones (null, false, 0, one section) and without `osm`, which the id
- * gives: about a third of the file otherwise. The app fills the defaults back in (winter.ts).
+ * Properties without the empty ones (null, false, 0, one section, the top at the first point) and
+ * without `osm`, which the id gives: about a third of the file otherwise. The app fills the defaults
+ * back in (winter.ts).
  */
 export function compactProps(p: Record<string, unknown>): Record<string, unknown> {
-  return Object.fromEntries(Object.entries(p).filter(([k, v]) => k !== 'osm' && v !== null && v !== false && !(Array.isArray(v) && !v.length) && !(k === 'ways' && v === 1) && !(k === 'lengthM' && v === 0)));
+  return Object.fromEntries(
+    Object.entries(p).filter(
+      ([k, v]) => k !== 'osm' && v !== null && v !== false && !(Array.isArray(v) && !v.length) && !(k === 'ways' && v === 1) && !((k === 'lengthM' || k === 'top') && v === 0),
+    ),
+  );
 }
 
-/** The layer file: one feature per item, positions [lon, lat, elevation m] for the snow check in the app. */
+/**
+ * The layer file: one feature per item, positions [lon, lat]. Elevations along the lines are left
+ * out (about a fifth of the file); `top` is the index of the highest drawn point among all the
+ * feature's positions in order, where the app asks for the forecast.
+ */
 export function toWinterCollection(items: readonly WinterItem[], elevationAt: (lon: number, lat: number) => number) {
-  const ele = (l: LonLat[]) => simplify(l, DRAW_TOLERANCE_M).map(([lon, lat]): LonLatEle => [lon, lat, Math.round(elevationAt(lon, lat))]);
+  const draw = (l: LonLat[]): LonLat[] => simplify(l, DRAW_TOLERANCE_M);
   return {
     type: 'FeatureCollection' as const,
     features: items.map((item) => {
@@ -446,12 +455,15 @@ export function toWinterCollection(items: readonly WinterItem[], elevationAt: (l
       const geometry =
         g.type === 'lines'
           ? g.lines.length === 1
-            ? { type: 'LineString' as const, coordinates: ele(g.lines[0]) }
-            : { type: 'MultiLineString' as const, coordinates: g.lines.map(ele) }
+            ? { type: 'LineString' as const, coordinates: draw(g.lines[0]) }
+            : { type: 'MultiLineString' as const, coordinates: g.lines.map(draw) }
           : g.polygons.length === 1
-            ? { type: 'Polygon' as const, coordinates: g.polygons[0].map(ele) }
-            : { type: 'MultiPolygon' as const, coordinates: g.polygons.map((p) => p.map(ele)) };
-      return { type: 'Feature' as const, geometry, properties: compactProps({ ...props, ...winterStats(item, elevationAt) }) };
+            ? { type: 'Polygon' as const, coordinates: g.polygons[0].map(draw) }
+            : { type: 'MultiPolygon' as const, coordinates: g.polygons.map((p) => p.map(draw)) };
+      const positions: LonLat[] = geometry.type === 'LineString' ? geometry.coordinates : geometry.type === 'MultiPolygon' ? geometry.coordinates.flat(2) : geometry.coordinates.flat();
+      const ele = positions.map(([lon, lat]) => Math.round(elevationAt(lon, lat)));
+      const top = ele.reduce((best, e, i) => (e > ele[best] ? i : best), 0);
+      return { type: 'Feature' as const, geometry, properties: compactProps({ ...props, ...winterStats(item, elevationAt), top }) };
     }),
   };
 }
