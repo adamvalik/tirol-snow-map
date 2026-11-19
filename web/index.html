@@ -29,11 +29,14 @@
     <link rel="icon" href="./icons/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <!-- Opened from the home screen: full screen without browser bars, under a short name. -->
+    <!--
+      Opened from the home screen: full screen without browser bars, under a short name. On iPhones
+      black-translucent lets the map run under the status bar; style.css shades it for the white text.
+    -->
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Snow Map" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
   <body>
     <!--

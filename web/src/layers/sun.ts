@@ -1,6 +1,7 @@
 // Sun and shade: the light for a time of day, the night overlay, cast shadows, the sun row of the
 // timeline, and "Sunrise, sunset and shade here" (the skyline and sun hours) in the Place tab.
 import { $ } from '../app/dom.ts';
+import { isPhone, setSheet, settleSheet } from '../app/layout.ts';
 import { PAUSE_ICON, PLAY_ICON } from '../app/icons.ts';
 import { isOn, switchOn } from '../app/switches.ts';
 import { toast } from '../app/toast.ts';
@@ -229,6 +230,8 @@ export const sun: LayerModule = {
     if (app.initial.sun) sunTime = Date.parse(app.initial.sun);
     sunPlayBtn.innerHTML = PLAY_ICON;
     sunGroup.hidden = !isOn('sun');
+    // Phones: a shared link with the sun light opens on the slider alone, with most of the screen for the map.
+    if (isOn('sun') && isPhone()) setSheet('hidden');
     showSunControls();
     sunSlider.addEventListener('input', () => {
       pauseSun();
@@ -307,6 +310,9 @@ export const sun: LayerModule = {
 
   setVisible(_key, on) {
     sunGroup.hidden = !on;
+    // Phones: the sheet goes down to the slider, so the light can be seen on the map. Dragging it up
+    // brings back the layer buttons, then the days and the tabs.
+    if (on && isPhone()) settleSheet('hidden');
     if (!on) pauseSun();
     // The light is drawn by the hillshade layer, so it has to be on.
     if (on && !isOn('hillshade')) switchOn('hillshade');
