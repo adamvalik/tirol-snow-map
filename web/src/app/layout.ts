@@ -235,7 +235,28 @@ function setupMapButtons(map: maplibregl.Map) {
   needle();
 }
 
+/**
+ * iPhone home screen app: with the map under the status bar (black-translucent in index.html), iOS
+ * draws the page on the whole screen but gives it a viewport a status bar shorter, so everything
+ * fixed to the bottom ended that far above it, over a band of the page background (#59). The
+ * missing height goes into --app-gap, which moves the map's and the sheet's bottom edge down. Only
+ * for iOS (`navigator.standalone`): Android apps really end above the system bars.
+ */
+function fillStandaloneGap() {
+  if ((navigator as Navigator & { standalone?: boolean }).standalone !== true) return;
+  const set = () => {
+    const portrait = matchMedia('(orientation: portrait)').matches;
+    const full = portrait ? Math.max(screen.width, screen.height) : Math.min(screen.width, screen.height);
+    const gap = full - window.innerHeight;
+    // A status bar is 20–60 px; anything else is not this gap (a keyboard, a later iOS that fixed it).
+    document.documentElement.style.setProperty('--app-gap', `${gap > 0 && gap <= 64 ? gap : 0}px`);
+  };
+  set();
+  addEventListener('resize', set);
+}
+
 export function setupLayout(map: maplibregl.Map) {
+  fillStandaloneGap();
   for (const t of TABS) $(`tab-btn-${t}`).addEventListener('click', () => showTab(t));
   // Arrow keys move between tabs, as for any tab list.
   document.querySelector('.tabs')!.addEventListener('keydown', (e) => {
