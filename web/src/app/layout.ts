@@ -32,7 +32,7 @@ export function onTab(tab: Tab, listener: () => void) {
   tabListeners.set(tab, [...(tabListeners.get(tab) ?? []), listener]);
 }
 
-/** The phone sheet: only the handle (hidden), the timeline and main layers (peek), or the tabs (open). */
+/** The phone sheet: only the timeline (hidden), the timeline and main layers (peek), or the tabs (open). */
 export type SheetState = 'hidden' | 'peek' | 'open';
 const SHEET_STATES: SheetState[] = ['hidden', 'peek', 'open'];
 const HANDLE_LABEL: Record<SheetState, string> = { hidden: 'Show the panel', peek: 'Open the panel', open: 'Lower the panel' };

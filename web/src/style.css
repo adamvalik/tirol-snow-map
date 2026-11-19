@@ -2623,17 +2623,19 @@ details[open] > .act .caret {
     padding: 10px 0 calc(14px + env(safe-area-inset-bottom));
   }
 
-  /* Sheet hidden: the handle on a small bar, the rest is map. */
-  .panel[data-sheet='hidden'] > :not(.sheet-handle) {
+  /* Sheet hidden: only the timeline, more map. With the sun light on, only its slider. */
+  .panel[data-sheet='hidden'] > :not(.sheet-handle, .sheet-time),
+  .panel[data-sheet='hidden'] .sun-row:not([hidden]) ~ .day-row {
     display: none !important;
   }
 
   .panel[data-sheet='hidden'] {
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
   }
 
-  .panel[data-sheet='hidden'] .sheet-handle {
-    width: 100%;
+  .panel[data-sheet='hidden'] .sun-row {
+    padding-bottom: 0;
+    border-bottom: 0;
   }
 
   /* Sheet lowered: the timeline and the main layers, nothing else. */
