@@ -13,7 +13,7 @@ import { websiteUrl } from './ferratas.ts';
 import { factsHtml } from './placeHtml.ts';
 import { inArea } from './island.ts';
 import type { IconName } from './app/icons.ts';
-import { type Block, carriersFor, type Detail, liftBlocks } from './lifts3d.ts';
+import { type Block, carriersFor, type Detail, liftBlocks, preferOwnGround } from './lifts3d.ts';
 
 export const WINTER_KINDS = ['lift', 'downhill', 'nordic', 'sled', 'skitour'] as const;
 export type WinterKind = (typeof WINTER_KINDS)[number];
@@ -432,11 +432,14 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
     if (f) onSelect(f);
   });
 
-  /** What the 3D lifts were last built for: the lifts, the terrain height, the detail. */
+  /** What the 3D lifts were last built for: the lifts, the terrain height and tiles, the detail. */
   let built = '';
-  /** Each lift's blocks, by id, terrain height and detail, so a move only builds the lifts new to the view. */
+  /**
+   * Each lift's blocks, by id, terrain height, terrain tile zoom and detail, so a move only builds
+   * the lifts new to the view. Only lifts built on their tiles' own terrain data are kept.
+   */
   const cache = new Map<string, Block[]>();
-  /** Lifts whose ground was not loaded at the last build; they are tried again after the next move. */
+  /** Lifts whose ground was not loaded, or only coarsely, at the last build; they are built again as terrain tiles arrive. */
   let pending = false;
   let moved = 0;
   map.on('moveend', () => moved++);
@@ -463,22 +466,29 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
     const exaggeration = map.getTerrain()?.exaggeration ?? 1;
     const z = map.getZoom();
     const detail: Detail = z >= LIFT_3D_DETAIL_ZOOM.fine ? 'fine' : z >= LIFT_3D_DETAIL_ZOOM.medium ? 'medium' : 'coarse';
-    // Nothing new to build: the same lifts at the same terrain height and detail, and none waiting
-    // for their ground since the last move.
-    const key = `${lifts.map((f) => f.properties.id).join()}|${exaggeration}|${detail}|${pending ? moved : ''}`;
+    // The finest terrain tiles drawn. Zooming in draws finer ones, and lifts built on the coarser
+    // ground would wobble or clip the hillside, so they are built again.
+    const terrain = map.terrain;
+    const tiles = terrain?.getCoverageIndex()?.zooms[0] ?? 0;
+    // Nothing new to build: the same lifts at the same terrain height, tiles and detail, and none
+    // waiting for their ground since the last move.
+    const key = `${lifts.map((f) => f.properties.id).join()}|${exaggeration}|${tiles}|${detail}|${pending ? moved : ''}`;
     if (key === built) return;
     built = key;
     const t0 = performance.now();
-    const ground = (lon: number, lat: number) => map.queryTerrainElevation([lon, lat]);
+    const own = (lon: number, lat: number) => terrain?.getDrawnElevationForLngLat(new maplibregl.LngLat(lon, lat), true);
+    const drawn = (lon: number, lat: number) => map.queryTerrainElevation([lon, lat]);
     const blocks: Block[] = [];
     pending = false;
     for (const f of lifts) {
       const p = f.properties;
-      const id = `${p.id}|${exaggeration}|${detail}`;
+      const id = `${p.id}|${exaggeration}|${tiles}|${detail}`;
       let parts = cache.get(id);
       if (!parts) {
+        // Built on a coarser tile standing in for one still loading: shown, but not kept.
+        const { ground, rough } = preferOwnGround(own, drawn);
         parts = liftBlocks(p.id, (f.geometry as LineString).coordinates, p.pylons, ground, carriersFor(p.lift, p.occupancy, p.bubble), detail) ?? undefined;
-        if (parts) cache.set(id, parts);
+        if (parts && !rough()) cache.set(id, parts);
         else pending = true;
       }
       if (parts) blocks.push(...parts);
