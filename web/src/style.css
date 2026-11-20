@@ -17,7 +17,9 @@ body {
 
 /*
  * White behind the page: an iPhone home screen app leaves a strip below the page (see
- * fillStandaloneGap() in app/layout.ts), which then reads as the bottom of the white sheet.
+ * fillStandaloneGap() in app/layout.ts), which then reads as the bottom of the white sheet. iOS
+ * takes its colour from the body's background over the root's, so both are white; the map's own
+ * box has the land colour that shows until it has drawn.
  */
 html {
   background: #fff;
@@ -47,7 +49,7 @@ body {
   font-size: 15px;
   line-height: 1.4;
   color: var(--ink);
-  background: var(--map-bg);
+  background: #fff;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
@@ -55,6 +57,7 @@ body {
 #map {
   position: fixed;
   inset: 0 0 0 360px;
+  background: var(--map-bg);
 }
 
 button,
