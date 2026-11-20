@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { analyticsEnabled, countUrl } from '../src/app/analytics.ts';
+import { analyticsEnabled, countUrl, sourceFrom, withoutSource } from '../src/app/analytics.ts';
 import { feedbackHtml, formUrl, issueUrl, mailtoUrl, type FeedbackContext } from '../src/app/feedback.ts';
 
 const ctx: FeedbackContext = {
@@ -80,5 +80,22 @@ describe('visit counting', () => {
     expect(event.searchParams.get('e')).toBe('true');
     expect(event.searchParams.get('p')).toBe('layer/sun');
     expect(event.searchParams.has('r')).toBe(false);
+  });
+
+  it('takes the source from ref or utm_source, only as a short plain name', () => {
+    expect(sourceFrom('')).toBe('');
+    expect(sourceFrom('?ref=wa-erasmus')).toBe('wa-erasmus');
+    expect(sourceFrom('?utm_source=IG-Bio&utm_medium=social')).toBe('ig-bio');
+    expect(sourceFrom('?ref=wa-erasmus&utm_source=other')).toBe('wa-erasmus');
+    expect(sourceFrom('?ref=someone@example.com')).toBe('');
+    expect(sourceFrom(`?ref=${'a'.repeat(33)}`)).toBe('');
+    expect(new URL(countUrl('snowmap', '/', false, 390, sourceFrom('?ref=wa-erasmus'))).searchParams.get('r')).toBe('wa-erasmus');
+  });
+
+  it('removes the source from the address and keeps the rest', () => {
+    const base = 'https://adamvalik.github.io/tirol-snow-map/';
+    expect(withoutSource(`${base}?ref=wa-erasmus#11.3/46.5/10`)).toBe('/tirol-snow-map/#11.3/46.5/10');
+    expect(withoutSource(`${base}?utm_source=ig&utm_campaign=x&keep=1`)).toBe('/tirol-snow-map/?keep=1');
+    expect(withoutSource(base)).toBe('/tirol-snow-map/');
   });
 });
