@@ -47,6 +47,8 @@ export interface WinterProps {
   climbM: number | null;
   startM: number | null;
   endM: number | null;
+  /** Index of the highest drawn point among the feature's positions in order (`winterLines`, flattened). */
+  top: number;
 }
 
 /** Every property but the id, kind and elevations may be left out of the file when empty. */
@@ -70,6 +72,7 @@ const DEFAULTS: Omit<WinterProps, 'id' | 'kind' | 'osm' | 'minM' | 'maxM'> = {
   climbM: null,
   startM: null,
   endM: null,
+  top: 0,
 };
 
 /** A feature's properties as stored (empty ones left out, no `osm`) with the defaults filled in. */
@@ -77,7 +80,7 @@ export function fullProps(stored: Partial<WinterProps> & Pick<WinterProps, 'id' 
   return { ...DEFAULTS, ...stored, osm: `${stored.id.startsWith('r') ? 'relation' : 'way'}/${stored.id.slice(1)}` };
 }
 
-/** Positions are [lon, lat, elevation m]. */
+/** Positions are [lon, lat]; the file has no elevations along the lines (see `top`, `minM`, `maxM`). */
 export type WinterFeature = Feature<LineString | MultiLineString | Polygon | MultiPolygon, WinterProps>;
 
 const SOURCE = 'winter';
@@ -90,7 +93,7 @@ const LIFT_3D_MAX = 30;
 const LIFT_3D_DETAIL_ZOOM = { medium: 14.3, fine: 15.3 };
 /**
  * Highest zoom the winter sources are cut into tiles at; closer views reuse those tiles, so zooming
- * in from there does not re-tile the 5 MB file or the 3D lifts in the worker. A z14 tile is about
+ * in from there does not re-tile the large file or the 3D lifts in the worker. A z14 tile is about
  * 2.4 km across in 8192 units: 0.3 m, finer than anything drawn.
  */
 const SOURCE_MAXZOOM = 14;
@@ -254,14 +257,19 @@ export const winterFootHtml = (p: WinterProps) => `
     safe today is not known here: check with the ski area or the tourist office.
     Lengths and elevations come from a terrain model. Not for navigation.</p>`;
 
-/** The highest point: where the panel's point forecast is taken (a lift's top station). */
+/**
+ * The highest point [lon, lat, ele]: where the panel's point forecast is taken. For a lift its top
+ * station, for the rest the highest drawn point, at the highest elevation measured along it.
+ */
 export function highestPoint(f: WinterFeature): [number, number, number] {
-  return winterLines(f)
-    .flat()
-    .reduce((a, b) => ((b[2] ?? -Infinity) > (a[2] ?? -Infinity) ? b : a)) as [number, number, number];
+  const p = f.properties;
+  const positions = winterLines(f).flat();
+  const [lon, lat] = positions[p.top] ?? positions[0];
+  const ele = p.kind === 'lift' && p.startM !== null && p.endM !== null ? Math.max(p.startM, p.endM) : p.maxM;
+  return [lon, lat, ele];
 }
 
-/** Every line of a feature as [lon, lat, ele] positions: its lines, or the rings of its areas. */
+/** Every line of a feature as [lon, lat] positions: its lines, or the rings of its areas. */
 export function winterLines(f: WinterFeature): number[][][] {
   const g = f.geometry;
   if (g.type === 'LineString') return [g.coordinates];
@@ -375,6 +383,8 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
   );
 
   let features: Map<string, WinterFeature> | null = null;
+  /** The aerial lifts with their line and its box, built once the file is loaded, for the 3D lifts. */
+  let aerial: AerialLift[] = [];
   let loading: Promise<void> | null = null;
   let wanted = false;
   let kindsShown: readonly WinterKind[] = WINTER_KINDS;
@@ -398,6 +408,7 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
           f.properties = Object.assign(p, { label: p.name || p.ref ? winterTitle(p) : '' });
         }
         features = new Map(fc.features.map((f) => [f.properties.id, f as WinterFeature]));
+        aerial = aerialLifts([...features.values()]);
         (map.getSource(SOURCE) as maplibregl.GeoJSONSource).setData(fc);
         (map.getSource(`${SOURCE}-ends`) as maplibregl.GeoJSONSource).setData({ type: 'FeatureCollection', features: liftEnds([...features.values()]) });
       })
@@ -452,17 +463,14 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
     }
     const b = map.getBounds();
     const center = map.getCenter();
-    const near = (f: WinterFeature) => {
-      const c = (f.geometry as LineString).coordinates;
-      return Math.min(...c.map(([lon, lat]) => Math.hypot((lon - center.lng) * Math.cos((center.lat * Math.PI) / 180), lat - center.lat)));
-    };
-    const lifts = [...features.values()]
-      .filter((f) => f.properties.kind === 'lift' && AERIAL_LIFTS.includes(f.properties.lift ?? '') && f.geometry.type === 'LineString')
-      .filter((f) => (f.geometry as LineString).coordinates.some(([lon, lat]) => b.contains([lon, lat])) || crosses(b, (f.geometry as LineString).coordinates))
-      .map((f) => ({ f, d: near(f) }))
+    const cosLat = Math.cos((center.lat * Math.PI) / 180);
+    const near = (line: readonly number[][]) => Math.min(...line.map(([lon, lat]) => Math.hypot((lon - center.lng) * cosLat, lat - center.lat)));
+    // The boxes rule out the lifts far from the view before any of their points is looked at.
+    const lifts = inView(aerial, b)
+      .map((l) => ({ l, d: near(l.line) }))
       .sort((x, y) => x.d - y.d)
       .slice(0, LIFT_3D_MAX)
-      .map((x) => x.f);
+      .map((x) => x.l);
     const exaggeration = map.getTerrain()?.exaggeration ?? 1;
     const z = map.getZoom();
     const detail: Detail = z >= LIFT_3D_DETAIL_ZOOM.fine ? 'fine' : z >= LIFT_3D_DETAIL_ZOOM.medium ? 'medium' : 'coarse';
@@ -472,7 +480,7 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
     const tiles = terrain?.getCoverageIndex()?.zooms[0] ?? 0;
     // Nothing new to build: the same lifts at the same terrain height, tiles and detail, and none
     // waiting for their ground since the last move.
-    const key = `${lifts.map((f) => f.properties.id).join()}|${exaggeration}|${tiles}|${detail}|${pending ? moved : ''}`;
+    const key = `${lifts.map((l) => l.f.properties.id).join()}|${exaggeration}|${tiles}|${detail}|${pending ? moved : ''}`;
     if (key === built) return;
     built = key;
     const t0 = performance.now();
@@ -480,20 +488,24 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
     const drawn = (lon: number, lat: number) => map.queryTerrainElevation([lon, lat]);
     const blocks: Block[] = [];
     pending = false;
-    for (const f of lifts) {
+    for (const { f, line } of lifts) {
       const p = f.properties;
       const id = `${p.id}|${exaggeration}|${tiles}|${detail}`;
       let parts = cache.get(id);
-      if (!parts) {
+      if (parts) {
+        // Most recently used last, so the lifts in view are the last to be dropped.
+        cache.delete(id);
+        cache.set(id, parts);
+      } else {
         // Built on a coarser tile standing in for one still loading: shown, but not kept.
         const { ground, rough } = preferOwnGround(own, drawn);
-        parts = liftBlocks(p.id, (f.geometry as LineString).coordinates, p.pylons, ground, carriersFor(p.lift, p.occupancy, p.bubble), detail) ?? undefined;
+        parts = liftBlocks(p.id, line, p.pylons, ground, carriersFor(p.lift, p.occupancy, p.bubble), detail) ?? undefined;
         if (parts && !rough()) cache.set(id, parts);
         else pending = true;
       }
       if (parts) blocks.push(...parts);
     }
-    // Keep the cache to a few ski areas' worth.
+    // Keep the cache to a few ski areas' worth, dropping the least recently used.
     for (const id of [...cache.keys()].slice(0, Math.max(0, cache.size - 4 * LIFT_3D_MAX))) cache.delete(id);
     source.setData({ type: 'FeatureCollection', features: blocks });
     // For browser checks: the last build's time, size and count.
@@ -545,6 +557,39 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
       map.setFilter('winter-selected', ['==', ['get', 'id'], id ?? '']);
     },
   };
+}
+
+/** An aerial lift drawn in 3D: the feature, its line and the line's box [west, south, east, north]. */
+export interface AerialLift {
+  f: WinterFeature;
+  line: number[][];
+  box: [number, number, number, number];
+}
+
+/** The aerial lifts drawn as one line, each with its box. */
+export function aerialLifts(features: Iterable<WinterFeature>): AerialLift[] {
+  const out: AerialLift[] = [];
+  for (const f of features) {
+    if (f.properties.kind !== 'lift' || !AERIAL_LIFTS.includes(f.properties.lift ?? '') || f.geometry.type !== 'LineString') continue;
+    const line = f.geometry.coordinates;
+    const box: AerialLift['box'] = [Infinity, Infinity, -Infinity, -Infinity];
+    for (const [lon, lat] of line) {
+      box[0] = Math.min(box[0], lon);
+      box[1] = Math.min(box[1], lat);
+      box[2] = Math.max(box[2], lon);
+      box[3] = Math.max(box[3], lat);
+    }
+    out.push({ f, line, box });
+  }
+  return out;
+}
+
+/** The lifts with a point in the view or a line across it; those whose box misses the view are skipped first. */
+export function inView(lifts: readonly AerialLift[], b: maplibregl.LngLatBounds): AerialLift[] {
+  const [w, s, e, n] = [b.getWest(), b.getSouth(), b.getEast(), b.getNorth()];
+  return lifts.filter(
+    ({ line, box }) => box[0] <= e && box[2] >= w && box[1] <= n && box[3] >= s && (line.some(([lon, lat]) => b.contains([lon, lat])) || crosses(b, line)),
+  );
 }
 
 /** Whether a straight lift line crosses the view without a vertex in it (a long lift seen up close). */
