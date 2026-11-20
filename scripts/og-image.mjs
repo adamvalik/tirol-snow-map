@@ -1,5 +1,5 @@
-// Renders the link preview picture, dist/og.jpg (1200 × 630), from the built app: the default view
-// with today's data, the panels hidden, and a card with the name and the date. index.html points
+// Renders the link preview picture, dist/og.jpg (1200 × 630), from the built app: a fixed view of the
+// main ridge above Meran with today's data, the panels hidden, and a card with the name and the date. index.html points
 // og:image and twitter:image at it (see vite.config.ts). Run by the deploy workflow after the build.
 //
 //   npm run build && node scripts/og-image.mjs [--out dist/og.jpg]
@@ -18,6 +18,11 @@ const WIDTH = 1200;
 const HEIGHT = 630;
 // WhatsApp drops preview pictures much above 300 KB, so the JPEG quality steps down until it fits.
 const MAX_BYTES = 280_000;
+// The main ridge from above Meran, facing north: snow on the ridge over green valleys, towns people
+// know (Meran, Sterzing), stations with new snow, and little land across the border. Unlike the
+// Ortler's glaciers, its snow changes with the weather, so "Snow on <day>" stays true. The card
+// covers the bottom centre, so the ridge sits in the upper two thirds. Chosen in issue #63.
+const CAMERA = { center: [11.25, 46.8], zoom: 9.9, pitch: 68, bearing: 0 };
 // Software WebGL on a runner is slow, and terrain tiles come cold from Mapterhorn.
 const TIMEOUT_MS = 120_000;
 
@@ -81,12 +86,11 @@ try {
 
   // The map was laid out next to the sidebar; let it take the frame, then wait until everything is
   // drawn: the terrain and basemap tiles, and the snow layers, which arrive after the first idle.
-  // A little wider than the app's start, since the frame is low: more peaks, and the sky at the top.
-  await page.evaluate(() => {
+  await page.evaluate((camera) => {
     const { map } = window.__snowmap;
     map.resize();
-    map.jumpTo({ zoom: map.getZoom() - 0.35, pitch: 68 });
-  });
+    map.jumpTo(camera);
+  }, CAMERA);
   await page.waitForTimeout(3000);
   await page.evaluate(
     (timeout) =>
