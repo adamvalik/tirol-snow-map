@@ -2759,28 +2759,28 @@ details[open] > .act .caret {
     gap: 12px;
   }
 
-  .sheet-time .day-row {
+  .panel .day-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto auto;
     grid-template-areas: 'text back play' 'days days days';
     gap: 12px;
   }
 
-  .sheet-time .day-row .tl-text {
+  .panel .day-row .tl-text {
     grid-area: text;
     width: auto;
   }
 
-  .sheet-time .day-row .play-btn {
+  .panel .day-row .play-btn {
     grid-area: play;
   }
 
-  .sheet-time .back-btn {
+  .panel .back-btn {
     grid-area: back;
     align-self: center;
   }
 
-  .sheet-time .days {
+  .panel .days {
     grid-area: days;
     grid-auto-columns: calc((100% - 36px) / 7);
     gap: 6px;
@@ -2789,38 +2789,38 @@ details[open] > .act .caret {
     scrollbar-width: none;
   }
 
-  .sheet-time .days::-webkit-scrollbar {
+  .panel .days::-webkit-scrollbar {
     display: none;
   }
 
-  .sheet-time .day {
+  .panel .day {
     height: 52px;
     border-radius: 12px;
     background: var(--soft);
     scroll-snap-align: start;
   }
 
-  .sheet-time .day b {
+  .panel .day b {
     font-size: 16px;
   }
 
-  .sheet-time .day.month {
+  .panel .day.month {
     box-shadow: none;
   }
 
-  .sheet-time .day.fc {
+  .panel .day.fc {
     background: var(--forecast);
   }
 
-  .sheet-time .days .day[aria-checked='true'] {
+  .panel .days .day[aria-checked='true'] {
     background: var(--accent);
   }
 
-  .sheet-time .tl-date {
+  .panel .tl-date {
     font-size: 19px;
   }
 
-  .panel[data-sheet='open'] .sheet-time .day-row .tl-note {
+  .panel[data-sheet='open'] .day-row .tl-note {
     display: none;
   }
 

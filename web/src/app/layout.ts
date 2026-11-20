@@ -72,6 +72,20 @@ function placeTimeline() {
   else if (legends.parentElement !== document.body) document.body.append(legends);
 }
 
+/**
+ * Phones with the sun light on: the sun row stays at the top of the sheet, and the day row moves to
+ * the top of the open tab, so it scrolls away with it and leaves the tab more room. Otherwise it is
+ * back in the timeline, under the sun row.
+ */
+function placeDays() {
+  const dayRow = document.querySelector<HTMLElement>('.day-row')!;
+  const sunRow = $('sun-group');
+  const target = isPhone() && !sunRow.hidden ? $(`tab-${currentTab()}`) : $('timeline');
+  if (dayRow.parentElement === target) return;
+  if (target === $('timeline')) sunRow.after(dayRow);
+  else target.prepend(dayRow);
+}
+
 /** Whether two boxes on the screen overlap. */
 export const overlaps = (a: Pick<DOMRect, 'left' | 'right' | 'top' | 'bottom'>, b: Pick<DOMRect, 'left' | 'right' | 'top' | 'bottom'>) =>
   a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
@@ -288,6 +302,10 @@ export function setupLayout(map: maplibregl.Map) {
 
   placeTimeline();
   phoneQuery.addEventListener('change', placeTimeline);
+  placeDays();
+  phoneQuery.addEventListener('change', placeDays);
+  for (const t of TABS) onTab(t, placeDays);
+  new MutationObserver(placeDays).observe($('sun-group'), { attributes: true, attributeFilter: ['hidden'] });
   setupMapButtons(map);
   keepPopupsClear(map);
 
