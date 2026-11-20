@@ -100,8 +100,16 @@ export const winter: LayerModule = {
       (f: WinterFeature) => {
         const p = f.properties;
         const [lon, lat, ele] = highestPoint(f);
-        // Evenly spaced points, so each share is a share of the length.
-        const points = winterLines(f).flatMap((l) => resample(l, 25));
+        // Evenly spaced points, so each share is a share of the length. The file has no elevations
+        // along the lines, so the snow card's lowest snow comes from the terrain the map has loaded
+        // (left out where it has none, such as a part far out of view).
+        const exaggeration = app.map.getTerrain()?.exaggeration ?? 1;
+        const points = winterLines(f)
+          .flatMap((l) => resample(l, 25))
+          .map(([lon, lat]) => {
+            const ground = app.map.queryTerrainElevation([lon, lat]);
+            return ground === null ? [lon, lat] : [lon, lat, ground / exaggeration];
+          });
         app.point.show(new maplibregl.LngLat(lon, lat), {
           head: { title: winterTitle(p), sub: winterSub(p), icon: winterIcon(p), tone: 'blue' },
           html: winterHtml(p),

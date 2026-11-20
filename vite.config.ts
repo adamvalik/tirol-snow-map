@@ -20,13 +20,18 @@ function commit(): string {
 }
 
 // Optional, from the deploy workflow's repository variables (see README, Deployment). Empty turns
-// the feedback e-mail links and the visit counting off.
+// the feedback form, ideas board and e-mail links and the visit counting off.
 // Changes with every build, so a deploy never mixes byte ranges of the previous basemap file
 // (GitHub Pages gives it a new ETag on every deploy) that the browser still has cached.
 const buildId = Date.now().toString(36);
 
 const feedbackEmail = (process.env.FEEDBACK_EMAIL ?? '').trim();
 const goatcounterCode = (process.env.GOATCOUNTER_CODE ?? '').trim();
+const feedbackFormUrl = (process.env.FEEDBACK_FORM_URL ?? '').trim();
+const ideasUrl = (process.env.IDEAS_URL ?? '').trim();
+for (const [name, value] of [['FEEDBACK_FORM_URL', feedbackFormUrl], ['IDEAS_URL', ideasUrl]]) {
+  if (value && !/^https:\/\/[^\s/]+\/\S*$/.test(value)) throw new Error(`${name} should be an https:// address: ${value}`);
+}
 if (feedbackEmail && !/^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(feedbackEmail)) {
   throw new Error(`FEEDBACK_EMAIL is not an e-mail address: ${feedbackEmail}`);
 }
@@ -73,6 +78,8 @@ export default defineConfig({
     __RELEASE_NOTES__: JSON.stringify(notes),
     __BUILD_ID__: JSON.stringify(buildId),
     __FEEDBACK_EMAIL__: JSON.stringify(feedbackEmail),
+    __FEEDBACK_FORM_URL__: JSON.stringify(feedbackFormUrl),
+    __IDEAS_URL__: JSON.stringify(ideasUrl),
     __GOATCOUNTER_CODE__: JSON.stringify(goatcounterCode),
   },
   worker: { format: 'es' },

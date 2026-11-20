@@ -6,8 +6,8 @@
 // A fill-extrusion stands on the terrain the map draws (exaggerated with "Terrain height"), and
 // its base and height are metres above that ground. So the cables are cut into short pieces, and
 // each piece's base is the straight line between the two cross-arms minus the drawn ground under
-// it, read with `groundAt` (map.queryTerrainElevation). The cables then run straight between the
-// pylons at any terrain height.
+// it, read with `groundAt` (the drawn terrain, see `preferOwnGround`). The cables then run straight
+// between the pylons at any terrain height.
 
 import type { Feature, Polygon } from 'geojson';
 import { distanceM } from '../../shared/geo.ts';
@@ -66,6 +66,28 @@ export const LIFT_3D_COLORS = {
 } as const;
 
 export type Ground = (lon: number, lat: number) => number | null;
+/** Ground as drawn from a tile's own terrain data, or undefined while a coarser tile stands in for it. */
+export type OwnGround = (lon: number, lat: number) => number | undefined;
+
+/**
+ * The drawn ground, preferring each tile's own terrain data. Where a tile's own data has not loaded,
+ * MapLibre draws a coarser tile in its place: `drawn` reads that, and `rough()` then says so, and
+ * the lift should be built again once the tile arrives (on steep slopes the coarse ground is tens of
+ * metres off, and the cables clip the hill).
+ */
+export function preferOwnGround(own: OwnGround, drawn: Ground): { ground: Ground; rough: () => boolean } {
+  let rough = false;
+  return {
+    ground: (lon, lat) => {
+      const g = own(lon, lat);
+      if (g !== undefined) return g;
+      rough = true;
+      return drawn(lon, lat);
+    },
+    rough: () => rough,
+  };
+}
+
 type Pos = readonly number[];
 export type Block = Feature<Polygon, { id: string; base: number; height: number; color: string }>;
 

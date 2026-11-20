@@ -4,6 +4,7 @@
 import type * as maplibregl from 'maplibre-gl';
 import { track } from '../app/analytics.ts';
 import { $ } from '../app/dom.ts';
+import { drapeTogether } from '../drape.ts';
 import { isOn, toggle } from '../app/switches.ts';
 import { inArea } from '../island.ts';
 import { LAYER_KEYS, type ViewState } from '../viewState.ts';
@@ -55,9 +56,13 @@ export function setupLayers(app: App) {
   for (const m of LAYERS) m.setup?.(app);
 }
 
-/** Once the style has loaded: adds the layers one after the other. */
+/**
+ * Once the style has loaded: adds the layers one after the other, then puts the flat ones below
+ * the labels, circles and 3D blocks, so the terrain draws them all in one texture (drape.ts).
+ */
 export async function initLayers(app: App) {
   for (const m of LAYERS) await m.init?.(app);
+  drapeTogether(app.map);
 }
 
 /** Opens the point panel for a click on the terrain, unless a layer opens its own panel there. */

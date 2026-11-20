@@ -15,12 +15,41 @@ body {
   overflow: hidden;
 }
 
+/*
+ * White behind the page: an iPhone home screen app leaves a strip below the page (see
+ * fillStandaloneGap() in app/layout.ts), which then reads as the bottom of the white sheet. iOS
+ * takes its colour from the body's background over the root's, so both are white; the map's own
+ * box has the land colour that shows until it has drawn.
+ */
+html {
+  background: #fff;
+}
+
+/*
+ * Taps on controls never zoom the page: a quick second tap on a day button zoomed in on phones.
+ * Pinch zoom and scrolling still work; the map handles its own gestures.
+ */
+.panel,
+.timeline,
+.map-buttons,
+.brand-pill,
+.intro-card,
+.toast,
+button,
+a,
+label,
+input,
+select,
+summary {
+  touch-action: manipulation;
+}
+
 body {
   font-family: var(--font);
   font-size: 15px;
   line-height: 1.4;
   color: var(--ink);
-  background: var(--map-bg);
+  background: #fff;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
@@ -28,6 +57,7 @@ body {
 #map {
   position: fixed;
   inset: 0 0 0 360px;
+  background: var(--map-bg);
 }
 
 button,
@@ -2551,6 +2581,7 @@ details[open] > .act .caret {
     right: 12px;
   }
 
+
   .map-btn-stack {
     border-radius: 50%;
   }
@@ -2568,6 +2599,11 @@ details[open] > .act .caret {
   }
 
   .panel {
+    /*
+     * Below the sheet's last row: the home bar's safe area, 14 px where there is none. In an iPhone
+     * home screen app the strip iOS leaves below the page (--app-gap) already clears the home bar.
+     */
+    --sheet-bottom: max(14px, calc(env(safe-area-inset-bottom) - var(--app-gap, 0px)));
     top: auto;
     width: auto;
     right: 0;
@@ -2619,8 +2655,28 @@ details[open] > .act .caret {
     box-shadow: none;
   }
 
+  /* The home bar's safe area is the space below the last row; 14 px only where there is none. */
   .footer {
-    padding: 10px 0 calc(14px + env(safe-area-inset-bottom));
+    padding: 10px 0 var(--sheet-bottom);
+  }
+
+  /*
+   * Sheet hidden: only the timeline, more map. With the sun light on, only its slider; lowered, the
+   * slider and the layer buttons. The days come with the open sheet.
+   */
+  .panel[data-sheet='hidden'] > :not(.sheet-handle, .sheet-time),
+  .panel[data-sheet='hidden'] .sun-row:not([hidden]) ~ .day-row,
+  .panel[data-sheet='peek'] .sun-row:not([hidden]) ~ .day-row {
+    display: none !important;
+  }
+
+  .panel[data-sheet='hidden'] {
+    padding-bottom: var(--sheet-bottom);
+  }
+
+  .panel[data-sheet='hidden'] .sun-row {
+    padding-bottom: 0;
+    border-bottom: 0;
   }
 
   /* Sheet lowered: the timeline and the main layers, nothing else. */
@@ -2635,14 +2691,27 @@ details[open] > .act .caret {
     display: none !important;
   }
 
+  /* Five and a half buttons in view, so the cut one shows the row scrolls; it runs to the sheet's edges. */
   .quick {
     display: flex !important;
     gap: 2px;
-    padding: 12px 0 12px;
+    margin: 0 -16px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding: 0 16px;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .quick::-webkit-scrollbar {
+    display: none;
   }
 
   .quick-btn {
-    flex: 1;
+    flex: none;
+    width: calc((100vw - 32px) / 5.5);
+    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2703,28 +2772,28 @@ details[open] > .act .caret {
     gap: 12px;
   }
 
-  .sheet-time .day-row {
+  .panel .day-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto auto;
     grid-template-areas: 'text back play' 'days days days';
     gap: 12px;
   }
 
-  .sheet-time .day-row .tl-text {
+  .panel .day-row .tl-text {
     grid-area: text;
     width: auto;
   }
 
-  .sheet-time .day-row .play-btn {
+  .panel .day-row .play-btn {
     grid-area: play;
   }
 
-  .sheet-time .back-btn {
+  .panel .back-btn {
     grid-area: back;
     align-self: center;
   }
 
-  .sheet-time .days {
+  .panel .days {
     grid-area: days;
     grid-auto-columns: calc((100% - 36px) / 7);
     gap: 6px;
@@ -2733,56 +2802,98 @@ details[open] > .act .caret {
     scrollbar-width: none;
   }
 
-  .sheet-time .days::-webkit-scrollbar {
+  .panel .days::-webkit-scrollbar {
     display: none;
   }
 
-  .sheet-time .day {
+  .panel .day {
     height: 52px;
     border-radius: 12px;
     background: var(--soft);
     scroll-snap-align: start;
   }
 
-  .sheet-time .day b {
+  .panel .day b {
     font-size: 16px;
   }
 
-  .sheet-time .day.month {
+  .panel .day.month {
     box-shadow: none;
   }
 
-  .sheet-time .day.fc {
+  .panel .day.fc {
     background: var(--forecast);
   }
 
-  .sheet-time .days .day[aria-checked='true'] {
+  .panel .days .day[aria-checked='true'] {
     background: var(--accent);
   }
 
-  .sheet-time .tl-date {
+  .panel .tl-date {
     font-size: 19px;
   }
 
-  .panel[data-sheet='open'] .sheet-time .tl-note {
+  .panel[data-sheet='open'] .day-row .tl-note {
     display: none;
   }
 
+  /* The sun row: play, the time and the sun's height, and the date in one row; the slider below, full width. */
   .sheet-time .sun-row {
-    gap: 12px;
-  }
-
-  .sheet-time .sun-row .tl-text {
-    width: 86px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: 'play text date' 'track track track';
+    gap: 6px 12px;
   }
 
   .sheet-time .sun-row .play-btn {
+    grid-area: play;
     width: 40px;
     height: 40px;
   }
 
-  .sheet-time .sun-date-btn span {
+  .sheet-time .sun-row .tl-text {
+    grid-area: text;
+    width: auto;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .sheet-time .sun-row .tl-note {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sheet-time .sun-date-btn {
+    grid-area: date;
+  }
+
+  .sheet-time .sun-track {
+    grid-area: track;
+  }
+
+  /* The colours of the track show day and night; no sunrise, now and sunset under it. */
+  .sheet-time .sun-ends {
     display: none;
+  }
+
+  /* A larger thumb for a finger. */
+  .sheet-time #sun-time {
+    height: 30px;
+    margin: 0;
+  }
+
+  .sheet-time #sun-time::-webkit-slider-thumb {
+    width: 26px;
+    height: 26px;
+    margin-top: -9px;
+  }
+
+  .sheet-time #sun-time::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
   }
 
   .map-chip {
