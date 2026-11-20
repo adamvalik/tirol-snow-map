@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { analyticsEnabled, countUrl } from '../src/app/analytics.ts';
-import { feedbackHtml, issueUrl, mailtoUrl, type FeedbackContext } from '../src/app/feedback.ts';
+import { feedbackHtml, formUrl, issueUrl, mailtoUrl, type FeedbackContext } from '../src/app/feedback.ts';
 
 const ctx: FeedbackContext = {
   version: 'v0.1.0 (444afeb)',
@@ -30,11 +30,34 @@ describe('feedback links', () => {
     expect(new URL(issueUrl('idea', ctx)).searchParams.get('device')).toBeNull();
   });
 
+  it('puts the details on the problem form as URL parameters for its hidden fields', () => {
+    const q = new URL(formUrl('https://tally.so/r/abc123?lang=en', ctx)).searchParams;
+    expect(q.get('lang')).toBe('en');
+    expect(q.get('version')).toBe(ctx.version);
+    expect(q.get('view')).toBe(ctx.view); // the hash with & and = survives
+    expect(q.get('device')).toBe(ctx.device);
+    expect(q.get('screen')).toBe(ctx.screen);
+  });
+
   it('offers only GitHub without an address, and escapes the links', () => {
-    expect(feedbackHtml('', ctx)).not.toContain('mailto:');
-    const html = feedbackHtml('snow@example.org', ctx);
+    const none = { email: '', form: '', ideas: '' };
+    expect(feedbackHtml(none, ctx)).not.toContain('mailto:');
+    const html = feedbackHtml({ ...none, email: 'snow@example.org' }, ctx);
     expect(html).toContain('mailto:snow@example.org');
     expect(html).not.toMatch(/href="[^"]*&(?!amp;)[^"]*"/);
+  });
+
+  it('sends problems to the form and ideas to the board, before the e-mail', () => {
+    const t = { email: 'snow@example.org', form: 'https://tally.so/r/abc123', ideas: 'https://ideas.example.org/' };
+    const html = feedbackHtml(t, ctx);
+    expect(html).not.toContain('mailto:');
+    expect(html).toContain('href="https://tally.so/r/abc123?version=');
+    expect(html).toContain('data-feedback="bug-form"');
+    expect(html).toContain('href="https://ideas.example.org/" target="_blank" rel="noopener" data-feedback="idea-board"');
+    expect(html).toContain('data-feedback="bug-github"'); // GitHub stays as a plain link
+    expect(html).not.toMatch(/href="[^"]*&(?!amp;)[^"]*"/);
+    // Only the form set: ideas still go by e-mail.
+    expect(feedbackHtml({ ...t, ideas: '' }, ctx)).toContain('data-feedback="idea-mail"');
   });
 });
 

@@ -140,8 +140,10 @@ jobs:
       - run: GITHUB_SHA=$(git rev-parse HEAD) npm run build
         env:
           # Optional repository variables (Settings → Secrets and variables → Actions → Variables):
-          # the address the feedback links write to, and the GoatCounter site code. Unset turns
-          # either off. Both end up in the public page, so use an address meant for it.
+          # the problem form, the ideas board, the address the feedback links fall back to, and the
+          # GoatCounter site code. Unset turns each off. All end up in the public page.
+          FEEDBACK_FORM_URL: ${{ vars.FEEDBACK_FORM_URL }}
+          IDEAS_URL: ${{ vars.IDEAS_URL }}
           FEEDBACK_EMAIL: ${{ vars.FEEDBACK_EMAIL }}
           GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
           # The site's address for the link preview tags; unset means the github.io address.
@@ -178,6 +180,8 @@ jobs:
         continue-on-error: true
         working-directory: dev-src
         env:
+          FEEDBACK_FORM_URL: ${{ vars.FEEDBACK_FORM_URL }}
+          IDEAS_URL: ${{ vars.IDEAS_URL }}
           FEEDBACK_EMAIL: ${{ vars.FEEDBACK_EMAIL }}
           SITE_URL: ${{ vars.SITE_URL }}
           FORCE_DEV_PIPELINE: ${{ inputs.dev_pipeline }}
