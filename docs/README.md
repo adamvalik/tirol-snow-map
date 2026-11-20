@@ -23,5 +23,6 @@ On GitHub, in the [issues](https://github.com/adamvalik/tirol-snow-map/issues), 
 - **The [board](https://github.com/users/adamvalik/projects/2)** shows the state: Inbox (not started), In progress, Done. Whether an issue is planned is its milestone, not a column. New issues are added on their own, closed ones go to Done. Two more views: **Untriaged** (`no:milestone -label:idea`, should be empty) and **Ideas** (`label:idea`). Milestones and labels are the source of truth: Claude sessions cannot reach the board, only the issues.
 - **At most two features in progress at a time.** A new idea is an issue in the Inbox, not a new branch.
 - **Branches are named after their issue**: `<type>/<issue>-<short-name>`, for example `feat/28-webcam-links` or `fix/34-lift-cache`. Types: `feat`, `fix`, `docs`, `chore`, `spike`.
+- **Commit messages follow Conventional Commits**: `<type>(<scope>): <summary>`, for example `fix(snow): keep the last clear view under new clouds`. The types are the branch types plus `perf`, `refactor`, `test` and `ci`; the scope is an area label. `CLAUDE.md` has the details.
 - **A pull request names its issue** ("Closes #12"), and the template asks whether `README.md` and these docs still say how things work.
 - **Once a week, about 15 minutes:** sort the Inbox (a milestone or later), look at Needs review, check that the next milestone still fits.

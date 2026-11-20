@@ -22,6 +22,15 @@ const fail = (msg) => {
   process.exit(1);
 };
 
+// Conventional Commits (CLAUDE.md, Commits): only feat, fix and perf reach the notes, without the
+// prefix. Subjects without a type (from before the rule) are kept as they are.
+const TYPED = /^(feat|fix|perf|refactor|test|docs|ci|chore|spike|build|style)(\([^)]*\))?!?:\s*(.+)$/;
+function userFacing(subject) {
+  const m = TYPED.exec(subject);
+  if (!m) return subject;
+  return ['feat', 'fix', 'perf'].includes(m[1]) ? m[3] : null;
+}
+
 function parse(version) {
   const m = /^v?(\d+)\.(\d+)\.(\d+)$/.exec(version);
   return m ? m.slice(1).map(Number) : null;
@@ -86,9 +95,11 @@ function bump(version) {
   const what =
     subjects
       .filter((s) => s && !/^Release v\d/.test(s))
+      .map(userFacing)
+      .filter(Boolean)
       .reverse()
       .map((s) => s.replaceAll('|', '/').replace(/\.$/, ''))
-      .map((s, i) => (i > 0 && !/^[A-Z]{2}/.test(s) ? s[0].toLowerCase() + s.slice(1) : s))
+      .map((s, i) => (i === 0 ? s[0].toUpperCase() + s.slice(1) : !/^[A-Z]{2}/.test(s) ? s[0].toLowerCase() + s.slice(1) : s))
       .join(', ') || 'TODO: what changed';
   const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   const header = '| --- | --- | --- |\n';
