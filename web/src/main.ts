@@ -5,6 +5,7 @@ import { hydrateIcons } from './app/icons.ts';
 import { track, trackVisit } from './app/analytics.ts';
 import { setupLayout, syncQuick } from './app/layout.ts';
 import { setupLocate } from './app/locate.ts';
+import { setupNewDeployReload } from './app/newDeploy.ts';
 import { PointPanel } from './app/point.ts';
 import { setupShare } from './app/share.ts';
 import { setupSources } from './app/sources.ts';
@@ -26,6 +27,9 @@ import { parseHash } from './viewState.ts';
 
 // Tells the inline script in index.html that the app's code runs (it shows the start screen otherwise).
 Object.assign(window, { __snowmapRan: true });
+
+// A tab opened before a deploy reloads once when it needs a file the deploy replaced.
+setupNewDeployReload();
 
 // The icons of index.html first, so everything below finds its buttons complete.
 hydrateIcons();

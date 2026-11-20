@@ -4,6 +4,7 @@
 // Both are fetched on the first click and kept for later ones.
 
 import demUrl from '../../pipeline/assets/dem-grid.bin?url';
+import { fetchBuildFile } from './app/newDeploy.ts';
 import { MODEL_GRID, sampleGrid } from '../../shared/grid.ts';
 import type { ElevationSampler } from '../../shared/horizon.ts';
 import { lonLatToPixel, TERRARIUM_TILE, terrarium } from '../../shared/terrarium.ts';
@@ -27,7 +28,7 @@ let gridPromise: Promise<Grid> | null = null;
 /** The 250 m terrain grid, downloaded once. */
 export function loadGrid(): Promise<Grid> {
   gridPromise ??= (async () => {
-    const res = await fetch(demUrl);
+    const res = await fetchBuildFile(demUrl);
     if (!res.ok) throw new Error(`terrain grid: HTTP ${res.status}`);
     const values = new Int16Array(await res.arrayBuffer());
     if (values.length !== MODEL_GRID.width * MODEL_GRID.height) throw new Error('terrain grid has the wrong size');
