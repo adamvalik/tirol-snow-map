@@ -6,6 +6,7 @@
 import { MODEL_GRID, mercY, rowCellSizes, sampleGrid } from '../../shared/grid.ts';
 import { castShadows, latticeAltitude, NO_LINE, type ShadowEdge, type ShadowSun, shadowTerrain, type ShadowTerrain, type SunAltitude } from '../../shared/shadow.ts';
 import { TERRARIUM_TILE, terrarium } from '../../shared/terrarium.ts';
+import { LruMap } from './lru.ts';
 
 /** A block of nx × ny Mapterhorn tiles at zoom z, starting at tile (x, y). */
 export interface DetailBlock {
@@ -50,7 +51,7 @@ const scope = self as unknown as {
 
 /** The finer grid fades into the 250 m one over this distance from its edge. */
 const FEATHER_M = 1500;
-/** Decoded tiles kept (1 MB each): the block on show and the ones around it. */
+/** Decoded tiles kept (1 MB each): the block on show and the ones around it, the least used dropped first. */
 const MAX_TILES = 12;
 /** A tile that failed to download is filled from the 250 m grid, and tried again after this long. */
 const RETRY_MS = 30_000;
@@ -111,7 +112,7 @@ interface Mosaic {
 }
 
 let mosaic: Mosaic | null = null;
-const tiles = new Map<string, Float32Array | null>();
+const tiles = new LruMap<string, Float32Array | null>(MAX_TILES);
 const loading = new Map<string, Promise<void>>();
 
 const tileKey = (z: number, x: number, y: number) => `${z}/${x}/${y}`;
@@ -144,18 +145,21 @@ async function loadTiles(b: DetailBlock): Promise<void> {
   await Promise.all(
     blockTiles(b).map(([z, x, y]) => {
       const key = tileKey(z, x, y);
-      if (tiles.has(key)) return;
+      // Panning back to tiles still kept counts as using them, so they stay.
+      if (tiles.has(key)) {
+        tiles.get(key);
+        return;
+      }
       let p = loading.get(key);
       if (!p) {
         p = fetchTile(z, x, y)
           .catch(() => {
-            setTimeout(() => tiles.get(key) === null && tiles.delete(key), RETRY_MS);
+            setTimeout(() => tiles.peek(key) === null && tiles.delete(key), RETRY_MS);
             return null;
           })
           .then((values) => {
             tiles.set(key, values);
             loading.delete(key);
-            while (tiles.size > MAX_TILES) tiles.delete(tiles.keys().next().value!);
           });
         loading.set(key, p);
       }
@@ -358,19 +362,31 @@ function detailPixels(m: Mosaic, shade: Uint8Array, coarseShade: Uint8Array, und
   return out;
 }
 
+/** Blocks whose tiles are on their way, each with one request to ask again when they are in. */
+const awaited = new Set<string>();
+const blockKey = (b: DetailBlock) => `${b.z}/${b.x}/${b.y}/${b.nx}/${b.ny}`;
+
 async function answer(req: SunRequest, grid: ShadowTerrain) {
   const t0 = performance.now();
   // The finer grid for the requested block once its tiles are in; until then the one shown before.
   const block = req.detail;
   if (block && !sameBlock(mosaic?.block, block)) {
+    const key = blockKey(block);
     if (tilesReady(block)) mosaic = buildMosaic(block, grid);
-    else
+    // Once per block, however many requests come while its tiles load: each used to ask again,
+    // and the same shade was worked out two or three times.
+    else if (!awaited.has(key)) {
+      awaited.add(key);
       void loadTiles(block).then(() => {
-        if (!latest && last) {
+        awaited.delete(key);
+        // The last shade again, with the finer grid, unless a newer request is waiting (it gets
+        // the grid anyway) or the view has moved on to another block.
+        if (!latest && last?.detail && sameBlock(last.detail, block)) {
           latest = last;
           void run();
         }
       });
+    }
   }
   const m = block ? mosaic : null;
   const weights = m ? detailWeights(m) : null;
