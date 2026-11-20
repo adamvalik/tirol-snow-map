@@ -128,6 +128,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 | `scripts/smoke.mjs` | Browser smoke test |
 | `scripts/release.mjs`, `scripts/release-notes.mjs` | Version bump, the CI release check, and the release notes read from `docs/release-plan.md` (for the GitHub Release and the What's new card) |
 | `scripts/monitor.mjs` | Opens and closes the `data-pipeline` and `upstream-budget` issues from `status.json` (run by the deploy workflow) |
+| `scripts/live-check.mjs` | After each deploy: checks what GitHub Pages serves for the site and `/dev/`, and opens and closes the `live-site` issue (run by the deploy workflow) |
 | `scripts/og-image.mjs` | Renders the link preview picture |
 | `scripts/share-mockups.mjs` | Renders the share picture mock-ups in `docs/design/share-snapshot/` |
 | `.github/` | Workflows, issue forms (bug, idea, release checklist) and the pull request template |
@@ -142,6 +143,8 @@ The address bar always holds the current view, for example `#map=10.40/46.4700/1
 `.github/workflows/deploy.yml` runs three times a day, early in the morning, after lunch and in the evening (03:47, 11:47 and 17:47 UTC, so 04:47, 12:47 and 18:47 in South Tyrol in winter, an hour later in summer; the evening run usually has the same day's Sentinel-2 pass), on every push to `main` or `dev` that changes more than Markdown files and `docs/` (`docs/release-plan.md` counts, since the build reads the release notes from it), and by hand. It restores the previous run's data from an Actions cache, runs the pipeline, saves the data again, builds the app with the data inside, renders the link preview picture and publishes it to GitHub Pages. The basemap is rebuilt once a month and cached. Only the three newest data caches are kept.
 
 A failed upstream never stops a deploy: the files keep the last good data, the app shows a warning, and `scripts/monitor.mjs` opens an issue labelled `data-pipeline` when a step has failed three runs in a row (about a day) or the pipeline crashed. The issue is updated while it keeps failing and closed automatically when everything works again, so watching the repository is the alert.
+
+**Live check.** After the deploy, `scripts/live-check.mjs` checks what GitHub Pages really serves, for the site and the dev preview: the page names the commit that was built (`<meta name="app-commit">`, filled by `vite.config.ts`), `data/status.json` is at most 14 hours old, the basemap file answers, and at the root also `og.jpg`. It tries three times, 20 s apart, then opens or updates an issue labelled `live-site`, and closes it when all checks pass again. Try it against the live site with `SITE=https://adamvalik.github.io/tirol-snow-map/ node scripts/live-check.mjs --dry-run`.
 
 One-time setup:
 
