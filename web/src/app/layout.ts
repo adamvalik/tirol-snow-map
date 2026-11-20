@@ -237,10 +237,11 @@ function setupMapButtons(map: maplibregl.Map) {
 
 /**
  * iPhone home screen app: with the map under the status bar (black-translucent in index.html), iOS
- * draws the page on the whole screen but gives it a viewport a status bar shorter, so everything
- * fixed to the bottom ended that far above it, over a band of the page background (#59). The
- * missing height goes into --app-gap, which moves the map's and the sheet's bottom edge down. Only
- * for iOS (`navigator.standalone`): Android apps really end above the system bars.
+ * (seen on 26) lays out and paints the page a status bar's height short of the bottom of the
+ * screen and leaves a strip of the page background there (#59). Nothing can be drawn in it, so
+ * the background is white and reads as the bottom of the sheet; the strip's height goes into
+ * --app-gap, so the sheet leaves out the safe area the strip already gives the home bar. Only for
+ * iOS (`navigator.standalone`): Android apps really end above the system bars.
  */
 function fillStandaloneGap() {
   if ((navigator as Navigator & { standalone?: boolean }).standalone !== true) return;

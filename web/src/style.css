@@ -16,6 +16,14 @@ body {
 }
 
 /*
+ * White behind the page: an iPhone home screen app leaves a strip below the page (see
+ * fillStandaloneGap() in app/layout.ts), which then reads as the bottom of the white sheet.
+ */
+html {
+  background: #fff;
+}
+
+/*
  * Taps on controls never zoom the page: a quick second tap on a day button zoomed in on phones.
  * Pinch zoom and scrolling still work; the map handles its own gestures.
  */
@@ -2492,9 +2500,8 @@ details[open] > .act .caret {
 /* --- Phones: a bottom sheet -------------------------------------------------- */
 
 @media (max-width: 700px) {
-  /* --app-gap: see fillStandaloneGap() in app/layout.ts; 0 everywhere but an iPhone home screen app. */
   #map {
-    inset: 0 0 calc(-1 * var(--app-gap, 0px));
+    inset: 0;
   }
 
   .phone-only {
@@ -2589,8 +2596,12 @@ details[open] > .act .caret {
   }
 
   .panel {
+    /*
+     * Below the sheet's last row: the home bar's safe area, 14 px where there is none. In an iPhone
+     * home screen app the strip iOS leaves below the page (--app-gap) already clears the home bar.
+     */
+    --sheet-bottom: max(14px, calc(env(safe-area-inset-bottom) - var(--app-gap, 0px)));
     top: auto;
-    bottom: calc(-1 * var(--app-gap, 0px));
     width: auto;
     right: 0;
     border-radius: 22px 22px 0 0;
@@ -2643,7 +2654,7 @@ details[open] > .act .caret {
 
   /* The home bar's safe area is the space below the last row; 14 px only where there is none. */
   .footer {
-    padding: 10px 0 max(14px, env(safe-area-inset-bottom));
+    padding: 10px 0 var(--sheet-bottom);
   }
 
   /*
@@ -2657,7 +2668,7 @@ details[open] > .act .caret {
   }
 
   .panel[data-sheet='hidden'] {
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    padding-bottom: var(--sheet-bottom);
   }
 
   .panel[data-sheet='hidden'] .sun-row {
