@@ -47,7 +47,6 @@ export function setSheet(state: SheetState) {
   const handle = $('sheet-handle');
   handle.setAttribute('aria-label', HANDLE_LABEL[state]);
   handle.setAttribute('aria-expanded', String(state === 'open'));
-  document.querySelector('[data-open-layers]')?.setAttribute('aria-expanded', String(state === 'open'));
 }
 
 /** The round buttons of the lowered sheet show the state of the layer switches they stand for. */
@@ -287,10 +286,6 @@ export function setupLayout(map: maplibregl.Map) {
   setupHandle();
 
   for (const b of document.querySelectorAll<HTMLElement>('[data-open-about]')) b.addEventListener('click', () => showTab('about'));
-  document.querySelector('[data-open-layers]')?.addEventListener('click', () => {
-    if (sheetOpen() && currentTab() === 'layers') setSheet('peek');
-    else showTab('layers');
-  });
   for (const b of document.querySelectorAll<HTMLButtonElement>('.quick-btn[data-key]')) {
     b.addEventListener('click', () => {
       const key = b.dataset.key as LayerKey;
