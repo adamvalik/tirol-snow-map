@@ -2,14 +2,15 @@
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { defineConfig, type Plugin } from 'vite';
-import { releaseNotes } from './scripts/release-notes.mjs';
+import { cardNotes } from './scripts/release-notes.mjs';
 
 // App version from package.json and the short commit it was built from (GITHUB_SHA in Actions,
 // git locally, "dev" without git). Shown in "About the data".
 const version = (JSON.parse(readFileSync('package.json', 'utf8')) as { version: string }).version;
-// The notes of this version from the Releases table, for the What's new card; empty until
-// `npm run release` adds the row, so a build between releases shows no card to returning visitors.
-const notes = releaseNotes(readFileSync('docs/release-plan.md', 'utf8'), `v${version}`);
+// The What's new card's notes from the Releases table: the minor release's notes and one line per
+// patch since. Empty until `npm run release` adds this version's row, so a build between releases
+// shows no card to returning visitors.
+const notes = cardNotes(readFileSync('docs/release-plan.md', 'utf8'), version);
 function commit(): string {
   if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 7);
   try {
