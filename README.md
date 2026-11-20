@@ -25,7 +25,7 @@ It works on phones and desktop browsers. After an update, a short *What's new* c
 
 ## Status
 
-Being tested with friends before a public launch. The current version is `v0.3.0`, the winter release: winter sports, a new map look, sharper sun and shade and the What's new card. What each version brought is under [Releases](https://github.com/adamvalik/tirol-snow-map/releases) (and in the app's About tab); what comes next is in the [milestones](https://github.com/adamvalik/tirol-snow-map/milestones). The direction and the decisions behind it are in [`docs/roadmap.md`](docs/roadmap.md); [`docs/README.md`](docs/README.md) lists the other docs and how work is tracked.
+Being tested with friends before a public launch. The current version is `v0.3.1`, a patch to the `v0.3.0` winter release (winter sports, a new map look, sharper sun and shade, the What's new card): fixes and a lighter first view, a screen when the map cannot start, and a reload when an open tab meets a newer deploy. What each version brought is under [Releases](https://github.com/adamvalik/tirol-snow-map/releases) (and in the app's About tab); what comes next is in the [milestones](https://github.com/adamvalik/tirol-snow-map/milestones). The direction and the decisions behind it are in [`docs/roadmap.md`](docs/roadmap.md); [`docs/README.md`](docs/README.md) lists the other docs and how work is tracked.
 
 The rest of this README is for developers: how to run it, how the data flows, and its known limits.
 
@@ -121,7 +121,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 
 | Path | Contents |
 | --- | --- |
-| `web/` | Vite + TypeScript + MapLibre GL JS app (no UI framework), laid out after the C2 design; `web/src/theme.css` holds the app font (change it there only) and the colours; `web/public/basemap-assets/` holds the map's self-hosted fonts and sprites |
+| `web/` | Vite + TypeScript + MapLibre GL JS app (no UI framework), laid out after the C2 design; `web/index.html` is the app, `web/404.html` the not-found page; `web/src/theme.css` holds the app font (change it there only) and the colours; `web/public/basemap-assets/` holds the map's self-hosted fonts and sprites |
 | `pipeline/` | Data fetch and normalisation (run with `tsx`) and its tests |
 | `shared/` | Types shared by the pipeline and the app |
 | `fixtures/` | Real API responses from 2026-10-20 used by the tests (see `fixtures/README.md`) |
@@ -133,6 +133,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 | `scripts/share-mockups.mjs` | Renders the share picture mock-ups in `docs/design/share-snapshot/` |
 | `.github/` | Workflows, issue forms (bug, idea, release checklist) and the pull request template |
 | `docs/` | Index and how work is tracked (`docs/README.md`), release plan, roadmap, design notes (`docs/design/`), spike reports (`docs/spikes/`) and the initial plan |
+| `LICENSE` | MIT licence for the code (the data keeps its own licences, see Attribution) |
 
 ## Shareable view
 
@@ -196,6 +197,7 @@ Limits: `dev`'s pipeline calls the same upstreams, so while `dev` changes the pi
 - **A point's sun times are only as good as the terrain.** Beyond 5 km the skyline comes from 250 m cells, which smooth summits and narrow ridges by tens of metres; a point a few metres off a summit or ridge crest can lose or gain sun behind the crest itself. Visibility is for the sun's top edge in a clear sky.
 - **Open-Meteo counts every grid point as one call** (273 per fetch, at most 4 fetches a day). A runner IP shared with heavy users can still be refused; the app then animates the last fetched forecast and says how old it is.
 - **Avalanche regions are simplified to about 30 m.** A place within a few hundred metres of a region border can be given the neighbouring region; check the region on the bulletin map. The outlines are a static copy and change only when `npm run regions` runs.
+- **A phone that drops the map's WebGL context needs a reload.** Switching apps or low memory can take the map's drawing context away. MapLibre can restore it, but with the terrain it then draws wrong textures (#84), so the app shows a screen with *Reload* instead; the reload opens at the same view.
 - **Upstream quota counts are a lower bound.** They count production runs only, start again if the data cache is lost, and Sentinel Hub requests that report no processing units add none. The CDSE dashboard has the real numbers.
 
 ## Releases
