@@ -47,11 +47,12 @@ if (!/^https:\/\/[^\s/]+\/\S*$/.test(siteUrl)) throw new Error(`SITE_URL should 
 // every day; the date in its address keeps chat apps from showing yesterday's from their cache.
 const ogVersion = new Date().toISOString().slice(0, 10).replaceAll('-', '');
 
-/** Fills the __SITE_URL__ and __OG_VERSION__ placeholders of index.html and 404.html. */
+/** Fills the __SITE_URL__, __OG_VERSION__ and __BUILD_COMMIT__ placeholders of index.html and 404.html. */
 function linkPreview(): Plugin {
   return {
     name: 'link-preview',
-    transformIndexHtml: (html) => html.replaceAll('__SITE_URL__', siteUrl).replaceAll('__OG_VERSION__', ogVersion),
+    transformIndexHtml: (html) =>
+      html.replaceAll('__SITE_URL__', siteUrl).replaceAll('__OG_VERSION__', ogVersion).replaceAll('__BUILD_COMMIT__', commit()),
   };
 }
 
