@@ -4,6 +4,7 @@
 import type { Position } from 'geojson';
 import type { Region, RegionsFile } from '../../shared/types.ts';
 import regionsUrl from './data/regions.json?url';
+import { fetchBuildFile } from './app/newDeploy.ts';
 
 /** Simplified borders leave slivers between neighbours; a point this close to a region counts as in it (about 300 m). */
 const NEAR_DEG = 0.003;
@@ -71,7 +72,7 @@ export function bulletinLink(file: RegionsFile | null, lon: number, lat: number)
 let loading: Promise<RegionsFile | null> | null = null;
 /** The regions, fetched once (about 60 KB compressed); null if they cannot be loaded. */
 export function loadRegions(): Promise<RegionsFile | null> {
-  return (loading ??= fetch(regionsUrl)
+  return (loading ??= fetchBuildFile(regionsUrl)
     .then((res) => (res.ok ? (res.json() as Promise<RegionsFile>) : null))
     .catch(() => null));
 }

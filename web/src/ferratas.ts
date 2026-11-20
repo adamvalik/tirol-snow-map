@@ -7,6 +7,7 @@ import * as maplibregl from 'maplibre-gl';
 import type { ExpressionSpecification, MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, LineString, MultiLineString } from 'geojson';
 import ferratasUrl from './data/ferratas.json?url';
+import { fetchBuildFile } from './app/newDeploy.ts';
 import { escapeHtml, lengthText, metres } from './format.ts';
 import { bannerHtml, factsHtml } from './placeHtml.ts';
 import { inArea } from './island.ts';
@@ -254,7 +255,7 @@ export function addFerrataLayer(
   let loading: Promise<void> | null = null;
   let wanted = false;
   const load = () =>
-    (loading ??= fetch(ferratasUrl)
+    (loading ??= fetchBuildFile(ferratasUrl)
       .then((res) => {
         if (!res.ok) throw new Error(`ferratas: HTTP ${res.status}`);
         return res.json() as Promise<FeatureCollection<LineString | MultiLineString, FerrataProps>>;

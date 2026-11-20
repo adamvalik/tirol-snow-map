@@ -8,6 +8,7 @@ import * as maplibregl from 'maplibre-gl';
 import type { ExpressionSpecification, MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, LineString, MultiLineString, MultiPolygon, Point, Polygon } from 'geojson';
 import winterUrl from './data/winter.json?url';
+import { fetchBuildFile } from './app/newDeploy.ts';
 import { escapeHtml, lengthText, metres } from './format.ts';
 import { websiteUrl } from './ferratas.ts';
 import { factsHtml } from './placeHtml.ts';
@@ -400,7 +401,7 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
   // The lift ends have no kind: they show with the lifts.
   const endsVisible = () => wanted && kindsShown.includes('lift');
   const load = () =>
-    (loading ??= fetch(winterUrl)
+    (loading ??= fetchBuildFile(winterUrl)
       .then((res) => {
         if (!res.ok) throw new Error(`winter: HTTP ${res.status}`);
         return res.json() as Promise<FeatureCollection<WinterFeature['geometry'], WinterProps>>;
