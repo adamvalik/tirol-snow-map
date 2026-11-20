@@ -1,5 +1,5 @@
 // Smoke test for the built app: serves dist/, opens it in Chromium (desktop and phone profiles),
-// and reports time to first rendered map, console errors, and a rough frame rate while rotating;
+// and reports time to first rendered map, console errors and warnings, and a rough frame rate while rotating;
 // on desktop also the day slider, forecast playback, the via ferrata and winter sports layers (drawn
 // with one terrain texture per tile), a shared link
 // and "Where am I".
@@ -58,8 +58,16 @@ for (const profile of profiles) {
   const context = await browser.newContext({ ...profile.context, ignoreHTTPSErrors: true });
   const page = await context.newPage();
   const errors = [];
+  // Warnings are listed for a person to read. MapLibre logs a style it rejects (a bad paint
+  // expression, a layer it could not add) as a warning, which main.ts prefixes with "Map error:";
+  // those fail the run, since a whole layer can be missing without a single console error (#79).
+  const warnings = [];
+  const onConsole = (m) => {
+    if (m.type() === 'error') errors.push(m.text());
+    else if (m.type() === 'warning') warnings.push(m.text());
+  };
   const external = new Set();
-  page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  page.on('console', onConsole);
   page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
   page.on('request', (r) => {
     const host = new URL(r.url()).host;
@@ -251,6 +259,7 @@ for (const profile of profiles) {
     const hash = await page.evaluate(() => window.location.hash);
     const shared = await context.newPage();
     shared.on('pageerror', (e) => errors.push(`pageerror (shared link): ${e.message}`));
+    shared.on('console', onConsole);
     await shared.goto(`${url}${hash}`, { waitUntil: 'load' });
     await shared.waitForFunction(() => window.__snowmap?.map.loaded(), null, { timeout: 90_000 });
     const restored = await shared.evaluate(() => {
@@ -290,11 +299,14 @@ for (const profile of profiles) {
   if (v3) console.log(`  ${v3}`);
   console.log(`  external hosts: ${[...external].sort().join(', ')}`);
   console.log(`  console errors: ${errors.length ? errors.join(' | ') : 'none'}`);
+  console.log(`  console warnings: ${warnings.length ? [...new Set(warnings)].join(' | ') : 'none'}`);
+  const mapErrors = warnings.filter((w) => w.startsWith('Map error:'));
   const allowed = ['tiles.mapterhorn.com', 'api.open-meteo.com'];
   const disallowed = [...external].filter((h) => !allowed.includes(h));
   if (disallowed.length) console.log(`  DISALLOWED external hosts: ${disallowed.join(', ')}`);
   const problems = [
     appErrors.length && 'console errors',
+    mapErrors.length && 'MapLibre "Map error" warnings',
     !(forecastOk || rateLimited) && 'forecast panel',
     !stationOk && 'station panel',
     v3Failed && 'desktop checks (timeline, ferratas, shared link, where am I)',
