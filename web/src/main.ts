@@ -1,6 +1,7 @@
 // Starts the app: the map, the layers (layers/registry.ts) and the parts around them in app/.
 import * as maplibregl from 'maplibre-gl';
 import './style.css';
+import { setupErrorCounts } from './app/errors.ts';
 import { hydrateIcons } from './app/icons.ts';
 import { track, trackVisit } from './app/analytics.ts';
 import { setupLayout, syncQuick } from './app/layout.ts';
@@ -28,6 +29,8 @@ import { parseHash } from './viewState.ts';
 // Tells the inline script in index.html that the app's code runs (it shows the start screen otherwise).
 Object.assign(window, { __snowmapRan: true });
 
+// Errors are counted (no details), split by whether the map had drawn yet.
+const markStarted = setupErrorCounts();
 // A tab opened before a deploy reloads once when it needs a file the deploy replaced.
 setupNewDeployReload();
 
@@ -112,6 +115,7 @@ function start() {
   // Hooks for the smoke test (scripts/smoke.mjs) and for debugging from the console.
   map.once('idle', () => {
     document.body.dataset.mapReadyMs = String(Math.round(performance.now()));
+    markStarted();
   });
   Object.assign(window, { __snowmap: { map, gpx: { load: loadGpxText, loadFile: loadGpxFile, remove: removeGpx, fly: flyToGpx, track: gpxTrack, snow: gpxSnow } } });
 

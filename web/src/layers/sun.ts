@@ -4,6 +4,7 @@ import { $ } from '../app/dom.ts';
 import { isPhone, setSheet, settleSheet, sheetOpen } from '../app/layout.ts';
 import { PAUSE_ICON, PLAY_ICON } from '../app/icons.ts';
 import { isOn, switchOn } from '../app/switches.ts';
+import { track } from '../app/analytics.ts';
 import { toast } from '../app/toast.ts';
 import { registerLoader, reloadRows } from '../panel.ts';
 import { type Horizon, horizonProfile } from '../../../shared/horizon.ts';
@@ -302,6 +303,8 @@ export const sun: LayerModule = {
     shadowLayer.onDrawn = (ms) => (document.body.dataset.shadowMs = ms.toFixed(1));
     shadowLayer.onFailed = (reason) => {
       console.warn('Shadows:', reason);
+      // Counted without the reason, which can carry a message from the browser.
+      track('error/js-worker');
       toast('Shadows are not available on this device. The sun light still works.');
     };
     lightReady = true;
