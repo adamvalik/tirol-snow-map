@@ -1,5 +1,6 @@
 // Snow seen from space (the white picture and the 250 m snow share), the estimated snow depth and its
 // uncertainty: four pictures from one snow.json, swapped together by the day slider.
+import type * as maplibregl from 'maplibre-gl';
 import type { SnowFile } from '../../../shared/types.ts';
 import { selectedDay } from '../app/day.ts';
 import { setAge } from '../app/ages.ts';
@@ -43,12 +44,46 @@ let layers: SnowLayers | null = null;
 export const latestSnow = () => latest;
 export const shownSnow = () => shown;
 
-/** The snow summary at a point, or '' while the depth values are not loaded. */
-export const pointSnow = (lon: number, lat: number): string => (shown && values ? pointSnowHtml(shown, values.at(lon, lat)) : '');
+// The values behind a tap (the data PNG, about 360 KB) are only needed for a tap, so they load once
+// the map is idle, leaving the first view the bandwidth (#82). A tap that comes earlier starts the
+// load at once and shows a placeholder, filled in when the values arrive.
+
+/** Starts the load of the values now, instead of waiting for the map to be idle. */
+let demand: () => void = () => undefined;
+const demanded = new Promise<void>((resolve) => (demand = resolve));
+
+/** Placeholders in open panels, by id, with what to draw in them once the values are loaded. */
+const pending = new Map<string, () => string>();
+let pendingId = 0;
+
+/** The summary if the values are loaded; otherwise a placeholder filled in when they are. */
+function whenLoaded(render: () => string): string {
+  if (!shown) return '';
+  if (values) return render();
+  demand();
+  const id = `snow-pending-${++pendingId}`;
+  pending.set(id, render);
+  return `<p class="loading" id="${id}">Loading the snow here…</p>`;
+}
+
+/** Fills the placeholders still on the page; drops the ones whose panel was closed. */
+function fillPending() {
+  for (const [id, render] of pending) {
+    const el = document.getElementById(id);
+    if (el) el.outerHTML = shown && values ? render() : '';
+  }
+  pending.clear();
+}
+
+/** Resolves once the map has drawn what it is loading (at once if it has). */
+const whenIdle = (map: maplibregl.Map) => new Promise<void>((resolve) => (map.loaded() ? resolve() : map.once('idle', () => resolve())));
+
+/** The snow summary at a point, or '' without snow data. */
+export const pointSnow = (lon: number, lat: number): string => whenLoaded(() => pointSnowHtml(shown!, values!.at(lon, lat)));
 
 /** The snow summary along evenly spaced points of a route, or ''; `what` names it ("route", "slope"). */
 export const routeSnowSummary = (points: readonly number[][], what?: string): string =>
-  shown && values ? routeSnowHtml(shown, routeSnow(values, points), what) : '';
+  whenLoaded(() => routeSnowHtml(shown!, routeSnow(values!, points), what));
 
 /** Snow seen from space along a route, as numbers for a panel or a chart. */
 export interface SnowAlong {
@@ -70,6 +105,7 @@ export interface SnowAlong {
  * snow is loading or the day has no satellite picture. Ask again after `onSnowShown`.
  */
 export function snowAlong(points: readonly number[][]): SnowAlong | null {
+  if (shown && !values) demand();
   if (!shown || !values || !shown.cover.available) return null;
   const { route, points: states } = routeSnowPoints(values, points);
   return { route, points: states, sensor: shown.cover.sensor, date: shown.cover.date, day: selectedDay(), depth: !!shown.depth };
@@ -83,7 +119,7 @@ export function onSnowShown(listener: () => void) {
 }
 
 /** Puts a snow.json on the map (or none); switches for pictures it lacks are greyed out. */
-export async function showSnow(file: SnowFile | null) {
+export function showSnow(file: SnowFile | null) {
   shown = file;
   values = null;
   const present = file && layers ? layers.show(file) : new Set<SnowLayer>();
@@ -100,12 +136,22 @@ export async function showSnow(file: SnowFile | null) {
   if (!selectedDay()) {
     setAge('satellite', file?.cover.available ? file.cover.date : null, !!file && ageHours(file.generatedAt) > SNOW_STALE_AFTER_HOURS, 'none');
   }
+  // Not awaited: the layers, the stations and the clicks do not wait for the values.
+  void loadValues(file);
+}
+
+/** Loads the values behind a tap for the snow on the map, then tells the listeners. */
+async function loadValues(file: SnowFile | null) {
   if (file) {
+    // After the map has drawn the new snow, unless a tap needs the values sooner.
+    if (app) await Promise.race([whenIdle(app.map), demanded]);
+    // Another day was picked while waiting or loading.
+    if (shown !== file) return;
     const loaded = await SnowValues.load(file).catch(() => null);
-    // Another day was picked while these values loaded.
     if (shown !== file) return;
     values = loaded;
   }
+  fillPending();
   for (const l of shownListeners) l();
 }
 
@@ -149,7 +195,7 @@ export const snow: LayerModule = {
           : (order.slice(order.indexOf(SNOW_LAYERS[key]) + 1).find((id) => map.getLayer(id)) ?? basemap.lines[0]?.id),
       { white: isOn('snow'), cover: isOn('cover'), depth: isOn('depth'), confidence: isOn('confidence') },
     );
-    await showSnow(await loading);
+    showSnow(await loading);
   },
 
   setVisible(key, on) {

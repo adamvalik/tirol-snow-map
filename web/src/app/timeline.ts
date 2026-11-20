@@ -144,7 +144,7 @@ async function showDay(index: number) {
     ]);
   }
   if (request !== dayRequest) return;
-  await showSnow(snow);
+  showSnow(snow);
   showStations(stations, latest ? null : day);
   if (!latest) {
     pastNote = day.backfilled
