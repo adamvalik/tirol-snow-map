@@ -338,6 +338,23 @@ for (const profile of profiles) {
   await context.close();
 }
 
+// The not-found page (dist/404.html, served by GitHub Pages for any unknown address): it loads
+// nothing from other hosts, and its link leads to the site.
+{
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const requested = [];
+  page.on('request', (r) => requested.push(r.url()));
+  const res = await page.goto(`${url}404.html`, { waitUntil: 'load' });
+  const text = await page.textContent('h2').catch(() => '');
+  const href = await page.getAttribute('#to-map', 'href').catch(() => '');
+  const others = requested.filter((u) => !u.startsWith(url));
+  const ok = res?.ok() && /does not exist/.test(text ?? '') && /^https:\/\/\S+\/$/.test(href ?? '') && !others.length;
+  console.log(`not-found page: ${ok ? 'OK' : `FAILED (status ${res?.status()}, "${text}", link ${href}, other hosts: ${others.join(', ') || 'none'})`}`);
+  if (!ok) failed = true;
+  await context.close();
+}
+
 await browser.close();
 await new Promise((r) => server.httpServer.close(r));
 console.log(`screenshots in ${outDir}`);

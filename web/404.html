@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Page not found – South Tyrol Snow Map</title>
+    <!--
+      GitHub Pages serves this for any unknown address under the site. Self-contained: the app's
+      relative paths would break at a deeper address, so the styles are inline and the link back is
+      absolute (__SITE_URL__ is filled by vite.config.ts, like the link preview tags of index.html).
+    -->
+    <style>
+      body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box; background: #f3f5f7; color: #16202a; font: 16px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+      main { max-width: 420px; padding: 24px; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgb(15 23 42 / 0.08), 0 4px 14px rgb(15 23 42 / 0.14); }
+      h1 { margin: 0 0 4px; font-size: 14px; font-weight: 600; color: #5a6672; }
+      h2 { margin: 0 0 8px; font-size: 20px; }
+      p { margin: 0 0 10px; }
+      a.map { display: inline-block; margin-top: 8px; padding: 9px 18px; border-radius: 999px; background: #2563c9; color: #fff; font-weight: 600; text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>South Tyrol Snow Map</h1>
+      <h2>This page does not exist</h2>
+      <p>The address may have a typo, or the link is old.</p>
+      <a id="to-map" class="map" href="__SITE_URL__">Open the map</a>
+    </main>
+    <script>
+      // A wrong address under the dev preview leads back to the preview.
+      (function () {
+        var site = '__SITE_URL__';
+        var dev = new URL('dev/', site);
+        if (location.pathname.indexOf(dev.pathname) === 0) document.getElementById('to-map').href = dev.href;
+      })();
+    </script>
+  </body>
+</html>
