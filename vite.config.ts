@@ -47,7 +47,7 @@ if (!/^https:\/\/[^\s/]+\/\S*$/.test(siteUrl)) throw new Error(`SITE_URL should 
 // every day; the date in its address keeps chat apps from showing yesterday's from their cache.
 const ogVersion = new Date().toISOString().slice(0, 10).replaceAll('-', '');
 
-/** Fills the __SITE_URL__ and __OG_VERSION__ placeholders of index.html. */
+/** Fills the __SITE_URL__ and __OG_VERSION__ placeholders of index.html and 404.html. */
 function linkPreview(): Plugin {
   return {
     name: 'link-preview',
@@ -67,6 +67,8 @@ export default defineConfig({
     // MapLibre alone is ~1 MB minified; it is split into its own chunk below.
     chunkSizeWarningLimit: 1500,
     rolldownOptions: {
+      // The app, and the page GitHub Pages shows for an unknown address (no scripts of the app).
+      input: { main: 'web/index.html', notFound: 'web/404.html' },
       output: {
         codeSplitting: { groups: [{ name: 'maplibre', test: /node_modules[\\/]maplibre-gl/ }] },
       },
