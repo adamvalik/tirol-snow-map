@@ -84,7 +84,7 @@ export function feedbackHtml(t: FeedbackTargets = CONFIGURED, c = currentContext
   }
 
   // Each kind goes to the best place that is set; GitHub is last and then also a plain link below.
-  const bug: [string, Via] = t.form ? [formUrl(t.form, c), 'form'] : t.email ? [mailtoUrl(t.email, 'bug', c), 'mail'] : [bugIssue, 'github'];
+  const bug = bugTarget(t, c);
   const idea: [string, Via] = t.ideas ? [t.ideas, 'board'] : t.email ? [mailtoUrl(t.email, 'idea', c), 'mail'] : [ideaIssue, 'github'];
   const notes = [
     bug[1] === 'form'
@@ -104,6 +104,11 @@ export function feedbackHtml(t: FeedbackTargets = CONFIGURED, c = currentContext
       </div>
       ${notes.map((n) => `<p class="small">${n}</p>`).join('')}
       <p class="small fb-github">${icon('github', 16)}<span>On GitHub: ${link(bugIssue, 'report a problem', 'bug', 'github')} or ${link(ideaIssue, 'suggest an idea', 'idea', 'github')}</span></p>`);
+}
+
+/** Where "Something is wrong" goes: the form, else an e-mail, else the GitHub issue form. */
+export function bugTarget(t: FeedbackTargets = CONFIGURED, c = currentContext()): [href: string, via: Via] {
+  return t.form ? [formUrl(t.form, c), 'form'] : t.email ? [mailtoUrl(t.email, 'bug', c), 'mail'] : [issueUrl('bug', c), 'github'];
 }
 
 const section = (body: string) =>

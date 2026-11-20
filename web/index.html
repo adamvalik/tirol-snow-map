@@ -3,9 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="3D terrain map of South Tyrol with live snow depth and weather station data." />
+    <meta name="description" content="Snow depth in South Tyrol (Südtirol, Alto Adige) on a 3D map: weather stations, snow seen from space, an estimated depth and a 3-day snowfall forecast." />
     <meta name="theme-color" content="#ffffff" />
-    <title>South Tyrol Snow Map</title>
+    <!--
+      Not in search engines until the name and domain are settled: results would point to an address
+      that changes. A site under a sub-path cannot serve robots.txt (crawlers read it only at the
+      domain root), so this tag is the only way. The dev preview gets it from here too.
+    -->
+    <meta name="robots" content="noindex" />
+    <!-- The commit this page was built from, for the check of the live site after a deploy (scripts/live-check.mjs). -->
+    <meta name="app-commit" content="__BUILD_COMMIT__" />
+    <!--
+      Search: the title and description carry the names people search for (South Tyrol, Südtirol,
+      Alto Adige, snow depth). The description is the same in manifest.webmanifest and the JSON-LD
+      below (web/test/pageMeta.test.ts checks). The canonical address is filled by vite.config.ts,
+      so a new domain only changes SITE_URL.
+    -->
+    <title>South Tyrol Snow Map – Südtirol, Alto Adige snow depth in 3D</title>
+    <link rel="canonical" href="__SITE_URL__" />
+    <!-- The terrain tiles are asked for only once MapLibre and the style are in; open the connection now. -->
+    <link rel="preconnect" href="https://tiles.mapterhorn.com" crossorigin />
     <!--
       Link preview in chat apps (WhatsApp, Signal, Telegram, ...). A shared view lives in the hash,
       which servers never see, so every link previews the same way. The placeholders are filled by
@@ -13,6 +30,7 @@
     -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="South Tyrol Snow Map" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content="South Tyrol Snow Map" />
     <meta property="og:description" content="Today's snow in 3D: weather stations, snow seen by Sentinel-2, estimated depth and a 3-day snowfall forecast." />
     <meta property="og:url" content="__SITE_URL__" />
@@ -38,6 +56,40 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Snow Map" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "South Tyrol Snow Map",
+        "url": "__SITE_URL__",
+        "description": "Snow depth in South Tyrol (Südtirol, Alto Adige) on a 3D map: weather stations, snow seen from space, an estimated depth and a 3-day snowfall forecast.",
+        "applicationCategory": "TravelApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires WebGL 2",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+      }
+    </script>
+    <!--
+      The screen for a map that cannot start (#start-error, app/startError.ts). Styled here, not in
+      style.css, so it looks right even when the app's code and styles never load.
+    -->
+    <style>
+      .start-error { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; background: var(--soft, #f3f5f7); color: var(--ink, #16202a); font: 16px/1.45 var(--font, system-ui, -apple-system, 'Segoe UI', sans-serif); }
+      .start-error[hidden] { display: none; }
+      .start-error-card { max-width: 420px; padding: 24px; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgb(15 23 42 / 0.08), 0 4px 14px rgb(15 23 42 / 0.14); }
+      .start-error h2 { margin: 0 0 8px; font-size: 20px; }
+      .start-error p { margin: 0 0 10px; }
+      .start-error .start-error-actions { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 18px 0 0; }
+      .start-error .start-error-reload { padding: 9px 18px; border-radius: 999px; background: var(--accent, #2563c9); color: #fff; font-weight: 600; text-decoration: none; }
+      .start-error a { color: var(--accent-ink, #1d4ea3); }
+    </style>
+    <!-- JavaScript off: the same screen, with only the line that fits. -->
+    <noscript>
+      <style>
+        #start-error[hidden] { display: flex !important; }
+        #start-error [data-reason], #start-error [data-try] { display: none; }
+      </style>
+    </noscript>
   </head>
   <body>
     <!--
@@ -286,6 +338,31 @@
     </div>
 
     <div id="toast" class="toast" role="status" hidden></div>
+
+    <div id="start-error" class="start-error" role="alert" hidden>
+      <div class="start-error-card">
+        <h2>The map could not start</h2>
+        <p data-reason>This browser could not run the app.</p>
+        <p data-try>Reload the page. If it happens again, try a recent Chrome, Firefox or Safari.</p>
+        <noscript><p>The map needs JavaScript. Turn it on in the browser settings and reload the page.</p></noscript>
+        <p class="start-error-actions">
+          <a class="start-error-reload" href="" onclick="location.reload(); return false">Reload</a>
+          <a data-feedback href="https://github.com/adamvalik/tirol-snow-map/issues/new?template=bug.yml" target="_blank" rel="noopener">Something is wrong</a>
+        </p>
+      </div>
+    </div>
+    <!--
+      If the app's code never ran (a browser too old for it, a download that failed), show the
+      screen once the page has loaded. main.ts sets the flag first thing; module scripts always run
+      before the load event. Old syntax on purpose, so the oldest browsers can run it.
+    -->
+    <script>
+      window.addEventListener('load', function () {
+        if (window.__snowmapRan) return;
+        var el = document.getElementById('start-error');
+        if (el) el.removeAttribute('hidden');
+      });
+    </script>
 
     <script type="module" src="./src/main.ts"></script>
   </body>

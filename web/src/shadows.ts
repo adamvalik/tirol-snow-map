@@ -10,6 +10,7 @@ import { cellCenter, gridCorners, MODEL_GRID } from '../../shared/grid.ts';
 import { horizonDip, SUN_RADIUS } from '../../shared/shadow.ts';
 import { lonLatToPixel, TERRARIUM_TILE } from '../../shared/terrarium.ts';
 import type { DetailBlock, ShadeLook, ShadowImage, ShadowReply, ShadowRequest, ShadowResult } from './shadowWorker.ts';
+import { checkBuildFile } from './app/newDeploy.ts';
 import { sunPosition } from './sun.ts';
 import type { Grid } from './terrainSampler.ts';
 
@@ -208,7 +209,12 @@ export class ShadowLayer {
     worker.postMessage(message);
     worker.onmessage = (e: MessageEvent<ShadowReply>) => ('error' in e.data ? this.fail(e.data.error) : this.draw(e.data));
     // The worker did not start or crashed.
-    worker.onerror = (e) => this.fail(e.message || 'the shade worker stopped');
+    worker.onerror = (e) => {
+      // The worker file of an older build, replaced by a deploy? Then this module's own file (the
+      // hashed app chunk) is gone too, and the page reloads once (app/newDeploy.ts).
+      checkBuildFile(import.meta.url);
+      this.fail(e.message || 'the shade worker stopped');
+    };
     this.worker = worker;
   }
 

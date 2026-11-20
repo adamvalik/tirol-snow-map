@@ -7,7 +7,7 @@ import { forecastUrl } from '../src/forecast.ts';
 import { compass, fmtChange, formatAge, formatTimeShort, weatherText } from '../src/format.ts';
 import { routeSnow, routeSnowPoints } from '../src/snow.ts';
 import { parseHash, toHash, type ViewState } from '../src/viewState.ts';
-import { aerialLifts, fullProps, highestPoint as winterTop, inView, LIFT_COLOR, liftEnds, slopeColor, UNKNOWN_SLOPE_COLOR, winterColor, winterHtml, winterSub, winterTitle, type WinterFeature } from '../src/winter.ts';
+import { aerialLifts, fullProps, highestPoint as winterTop, inView, LIFT_COLOR, liftEnds, lineWidth, slopeColor, UNKNOWN_SLOPE_COLOR, winterColor, winterHtml, winterSub, winterTitle, type WinterFeature } from '../src/winter.ts';
 
 describe('forecastUrl', () => {
   it('passes the clicked elevation so Open-Meteo downscales to it', () => {
@@ -341,6 +341,18 @@ describe('winter sports', () => {
 
   it('keeps the layer in shared links', () => {
     expect(parseHash('#layers=snow,winter').layers).toEqual(['snow', 'winter']);
+  });
+
+  it('builds a casing width MapLibre accepts, wider than the line at every zoom', async () => {
+    const { expression, latest } = await import('@maplibre/maplibre-gl-style-spec');
+    const at = (e: unknown, zoom: number, kind: string) => {
+      const r = expression.createPropertyExpression(e, 'line-width', latest.paint_line['line-width'] as never);
+      if (r.result !== 'success') throw new Error(JSON.stringify(r.value));
+      return r.value.evaluate({ zoom } as never, { properties: { kind } } as never) as number;
+    };
+    for (const zoom of [10, 12.5, 15]) {
+      for (const kind of ['lift', 'downhill', 'nordic']) expect(at(lineWidth(2.5), zoom, kind)).toBeCloseTo(at(lineWidth(), zoom, kind) + 2.5);
+    }
   });
 });
 

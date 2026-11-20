@@ -8,6 +8,7 @@ import * as maplibregl from 'maplibre-gl';
 import type { ExpressionSpecification, MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, LineString, MultiLineString, MultiPolygon, Point, Polygon } from 'geojson';
 import winterUrl from './data/winter.json?url';
+import { fetchBuildFile } from './app/newDeploy.ts';
 import { escapeHtml, lengthText, metres } from './format.ts';
 import { websiteUrl } from './ferratas.ts';
 import { factsHtml } from './placeHtml.ts';
@@ -176,8 +177,17 @@ const IS_LINE: ExpressionSpecification = ['in', ['geometry-type'], ['literal', [
 const IS_AERIAL: ExpressionSpecification = ['in', ['coalesce', ['get', 'lift'], ''], ['literal', AERIAL_LIFTS]];
 /** Line width in px at zoom 10 and 15. */
 const width = (atZ10: number, atZ15: number): ExpressionSpecification => ['interpolate', ['linear'], ['zoom'], 10, atZ10, 15, atZ15];
-/** Pistes a little narrower than lifts, which carry the eye between them. */
-const LINE_WIDTH: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], 10, ['match', KIND, 'lift', 1.3, 'downhill', 1.3, 1], 15, ['match', KIND, 'lift', 2.6, 'downhill', 3.6, 2.8]];
+/**
+ * Line width of lifts and pistes, plus `extra` px (the casing). Pistes a little narrower than lifts,
+ * which carry the eye between them. The zoom must stay the top level of the expression, so the
+ * extra width is added at each stop, not around the whole.
+ */
+export const lineWidth = (extra = 0): ExpressionSpecification => [
+  'interpolate', ['linear'], ['zoom'],
+  10, ['match', KIND, 'lift', 1.3 + extra, 'downhill', 1.3 + extra, 1 + extra],
+  15, ['match', KIND, 'lift', 2.6 + extra, 'downhill', 3.6 + extra, 2.8 + extra],
+];
+const LINE_WIDTH = lineWidth();
 
 /** "Chairlift, 6 seats" or "Red slope, intermediate" for the Place tab's header. */
 export function winterSub(p: WinterProps): string {
@@ -323,7 +333,7 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
   // Ski touring: a dotted line, below the groomed pistes it often follows.
   line('winter-skitour', ['all', IS_LINE, ['==', KIND, 'skitour']], { 'line-color': SKITOUR_COLOR, 'line-width': width(1.2, 2.6), 'line-dasharray': [0.1, 2] });
   const pistes: ExpressionSpecification = ['all', IS_LINE, ['in', KIND, ['literal', ['downhill', 'nordic', 'sled']]]];
-  line('winter-casing', ['any', pistes, ['==', KIND, 'lift']], { 'line-color': '#ffffff', 'line-width': ['+', LINE_WIDTH, 2.5], 'line-opacity': 0.85 });
+  line('winter-casing', ['any', pistes, ['==', KIND, 'lift']], { 'line-color': '#ffffff', 'line-width': lineWidth(2.5), 'line-opacity': 0.85 });
   line('winter-piste', pistes, { 'line-color': COLOR, 'line-width': LINE_WIDTH });
   // Freeride runs are not groomed: white dashes over the orange.
   line('winter-freeride', ['all', pistes, ['==', ['get', 'difficulty'], 'freeride']], { 'line-color': '#ffffff', 'line-width': width(0.6, 1.4), 'line-dasharray': [1.5, 2] }, { 'line-cap': 'butt' });
@@ -391,7 +401,7 @@ export function addWinterLayer(map: maplibregl.Map, onSelect: (f: WinterFeature)
   // The lift ends have no kind: they show with the lifts.
   const endsVisible = () => wanted && kindsShown.includes('lift');
   const load = () =>
-    (loading ??= fetch(winterUrl)
+    (loading ??= fetchBuildFile(winterUrl)
       .then((res) => {
         if (!res.ok) throw new Error(`winter: HTTP ${res.status}`);
         return res.json() as Promise<FeatureCollection<WinterFeature['geometry'], WinterProps>>;

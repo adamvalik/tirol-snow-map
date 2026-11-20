@@ -2,14 +2,15 @@
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { defineConfig, type Plugin } from 'vite';
-import { releaseNotes } from './scripts/release-notes.mjs';
+import { cardNotes } from './scripts/release-notes.mjs';
 
 // App version from package.json and the short commit it was built from (GITHUB_SHA in Actions,
 // git locally, "dev" without git). Shown in "About the data".
 const version = (JSON.parse(readFileSync('package.json', 'utf8')) as { version: string }).version;
-// The notes of this version from the Releases table, for the What's new card; empty until
-// `npm run release` adds the row, so a build between releases shows no card to returning visitors.
-const notes = releaseNotes(readFileSync('docs/release-plan.md', 'utf8'), `v${version}`);
+// The What's new card's notes from the Releases table: the minor release's notes and one line per
+// patch since. Empty until `npm run release` adds this version's row, so a build between releases
+// shows no card to returning visitors.
+const notes = cardNotes(readFileSync('docs/release-plan.md', 'utf8'), version);
 function commit(): string {
   if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 7);
   try {
@@ -47,11 +48,12 @@ if (!/^https:\/\/[^\s/]+\/\S*$/.test(siteUrl)) throw new Error(`SITE_URL should 
 // every day; the date in its address keeps chat apps from showing yesterday's from their cache.
 const ogVersion = new Date().toISOString().slice(0, 10).replaceAll('-', '');
 
-/** Fills the __SITE_URL__ and __OG_VERSION__ placeholders of index.html. */
+/** Fills the __SITE_URL__, __OG_VERSION__ and __BUILD_COMMIT__ placeholders of index.html and 404.html. */
 function linkPreview(): Plugin {
   return {
     name: 'link-preview',
-    transformIndexHtml: (html) => html.replaceAll('__SITE_URL__', siteUrl).replaceAll('__OG_VERSION__', ogVersion),
+    transformIndexHtml: (html) =>
+      html.replaceAll('__SITE_URL__', siteUrl).replaceAll('__OG_VERSION__', ogVersion).replaceAll('__BUILD_COMMIT__', commit()),
   };
 }
 
@@ -67,6 +69,8 @@ export default defineConfig({
     // MapLibre alone is ~1 MB minified; it is split into its own chunk below.
     chunkSizeWarningLimit: 1500,
     rolldownOptions: {
+      // The app, and the page GitHub Pages shows for an unknown address (no scripts of the app).
+      input: { main: 'web/index.html', notFound: 'web/404.html' },
       output: {
         codeSplitting: { groups: [{ name: 'maplibre', test: /node_modules[\\/]maplibre-gl/ }] },
       },

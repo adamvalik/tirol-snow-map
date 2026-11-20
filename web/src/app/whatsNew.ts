@@ -1,7 +1,8 @@
-// One card, shown once per version: "What you can do" on a first visit, "What's new" when the app
-// has a new version since the last visit. Only the version seen is kept, in localStorage, nothing
-// else. The notes are the version's row of the Releases table (docs/release-plan.md, read at build
-// time), the same list as the GitHub Release.
+// One card: "What you can do" on a first visit, "What's new" when the app has a new minor version
+// since the last visit. A patch does not bring the card back: people care about new features, not
+// fixes. Only the version seen is kept, in localStorage, nothing else. The notes are the minor
+// version's row of the Releases table (docs/release-plan.md, read at build time), plus one line per
+// patch since (scripts/release-notes.mjs, cardNotes).
 import { track } from './analytics.ts';
 import { icon, type IconName } from './icons.ts';
 import { escapeHtml } from '../format.ts';
@@ -21,8 +22,13 @@ export function introFor(seen: string | null, returning: boolean, version: strin
   if (seen === null && !returning) return 'welcome';
   // A newer version seen before: this is an old copy from the cache, say nothing.
   if (seen !== null && newer(seen, version)) return null;
+  // The same minor version seen before (0.3.0, now 0.3.1): only fixes are new.
+  if (seen !== null && minorOf(seen) === minorOf(version)) return null;
   return notes.length ? 'new' : null;
 }
+
+/** "0.3" of "0.3.1": the version the card is about. */
+export const minorOf = (v: string): string => v.split('.').slice(0, 2).join('.');
 
 /** Whether version a is above b ("0.3.0" > "0.2.2"). */
 function newer(a: string, b: string): boolean {
@@ -44,7 +50,7 @@ export function introHtml(kind: IntroKind, version: string, notes: readonly stri
     kind === 'welcome'
       ? `<ul class="intro-list">${WELCOME.map(([name, text]) => `<li><span class="intro-icon" aria-hidden="true">${icon(name, 18)}</span><span>${text}</span></li>`).join('')}</ul>`
       : `<ul class="intro-notes">${notes.map((n) => `<li>${escapeHtml(n)}</li>`).join('')}</ul>`;
-  const title = kind === 'welcome' ? 'Welcome to South Tyrol Snow' : `What's new in ${escapeHtml(version)}`;
+  const title = kind === 'welcome' ? 'Welcome to South Tyrol Snow' : `What's new in ${escapeHtml(minorOf(version))}`;
   const link =
     kind === 'new' ? `<a href="${RELEASES_URL}" target="_blank" rel="noopener">All release notes${icon('arrow-up-right', 13)}</a>` : '<span></span>';
   return `
