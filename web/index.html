@@ -29,11 +29,15 @@
     <link rel="icon" href="./icons/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
     <link rel="manifest" href="./manifest.webmanifest" />
-    <!-- Opened from the home screen: full screen without browser bars, under a short name. -->
+    <!--
+      Opened from the home screen: full screen without browser bars, under a short name. On iPhones
+      black-translucent lets the map run under the status bar (see fillStandaloneGap() in
+      app/layout.ts for the strip iOS then leaves at the bottom).
+    -->
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Snow Map" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
   <body>
     <!--
@@ -81,13 +85,15 @@
       <!-- Phones: the timeline sits here, at the top of the sheet. -->
       <div id="sheet-time" class="sheet-time"></div>
 
-      <!-- Phones, sheet lowered: the main layers as round buttons, or the track when one is loaded.
-           In winter Winter sports takes the bivouacs' place; they stay one tap away in More. -->
+      <!-- Phones, sheet lowered: the main layers as round buttons in a row that scrolls sideways, or
+           the track when one is loaded. More, at the end, opens the Layers tab with the rest. -->
       <div id="quick" class="quick phone-only" role="group" aria-label="Main layers">
         <button class="quick-btn" type="button" data-key="snow" aria-pressed="false"><span class="quick-icon"><i data-icon="snowflake" data-size="22"></i></span>Snow</button>
         <button class="quick-btn" type="button" data-key="stations" aria-pressed="false"><span class="quick-icon"><i data-icon="thermometer-fill" data-size="22"></i></span>Stations</button>
         <button class="quick-btn" type="button" data-key="winter" aria-pressed="false" aria-label="Winter sports"><span class="quick-icon"><i data-icon="person-simple-ski" data-size="22"></i></span>Skiing</button>
         <button class="quick-btn" type="button" data-key="ferratas" aria-pressed="false"><span class="quick-icon"><i data-icon="ladder-simple" data-size="22"></i></span>Ferratas</button>
+        <button class="quick-btn" type="button" data-key="sun" aria-pressed="false" aria-label="Sun and shade"><span class="quick-icon"><i data-icon="sun" data-size="22"></i></span>Sun</button>
+        <button class="quick-btn" type="button" data-key="bivouacs" aria-pressed="false"><span class="quick-icon"><i data-icon="tent-fill" data-size="22"></i></span>Bivouacs</button>
         <button class="quick-btn" type="button" data-open-layers aria-expanded="false"><span class="quick-icon"><i data-icon="stack" data-size="22"></i></span>More</button>
       </div>
       <button id="quick-track" class="track-row quick-track phone-only" type="button" hidden></button>

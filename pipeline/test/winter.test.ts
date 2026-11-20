@@ -195,6 +195,16 @@ describe('statistics and the layer file', () => {
     expect(fc.features[0].properties).not.toHaveProperty('lengthM');
     expect(fc.features[0].properties).not.toHaveProperty('name');
     expect(fc.features[0].properties).not.toHaveProperty('osm');
+    // Positions without elevations; the highest drawn point is the third corner (46.501).
+    expect((fc.features[0].geometry.coordinates as number[][][])[0].every((p) => p.length === 2)).toBe(true);
+    expect(fc.features[0].properties).toMatchObject({ top: 2 });
+  });
+
+  it('leaves out the top when it is the first point', () => {
+    const [lift] = parseWinter({ elements: [way(1, [1, 2], [[11, 46.6], [11, 46.5]], { aerialway: 'gondola' })] });
+    const f = toWinterCollection([lift], elevationAt).features[0];
+    expect(f.geometry.coordinates).toEqual([[11, 46.6], [11, 46.5]]);
+    expect(f.properties).not.toHaveProperty('top');
   });
 
   it('keeps only items starting in the covered area', () => {

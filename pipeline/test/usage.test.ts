@@ -45,7 +45,7 @@ describe('upstream usage', () => {
     expect(c.openMeteo).toMatchObject({ calls: 819, callsToday: 273 });
     const d = addUsage(c, run, '2026-12-01T03:47:00Z');
     expect(d).toMatchObject({ month: '2026-12', sentinelHub: { processingUnits: 400 }, openMeteo: { calls: 273 } });
-    expect(tightestLimit(addUsage(undefined, { ...run, sentinelHubProcessingUnits: 8500 }, '2026-11-13T00:00:00Z'))).toEqual({
+    expect(tightestLimit(addUsage(undefined, { ...run, sentinelHubProcessingUnits: 25_500 }, '2026-11-13T00:00:00Z'))).toEqual({
       name: 'Sentinel Hub processing units this month',
       share: 0.85,
     });
