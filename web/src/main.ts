@@ -73,11 +73,13 @@ map.on('load', async () => {
 });
 
 // The summit triangle is drawn here, not in the sprite. The Protomaps style also names a few POI
-// icons its sprite does not contain; draw those labels without an icon.
-map.on('styleimagemissing', (e: { id: string }) => {
-  if (map.hasImage(e.id)) return;
-  if (e.id === SUMMIT_ICON) map.addImage(e.id, summitIcon(2), { pixelRatio: 2 });
-  else map.addImage(e.id, { width: 1, height: 1, data: new Uint8Array(4) });
+// icons its sprite does not contain; draw those labels without an icon. A resolver, not the
+// `styleimagemissing` event: MapLibre asks it before it counts an image as missing, so a normal
+// load logs no warning.
+map.setMissingStyleImageResolver((id) => {
+  if (map.hasImage(id)) return;
+  if (id === SUMMIT_ICON) map.addImage(id, summitIcon(2), { pixelRatio: 2 });
+  else map.addImage(id, { width: 1, height: 1, data: new Uint8Array(4) });
 });
 
 // Hooks for the smoke test (scripts/smoke.mjs) and for debugging from the console.
