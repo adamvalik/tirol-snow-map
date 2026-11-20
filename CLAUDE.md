@@ -65,7 +65,7 @@ Before pushing, run `npm test` and `npm run typecheck`; for UI changes also `bui
 - Avalanches: link to avalanche.report, never assess. No danger levels, no slope-angle layer.
 - Keep the UI simple: improvements remove and group rather than add.
 - Nothing personal leaves the device: GPX tracks, favourites and location stay in the browser and are not in share links or analytics.
-- `FEEDBACK_EMAIL` and `GOATCOUNTER_CODE` are repository variables read at build time; they end up in the public page.
+- `FEEDBACK_FORM_URL`, `IDEAS_URL`, `FEEDBACK_EMAIL` and `GOATCOUNTER_CODE` are repository variables read at build time; they end up in the public page. The form and the board are links that open in a new tab, never embedded, so the page calls no new host.
 
 ## Writing
 
