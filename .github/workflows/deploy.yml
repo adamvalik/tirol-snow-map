@@ -207,7 +207,8 @@ jobs:
             fi
           fi
           GITHUB_SHA=$(git rev-parse HEAD) npm run build
-          sed -i -e 's|<head>|<head>\n    <meta name="robots" content="noindex" />|' -e 's|<title>|<title>Dev – |' dist/index.html
+          # The noindex tag comes with index.html (web/index.html), for both builds.
+          sed -i -e 's|<title>|<title>Dev – |' dist/index.html
           mv dist ../dist/dev
           echo "Dev preview: $(git rev-parse --short=7 HEAD), data from $data" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-pages-artifact@v4
