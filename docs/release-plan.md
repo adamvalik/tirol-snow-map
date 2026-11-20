@@ -10,7 +10,7 @@ The Releases table at the end is read by scripts: `npm run release` adds a row, 
 
 - **`0.x`** means "not launched": testers and friends, things may still change a lot. **`1.0.0`** is the public launch, the first version we would post where strangers see it.
 - **Minor** (`0.2.0` → `0.3.0`): new features. Each one is a release with notes and a What's new card.
-- **Patch** (`0.3.0` → `0.3.1`): fixes only, no new feature.
+- **Patch** (`0.3.0` → `0.3.1`): fixes only, no new feature. Its row still lists the fixes for the GitHub Release, but the first item is one short line for people ("Fixes for a steadier and faster map"): the What's new card adds only that line under the minor version's notes, and does not come back for someone who saw the minor version.
 - Data deploys three times a day change no number.
 
 So the number follows the audience, not the amount of work. `1.0.0` comes when the app is posted where strangers see it; settle the name and the domain before that, since a rename after it costs more (links, the picture people remember).
