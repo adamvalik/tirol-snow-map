@@ -18,7 +18,7 @@ So the number follows the audience, not the amount of work. `1.0.0` comes when t
 ## How to make a release
 
 1. The version's milestone has no open issues, and its release checklist issue (template *Release checklist*) is ticked off.
-2. On `dev`: `npm run release 0.3.0` (`scripts/release.mjs`). It bumps `version` in `package.json` and `package-lock.json` and adds a row to the Releases table below, drafted from the commit subjects since the last tag. Rewrite the row's "What" into short user-facing notes: a comma-separated list, one item per change (commas inside brackets do not split). Commit.
+2. On `dev`: `npm run release 0.3.0` (`scripts/release.mjs`). It bumps `version` in `package.json` and `package-lock.json` and adds a row to the Releases table below, drafted from the `feat`, `fix` and `perf` commit subjects since the last tag (older subjects without a type are kept too). Rewrite the row's "What" into short user-facing notes: a comma-separated list, one item per change (commas inside brackets do not split). Commit it as `chore(release): v0.3.0`.
 3. Try the dev preview on a phone (<https://adamvalik.github.io/tirol-snow-map/dev/>, updated on every push to `dev`). Open the pull request `dev` → `main`. CI's release check (`ci.yml`, job `check`) fails if the version is not above the last tag, is tagged already, or has no row, and prints the notes as they will appear. Merge when green, or turn on auto-merge.
 4. The deploy publishes it. Once the live site serves the build, `deploy.yml` (job `release`) tags the deployed commit `v0.3.0` and publishes the GitHub Release with the row as a list. Nothing to tag or publish by hand.
 

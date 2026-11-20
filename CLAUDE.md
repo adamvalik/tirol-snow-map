@@ -13,6 +13,19 @@ South Tyrol Snow Map: a 3D snow map of South Tyrol in the browser (MapLibre GL J
 - Never push to `main` directly, and never rewrite history on `main` or `dev`.
 - Wait for CI to be green before merging (`check` and `smoke` are required on `main`; auto-merge waits for them). Do not open or merge a pull request unless asked.
 
+## Commits
+
+Commit messages follow Conventional Commits: `<type>(<scope>): <summary>`.
+
+- **Types**: `feat` (something people can see or do), `fix` (a bug), `perf` (faster or lighter, same behaviour), `refactor` (code change, same behaviour), `test`, `docs`, `ci` (workflows), `chore` (tooling, dependencies, data scripts), `spike` (trying out an idea).
+- **Scope** (optional): the area label without `area: `, so `ui`, `sun`, `winter`, `snow`, `pipeline` or `release`. Leave it out when the change spans areas.
+- **Summary**: plain English, lowercase first word (unless it is a name), no full stop, at most 72 characters. Say what changes for the person using the map where you can: `feat(winter): show the toboggan runs in purple`, not `feat: add layer`.
+- **Body** (optional, after a blank line): why, in short sentences, wrapped at 72 characters.
+- **Footer**: `Refs #12` for the issue. `!` after the type (`feat(ui)!:`) and a `BREAKING CHANGE:` line only when a share link or the data contract (`shared/types.ts`) stops working the old way.
+- One change per commit; a commit that needs "and" in its summary is usually two.
+- Merges keep git's message (`Merge chore/85-preconnect into dev`); the version bump is `chore(release): vX.Y.Z`.
+- `npm run release` drafts the notes from `feat`, `fix` and `perf` subjects only, without the prefix, so write those for people.
+
 ## Tracking work
 
 Work is tracked on GitHub, not in docs (`docs/README.md`, "How work is tracked"). In a session:
