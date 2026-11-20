@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="3D terrain map of South Tyrol with live snow depth and weather station data." />
+    <meta name="description" content="Snow depth in South Tyrol (Südtirol, Alto Adige) on a 3D map: weather stations, snow seen from space, an estimated depth and a 3-day snowfall forecast." />
     <meta name="theme-color" content="#ffffff" />
     <!--
       Not in search engines until the name and domain are settled: results would point to an address
@@ -11,7 +11,14 @@
       domain root), so this tag is the only way. The dev preview gets it from here too.
     -->
     <meta name="robots" content="noindex" />
-    <title>South Tyrol Snow Map</title>
+    <!--
+      Search: the title and description carry the names people search for (South Tyrol, Südtirol,
+      Alto Adige, snow depth). The description is the same in manifest.webmanifest and the JSON-LD
+      below (web/test/pageMeta.test.ts checks). The canonical address is filled by vite.config.ts,
+      so a new domain only changes SITE_URL.
+    -->
+    <title>South Tyrol Snow Map – Südtirol, Alto Adige snow depth in 3D</title>
+    <link rel="canonical" href="__SITE_URL__" />
     <!--
       Link preview in chat apps (WhatsApp, Signal, Telegram, ...). A shared view lives in the hash,
       which servers never see, so every link previews the same way. The placeholders are filled by
@@ -19,6 +26,7 @@
     -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="South Tyrol Snow Map" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content="South Tyrol Snow Map" />
     <meta property="og:description" content="Today's snow in 3D: weather stations, snow seen by Sentinel-2, estimated depth and a 3-day snowfall forecast." />
     <meta property="og:url" content="__SITE_URL__" />
@@ -44,6 +52,19 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Snow Map" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "South Tyrol Snow Map",
+        "url": "__SITE_URL__",
+        "description": "Snow depth in South Tyrol (Südtirol, Alto Adige) on a 3D map: weather stations, snow seen from space, an estimated depth and a 3-day snowfall forecast.",
+        "applicationCategory": "TravelApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires WebGL 2",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+      }
+    </script>
     <!--
       The screen for a map that cannot start (#start-error, app/startError.ts). Styled here, not in
       style.css, so it looks right even when the app's code and styles never load.
