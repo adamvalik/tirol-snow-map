@@ -7,10 +7,11 @@
 //   npm run build && node scripts/smoke.mjs [--out <screenshot dir>]
 //
 // Env: CHROMIUM_PATH to use a specific Chromium; HTTPS_PROXY is passed to the browser if set;
-// SMOKE_READY_LIMIT_MS overrides the 5000 ms limit for the first rendered map (CI runners render in software).
+// SMOKE_READY_LIMIT_MS overrides the 5000 ms limit for the first rendered map (CI runners render in software);
+// SMOKE_LIVE_FORECAST=1 asks the real Open-Meteo API instead of answering from the saved fixture.
 // Headless Chromium renders WebGL in software, so frame rates here are a lower bound, not a phone measurement.
 
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium, devices } from 'playwright';
 import { preview } from 'vite';
@@ -30,6 +31,11 @@ const PANEL_WAIT = { timeout: 20_000, polling: 250 };
 const server = await preview({ preview: { port: 4174, strictPort: true }, logLevel: 'silent' });
 const url = 'http://localhost:4174/';
 const readyLimitMs = Number(process.env.SMOKE_READY_LIMIT_MS) || 5000;
+// Open-Meteo limits are per IP, and CI and sandbox IPs are shared, so the live API often answers 429.
+// By default the point forecast is answered from a saved response: the request still goes out from the
+// app (and is checked against the allowed hosts), it just never reaches Open-Meteo.
+const liveForecast = process.env.SMOKE_LIVE_FORECAST === '1';
+const forecastFixture = liveForecast ? null : await readFile('fixtures/open-meteo/forecast-bolzano-7d.json', 'utf8');
 
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || undefined,
@@ -59,6 +65,13 @@ for (const profile of profiles) {
     const host = new URL(r.url()).host;
     if (host && !host.startsWith('localhost')) external.add(host);
   });
+  let forecastRequests = 0;
+  if (forecastFixture) {
+    await context.route('https://api.open-meteo.com/v1/forecast?*', (route) => {
+      forecastRequests++;
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: forecastFixture });
+    });
+  }
 
   const t0 = Date.now();
   await page.goto(url, { waitUntil: 'load' });
@@ -117,9 +130,9 @@ for (const profile of profiles) {
   const forecastOk = await page
     .waitForSelector('.fc-list', { timeout: 20_000 })
     .then(() => true, () => false);
-  // Open-Meteo limits are per IP; a shared CI or sandbox IP can hit them. The app shows the error, which is the
-  // intended behaviour, so this is reported but does not fail the run.
-  const rateLimited = !forecastOk && /limit|in time/i.test((await page.textContent('#details-body')) ?? '');
+  // Only with the live API: a 429 shows the error in the panel, which is the intended behaviour, so it is
+  // reported but does not fail the run.
+  const rateLimited = liveForecast && !forecastOk && /limit|in time/i.test((await page.textContent('#details-body')) ?? '');
   const appErrors = errors.filter((e) => !(rateLimited && e.includes('status of 429')));
   await page.screenshot({ path: path.join(outDir, `${profile.name}-forecast.png`), timeout: SHOT_TIMEOUT_MS });
 
@@ -270,7 +283,8 @@ for (const profile of profiles) {
 
   console.log(
     `${profile.name}: map ready ${readyMs} ms (in-page ${readyInPage} ms), ~${fps.toFixed(0)} fps while rotating (software GL), ` +
-      `station panel ${stationOk ? 'OK' : 'FAILED'}, forecast ${forecastOk ? 'OK' : rateLimited ? 'RATE-LIMITED by Open-Meteo (error shown in panel)' : 'FAILED'}`,
+      `station panel ${stationOk ? 'OK' : 'FAILED'}, forecast ${forecastOk ? 'OK' : rateLimited ? 'RATE-LIMITED by Open-Meteo (error shown in panel)' : 'FAILED'}` +
+      (liveForecast ? ' (live Open-Meteo)' : ` (fixture, ${forecastRequests} request${forecastRequests === 1 ? '' : 's'})`),
   );
   console.log(`  ${stationsText}`);
   if (v3) console.log(`  ${v3}`);
