@@ -2,6 +2,8 @@
 // live site with a site code set (app/env.ts). The count is a single request to GoatCounter's
 // counting endpoint, without loading its script, so the page adds one host and runs no foreign code.
 // The address hash (the view: place, layers, day) is never sent; pages are counted as "/".
+// Chat and social apps open links without a referrer, so a link we post carries its channel instead
+// (`?ref=wa-erasmus`): it is sent as the referrer and then removed from the address.
 import { APP_VERSION } from '../version.ts';
 import { GOATCOUNTER_CODE } from './env.ts';
 
@@ -26,11 +28,35 @@ export function countUrl(code: string, path: string, event: boolean, screenWidth
   return `https://${code}.goatcounter.com/count?${q}`;
 }
 
+/** Query parameters that name where a link was posted. */
+const SOURCE_KEYS = ['ref', 'utm_source'];
+const isSourceKey = (key: string) => key === 'ref' || key.startsWith('utm_');
+
+/**
+ * The channel a link was posted in (`?ref=wa-erasmus`, or `utm_source`), or '' when there is none.
+ * Only a short plain name is kept: it names a channel, never a person.
+ */
+export function sourceFrom(search: string): string {
+  const q = new URLSearchParams(search);
+  for (const key of SOURCE_KEYS) {
+    const value = (q.get(key) ?? '').trim().toLowerCase();
+    if (value) return /^[a-z0-9-]{1,32}$/.test(value) ? value : '';
+  }
+  return '';
+}
+
+/** The address without `ref` and `utm_*`, so a view shared on from here does not carry the old source. */
+export function withoutSource(href: string): string {
+  const url = new URL(href);
+  for (const key of [...url.searchParams.keys()]) if (isSourceKey(key)) url.searchParams.delete(key);
+  return url.pathname + url.search + url.hash;
+}
+
 const counted = new Set<string>();
 
-function send(path: string, event: boolean) {
+function send(path: string, event: boolean, referrer = '') {
   if (!analyticsEnabled()) return;
-  const url = countUrl(GOATCOUNTER_CODE, path, event, screen.width, event ? '' : document.referrer);
+  const url = countUrl(GOATCOUNTER_CODE, path, event, screen.width, referrer);
   try {
     // GoatCounter's documented image pixel: a plain GET, no script.
     new Image().src = url;
@@ -39,9 +65,17 @@ function send(path: string, event: boolean) {
   }
 }
 
-/** Counts this visit once. */
+/** Counts this visit once, with the link's source if it has one, then drops the source from the address. */
 export function trackVisit() {
-  send('/', false);
+  send('/', false, sourceFrom(location.search) || document.referrer);
+  const clean = withoutSource(location.href);
+  if (clean !== location.pathname + location.search + location.hash) {
+    try {
+      history.replaceState(history.state, '', clean);
+    } catch {
+      // Counting must never break the app.
+    }
+  }
 }
 
 /** Counts an event, at most once per page load (the question is "is it used", not how often). */
