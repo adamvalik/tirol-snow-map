@@ -2,19 +2,20 @@
 // counted where the requests are made, and the month's running totals kept in status.json. The
 // workflow monitor opens an issue when a total nears its limit (scripts/monitor.mjs).
 //
-// Only production runs add up: the check workflow (snow-check.yml) starts from a copy of
-// production's data and its counts are thrown away with it, so the totals here are a lower bound.
+// Only production runs add up: the check workflow (snow-check.yml) and the dev preview (deploy.yml)
+// start from a copy of production's data and their counts are thrown away with it, so the totals
+// here are a lower bound.
 
 import type { StatusFile, UpstreamUsage } from '../../shared/types.ts';
 
 /**
- * Free monthly allowances. CDSE, "Copernicus General" account: 10,000 processing units and 10,000
- * requests a month, reset on the 1st (UTC). Open-Meteo, non-commercial: 10,000 calls a day and
+ * Free monthly allowances. CDSE, "Copernicus General" account: 30,000 processing units and 30,000
+ * requests a month, reset on the 1st (UTC), as the Sentinel Hub dashboard shows them (Credits). Open-Meteo, non-commercial: 10,000 calls a day and
  * 300,000 a month, where every location of a multi-location request counts as one call.
  */
 export const LIMITS = {
-  sentinelHubProcessingUnits: 10_000,
-  sentinelHubRequests: 10_000,
+  sentinelHubProcessingUnits: 30_000,
+  sentinelHubRequests: 30_000,
   openMeteoCallsPerDay: 10_000,
   openMeteoCallsPerMonth: 300_000,
 } as const;

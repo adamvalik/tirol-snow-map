@@ -345,7 +345,7 @@ describe('winter sports', () => {
 });
 
 describe('lifts in 3D', async () => {
-  const { carriersFor, LIFT_3D, LIFT_3D_COLORS, liftBlocks, supports } = await import('../src/lifts3d.ts');
+  const { carriersFor, LIFT_3D, LIFT_3D_COLORS, liftBlocks, preferOwnGround, supports } = await import('../src/lifts3d.ts');
   // About 1.1 km north, rising 400 m.
   const line = [[11, 46.5, 1500], [11, 46.51, 1900]];
   const slope = (_lon: number, lat: number) => 1500 + (lat - 46.5) * 40000;
@@ -425,5 +425,21 @@ describe('lifts in 3D', async () => {
 
   it('waits while the ground is not loaded', () => {
     expect(liftBlocks('w1', line, null, () => null)).toBeNull();
+  });
+
+  it('notes a lift built on a coarser tile standing in for one still loading', () => {
+    // The tile's own data covers the bottom half; above it the coarse ground is 30 m off.
+    const own = (lon: number, lat: number) => (lat < 46.505 ? slope(lon, lat) : undefined);
+    const coarse = (lon: number, lat: number) => slope(lon, lat) - 30;
+    const half = preferOwnGround(own, coarse);
+    expect(half.rough()).toBe(false);
+    expect(half.ground(11, 46.501)).toBe(slope(11, 46.501));
+    expect(half.rough()).toBe(false);
+    expect(half.ground(11, 46.508)).toBe(slope(11, 46.508) - 30);
+    expect(half.rough()).toBe(true);
+    // Every tile loaded: the lift can be kept.
+    const all = preferOwnGround(slope, coarse);
+    expect(liftBlocks('w1', line, null, all.ground)).not.toBeNull();
+    expect(all.rough()).toBe(false);
   });
 });

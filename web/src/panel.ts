@@ -79,7 +79,7 @@ export function closePanel() {
   body.innerHTML = '';
   if (currentTab() === 'place') showTab(returnTab, false);
   // On a phone the map comes back: the sheet goes down with the place.
-  if (isPhone()) setSheet(false);
+  if (isPhone()) setSheet('peek');
 }
 
 document.getElementById('details-close')!.addEventListener('click', closePanel);
