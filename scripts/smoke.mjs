@@ -290,13 +290,31 @@ for (const profile of profiles) {
     if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || winter !== 'OK' || drape !== 'OK' || !linkOk || locate !== 'OK') v3Failed = true;
   }
 
+  // Without WebGL 2 the map cannot start: the start screen says so instead of an empty page (#70).
+  let startScreen = '';
+  if (profile.name === 'desktop') {
+    const noGl = await context.newPage();
+    await noGl.addInitScript(() => {
+      const get = HTMLCanvasElement.prototype.getContext;
+      HTMLCanvasElement.prototype.getContext = function (type, ...rest) {
+        return type === 'webgl2' ? null : get.call(this, type, ...rest);
+      };
+    });
+    await noGl.goto(url, { waitUntil: 'load' });
+    startScreen = await noGl
+      .waitForFunction(() => document.getElementById('start-error')?.dataset.problem === 'webgl' && !document.getElementById('start-error').hidden, null, { timeout: 10_000 })
+      .then(() => 'OK', () => 'FAILED');
+    await noGl.close();
+    if (startScreen !== 'OK') v3Failed = true;
+  }
+
   console.log(
     `${profile.name}: map ready ${readyMs} ms (in-page ${readyInPage} ms), ~${fps.toFixed(0)} fps while rotating (software GL), ` +
       `station panel ${stationOk ? 'OK' : 'FAILED'}, forecast ${forecastOk ? 'OK' : rateLimited ? 'RATE-LIMITED by Open-Meteo (error shown in panel)' : 'FAILED'}` +
       (liveForecast ? ' (live Open-Meteo)' : ` (fixture, ${forecastRequests} request${forecastRequests === 1 ? '' : 's'})`),
   );
   console.log(`  ${stationsText}`);
-  if (v3) console.log(`  ${v3}`);
+  if (v3) console.log(`  ${v3}, start screen without WebGL ${startScreen}`);
   console.log(`  external hosts: ${[...external].sort().join(', ')}`);
   console.log(`  console errors: ${errors.length ? errors.join(' | ') : 'none'}`);
   console.log(`  console warnings: ${warnings.length ? [...new Set(warnings)].join(' | ') : 'none'}`);
@@ -309,7 +327,7 @@ for (const profile of profiles) {
     mapErrors.length && 'MapLibre "Map error" warnings',
     !(forecastOk || rateLimited) && 'forecast panel',
     !stationOk && 'station panel',
-    v3Failed && 'desktop checks (timeline, ferratas, shared link, where am I)',
+    v3Failed && 'desktop checks (timeline, ferratas, shared link, where am I, start screen)',
     disallowed.length && 'disallowed hosts',
     readyMs > readyLimitMs && `map ready > ${readyLimitMs} ms`,
   ].filter(Boolean);

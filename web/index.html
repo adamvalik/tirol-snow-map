@@ -38,6 +38,27 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Snow Map" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!--
+      The screen for a map that cannot start (#start-error, app/startError.ts). Styled here, not in
+      style.css, so it looks right even when the app's code and styles never load.
+    -->
+    <style>
+      .start-error { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; background: var(--soft, #f3f5f7); color: var(--ink, #16202a); font: 16px/1.45 var(--font, system-ui, -apple-system, 'Segoe UI', sans-serif); }
+      .start-error[hidden] { display: none; }
+      .start-error-card { max-width: 420px; padding: 24px; border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgb(15 23 42 / 0.08), 0 4px 14px rgb(15 23 42 / 0.14); }
+      .start-error h2 { margin: 0 0 8px; font-size: 20px; }
+      .start-error p { margin: 0 0 10px; }
+      .start-error .start-error-actions { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 18px 0 0; }
+      .start-error .start-error-reload { padding: 9px 18px; border-radius: 999px; background: var(--accent, #2563c9); color: #fff; font-weight: 600; text-decoration: none; }
+      .start-error a { color: var(--accent-ink, #1d4ea3); }
+    </style>
+    <!-- JavaScript off: the same screen, with only the line that fits. -->
+    <noscript>
+      <style>
+        #start-error[hidden] { display: flex !important; }
+        #start-error [data-reason], #start-error [data-try] { display: none; }
+      </style>
+    </noscript>
   </head>
   <body>
     <!--
@@ -286,6 +307,31 @@
     </div>
 
     <div id="toast" class="toast" role="status" hidden></div>
+
+    <div id="start-error" class="start-error" role="alert" hidden>
+      <div class="start-error-card">
+        <h2>The map could not start</h2>
+        <p data-reason>This browser could not run the app.</p>
+        <p data-try>Reload the page. If it happens again, try a recent Chrome, Firefox or Safari.</p>
+        <noscript><p>The map needs JavaScript. Turn it on in the browser settings and reload the page.</p></noscript>
+        <p class="start-error-actions">
+          <a class="start-error-reload" href="" onclick="location.reload(); return false">Reload</a>
+          <a data-feedback href="https://github.com/adamvalik/tirol-snow-map/issues/new?template=bug.yml" target="_blank" rel="noopener">Something is wrong</a>
+        </p>
+      </div>
+    </div>
+    <!--
+      If the app's code never ran (a browser too old for it, a download that failed), show the
+      screen once the page has loaded. main.ts sets the flag first thing; module scripts always run
+      before the load event. Old syntax on purpose, so the oldest browsers can run it.
+    -->
+    <script>
+      window.addEventListener('load', function () {
+        if (window.__snowmapRan) return;
+        var el = document.getElementById('start-error');
+        if (el) el.removeAttribute('hidden');
+      });
+    </script>
 
     <script type="module" src="./src/main.ts"></script>
   </body>
