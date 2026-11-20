@@ -15,15 +15,17 @@ Where is there snow in South Tyrol right now, and where will there be? A 3D map 
 - **Check a place**: tap anywhere for the snow there, a 7-day forecast for that elevation, when the sun rises and sets behind the real skyline, and which avalanche warning region it is in, with a link to that region's bulletin.
 - **Find yourself**: the location button shows where you are on the map. Your position stays on your device.
 - **Check a route**: load a GPX track to see its distance, climb, highest point and how much of it lies on snow. The file stays in your browser.
-- **Plan a tour**: bivouacs and via ferratas (A–E grades, snow along the route), sun and shade with cast shadows for any day and time, a true-colour satellite photo.
-- **Go skiing**: lifts, slopes coloured by difficulty, cross-country trails, toboggan runs and ski touring routes, each with its length, drop or climb, the snow along it and the forecast at its top.
+- **Plan a tour**: bivouacs and via ferratas (A–E grades, snow along the route), a true-colour satellite photo.
+- **See sun and shade**: the light and the soft shadows of the real ridges for any day and time, played from sunrise to sunset, so you see which slopes keep their snow.
+- **Go skiing**: lifts, slopes coloured by difficulty, cross-country trails, toboggan runs and ski touring routes, each with its length, drop or climb, the snow along it and the forecast at its top. Zoomed in, cable cars, gondolas and chairlifts stand in 3D.
+- **Read the terrain**: forest, meadow, rock and glacier in their own colours, valley and mountain group names in German and Italian, and a brown dot where a station has no snow.
 - **Share the view**: the link always holds what is on the screen, from camera angle to layers and day.
 
-It works on phones and desktop browsers. Something wrong or an idea? Use *Something is wrong* or *Idea* in the app's About tab, or [open an issue](https://github.com/adamvalik/tirol-snow-map/issues/new/choose).
+It works on phones and desktop browsers. After an update, a short *What's new* card says what changed. Something wrong or an idea? Use *Something is wrong* or *Idea* in the app's About tab, or [open an issue](https://github.com/adamvalik/tirol-snow-map/issues/new/choose).
 
 ## Status
 
-Being tested with friends before a public launch. What each version brought is under [Releases](https://github.com/adamvalik/tirol-snow-map/releases) (and in the app's About tab); what comes next is in the [milestones](https://github.com/adamvalik/tirol-snow-map/milestones). The direction and the decisions behind it are in [`docs/roadmap.md`](docs/roadmap.md); [`docs/README.md`](docs/README.md) lists the other docs and how work is tracked.
+Being tested with friends before a public launch. The current version is `v0.3.0`, the winter release: winter sports, a new map look, sharper sun and shade and the What's new card. What each version brought is under [Releases](https://github.com/adamvalik/tirol-snow-map/releases) (and in the app's About tab); what comes next is in the [milestones](https://github.com/adamvalik/tirol-snow-map/milestones). The direction and the decisions behind it are in [`docs/roadmap.md`](docs/roadmap.md); [`docs/README.md`](docs/README.md) lists the other docs and how work is tracked.
 
 The rest of this README is for developers: how to run it, how the data flows, and its known limits.
 
@@ -76,6 +78,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 ```
 
 - **The browser calls only two external hosts**: `tiles.mapterhorn.com` for terrain and `api.open-meteo.com` for click forecasts. Everything else comes from files the pipeline generated. The smoke test checks this. The one exception is visit counting on the live site, when `GOATCOUNTER_CODE` is set (see Deployment).
+- **Layout** (`web/src/app/layout.ts`, `docs/design/layers.md`): a panel with three tabs, Layers, Place and About. The Layers tab has the layer tiles and groups (Winter sports with a switch per kind while it is on, Map style for the photo, roads, labels and terrain). On wider screens the panel sits at the side, the timeline floats over the map and the legends are a small card in the map's top-left corner, which fades while a map popup lies under it. On phones the panel is a sheet with the timeline inside and the legends at the end of the Layers tab; lowered, it shows a row of round buttons for Snow, Stations, Skiing, Ferratas and More.
 - **Where am I** (`web/src/app/locate.ts`): MapLibre's geolocate control behind the round location button: a blue dot with the accuracy circle, and the map follows until it is panned (a tap brings it back, another switches it off). The browser asks for permission only when the button is tapped, and the position is not in share links, analytics or any request. Outside the data area a toast says so; farther than the map can pan, the control stops. MapLibre 6 has no heading arrow.
 - **Avalanche region of a place** (`web/src/regions.ts`, `pipeline/src/regions.ts`): the place panel's bulletin row names the EAWS micro-region of the point (for example "Schnals Ridge (Schnalser Kamm / Cresta di Senales), IT-32-BZ-03") and links to the service that publishes its bulletin: avalanche.report for Tirol, South Tyrol and Trentino, and the neighbours' own pages (AINEVA, SLF, Salzburg, Carinthia, Livigno) at the edges. avalanche.report has no link to a single region, so the row names it for finding it on the bulletin map. The outlines (`web/src/data/regions.json`, about 60 KB compressed) are fetched from the site the first time a panel opens. Only a link: the app never shows or judges danger levels.
 - **Feedback and visit counts** (`web/src/app/feedback.ts`, `web/src/app/analytics.ts`): The About tab starts with *Something is wrong* and *Idea*. They open an e-mail to `FEEDBACK_EMAIL` with the app version, the current view link, the browser and the screen size filled in, and offer the GitHub issue forms (`.github/ISSUE_TEMPLATE/`), prefilled the same way, for testers with an account. Visits are counted with GoatCounter as a plain image request to its counting endpoint (no script, no cookies), never on localhost or in automated browsers. A page view is counted as `/` with the app version as its title, so testers on an old cached copy show up; the hash with the view is never sent. Events, each at most once per page load: `layer/<key>` when a person switches a layer on, `point` (a place opened), `timeline` (a day picked), `locate`, `share`, `about`, `feedback/<bug|idea>-<mail|github>`, `gpx/add`, `intro/<welcome|new>` (the card below), `arrive/link` (the page opened with a view in the address, from a shared link or a reload; the view itself is not sent), `warning/<topic>` when a data warning shows (`basemap`, `snow`, `stations`, `forecast`, `status`, `ferratas`), `error/<forecast|sun>` when a place row fails to load, and `error/webgl` when the browser has no WebGL 2.
@@ -121,9 +124,12 @@ Open-Meteo forecast (on click) -------------------------------------------------
 | `shared/` | Types shared by the pipeline and the app |
 | `fixtures/` | Real API responses from 2026-10-20 used by the tests (see `fixtures/README.md`) |
 | `scripts/smoke.mjs` | Browser smoke test |
-| `scripts/release.mjs` | Version bump, release notes and the CI release check |
-| `scripts/monitor.mjs` | Opens and closes the `data-pipeline` issue from `status.json` (run by the deploy workflow) |
-| `docs/` | Release plan, roadmap, design notes (share snapshot) and spike reports |
+| `scripts/release.mjs`, `scripts/release-notes.mjs` | Version bump, the CI release check, and the release notes read from `docs/release-plan.md` (for the GitHub Release and the What's new card) |
+| `scripts/monitor.mjs` | Opens and closes the `data-pipeline` and `upstream-budget` issues from `status.json` (run by the deploy workflow) |
+| `scripts/og-image.mjs` | Renders the link preview picture |
+| `scripts/share-mockups.mjs` | Renders the share picture mock-ups in `docs/design/share-snapshot/` |
+| `.github/` | Workflows, issue forms (bug, idea, release checklist) and the pull request template |
+| `docs/` | Index and how work is tracked (`docs/README.md`), release plan, roadmap, design notes (`docs/design/`), spike reports (`docs/spikes/`) and the initial plan |
 
 ## Shareable view
 
@@ -177,6 +183,7 @@ Limits: `dev`'s pipeline calls the same upstreams, so while `dev` changes the pi
 - **The forecast animation is a sketch of where snow will fall,** not a snow depth forecast. Precipitation comes from about 10 km apart and is spread smoothly between the points; the snow share uses a fixed rule (snowfall limit 300 m below the freezing level, 10:1 snow) that misses heavy-precipitation cooling, wet snow and wind. Settling and melting of the new snow are ignored.
 - **The timeline's past days start with the deployment.** Days before that exist only as snow seen from space (rebuilt from cached passes, at most 10 days back), without depth estimate or station readings. A day shows the last update of that day.
 - **Cast shadows are only as fine as the terrain behind them.** Around the view they come from Mapterhorn tiles of 13–100 m (zoom 9.5 and closer), elsewhere from 250 m cells, where ridges narrower than a few hundred metres cast no shadow and edges are soft. Trees and buildings cast none. The earth's curvature is left out of the shadows cast inside the grid (a 30 km shadow comes out up to ~60 m of ridge height too long at a very low sun); it is only used for the horizon around sunrise and sunset, measured to sea level, so a distant mountain range beyond the grid does not delay the first light. Terrain outside the grid (10.2–12.7° E, 46.1–47.25° N) casts none, and the map has no shade outside the grid. The finer grid downloads up to four extra terrain tiles (about 0.5 MB) when the view moves to a new place.
+- **The sun row's sunrise and sunset are for a flat horizon at the map centre.** The Place tab gives a point's real ones behind its skyline.
 - **A point's sun times are only as good as the terrain.** Beyond 5 km the skyline comes from 250 m cells, which smooth summits and narrow ridges by tens of metres; a point a few metres off a summit or ridge crest can lose or gain sun behind the crest itself. Visibility is for the sun's top edge in a clear sky.
 - **Open-Meteo counts every grid point as one call** (273 per fetch, at most 4 fetches a day). A runner IP shared with heavy users can still be refused; the app then animates the last fetched forecast and says how old it is.
 - **Avalanche regions are simplified to about 30 m.** A place within a few hundred metres of a region border can be given the neighbouring region; check the region on the bulletin map. The outlines are a static copy and change only when `npm run regions` runs.
@@ -184,7 +191,9 @@ Limits: `dev`'s pipeline calls the same upstreams, so while `dev` changes the pi
 
 ## Releases
 
-Versions follow `0.x` semver while the app is being tested with friends (`v0.2.0` testers, `v0.3.0` share picture, `1.0.0` for a public launch). The version and commit show at the end of the About tab. To make one, see "How to make a release" in [`docs/release-plan.md`](docs/release-plan.md): `npm run release X.Y.Z` on `dev` bumps the version and adds the release notes, CI checks them on the pull request to `main`, and after the merge the deploy tags the commit and publishes the GitHub Release. Data deploys three times a day are not releases.
+Versions follow `0.x` semver while the app is being tested with friends (`v0.2.0` testers, `v0.3.0` winter release, `v0.4.0` UI for all features, `v0.5.0` share picture, `1.0.0` for a public launch). What goes into which version is its [milestone](https://github.com/adamvalik/tirol-snow-map/milestones). The version and commit show at the end of the About tab.
+
+Work happens on `dev`, which deploys the dev preview, and reaches `main` through a pull request. Other branches are named after their issue, `<type>/<issue>-<short-name>` (for example `feat/28-webcam-links`), and merge into `dev`; see "How work is tracked" in [`docs/README.md`](docs/README.md). To make one, see "How to make a release" in [`docs/release-plan.md`](docs/release-plan.md): `npm run release X.Y.Z` on `dev` bumps the version and adds the release notes, CI checks them on the pull request to `main`, and after the merge the deploy tags the commit and publishes the GitHub Release. Data deploys three times a day are not releases.
 
 ## Attribution
 
