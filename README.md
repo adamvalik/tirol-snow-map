@@ -203,6 +203,8 @@ Work happens on `dev`, which deploys the dev preview, and reaches `main` through
 
 ## Attribution
 
+The code is under the MIT licence ([`LICENSE`](LICENSE)). The licence covers the code only; the data keeps its own licences, listed below and in the app's About tab.
+
 Terrain © [Mapterhorn](https://mapterhorn.com/attribution), built from:
 - South Tyrol DGM 2.5 m (Autonomous Province of Bolzano, CC0)
 - TINITALY (INGV, CC BY 4.0)
