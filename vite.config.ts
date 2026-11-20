@@ -2,10 +2,14 @@
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { defineConfig, type Plugin } from 'vite';
+import { releaseNotes } from './scripts/release-notes.mjs';
 
 // App version from package.json and the short commit it was built from (GITHUB_SHA in Actions,
 // git locally, "dev" without git). Shown in "About the data".
 const version = (JSON.parse(readFileSync('package.json', 'utf8')) as { version: string }).version;
+// The notes of this version from the Releases table, for the What's new card; empty until
+// `npm run release` adds the row, so a build between releases shows no card to returning visitors.
+const notes = releaseNotes(readFileSync('docs/release-plan.md', 'utf8'), `v${version}`);
 function commit(): string {
   if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 7);
   try {
@@ -16,13 +20,18 @@ function commit(): string {
 }
 
 // Optional, from the deploy workflow's repository variables (see README, Deployment). Empty turns
-// the feedback e-mail links and the visit counting off.
+// the feedback form, ideas board and e-mail links and the visit counting off.
 // Changes with every build, so a deploy never mixes byte ranges of the previous basemap file
 // (GitHub Pages gives it a new ETag on every deploy) that the browser still has cached.
 const buildId = Date.now().toString(36);
 
 const feedbackEmail = (process.env.FEEDBACK_EMAIL ?? '').trim();
 const goatcounterCode = (process.env.GOATCOUNTER_CODE ?? '').trim();
+const feedbackFormUrl = (process.env.FEEDBACK_FORM_URL ?? '').trim();
+const ideasUrl = (process.env.IDEAS_URL ?? '').trim();
+for (const [name, value] of [['FEEDBACK_FORM_URL', feedbackFormUrl], ['IDEAS_URL', ideasUrl]]) {
+  if (value && !/^https:\/\/[^\s/]+\/\S*$/.test(value)) throw new Error(`${name} should be an https:// address: ${value}`);
+}
 if (feedbackEmail && !/^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(feedbackEmail)) {
   throw new Error(`FEEDBACK_EMAIL is not an e-mail address: ${feedbackEmail}`);
 }
@@ -66,8 +75,11 @@ export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(version),
     __APP_COMMIT__: JSON.stringify(commit()),
+    __RELEASE_NOTES__: JSON.stringify(notes),
     __BUILD_ID__: JSON.stringify(buildId),
     __FEEDBACK_EMAIL__: JSON.stringify(feedbackEmail),
+    __FEEDBACK_FORM_URL__: JSON.stringify(feedbackFormUrl),
+    __IDEAS_URL__: JSON.stringify(ideasUrl),
     __GOATCOUNTER_CODE__: JSON.stringify(goatcounterCode),
   },
   worker: { format: 'es' },

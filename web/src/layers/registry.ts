@@ -4,6 +4,7 @@
 import type * as maplibregl from 'maplibre-gl';
 import { track } from '../app/analytics.ts';
 import { $ } from '../app/dom.ts';
+import { drapeTogether } from '../drape.ts';
 import { isOn, toggle } from '../app/switches.ts';
 import { inArea } from '../island.ts';
 import { LAYER_KEYS, type ViewState } from '../viewState.ts';
@@ -17,14 +18,16 @@ import { snow } from './snow.ts';
 import { stations } from './stations.ts';
 import { sun } from './sun.ts';
 import { terrain } from './terrain.ts';
+import { winter } from './winter.ts';
 import type { App, LayerModule } from './types.ts';
 
 /**
  * Each `init` adds its map layers relative to the ones before it, so the order matters: the night
- * overlay before the via ferratas (which go above it), the snow pictures before the forecast, a GPX
- * track above the via ferratas, the bivouacs before the station dots on top.
+ * overlay before the winter sports and via ferratas (which go above it), the snow pictures before the
+ * forecast, the winter sports below the via ferratas, a GPX track above the via ferratas, the
+ * bivouacs before the station dots on top.
  */
-export const LAYERS: readonly LayerModule[] = [terrain, osm, sun, satellite, snow, forecast, ferratas, gpx, bivouacs, stations];
+export const LAYERS: readonly LayerModule[] = [terrain, osm, sun, satellite, snow, forecast, winter, ferratas, gpx, bivouacs, stations];
 
 // Every key in a link has exactly one layer that answers its switch.
 for (const key of LAYER_KEYS) {
@@ -53,9 +56,13 @@ export function setupLayers(app: App) {
   for (const m of LAYERS) m.setup?.(app);
 }
 
-/** Once the style has loaded: adds the layers one after the other. */
+/**
+ * Once the style has loaded: adds the layers one after the other, then puts the flat ones below
+ * the labels, circles and 3D blocks, so the terrain draws them all in one texture (drape.ts).
+ */
 export async function initLayers(app: App) {
   for (const m of LAYERS) await m.init?.(app);
+  drapeTogether(app.map);
 }
 
 /** Opens the point panel for a click on the terrain, unless a layer opens its own panel there. */

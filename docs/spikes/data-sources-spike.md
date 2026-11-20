@@ -1,6 +1,6 @@
 # Spike report: data sources
 
-Date: 2026-10-20, around 11:45 UTC. Every claim below comes from a real call made that day. The responses are saved in [`fixtures/`](../fixtures/README.md).
+Date: 2026-10-20, around 11:45 UTC. Every claim below comes from a real call made that day. The responses are saved in [`fixtures/`](../../fixtures/README.md).
 
 ## Summary
 

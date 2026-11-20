@@ -17,7 +17,8 @@ on:
         type: boolean
         default: false
   push:
-    branches: ['claude/**']
+    # Work branches (feat/…, fix/…); dev gets its pipeline run in the dev preview (deploy.yml).
+    branches-ignore: [main, dev]
     paths:
       - 'pipeline/src/**'
       - 'shared/**'

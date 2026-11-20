@@ -3,6 +3,7 @@
 // "Sun here" open in place and load their content the first time they open.
 import type { Station, StationsFile } from '../../shared/types.ts';
 import { currentTab, isPhone, setSheet, showTab } from './app/layout.ts';
+import { track } from './app/analytics.ts';
 import { icon, type IconName } from './app/icons.ts';
 import { isOn } from './app/switches.ts';
 import { type Forecast, getForecast } from './forecast.ts';
@@ -78,7 +79,7 @@ export function closePanel() {
   body.innerHTML = '';
   if (currentTab() === 'place') showTab(returnTab, false);
   // On a phone the map comes back: the sheet goes down with the place.
-  if (isPhone()) setSheet(false);
+  if (isPhone()) setSheet('peek');
 }
 
 document.getElementById('details-close')!.addEventListener('click', closePanel);
@@ -116,6 +117,7 @@ async function fill(row: HTMLDetailsElement) {
   try {
     html = await loader(p, signal);
   } catch (e) {
+    if (!signal.aborted) track(`error/${kind}`);
     html = `<p class="banner">${icon('warning-fill', 18)}<span>${escapeHtml(e instanceof Error ? e.message : String(e))}</span></p>`;
     delete row.dataset.loaded;
   }

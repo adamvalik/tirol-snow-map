@@ -7,6 +7,7 @@ import {
   localDate,
   localMidnight,
   nightOpacity,
+  shadeLook,
   skyFor,
   sunDay,
   sunParam,
@@ -63,37 +64,67 @@ describe('local days', () => {
 
 describe('sun light on the map', () => {
   it('keeps the usual north-west light when off', () => {
-    expect(hillshadePaint(null, false)).toMatchObject({
-      'hillshade-method': 'standard',
-      'hillshade-exaggeration': 0.3,
-      'hillshade-illumination-direction': 335,
+    const paint = hillshadePaint(null, false);
+    expect(paint).toMatchObject({
+      'hillshade-method': 'multidirectional',
+      'hillshade-exaggeration': 0.45,
       'hillshade-illumination-anchor': 'viewport',
     });
-    expect(hillshadePaint(null, true)['hillshade-exaggeration']).toBe(0.12);
+    // The main light comes from the north-west; one colour per light.
+    const directions = paint['hillshade-illumination-direction'] as number[];
+    expect(directions[0]).toBe(335);
+    expect(paint['hillshade-shadow-color']).toHaveLength(directions.length);
+    expect(paint['hillshade-highlight-color']).toHaveLength(directions.length);
+    expect(hillshadePaint(null, true)['hillshade-exaggeration']).toBe(0.2);
   });
 
-  it('lights from the sun, fixed to the map, never from below the horizon', () => {
+  it('lights the relief from the sun, fixed to the map', () => {
     const paint = hillshadePaint({ azimuth: -90, altitude: -3 }, false);
     expect(paint).toMatchObject({
       // 'standard' would ignore the altitude.
       'hillshade-method': 'basic',
       'hillshade-illumination-direction': 270,
-      'hillshade-illumination-altitude': 0,
       'hillshade-illumination-anchor': 'map',
     });
-    expect(hillshadePaint({ azimuth: 180, altitude: 30 }, false)['hillshade-illumination-altitude']).toBe(30);
-    // Warm light near the horizon, near white high up, none once the sun is well down.
-    const light = (altitude: number) => hillshadePaint({ azimuth: 180, altitude }, false)['hillshade-highlight-color'];
-    expect(light(2)).toBe('rgba(255, 210, 160, 0.55)');
-    expect(light(40)).toBe('rgba(255, 252, 240, 0.65)');
-    expect(paint['hillshade-highlight-color']).toBe('rgba(255, 210, 160, 0)');
+    // The relief is lit from a fixed height, so flat ground keeps its colour; real shade is the shade layer's.
+    expect(paint['hillshade-illumination-altitude']).toBe(30);
+    expect(hillshadePaint({ azimuth: 180, altitude: 10 }, false)['hillshade-illumination-altitude']).toBe(30);
+    expect(hillshadePaint({ azimuth: 180, altitude: 60 }, false)['hillshade-illumination-altitude']).toBe(40);
   });
 
-  it('darkens the map and sky only once the sun has set', () => {
+  it('gives warm light when the sun is low, near white high up, and none once the summits lose it', () => {
+    const rgba = (altitude: number) =>
+      (hillshadePaint({ azimuth: 180, altitude }, false)['hillshade-highlight-color'] as string).match(/[\d.]+/g)!.map(Number);
+    const [, gLow, bLow, aLow] = rgba(2);
+    const [, gHigh, bHigh, aHigh] = rgba(40);
+    expect(bLow).toBeLessThan(160);
+    expect(gLow).toBeLessThan(gHigh);
+    expect(bHigh).toBeGreaterThan(215);
+    // Softer high up, where the light is flat and strong, so the map is not washed out.
+    expect(aHigh).toBeLessThan(aLow);
+    expect(aLow).toBeLessThanOrEqual(0.4);
+    // The first and last light on the summits is rose; none at all well below the horizon.
+    const [, gDawn, bDawn] = rgba(-1.5);
+    expect(gDawn).toBeLessThan(gLow);
+    expect(bDawn).toBeGreaterThan(bLow);
+    expect(rgba(-3)[3]).toBe(0);
+  });
+
+  it('shades in a cool blue, a little lighter over the satellite photo', () => {
+    const map = shadeLook(false);
+    const photo = shadeLook(true);
+    expect(map.color[2]).toBeGreaterThan(map.color[0] * 3);
+    expect(photo.opacity).toBeLessThan(map.opacity);
+    expect(map.opacity).toBeLessThan(0.5);
+  });
+
+  it('dims the map a little as the sun sinks, and darkens it once the summits have lost the sun', () => {
     expect(nightOpacity(10)).toBe(0);
-    expect(nightOpacity(0)).toBe(0);
-    expect(nightOpacity(-6)).toBe(0.3);
-    expect(nightOpacity(-30)).toBe(0.6);
+    expect(nightOpacity(5)).toBe(0.03);
+    expect(nightOpacity(0)).toBe(0.06);
+    expect(nightOpacity(-2)).toBe(0.06);
+    expect(nightOpacity(-7)).toBe(0.28);
+    expect(nightOpacity(-30)).toBe(0.5);
     expect(skyFor(30)['sky-color']).toBe('#9ec9f0');
     expect(skyFor(-20)['sky-color']).toBe('#101a33');
   });

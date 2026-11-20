@@ -1,12 +1,13 @@
 // Sun and shade: the light for a time of day, the night overlay, cast shadows, the sun row of the
 // timeline, and "Sunrise, sunset and shade here" (the skyline and sun hours) in the Place tab.
 import { $ } from '../app/dom.ts';
+import { isPhone, setSheet, settleSheet, sheetOpen } from '../app/layout.ts';
 import { PAUSE_ICON, PLAY_ICON } from '../app/icons.ts';
 import { isOn, switchOn } from '../app/switches.ts';
 import { toast } from '../app/toast.ts';
 import { registerLoader, reloadRows } from '../panel.ts';
 import { type Horizon, horizonProfile } from '../../../shared/horizon.ts';
-import { MAX_BOUNDS } from '../map.ts';
+import { MAPTERHORN_TILES, MAX_BOUNDS } from '../map.ts';
 import { ShadowLayer } from '../shadows.ts';
 import {
   clockTime,
@@ -19,6 +20,7 @@ import {
   localMidnight,
   NIGHT_COLOR,
   nightOpacity,
+  shadeLook,
   skyFor,
   sunDay,
   sunParam,
@@ -74,22 +76,50 @@ function showSunControls() {
 
 /**
  * Light, sky and night overlay for the sun at the map centre, or the usual light when off.
- * The satellite photo tones the hillshade down, so it calls this too.
+ * The satellite photo tones the hillshade down, so it calls this too. With the sun, the light
+ * changes when the shade for it is on the map, so the two never disagree; `quick` (a slider being
+ * dragged, the day playing) leaves out the finer shade so it keeps up.
  */
-export function applyLight() {
+export function applyLight(quick = false) {
   if (!lightReady) return;
   const { map } = app;
   const c = map.getCenter();
   const sun = isOn('sun') ? sunPosition(sunTime, c.lat, c.lng) : null;
-  const paint = hillshadePaint(sun, isOn('satellite'));
-  for (const k of Object.keys(paint) as (keyof HillshadePaint)[]) map.setPaintProperty('hillshade', k, paint[k]);
-  map.setSky(sun ? skyFor(sun.altitude) : DEFAULT_SKY);
-  map.setLayoutProperty(NIGHT_LAYER, 'visibility', sun ? 'visible' : 'none');
-  applyShadows(sun);
-  if (sun) {
+  const satellite = isOn('satellite');
+  const light = () => {
+    const paint = hillshadePaint(sun, satellite);
+    for (const k of Object.keys(paint) as (keyof HillshadePaint)[]) map.setPaintProperty('hillshade', k, paint[k]);
+    map.setSky(sun ? skyFor(sun.altitude) : DEFAULT_SKY);
+    if (sun) map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
+  };
+  // Coming on: the overlay starts at this time's opacity, not the one it had when last shown (a
+  // night view would darken the map until the first shade is in).
+  if (sun && map.getLayoutProperty(NIGHT_LAYER, 'visibility') !== 'visible') {
     map.setPaintProperty(NIGHT_LAYER, 'fill-opacity', nightOpacity(sun.altitude));
-    showSunLabel(sun);
   }
+  map.setLayoutProperty(NIGHT_LAYER, 'visibility', sun ? 'visible' : 'none');
+  if (sun) showSunLabel(sun);
+  if (!sun || !shadowLayer) {
+    shadowLayer?.hide();
+    light();
+    return;
+  }
+  // Also at night: the shade then covers everything, under the night overlay.
+  if (shadowLayer.show(terrainGrid, sunTime, sun.azimuth, shadeLook(satellite), quick, light)) return;
+  // The terrain for the shade is not in yet: light now, shade once it is.
+  light();
+  if (terrainGridLoading) return;
+  terrainGridLoading = true;
+  loadGrid().then(
+    (g) => {
+      terrainGrid = g;
+      applyLight();
+    },
+    (e: unknown) => {
+      terrainGridLoading = false;
+      toast(`Shadows unavailable: ${e instanceof Error ? e.message : String(e)}`);
+    },
+  );
 }
 
 /** "Sun 14:20" and "21° high in the SW" in the sun row. */
@@ -99,33 +129,11 @@ function showSunLabel(sun: SunPosition) {
     sun.altitude >= 0.5 ? `${Math.round(sun.altitude)}° high` : sun.altitude > -6 ? 'on the horizon' : 'night';
 }
 
-function applyShadows(sun: ReturnType<typeof sunPosition> | null) {
-  if (!shadowLayer) return;
-  if (!sun || sun.altitude <= 0 || !isOn('shadows')) {
-    shadowLayer.hide();
-    return;
-  }
-  if (terrainGrid) shadowLayer.show(terrainGrid, sunTime, sun.azimuth);
-  else if (!terrainGridLoading) {
-    terrainGridLoading = true;
-    loadGrid().then(
-      (g) => {
-        terrainGrid = g;
-        applyLight();
-      },
-      (e: unknown) => {
-        terrainGridLoading = false;
-        toast(`Shadows unavailable: ${e instanceof Error ? e.message : String(e)}`);
-      },
-    );
-  }
-}
-
-function setSunTime(t: number) {
+function setSunTime(t: number, quick = false) {
   const dayChanged = localDate(t) !== localDate(sunTime);
   sunTime = t;
   showSunControls();
-  applyLight();
+  applyLight(quick);
   // The skyline stays (traced once per place); the sun's path is worked out again for the new day.
   if (dayChanged) {
     reloadRows('sun');
@@ -189,9 +197,12 @@ function showSunPlaying(playing: boolean) {
 }
 
 function pauseSun() {
+  const playing = sunTimer !== undefined;
   window.clearInterval(sunTimer);
   sunTimer = undefined;
   showSunPlaying(false);
+  // Played with the quick shade; the finer one comes back where it stopped.
+  if (playing) applyLight();
 }
 
 function playSun() {
@@ -201,30 +212,37 @@ function playSun() {
   const to = sunset + PLAY_MARGIN;
   if (sunTime < from || sunTime >= to) setSunTime(from);
   showSunPlaying(true);
-  // About ten seconds for a winter day, a little more in summer.
+  // About ten seconds for a winter day, a little more in summer; slower on a device that takes
+  // longer for the shade, since each step waits for the one before to be on the map.
   sunTimer = window.setInterval(() => {
+    if (shadowLayer?.busy) return;
     const next = sunTime + 4 * MINUTE;
-    setSunTime(Math.min(next, to));
+    setSunTime(Math.min(next, to), true);
     if (next >= to) pauseSun();
   }, 60);
 }
 
 export const sun: LayerModule = {
-  keys: ['sun', 'shadows'],
+  keys: ['sun'],
 
   setup(a) {
     app = a;
     if (app.initial.sun) sunTime = Date.parse(app.initial.sun);
     sunPlayBtn.innerHTML = PLAY_ICON;
     sunGroup.hidden = !isOn('sun');
+    // Phones: a shared link with the sun light opens on the slider alone, with most of the screen for the map.
+    if (isOn('sun') && isPhone()) setSheet('hidden');
     showSunControls();
     sunSlider.addEventListener('input', () => {
       pauseSun();
       // The slider only moves the time of day; the date changes with the date button.
       const date = localDate(sunTime);
       const minute = Math.min(Number(sunSlider.value), dayMinutes(date) - 1);
-      setSunTime(localMidnight(date) + minute * MINUTE);
+      // While dragging, the quick shade keeps up with the slider.
+      setSunTime(localMidnight(date) + minute * MINUTE, true);
     });
+    // Let go (or a key press): the finer shade for where it stopped.
+    sunSlider.addEventListener('change', () => applyLight());
     // The date input is invisible over its button. Clicking it opens the calendar, not only the
     // part of the native input that has the calendar icon.
     sunDateInput.addEventListener('click', () => {
@@ -278,22 +296,23 @@ export const sun: LayerModule = {
       },
       basemap.labels[0]?.id,
     );
-    // Under the night overlay, over the snow cells and roads.
-    shadowLayer = new ShadowLayer(map, NIGHT_LAYER);
+    // Right above the hillshade, which it completes: under the snow cells, roads and the night overlay.
+    shadowLayer = new ShadowLayer(map, basemap.lines[0]?.id, MAPTERHORN_TILES);
     // For browser checks and debugging: how long the last shadow computation took.
     shadowLayer.onDrawn = (ms) => (document.body.dataset.shadowMs = ms.toFixed(1));
+    shadowLayer.onFailed = (reason) => {
+      console.warn('Shadows:', reason);
+      toast('Shadows are not available on this device. The sun light still works.');
+    };
     lightReady = true;
     applyLight();
   },
 
-  setVisible(key, on) {
-    if (key === 'shadows') {
-      // Shadows need the sun light; switching them on switches it on.
-      if (on && !isOn('sun')) switchOn('sun');
-      else applyLight();
-      return;
-    }
+  setVisible(_key, on) {
     sunGroup.hidden = !on;
+    // Phones, switched on in the open sheet: it goes down to the slider, so the light can be seen on
+    // the map. From the layer buttons of the lowered sheet it stays, with them to switch it off again.
+    if (on && isPhone() && sheetOpen()) settleSheet('hidden');
     if (!on) pauseSun();
     // The light is drawn by the hillshade layer, so it has to be on.
     if (on && !isOn('hillshade')) switchOn('hillshade');

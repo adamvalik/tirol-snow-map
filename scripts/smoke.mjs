@@ -1,14 +1,17 @@
 // Smoke test for the built app: serves dist/, opens it in Chromium (desktop and phone profiles),
 // and reports time to first rendered map, console errors, and a rough frame rate while rotating;
-// on desktop also the day slider, forecast playback, the via ferrata layer, a shared link and "Where am I".
+// on desktop also the day slider, forecast playback, the via ferrata and winter sports layers (drawn
+// with one terrain texture per tile), a shared link
+// and "Where am I".
 //
 //   npm run build && node scripts/smoke.mjs [--out <screenshot dir>]
 //
 // Env: CHROMIUM_PATH to use a specific Chromium; HTTPS_PROXY is passed to the browser if set;
-// SMOKE_READY_LIMIT_MS overrides the 5000 ms limit for the first rendered map (CI runners render in software).
+// SMOKE_READY_LIMIT_MS overrides the 5000 ms limit for the first rendered map (CI runners render in software);
+// SMOKE_LIVE_FORECAST=1 asks the real Open-Meteo API instead of answering from the saved fixture.
 // Headless Chromium renders WebGL in software, so frame rates here are a lower bound, not a phone measurement.
 
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium, devices } from 'playwright';
 import { preview } from 'vite';
@@ -20,10 +23,19 @@ await mkdir(outDir, { recursive: true });
 // CI runners draw WebGL in software, so a screenshot while the map is still drawing new terrain can
 // take well over Playwright's default 30 s; every screenshot gets the same allowance.
 const SHOT_TIMEOUT_MS = 120_000;
+// Whether a panel opens, not how fast: in software GL the page is busy for seconds after a click
+// (a frame of the 3D map, the place's skyline), so a panel that opened at once was seen after the
+// old 5 s. Checked every 250 ms rather than once a frame (Playwright's default), as frames are slow.
+const PANEL_WAIT = { timeout: 20_000, polling: 250 };
 
 const server = await preview({ preview: { port: 4174, strictPort: true }, logLevel: 'silent' });
 const url = 'http://localhost:4174/';
 const readyLimitMs = Number(process.env.SMOKE_READY_LIMIT_MS) || 5000;
+// Open-Meteo limits are per IP, and CI and sandbox IPs are shared, so the live API often answers 429.
+// By default the point forecast is answered from a saved response: the request still goes out from the
+// app (and is checked against the allowed hosts), it just never reaches Open-Meteo.
+const liveForecast = process.env.SMOKE_LIVE_FORECAST === '1';
+const forecastFixture = liveForecast ? null : await readFile('fixtures/open-meteo/forecast-bolzano-7d.json', 'utf8');
 
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || undefined,
@@ -53,6 +65,13 @@ for (const profile of profiles) {
     const host = new URL(r.url()).host;
     if (host && !host.startsWith('localhost')) external.add(host);
   });
+  let forecastRequests = 0;
+  if (forecastFixture) {
+    await context.route('https://api.open-meteo.com/v1/forecast?*', (route) => {
+      forecastRequests++;
+      return route.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: forecastFixture });
+    });
+  }
 
   const t0 = Date.now();
   await page.goto(url, { waitUntil: 'load' });
@@ -99,7 +118,7 @@ for (const profile of profiles) {
   if (stationPoint) {
     await page.mouse.click(stationPoint.x, stationPoint.y);
     stationOk = await page
-      .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Snow depth'), null, { timeout: 5000 })
+      .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Snow depth'), null, PANEL_WAIT)
       .then(() => true, () => false);
     await page.screenshot({ path: path.join(outDir, `${profile.name}-station.png`), timeout: SHOT_TIMEOUT_MS });
   }
@@ -111,9 +130,9 @@ for (const profile of profiles) {
   const forecastOk = await page
     .waitForSelector('.fc-list', { timeout: 20_000 })
     .then(() => true, () => false);
-  // Open-Meteo limits are per IP; a shared CI or sandbox IP can hit them. The app shows the error, which is the
-  // intended behaviour, so this is reported but does not fail the run.
-  const rateLimited = !forecastOk && /limit|in time/i.test((await page.textContent('#details-body')) ?? '');
+  // Only with the live API: a 429 shows the error in the panel, which is the intended behaviour, so it is
+  // reported but does not fail the run.
+  const rateLimited = liveForecast && !forecastOk && /limit|in time/i.test((await page.textContent('#details-body')) ?? '');
   const appErrors = errors.filter((e) => !(rateLimited && e.includes('status of 429')));
   await page.screenshot({ path: path.join(outDir, `${profile.name}-forecast.png`), timeout: SHOT_TIMEOUT_MS });
 
@@ -176,10 +195,58 @@ for (const profile of profiles) {
     if (ferrataPoint) {
       await page.mouse.click(ferrataPoint.x, ferrataPoint.y);
       ferrata = await page
-        .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Mapped length'), null, { timeout: 5000 })
-        .then(() => 'OK', () => 'FAILED (no panel)');
+        .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Mapped length'), null, PANEL_WAIT)
+        .then(
+          () => 'OK',
+          // What the click hit and what the panel shows instead, to tell a slow panel from a wrong one.
+          () =>
+            page.evaluate(([x, y]) => {
+              const { map } = window.__snowmap;
+              const box = map.getContainer().getBoundingClientRect();
+              const hit = map.queryRenderedFeatures([x - box.left, y - box.top]).map((f) => f.layer.id).slice(0, 5).join(', ');
+              const title = document.getElementById('details-title')?.textContent ?? '';
+              return `FAILED (no panel; under the click: ${document.elementFromPoint(x, y)?.className || '?'}, layers ${hit || 'none'}; panel: "${title}", tab ${document.getElementById('panel').dataset.tab})`;
+            }, [ferrataPoint.x, ferrataPoint.y]),
+        );
     }
     await page.screenshot({ path: path.join(outDir, 'desktop-v3.png'), timeout: SHOT_TIMEOUT_MS });
+    // Winter sports: switch the layer on over Val Gardena and open a lift's panel.
+    await page.evaluate(() => {
+      document.getElementById('details-close')?.click();
+      window.__snowmap.map.jumpTo({ center: [11.76, 46.545], zoom: 12.8, pitch: 50, bearing: 20 });
+      document.getElementById('toggle-winter').click();
+    });
+    const liftPoint = await page
+      .waitForFunction(
+        () => {
+          const { map } = window.__snowmap;
+          const box = map.getContainer().getBoundingClientRect();
+          for (const f of map.queryRenderedFeatures({ layers: ['winter-hit'] })) {
+            if (f.properties.kind !== 'lift' || f.geometry.type !== 'LineString') continue;
+            const c = f.geometry.coordinates;
+            const p = map.project([(c[0][0] + c.at(-1)[0]) / 2, (c[0][1] + c.at(-1)[1]) / 2]);
+            const hit = map.queryRenderedFeatures([p.x, p.y], { layers: ['winter-hit'] })[0];
+            if (hit?.properties.kind === 'lift' && document.elementFromPoint(p.x + box.left, p.y + box.top)?.tagName === 'CANVAS') return { x: p.x + box.left, y: p.y + box.top };
+          }
+          return null;
+        },
+        null,
+        { timeout: 60_000, polling: 1000 },
+      )
+      .then((h) => h.jsonValue(), () => null);
+    let winter = 'FAILED (no lift drawn)';
+    if (liftPoint) {
+      await page.mouse.click(liftPoint.x, liftPoint.y);
+      winter = await page
+        .waitForFunction(() => document.querySelector('#details-body')?.textContent?.includes('Top station'), null, PANEL_WAIT)
+        .then(() => 'OK', () => 'FAILED (no panel)');
+    }
+    await page.screenshot({ path: path.join(outDir, 'desktop-winter.png'), timeout: SHOT_TIMEOUT_MS });
+    // With via ferratas and winter sports on, the flat layers still share one texture per terrain
+    // tile (web/src/drape.ts); each extra one cost phones about 21 MB a tile, and the tab (#55).
+    // Reads MapLibre's render-to-texture stacks, an internal of the last frame.
+    const stacks = await page.evaluate(() => window.__snowmap.map.painter.renderToTexture?._stacks.length ?? 0);
+    const drape = stacks === 1 ? 'OK' : `FAILED (${stacks} textures per terrain tile)`;
     await page.waitForTimeout(500);
     const hash = await page.evaluate(() => window.location.hash);
     const shared = await context.newPage();
@@ -192,10 +259,11 @@ for (const profile of profiles) {
         zoom: m.getZoom(),
         forecast: document.getElementById('toggle-forecast').checked,
         ferratas: document.getElementById('toggle-ferratas').checked,
+        winter: document.getElementById('toggle-winter').checked,
         day: document.querySelector('#days [aria-checked="true"]')?.dataset.date ?? null,
       };
     });
-    const linkOk = hash.includes('map=') && Math.abs(restored.zoom - 12.6) < 0.05 && restored.forecast && restored.ferratas;
+    const linkOk = hash.includes('map=') && Math.abs(restored.zoom - 12.8) < 0.05 && restored.forecast && restored.ferratas && restored.winter;
     await shared.close();
     await page.bringToFront();
     // Where am I: the button finds the position, the dot shows, and a second tap switches it off.
@@ -209,13 +277,14 @@ for (const profile of profiles) {
         },
         () => 'FAILED (no position)',
       );
-    v3 = `timeline day ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}, where am I ${locate}`;
-    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || !linkOk || locate !== 'OK') v3Failed = true;
+    v3 = `timeline day ${dayOk}, forecast animation ${forecastAnim}, via ferratas ${ferrata}, winter sports ${winter}, draped layers ${drape}, shared link ${linkOk ? 'OK' : `FAILED (${hash} -> ${JSON.stringify(restored)})`}, where am I ${locate}`;
+    if (dayOk === 'FAILED' || forecastAnim === 'FAILED' || ferrata !== 'OK' || winter !== 'OK' || drape !== 'OK' || !linkOk || locate !== 'OK') v3Failed = true;
   }
 
   console.log(
     `${profile.name}: map ready ${readyMs} ms (in-page ${readyInPage} ms), ~${fps.toFixed(0)} fps while rotating (software GL), ` +
-      `station panel ${stationOk ? 'OK' : 'FAILED'}, forecast ${forecastOk ? 'OK' : rateLimited ? 'RATE-LIMITED by Open-Meteo (error shown in panel)' : 'FAILED'}`,
+      `station panel ${stationOk ? 'OK' : 'FAILED'}, forecast ${forecastOk ? 'OK' : rateLimited ? 'RATE-LIMITED by Open-Meteo (error shown in panel)' : 'FAILED'}` +
+      (liveForecast ? ' (live Open-Meteo)' : ` (fixture, ${forecastRequests} request${forecastRequests === 1 ? '' : 's'})`),
   );
   console.log(`  ${stationsText}`);
   if (v3) console.log(`  ${v3}`);

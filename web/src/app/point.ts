@@ -1,6 +1,7 @@
 // The Place tab for a clicked point of the terrain, a bivouac or a via ferrata: elevation, snow, and
 // the rows for the point forecast (open) and the sun. Layers can hook into opening and closing.
 import * as maplibregl from 'maplibre-gl';
+import { track } from './analytics.ts';
 import { actionsHtml, openPanel, type PanelHead } from '../panel.ts';
 
 /**
@@ -83,6 +84,7 @@ export class PointPanel {
       (place?.footHtml ?? '');
     // Opening replaces whatever was shown, whose close handler (this.clear for a point) runs first.
     openPanel(head, html, this.clear);
+    track('point');
     const abort = (this.abort = new AbortController());
     this.marker.setLngLat(lngLat).addTo(this.map);
     this.open = { lngLat, signal: abort.signal };

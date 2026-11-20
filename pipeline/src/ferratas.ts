@@ -176,7 +176,7 @@ export function simplify<T extends readonly number[]>(line: T[], toleranceM: num
   return line.filter((_, i) => keep[i]);
 }
 
-class UnionFind {
+export class UnionFind {
   private parent = new Map<number, number>();
   find(a: number): number {
     let p = this.parent.get(a) ?? a;
