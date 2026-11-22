@@ -11,7 +11,7 @@ import {
   parseForecastGrid,
   snowFraction,
 } from '../src/forecast/snowfall.ts';
-import { FORECAST_FIXTURE } from '../src/forecast/run-forecast.ts';
+import { fetchGrid, FORECAST_FIXTURE } from '../src/forecast/run-forecast.ts';
 
 describe('forecast grid', () => {
   it('covers the model grid with one multi-location request', () => {
@@ -33,6 +33,27 @@ describe('forecast grid', () => {
     expect(raw.precip[0]).toHaveLength(273);
     expect(Math.min(...raw.freezingLevel.flat())).toBe(1460);
     expect(() => parseForecastGrid(body.slice(1), 273)).toThrow(/272 locations/);
+  });
+});
+
+describe('forecast fetch', () => {
+  const answer = (status: number, body: unknown) => new Response(JSON.stringify(body), { status });
+  const fake = (...answers: Response[]) => {
+    let calls = 0;
+    const fn = (async () => answers[calls++]) as unknown as typeof fetch;
+    return { fn, calls: () => calls };
+  };
+
+  it('tries once more after the per-minute limit', async () => {
+    const f = fake(answer(429, { reason: 'Minutely API request limit exceeded. Please try again in one minute.' }), answer(200, { ok: 1 }));
+    expect(await fetchGrid(f.fn, 0)).toEqual({ ok: 1 });
+    expect(f.calls()).toBe(2);
+  });
+
+  it('gives up at once on the daily limit', async () => {
+    const f = fake(answer(429, { reason: 'Daily API request limit exceeded. Please try again tomorrow.' }));
+    await expect(fetchGrid(f.fn, 0)).rejects.toThrow('HTTP 429: Daily API request limit exceeded');
+    expect(f.calls()).toBe(1);
   });
 });
 

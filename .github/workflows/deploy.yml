@@ -38,6 +38,10 @@ on:
         description: Run dev's pipeline for the dev preview, even if dev does not change it
         type: boolean
         default: false
+      forecast_retry:
+        description: Started by a run whose forecast fetch got a 429; does not start another
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -63,7 +67,7 @@ jobs:
       dev_commit: ${{ steps.dev_built.outputs.commit }}
     permissions:
       contents: read
-      actions: write # prune old data caches
+      actions: write # prune old data caches, start the forecast retry
       issues: write # monitoring issue
     steps:
       # Always main at the root, whichever branch started the run; dev is checked out further down.
@@ -137,6 +141,20 @@ jobs:
         with:
           path: ${{ env.DATA_PATHS }}
           key: pipeline-data-${{ github.run_id }}-${{ github.run_attempt }}
+
+      # Open-Meteo's free limits count per IP, and runner IPs are shared, so a 429 is usually other
+      # people's traffic. One more run (queued behind this one) gets a fresh runner, most likely with
+      # another IP. A run started this way does not start another.
+      - name: Retry the forecast on another runner
+        if: steps.pipeline.conclusion == 'success' && steps.pipeline.outputs.exit == '2' && !inputs.forecast_retry
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          if jq -e '.steps.forecast.problems | any(test("HTTP 429"))' web/public/data/status.json >/dev/null; then
+            gh workflow run deploy.yml --ref main -f forecast_retry=true
+            echo "::notice::Open-Meteo answered 429; started one more run on a fresh runner."
+          fi
 
       # GITHUB_SHA is the commit that started the run, which is dev's on a push to dev; the About tab
       # shows the commit that was built.

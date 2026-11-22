@@ -77,7 +77,7 @@ export const forecast: LayerModule = {
         file = f;
         const stale = f.available && (f.stale || ageHours(f.fetchedAt) > FORECAST_STALE_AFTER_HOURS);
         setAge('forecast', f.available ? (f.fetchedAt ?? null) : null, !!stale, 'none');
-        if (stale) setWarning('forecast', `Forecast snowfall is from ${formatAge(f.fetchedAt)}; newer forecasts could not be fetched.`);
+        if (stale) setWarning('forecast', `The snowfall forecast was last updated ${formatAge(f.fetchedAt)}.`);
         return f;
       },
       () => {

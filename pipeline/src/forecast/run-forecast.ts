@@ -43,23 +43,34 @@ async function readJson<T>(file: string): Promise<T | null> {
   }
 }
 
-async function fetchGrid(): Promise<unknown> {
+/** Wait before the one retry after Open-Meteo's per-minute limit, which other users of the runner's IP can hit. */
+export const MINUTE_LIMIT_WAIT_MS = 65_000;
+
+/**
+ * Fetches the grid. A 429 for the per-minute limit is tried once more after a minute; a 429 for the
+ * daily or hourly limit is not (the workflow retries on another runner, see deploy.yml).
+ */
+export async function fetchGrid(fetchFn: typeof fetch = fetch, waitMs = MINUTE_LIMIT_WAIT_MS): Promise<unknown> {
   const points = forecastPoints();
-  const res = await fetch(forecastGridUrl(points, FETCH_HOURS), {
-    signal: AbortSignal.timeout(60_000),
-    headers: { 'user-agent': 'tirol-snow-map pipeline (+https://github.com/adamvalik/tirol-snow-map)' },
-  });
-  if (res.status !== 429) countOpenMeteo(points.length);
-  if (!res.ok) {
-    let reason = `HTTP ${res.status}`;
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetchFn(forecastGridUrl(points, FETCH_HOURS), {
+      signal: AbortSignal.timeout(60_000),
+      headers: { 'user-agent': 'tirol-snow-map pipeline (+https://github.com/adamvalik/tirol-snow-map)' },
+    });
+    if (res.status !== 429) countOpenMeteo(points.length);
+    if (res.ok) return res.json();
+    let reason = '';
     try {
-      reason += `: ${((await res.json()) as { reason?: string }).reason ?? ''}`;
+      reason = ((await res.json()) as { reason?: string }).reason ?? '';
     } catch {
       // keep the status
     }
-    throw new Error(`Open-Meteo forecast grid: ${reason}`);
+    if (res.status === 429 && /minutely/i.test(reason) && attempt === 0) {
+      await new Promise((r) => setTimeout(r, waitMs));
+      continue;
+    }
+    throw new Error(`Open-Meteo forecast grid: HTTP ${res.status}${reason ? `: ${reason}` : ''}`);
   }
-  return res.json();
 }
 
 export async function runForecastStep(opts: ForecastStepOptions): Promise<{ file: ForecastFile; problems: string[] }> {
@@ -93,10 +104,11 @@ export async function runForecastStep(opts: ForecastStepOptions): Promise<{ file
     await writeFile(jsonPath, JSON.stringify(file));
     return { file, problems };
   };
-  if (!raw) return unavailable(fetchError ?? 'No forecast fetched yet');
+  // The reason is shown in the app, so it leaves out the error itself (that is in `problems`).
+  if (!raw) return unavailable(fetchError ? 'The forecast could not be fetched' : 'No forecast fetched yet');
   const lastMs = Date.parse(raw.times.at(-1)!);
   if (lastMs - Date.parse(opts.now) < MIN_AHEAD_HOURS * 3_600_000) {
-    return unavailable(`The last forecast (fetched ${raw.fetchedAt}) has run out${fetchError ? `; ${fetchError}` : ''}`);
+    return unavailable('The last forecast has run out');
   }
 
   const { start, frames, freezingLevelM } = accumulateFrames(MODEL_GRID, opts.dem.values, raw, {
