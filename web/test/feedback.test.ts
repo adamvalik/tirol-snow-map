@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { analyticsEnabled, countUrl, sourceFrom, withoutSource } from '../src/app/analytics.ts';
+import { analyticsEnabled, countUrl, countSwitch, sourceFrom, withoutCountParams } from '../src/app/analytics.ts';
 import { feedbackHtml, formUrl, issueUrl, mailtoUrl, type FeedbackContext } from '../src/app/feedback.ts';
 
 const ctx: FeedbackContext = {
@@ -67,7 +67,8 @@ describe('visit counting', () => {
     expect(analyticsEnabled('snowmap', 'localhost', false)).toBe(false);
     expect(analyticsEnabled('snowmap', '127.0.0.1', false)).toBe(false);
     expect(analyticsEnabled('snowmap', 'adamvalik.github.io', true)).toBe(false);
-    expect(analyticsEnabled('snowmap', 'adamvalik.github.io', false)).toBe(true);
+    expect(analyticsEnabled('snowmap', 'adamvalik.github.io', false, true)).toBe(false);
+    expect(analyticsEnabled('snowmap', 'adamvalik.github.io', false, false)).toBe(true);
   });
 
   it('counts the page as "/" with the version, events with e=true', () => {
@@ -94,8 +95,16 @@ describe('visit counting', () => {
 
   it('removes the source from the address and keeps the rest', () => {
     const base = 'https://adamvalik.github.io/tirol-snow-map/';
-    expect(withoutSource(`${base}?ref=wa-erasmus#11.3/46.5/10`)).toBe('/tirol-snow-map/#11.3/46.5/10');
-    expect(withoutSource(`${base}?utm_source=ig&utm_campaign=x&keep=1`)).toBe('/tirol-snow-map/?keep=1');
-    expect(withoutSource(base)).toBe('/tirol-snow-map/');
+    expect(withoutCountParams(`${base}?ref=wa-erasmus#11.3/46.5/10`)).toBe('/tirol-snow-map/#11.3/46.5/10');
+    expect(withoutCountParams(`${base}?utm_source=ig&utm_campaign=x&keep=1`)).toBe('/tirol-snow-map/?keep=1');
+    expect(withoutCountParams(base)).toBe('/tirol-snow-map/');
+    expect(withoutCountParams(`${base}?count=off#map=9.90/46.8/11.25/0/68`)).toBe('/tirol-snow-map/#map=9.90/46.8/11.25/0/68');
+  });
+
+  it('reads the counting switch only as off or on', () => {
+    expect(countSwitch('?count=off')).toBe('off');
+    expect(countSwitch('?count=on&ref=x')).toBe('on');
+    expect(countSwitch('?count=no')).toBe(null);
+    expect(countSwitch('')).toBe(null);
   });
 });
