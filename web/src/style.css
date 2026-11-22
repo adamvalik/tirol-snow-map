@@ -1850,6 +1850,47 @@ details[open] > .act .caret {
   font-size: 13px;
 }
 
+/* Sentinel-2 passes in the About tab: what each was used for. */
+.passes {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.passes th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.passes th,
+.passes td {
+  padding: 4px 8px 4px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.passes td:nth-child(2),
+.passes td:nth-child(3),
+.passes th:nth-child(2),
+.passes th:nth-child(3) {
+  text-align: right;
+  padding-right: 12px;
+}
+
+.passes td:first-child {
+  white-space: nowrap;
+}
+
+.passes tr:not(.used) td:last-child {
+  color: var(--muted);
+}
+
+.passes tr.used td {
+  font-weight: 600;
+}
+
 .about-info {
   display: flex;
   gap: 12px;

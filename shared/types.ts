@@ -134,7 +134,23 @@ export interface SatelliteFile {
   maxZoom?: number;
   /** Changes whenever the tiles are re-rendered; used to bust browser caches. */
   version?: string;
+  /** When the pipeline last looked for a newer pass; the picture itself can be older. */
+  checkedAt?: string;
+  /** Share of the region a day must see clear to become the picture (0–1). */
+  minClearShare?: number;
+  /** The pass days found in that search, newest first, down to the fill-in day (or the picture day). */
+  passes?: SatellitePass[];
   attribution: string;
+}
+
+/** One Sentinel-2 pass day over the region, as the pipeline judged it from the scenes' cloud cover. */
+export interface SatellitePass {
+  /** YYYY-MM-DD (UTC). */
+  date: string;
+  /** Share of the region inside the day's passes (0–1). */
+  coverage: number;
+  /** Expected share of the region seen without clouds (0–1). */
+  clearShare: number;
 }
 
 /**

@@ -2,8 +2,9 @@
 // the terrain colours and under the hillshade, roads and labels.
 
 import type * as maplibregl from 'maplibre-gl';
-import { SCHEMA_VERSION, type SatelliteFile } from '../../shared/types.ts';
-import { escapeHtml, formatAge } from './format.ts';
+import { SCHEMA_VERSION, type SatelliteFile, type SatellitePass } from '../../shared/types.ts';
+import { escapeHtml, formatAge, formatTime } from './format.ts';
+import { factsHtml } from './placeHtml.ts';
 
 const DATA = `${import.meta.env.BASE_URL}data/`;
 export const SATELLITE_LAYER = 'satellite';
@@ -47,18 +48,47 @@ export function shortDate(day: string): string {
   return new Date(`${day}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
 }
 
-export function satelliteInfoHtml(file: SatelliteFile): string {
+/** What each pass in the search was used for, or why it was not. */
+export function passRole(pass: SatellitePass, file: SatelliteFile): string {
+  if (pass.date === file.date) return 'Picture';
+  if (pass.date === file.fallbackDate) return 'Fill-in';
+  return pass.coverage < (file.minClearShare ?? 0.45) ? 'Edge of the region only' : 'Too cloudy';
+}
+
+export function satelliteInfoHtml(file: SatelliteFile, now = Date.now()): string {
   if (!file.available || !file.date) {
     return `<p><strong>Satellite picture</strong>: not available (${escapeHtml(file.reason ?? 'unknown')}).</p>`;
   }
-  const pct = (x: number | undefined) => Math.round((x ?? 0) * 100);
-  const fill =
-    file.fallbackDate && file.shares
-      ? ` ${pct(file.shares.fallback)} % of it is filled in from ${escapeHtml(shortDate(file.fallbackDate))} where clouds hid the ground, ` +
-        `${pct(file.shares.empty)} % stays empty (the map shows through).`
-      : ' Clouds are cut out, so the map shows through there.';
-  return (
-    `<p><strong>Satellite picture</strong>: Sentinel-2, ${escapeHtml(shortDate(file.date))} (${formatAge(`${file.date}T10:30:00Z`)}), ` +
-    `the newest day with a mostly clear view.${fill} It is shown from zoom 8 inside the region.</p>`
-  );
+  const pct = (x: number | undefined) => `${Math.round((x ?? 0) * 100)} %`;
+  const day = escapeHtml(shortDate(file.date));
+  const parts = [`<p>The newest Sentinel-2 pass with a mostly clear view, ${day} (${formatAge(`${file.date}T10:30:00Z`, now)}). Made of:</p>`];
+  if (file.shares) {
+    const fill = file.fallbackDate ? escapeHtml(shortDate(file.fallbackDate)) : null;
+    parts.push(
+      factsHtml([
+        [day, `${pct(file.shares.main)}<small>picture</small>`],
+        [fill ?? 'Fill-in', fill ? `${pct(file.shares.fallback)}<small>fill-in</small>` : '–'],
+        ['Empty', `${pct(file.shares.empty)}<small>clouds</small>`],
+      ]),
+    );
+  }
+  if (file.passes?.length) {
+    const rows = file.passes
+      .map((p) => {
+        const role = passRole(p, file);
+        const used = role === 'Picture' || role === 'Fill-in';
+        return `<tr${used ? ' class="used"' : ''}><td>${escapeHtml(shortDate(p.date))}</td><td>${pct(p.coverage)}</td><td>${pct(p.clearShare)}</td><td>${role}</td></tr>`;
+      })
+      .join('');
+    parts.push(
+      `<table class="passes"><thead><tr><th>Pass</th><th>Covered</th><th>Clear</th><th>Used as</th></tr></thead><tbody>${rows}</tbody></table>`,
+    );
+  }
+  const rule = file.passes?.length
+    ? `Covered: the share of the region in the pass. Clear: the share seen without clouds, estimated from the scenes' cloud cover. ` +
+      `A pass becomes the picture from ${pct(file.minClearShare ?? 0.45)} clear; where it is cloudy, an older pass fills in. `
+    : 'Where the pass was cloudy, an older one fills in; where both were, the map shows through. ';
+  const checked = file.checkedAt ? `Last looked for a newer pass ${formatTime(file.checkedAt)} (${formatAge(file.checkedAt, now)}). ` : '';
+  parts.push(`<p class="muted">${rule}Sentinel-2 passes every 2–5 days. ${checked}Shown from zoom 8.</p>`);
+  return parts.join('');
 }

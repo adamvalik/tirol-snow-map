@@ -103,7 +103,7 @@ function render() {
     : '<p class="muted">Not loaded.</p>';
 
   const sat = satelliteFile;
-  const satSub = sat?.available && sat.date ? `Sentinel-2, ${shortDate(sat.date)}, newest clear day` : 'Not available';
+  const satSub = sat?.available && sat.date ? `Sentinel-2, ${shortDate(sat.date)} (${formatAge(`${sat.date}T10:30:00Z`)})` : 'Not available';
   const satBody = sat
     ? satelliteInfoHtml(sat) + (sat.available ? `<p>${escapeHtml(sat.attribution)}. Free and open Copernicus data.</p>` : '')
     : '<p class="muted">Not loaded.</p>';
