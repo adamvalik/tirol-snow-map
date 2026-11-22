@@ -1,9 +1,9 @@
 // Warnings at the top of the Layers tab: stale or missing data (amber, amber only for that), and
-// the new-snow note with its fix ("Show depth").
+// the new-snow note with its fix ("Show depth", and "Hide depth" to undo it).
 import { $ } from './dom.ts';
 import { track } from './analytics.ts';
 import { icon } from './icons.ts';
-import { isOn, switchOn } from './switches.ts';
+import { isOn, setSwitch } from './switches.ts';
 
 /**
  * Warnings are shown in this order, so the line does not depend on which data file arrived first.
@@ -42,12 +42,14 @@ export function setWarning(key: string, text: string | null) {
 let newSnowText: string | null = null;
 
 function showNewSnow() {
-  $('new-snow').hidden = !newSnowText || isOn('depth');
+  $('new-snow').hidden = !newSnowText;
+  // The note stays while the depth is on, so it can be turned off where it was turned on.
+  $('new-snow-show').textContent = isOn('depth') ? 'Hide depth' : 'Show depth';
 }
 
 /**
- * The satellite view misses snow that fell since its pass: the note says so and turns on the
- * estimated depth, which follows the stations. Hidden while the depth layer is on.
+ * The satellite view misses snow that fell since its pass: the note says so and turns the
+ * estimated depth, which follows the stations, on and off.
  */
 export function setNewSnow(text: string | null) {
   newSnowText = text;
@@ -56,6 +58,6 @@ export function setNewSnow(text: string | null) {
 }
 
 export function setupWarnings() {
-  $('new-snow-show').addEventListener('click', () => switchOn('depth'));
+  $('new-snow-show').addEventListener('click', () => setSwitch('depth', !isOn('depth')));
   $('toggle-depth').addEventListener('change', showNewSnow);
 }

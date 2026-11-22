@@ -130,7 +130,7 @@ export function showSnow(file: SnowFile | null) {
   const fresh = file?.cover.available ? file.cover.newSnow : undefined;
   setNewSnow(
     fresh
-      ? `Snow has fallen since part of the satellite picture was taken: ${fresh.withSnow} of ${fresh.stations} stations on ground seen bare on ${shortDate(fresh.viewDate)} or earlier now report snow.`
+      ? `New snow since the satellite view: ${fresh.withSnow} of ${fresh.stations} stations it saw bare on ${shortDate(fresh.viewDate)} or earlier now report snow.`
       : null,
   );
   if (!selectedDay()) {
