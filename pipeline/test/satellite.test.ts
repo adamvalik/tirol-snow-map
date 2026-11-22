@@ -3,6 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import sharp from 'sharp';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+import { searchSummary } from '../src/satellite/run-satellite.ts';
 import { buildPyramid, mercatorBox, tileRange } from '../src/satellite/tiles.ts';
 import { chooseDay, PROCESS_RETRY, postProcess, processRequest, type Scene, scenesFromStac } from '../src/sources/sentinel2.ts';
 
@@ -146,5 +147,27 @@ describe('postProcess retries', () => {
       result: 'Sentinel Hub process: HTTP 400 bad request',
       calls: 1,
     });
+  });
+});
+
+describe('searchSummary', () => {
+  const day = (date: string, coverage: number, clearShare: number) => ({ date, coverage, clearShare, scenes: ['x'] });
+  const days = [day('2026-11-20', 0.01, 0), day('2026-11-18', 1, 0.6351), day('2026-11-16', 0.59, 0.27), day('2026-11-15', 0.98, 0.42), day('2026-11-13', 0.98, 0.16)];
+
+  it('lists the passes newest first, down to the oldest day used, without the scene ids', () => {
+    const s = searchSummary(days, '2026-11-15', '2026-11-20T19:23:00Z');
+    expect(s.checkedAt).toBe('2026-11-20T19:23:00Z');
+    expect(s.minClearShare).toBe(0.45);
+    expect(s.passes).toEqual([
+      { date: '2026-11-20', coverage: 0.01, clearShare: 0 },
+      { date: '2026-11-18', coverage: 1, clearShare: 0.635 },
+      { date: '2026-11-16', coverage: 0.59, clearShare: 0.27 },
+      { date: '2026-11-15', coverage: 0.98, clearShare: 0.42 },
+    ]);
+  });
+
+  it('keeps at most ten passes when nothing was used', () => {
+    const many = Array.from({ length: 14 }, (_, i) => day(`2026-11-${String(20 - i).padStart(2, '0')}`, 1, 0.1));
+    expect(searchSummary(many, undefined, '2026-11-20T19:23:00Z').passes).toHaveLength(10);
   });
 });

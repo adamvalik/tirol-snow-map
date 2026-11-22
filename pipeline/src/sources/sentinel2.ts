@@ -114,10 +114,13 @@ export interface DayChoice {
  * each weighted by its scene's clear fraction) and returns the newest day above `minClearShare`,
  * along with all scored days for logging.
  */
+/** Share of the region a day must see clear to become the picture. */
+export const MIN_CLEAR_SHARE = 0.45;
+
 export function chooseDay(
   scenes: Scene[],
   bbox: Bbox,
-  minClearShare = 0.45,
+  minClearShare = MIN_CLEAR_SHARE,
 ): { choice: DayChoice | null; fallback: DayChoice | null; days: DayChoice[] } {
   const byDay = new Map<string, Scene[]>();
   for (const s of scenes) {
