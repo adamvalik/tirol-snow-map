@@ -5,7 +5,7 @@ labels: [chore, 'area: release']
 body:
   - type: markdown
     attributes:
-      value: Put this issue in the version's milestone. The release steps are in docs/release-plan.md.
+      value: Put this issue in the version's milestone and add the milestone's other issues as its sub-issues, so the board shows how many are closed. The release steps are in docs/release-plan.md.
   - type: checkboxes
     id: before
     attributes:
