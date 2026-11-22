@@ -167,8 +167,8 @@ export const snow: LayerModule = {
         if (ageHours(f.generatedAt) > SNOW_STALE_AFTER_HOURS) setWarning('snow', `Snow layers were last updated ${formatAge(f.generatedAt)}.`);
         return f;
       },
-      (e: unknown) => {
-        setWarning('snow', `Snow layers are unavailable (${e instanceof Error ? e.message : String(e)}).`);
+      () => {
+        setWarning('snow', 'Snow layers could not be loaded.');
         return null;
       },
     );
