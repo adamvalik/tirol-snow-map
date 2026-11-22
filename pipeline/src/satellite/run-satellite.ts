@@ -5,8 +5,8 @@ import { readFile, rename, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 import { MODEL_GRID } from '../../../shared/grid.ts';
-import { SCHEMA_VERSION, type SatelliteFile } from '../../../shared/types.ts';
-import { chooseDay, getClientToken, renderChunk, searchScenes } from '../sources/sentinel2.ts';
+import { SCHEMA_VERSION, type SatelliteFile, type SatellitePass } from '../../../shared/types.ts';
+import { chooseDay, type DayChoice, getClientToken, MIN_CLEAR_SHARE, renderChunk, searchScenes } from '../sources/sentinel2.ts';
 import { buildPyramid } from './tiles.ts';
 
 const BBOX = { west: MODEL_GRID.west, south: MODEL_GRID.south, east: MODEL_GRID.east, north: MODEL_GRID.north };
@@ -35,15 +35,32 @@ async function readPrevious(file: string): Promise<SatelliteFile | null> {
 
 const exists = (p: string) => stat(p).then(() => true, () => false);
 
+const MAX_PASSES = 10;
+const share = (x: number) => Math.round(x * 1000) / 1000;
+
+/** What the search found, for the About tab: the pass days newest first, down to the oldest day used. */
+export function searchSummary(days: DayChoice[], oldestUsed: string | undefined, now: string): Pick<SatelliteFile, 'checkedAt' | 'minClearShare' | 'passes'> {
+  const passes: SatellitePass[] = days
+    .filter((d) => !oldestUsed || d.date >= oldestUsed)
+    .slice(0, MAX_PASSES)
+    .map((d) => ({ date: d.date, coverage: share(d.coverage), clearShare: share(d.clearShare) }));
+  return { checkedAt: now, minClearShare: MIN_CLEAR_SHARE, passes };
+}
+
 export async function runSatelliteStep(opts: SatelliteStepOptions): Promise<SatelliteFile> {
   const jsonPath = path.join(opts.outDir, 'satellite.json');
   const tilesDir = path.join(opts.outDir, 'satellite');
   const previous = await readPrevious(jsonPath);
-  const unavailable = async (reason: string): Promise<SatelliteFile> => {
+  const keep = async (summary: Pick<SatelliteFile, 'checkedAt' | 'minClearShare' | 'passes'>): Promise<SatelliteFile> => {
+    const file = { ...previous!, ...summary };
+    await writeFile(jsonPath, JSON.stringify(file));
+    return file;
+  };
+  const unavailable = async (reason: string, summary?: Pick<SatelliteFile, 'checkedAt' | 'minClearShare' | 'passes'>): Promise<SatelliteFile> => {
     // Keep showing the last picture if there is one; it carries its own date.
     if (previous?.available && (await exists(tilesDir))) {
       opts.log(`satellite: ${reason}; keeping picture of ${previous.date}`);
-      return previous;
+      return summary ? keep(summary) : previous;
     }
     const file: SatelliteFile = { schemaVersion: SCHEMA_VERSION, generatedAt: opts.now, available: false, reason, attribution: ATTRIBUTION };
     await writeFile(jsonPath, JSON.stringify(file));
@@ -63,11 +80,12 @@ export async function runSatelliteStep(opts: SatelliteStepOptions): Promise<Sate
     `satellite: ${scenes.length} scene parts in ${SEARCH_DAYS} days; ` +
       days.slice(0, 8).map((d) => `${d.date} cover ${Math.round(d.coverage * 100)}% clear ${Math.round(d.clearShare * 100)}%`).join(', '),
   );
-  if (!choice) return unavailable(`No clear Sentinel-2 day in the last ${SEARCH_DAYS} days`);
+  if (!choice) return unavailable(`No clear Sentinel-2 day in the last ${SEARCH_DAYS} days`, searchSummary(days, previous?.date, opts.now));
+  const summary = searchSummary(days, fallback?.date ?? choice.date, opts.now);
 
   if (previous?.available && previous.date === choice.date && previous.fallbackDate === fallback?.date && (await exists(tilesDir))) {
     opts.log(`satellite: ${choice.date} already rendered`);
-    return previous;
+    return keep(summary);
   }
   opts.log(`satellite: rendering ${choice.date}${fallback ? `, gaps filled from ${fallback.date}` : ''}`);
 
@@ -133,6 +151,7 @@ export async function runSatelliteStep(opts: SatelliteStepOptions): Promise<Sate
     minZoom: SAT_MIN_ZOOM,
     maxZoom: SAT_MAX_ZOOM,
     version: `${choice.date}-${fallback?.date ?? 'none'}-${Date.parse(opts.now)}`,
+    ...summary,
     attribution: ATTRIBUTION,
   };
   await writeFile(jsonPath, JSON.stringify(file));

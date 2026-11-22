@@ -37,11 +37,14 @@ const openRows = new Set<string>();
 
 const ext = (href: string, text: string) => `<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${text}</a>`;
 
-/** The problem the last pipeline run had with a step, as a line for its row, or null. */
+/**
+ * The problem the last pipeline run had with a step, as a line for its row, or null. The error
+ * itself (an HTTP status, an API's message) stays in status.json and the run's log.
+ */
 function problem(step: keyof StatusFile['steps']): string | null {
   const s = statusFile?.steps[step];
   if (!s || s.ok) return null;
-  return `Not refreshed since ${formatTime(s.failingSince)}. ${s.problems.join('; ')}`;
+  return `Updates failing since ${formatTime(s.failingSince)}, showing the last good data.`;
 }
 
 function row(id: string, title: string, sub: string, body: string, opts: { problem?: string | null; status?: boolean } = {}) {
@@ -80,7 +83,7 @@ function render() {
         .map(
           (s) => `<p>${ext(s.url, escapeHtml(s.name))}<br>
           <small class="muted">${escapeHtml(s.attribution)}. Licence: ${escapeHtml(s.licence)}.<br>
-          ${s.ok ? `Fetched ${formatTime(s.fetchedAt)}, ${s.stationCount} records.` : `Last fetch failed (${escapeHtml(s.error ?? 'unknown error')}); last success ${formatTime(s.fetchedAt)}.`}</small></p>`,
+          ${s.ok ? `Fetched ${formatTime(s.fetchedAt)}, ${s.stationCount} records.` : `Last fetch failed; last success ${formatTime(s.fetchedAt)}.`}</small></p>`,
         )
         .join('') +
       `<p class="muted">Stations reported by both are merged into one dot. Refreshed three times a day: early morning, after lunch and in the evening;
@@ -100,7 +103,7 @@ function render() {
     : '<p class="muted">Not loaded.</p>';
 
   const sat = satelliteFile;
-  const satSub = sat?.available && sat.date ? `Sentinel-2, ${shortDate(sat.date)}, newest clear day` : 'Not available';
+  const satSub = sat?.available && sat.date ? `Sentinel-2, ${shortDate(sat.date)} (${formatAge(`${sat.date}T10:30:00Z`)})` : 'Not available';
   const satBody = sat
     ? satelliteInfoHtml(sat) + (sat.available ? `<p>${escapeHtml(sat.attribution)}. Free and open Copernicus data.</p>` : '')
     : '<p class="muted">Not loaded.</p>';

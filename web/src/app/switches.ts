@@ -6,9 +6,12 @@ export const toggle = (key: LayerKey) => $<HTMLInputElement>(`toggle-${key}`);
 export const isOn = (key: LayerKey): boolean => toggle(key).checked;
 
 /** Turns a switch on as if it were tapped, so the layer and everything that follows it update. */
-export function switchOn(key: LayerKey) {
+export const switchOn = (key: LayerKey) => setSwitch(key, true);
+
+/** Sets a switch as if it were tapped. */
+export function setSwitch(key: LayerKey, on: boolean) {
   const input = toggle(key);
-  input.checked = true;
+  input.checked = on;
   // Bubbles, so the panel's listeners (the phone's layer buttons, the address) see it too.
   input.dispatchEvent(new Event('change', { bubbles: true }));
 }
