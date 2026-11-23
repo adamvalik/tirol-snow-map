@@ -12,7 +12,7 @@ const ctx: FeedbackContext = {
 describe('feedback links', () => {
   it('fills the e-mail with version, view and device, encoded for mail apps', () => {
     const url = mailtoUrl('snow@example.org', 'bug', ctx);
-    expect(url.startsWith('mailto:snow@example.org?subject=Snow%20map%3A%20something%20is%20wrong&body=')).toBe(true);
+    expect(url.startsWith('mailto:snow@example.org?subject=Cima%20Map%3A%20something%20is%20wrong&body=')).toBe(true);
     expect(url).not.toContain('+');
     const body = decodeURIComponent(url.split('&body=')[1]);
     expect(body).toContain('App: v0.1.0 (444afeb)');
@@ -99,6 +99,11 @@ describe('visit counting', () => {
     expect(withoutCountParams(`${base}?utm_source=ig&utm_campaign=x&keep=1`)).toBe('/tirol-snow-map/?keep=1');
     expect(withoutCountParams(base)).toBe('/tirol-snow-map/');
     expect(withoutCountParams(`${base}?count=off#map=9.90/46.8/11.25/0/68`)).toBe('/tirol-snow-map/#map=9.90/46.8/11.25/0/68');
+  });
+
+  it('removes the source at the root of the custom domain', () => {
+    expect(withoutCountParams('https://cimamap.com/?ref=ig-bio#map=10.40/46.4700/11.3540/20/60')).toBe('/#map=10.40/46.4700/11.3540/20/60');
+    expect(withoutCountParams('https://cimamap.com/dev/?ref=wa-erasmus')).toBe('/dev/');
   });
 
   it('reads the counting switch only as off or on', () => {

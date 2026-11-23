@@ -167,7 +167,7 @@ jobs:
           IDEAS_URL: ${{ vars.IDEAS_URL }}
           FEEDBACK_EMAIL: ${{ vars.FEEDBACK_EMAIL }}
           GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
-          # The site's address for the link preview tags; unset means the github.io address.
+          # The site's address for the link preview tags; unset means https://cimamap.com/.
           SITE_URL: ${{ vars.SITE_URL }}
       # The picture chat apps show for a shared link: today's map, rendered from the build. If it
       # fails, the live site's picture from an earlier run is kept, so the preview never goes blank.

@@ -42,7 +42,7 @@ function render() {
   }
   const label = `Data age: ${words.join(', ')}. Open About the data`;
   document.getElementById('data-age')?.setAttribute('aria-label', label);
-  document.getElementById('brand-pill')?.setAttribute('aria-label', `South Tyrol Snow. ${label}`);
+  document.getElementById('brand-pill')?.setAttribute('aria-label', `Cima Map. ${label}`);
 }
 
 /** Sets one source's age. */

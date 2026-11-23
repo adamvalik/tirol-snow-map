@@ -14,7 +14,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { releaseNotes, row } from './release-notes.mjs';
 
 const PLAN = 'docs/release-plan.md';
-const SITE = 'https://adamvalik.github.io/tirol-snow-map/';
+const SITE = 'https://cimamap.com/';
 
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
 const fail = (msg) => {

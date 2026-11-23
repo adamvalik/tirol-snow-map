@@ -11,6 +11,7 @@ The Releases table at the end is read by scripts: `npm run release` adds a row, 
 - **`0.x`** means "not launched": testers and friends, things may still change a lot. **`1.0.0`** is the public launch, the first version we would post where strangers see it.
 - **Minor** (`0.2.0` → `0.3.0`): new features. Each one is a release with notes and a What's new card.
 - **Patch** (`0.3.0` → `0.3.1`): fixes only, no new feature. Its row still lists the fixes for the GitHub Release, but the first item is one short line for people ("Fixes for a steadier and faster map"): the What's new card adds only that line under the minor version's notes, and does not come back for someone who saw the minor version.
+- A new name or address is a patch too (`v0.3.3`, Cima Map on cimamap.com): nothing changes in how the app works. Its one line for people says the new name and address.
 - Data deploys three times a day change no number.
 
 So the number follows the audience, not the amount of work. `1.0.0` comes when the app is posted where strangers see it; settle the name and the domain before that, since a rename after it costs more (links, the picture people remember).
@@ -19,7 +20,7 @@ So the number follows the audience, not the amount of work. `1.0.0` comes when t
 
 1. The version's milestone has no open issues, and its release checklist issue (template *Release checklist*) is ticked off.
 2. On `dev`: `npm run release 0.3.0` (`scripts/release.mjs`). It bumps `version` in `package.json` and `package-lock.json` and adds a row to the Releases table below, drafted from the `feat`, `fix` and `perf` commit subjects since the last tag (older subjects without a type are kept too). Rewrite the row's "What" into short user-facing notes: a comma-separated list, one item per change (commas inside brackets do not split). Commit it as `chore(release): v0.3.0`.
-3. Try the dev preview on a phone (<https://adamvalik.github.io/tirol-snow-map/dev/>, updated on every push to `dev`). Open the pull request `dev` → `main`. CI's release check (`ci.yml`, job `check`) fails if the version is not above the last tag, is tagged already, or has no row, and prints the notes as they will appear. Merge when green, or turn on auto-merge.
+3. Try the dev preview on a phone (<https://cimamap.com/dev/>, updated on every push to `dev`). Open the pull request `dev` → `main`. CI's release check (`ci.yml`, job `check`) fails if the version is not above the last tag, is tagged already, or has no row, and prints the notes as they will appear. Merge when green, or turn on auto-merge.
 4. The deploy publishes it. Once the live site serves the build, `deploy.yml` (job `release`) tags the deployed commit `v0.3.0` and publishes the GitHub Release with the row as a list. Nothing to tag or publish by hand.
 
 A merge without a version bump only deploys. If the release job fails, the next deploy from `main` (at most 8 hours later) tries again; it can also be started from the Actions tab (*Update data and deploy*, Run workflow). A tag pushed by hand still works: `release.yml` checks it against `package.json` and `main` and publishes the release. The notes can be edited on GitHub after publishing. Close the milestone and the checklist issue once the release is out.

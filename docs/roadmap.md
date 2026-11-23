@@ -1,6 +1,6 @@
 # Roadmap – direction and decisions
 
-Where the app is going and the decisions that shape it. Updated Nov 18, 2026. It holds no task lists: the work itself is tracked in GitHub issues and milestones (see [`README.md`](README.md) in this folder). The original build plan is [`initial-plan.md`](initial-plan.md); everything in it shipped by `v0.1.0`.
+Where the app is going and the decisions that shape it. Updated Nov 23, 2026. It holds no task lists: the work itself is tracked in GitHub issues and milestones (see [`README.md`](README.md) in this folder). The original build plan is [`initial-plan.md`](initial-plan.md); everything in it shipped by `v0.1.0`.
 
 ## Principles
 
@@ -24,6 +24,7 @@ Decided, with the date. Open questions are issues.
 - **Logo:** "Sun and shade", one summit with a gentler sunlit side and a steep north face in shade (Nov 23). It needs no snow, so it fits summer and terrain too. It replaces the "Depth bands" icon (Nov 12), which round avatars cut off and whose colours ran against the map's snow ramp. See [`design/logo.md`](design/logo.md).
 - **Ship only what is solid** (Nov 18): `v0.3.0` brings the map look, winter sports, the sun and shade fixes and a What's new card, after a review and a phone check. Features that add controls wait for a UI designed for all of them (`v0.4.0`), drafts wait until they are checked, the share picture is `v0.5.0`, `1.0.0` is the public launch.
 - **Work is tracked in GitHub issues and milestones, not in docs** (Nov 18). See [`README.md`](README.md) in this folder.
+- **The name is Cima Map, on cimamap.com** (Nov 23). *Cima* is Italian for peak; "Map" is always part of the name. Tied to neither snow nor the region, so it fits summer use and a larger area. How it was chosen and what was dropped: [`spikes/name-spike.md`](spikes/name-spike.md). See Name.
 
 ## Area
 
@@ -54,15 +55,13 @@ A sensible path: Euregio first, built so that a region is a configuration entry 
 
 ## Name
 
-The repository is *tirol-snow-map*, the app is *South Tyrol Snow Map*. No change needed now; the name follows the area:
+The app is **Cima Map**, at **cimamap.com** (cimamap.app too), with the handle `@cimamap`. *Cima* is Italian for peak or summit: the app is built in Italy, and the word is easy to explain. "Map" is always part of the name; it says what the app is and keeps it apart from other uses of *Cima*, such as a bouldering app and a weather research foundation.
 
-- South Tyrol only: keep **South Tyrol Snow Map**.
-- Euregio: **Tirol Snow Map** covers it and matches the repository.
-- The Alps: a region-free name (for example *Alpine Snow Map*, or a short brand word) and a new repository name or a GitHub redirect; GitHub keeps redirects after a rename, but the Pages address changes, so old share links would break unless a small redirect page stays at the old address.
+The name is tied to neither snow nor a region, because the app is used in summer too (3D terrain, sun and shade, via ferratas) and the area may grow (see Area). The region and the snow focus go into a descriptive line that can change: "Cima Map – 3D snow and terrain map of South Tyrol". The name feeds the share picture, link previews and the icon.
 
-Decide when the area decision is made, not before.
+The repository stays *tirol-snow-map*. Old `adamvalik.github.io/tirol-snow-map` links redirect to `cimamap.com`.
 
-**Region or snow in the name?** The app is used for 3D terrain in summer too, and may grow beyond South Tyrol, so a name tied to *both* a region and snow ages twice. A pattern that survives both: a short name tied to neither, plus a descriptive line that can change, for example "*<Name>* – 3D snow and terrain map of South Tyrol". The line carries the region and the snow focus today and is cheap to change later. Candidates to try out loud (availability of domain and trademark unchecked): *Firn*, *Kamm*, *Gipfel*, *Firnline*, *Relief*. The name feeds the share picture, link previews and the icon, so settle it before those. For share pictures the printed address matters more than the name: `adamvalik.github.io/tirol-snow-map` is long but works, and the QR code carries the exact view.
+The research, the checks and the dropped ideas (Kamm, Alpmap, Tirol Snow Map and others) are in [`spikes/name-spike.md`](spikes/name-spike.md).
 
 ## Hosting
 
