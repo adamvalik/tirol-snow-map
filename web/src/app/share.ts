@@ -48,7 +48,7 @@ export function setupShare(map: maplibregl.Map, parts: () => Partial<ViewState>[
       // Phones get the system share sheet; desktops a copied link.
       if (navigator.share && matchMedia('(pointer: coarse)').matches) {
         // The app's name, not the page title, which also carries search words.
-        await navigator.share({ title: 'South Tyrol Snow Map', url });
+        await navigator.share({ title: 'Cima Map', url });
         return;
       }
       await navigator.clipboard.writeText(url);

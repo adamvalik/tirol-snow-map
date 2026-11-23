@@ -33,7 +33,7 @@ describe("What's new and first view", () => {
     expect(html).toContain("What's new in 0.3<");
     expect(html).toContain('<li>Fixes &#60;b&#62;</li>');
     expect(html).toContain('github.com/adamvalik/tirol-snow-map/releases');
-    expect(introHtml('welcome', '0.3.0', [])).toContain('Welcome to South Tyrol Snow');
+    expect(introHtml('welcome', '0.3.0', [])).toContain('Welcome to Cima Map');
   });
 });
 

@@ -1,6 +1,6 @@
 {
-  "name": "South Tyrol Snow Map",
-  "short_name": "Snow Map",
+  "name": "Cima Map",
+  "short_name": "Cima Map",
   "description": "Snow depth in South Tyrol (Südtirol, Alto Adige) on a 3D map: weather stations, snow seen from space, an estimated depth and a 3-day snowfall forecast.",
   "id": "./",
   "start_url": "./",

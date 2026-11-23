@@ -25,9 +25,9 @@ const outDir = path.resolve(outIdx >= 0 ? process.argv[outIdx + 1] : 'docs/desig
 await mkdir(outDir, { recursive: true });
 
 const uqr = await import(process.env.UQR ?? 'uqr').catch(() => null);
-const SITE = 'https://adamvalik.github.io/tirol-snow-map/';
-const ADDRESS = 'adamvalik.github.io/tirol-snow-map';
-const APP_NAME = 'South Tyrol Snow';
+const SITE = 'https://cimamap.com/';
+const ADDRESS = 'cimamap.com';
+const APP_NAME = 'Cima Map';
 
 // --- Scenes: one capture each, several frames can use it --------------------------------------
 

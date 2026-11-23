@@ -59,7 +59,7 @@ The app is **Cima Map**, at **cimamap.com** (cimamap.app too), with the handle `
 
 The name is tied to neither snow nor a region, because the app is used in summer too (3D terrain, sun and shade, via ferratas) and the area may grow (see Area). The region and the snow focus go into a descriptive line that can change: "Cima Map – 3D snow and terrain map of South Tyrol". The name feeds the share picture, link previews and the icon.
 
-The repository stays *tirol-snow-map*. Until the switch to the domain, the app still shows *South Tyrol Snow Map* at `adamvalik.github.io/tirol-snow-map`; once the custom domain is set, GitHub redirects those links to it.
+The repository stays *tirol-snow-map*. Old `adamvalik.github.io/tirol-snow-map` links redirect to `cimamap.com`.
 
 The research, the checks and the dropped ideas (Kamm, Alpmap, Tirol Snow Map and others) are in [`spikes/name-spike.md`](spikes/name-spike.md).
 
