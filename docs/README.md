@@ -7,7 +7,7 @@ The docs say how the app works and why. They do not say what is left to do: that
 | [`roadmap.md`](roadmap.md) | Direction and decisions: principles, area, name, hosting |
 | [`release-plan.md`](release-plan.md) | How versions are numbered and made, and the Releases table (read by scripts, keep its format) |
 | [`design/`](design/) | How parts of the app are built, and designs for what comes: [`layers.md`](design/layers.md), [`gpx-api.md`](design/gpx-api.md), [`share-snapshot.md`](design/share-snapshot.md) |
-| [`spikes/`](spikes/) | Research before building: [`data-sources-spike.md`](spikes/data-sources-spike.md), [`sun-shade-spike.md`](spikes/sun-shade-spike.md) |
+| [`spikes/`](spikes/) | Research before building: [`data-sources-spike.md`](spikes/data-sources-spike.md), [`sun-shade-spike.md`](spikes/sun-shade-spike.md), [`name-spike.md`](spikes/name-spike.md) |
 | [`initial-plan.md`](initial-plan.md) | The original build plan, finished by `v0.1.0`; kept for the snow model's reasoning |
 
 The repository's [`README.md`](../README.md) explains how the data flows, how to run it and the known limits.
