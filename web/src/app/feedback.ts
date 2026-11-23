@@ -30,7 +30,7 @@ const details = (c: FeedbackContext) =>
   `App: ${c.version}\nView: ${c.view}\nDevice: ${c.device}\nScreen: ${c.screen}`;
 
 export function mailtoUrl(email: string, kind: FeedbackKind, c: FeedbackContext): string {
-  const subject = kind === 'bug' ? 'Snow map: something is wrong' : 'Snow map: idea';
+  const subject = kind === 'bug' ? 'Cima Map: something is wrong' : 'Cima Map: idea';
   const prompt =
     kind === 'bug'
       ? 'What happened, and what did you expect?\n\n\n'
