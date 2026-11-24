@@ -90,7 +90,7 @@ Sizes in pixels of a 1080-wide picture; Wide scales by height.
 
 - **Sky band** at the top: white, 90 % to 0 over about 330 px. At the usual pitch the top of the picture is pale haze, so dark text works; at low pitch the band itself carries it. Title Barlow 700 at 78 px (96 px on stories), subline Barlow 500 at 32 px in `--ink-2`.
 - **Scrim** at the bottom: ink `#0c1622`, 0 → 86 % over 470–700 px. Numbers Barlow 700 at 66 px with small uppercase labels; one hero number at 92–118 px.
-- **Brand row**: the app icon, the app name, the address. One component reading `APP_NAME` and `ADDRESS` constants, so the name decision (roadmap, Name) changes one line. Until the name is settled: "South Tyrol Snow" and the `github.io` address.
+- **Brand row**: the app icon, the app name, the address. One component reading `APP_NAME` and `ADDRESS` constants, so the name decision (roadmap, Name) changes one line. The name is Cima Map and the address `cimamap.com` (roadmap, Name).
 - **Credits**, 16–18 px at 78 % white: one line built from the layers in the picture, plus "Not for avalanche decisions" whenever a snow layer is shown.
 - **No middle dots as separators.** Texts are sentences or lists with commas ("Hike, Sun 18 Oct 2026, snow seen 16 Oct"), a colon for a label ("Forecast: new snow by …"), a slash for bilingual names ("Ortler / Ortles", as on the map), and a new line where a comma would make a line too long.
 - Margins 72 px left and right, so the 3:4 grid crop and rounded corners in apps never cut text.

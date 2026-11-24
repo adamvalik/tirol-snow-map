@@ -179,7 +179,7 @@ function render() {
         : ''
     }
     <section class="version-row" aria-label="Version">
-      <span class="info-icon" aria-hidden="true">${icon('tag', 20)}</span>
+      <img class="version-mark" src="./icons/icon.svg" alt="" width="36" height="36" />
       <span><span>Version ${escapeHtml(APP_VERSION)}</span><small>Build ${escapeHtml(APP_COMMIT)}</small></span>
       ${RELEASE_NOTES.length ? `<button type="button" class="link-btn" data-whats-new>What's new</button>` : ''}
       <a href="https://github.com/adamvalik/tirol-snow-map/releases" target="_blank" rel="noopener">Release notes${icon('arrow-up-right', 13)}</a>

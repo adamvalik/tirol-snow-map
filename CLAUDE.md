@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-South Tyrol Snow Map: a 3D snow map of South Tyrol in the browser (MapLibre GL JS, Vite, TypeScript, no UI framework). A Node pipeline fetches stations, satellite snow and the forecast three times a day and writes static files; GitHub Pages serves the app with them. Live at <https://adamvalik.github.io/tirol-snow-map/>. `README.md` explains how the data flows and the known limits.
+Cima Map (formerly South Tyrol Snow Map): a 3D snow and terrain map of South Tyrol in the browser (MapLibre GL JS, Vite, TypeScript, no UI framework). A Node pipeline fetches stations, satellite snow and the forecast three times a day and writes static files; GitHub Pages serves the app with them. Live at <https://cimamap.com/> (the repository keeps the name `tirol-snow-map`). `README.md` explains how the data flows and the known limits.
 
 ## Branches and merging
 

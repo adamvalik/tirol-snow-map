@@ -50,7 +50,7 @@ export function introHtml(kind: IntroKind, version: string, notes: readonly stri
     kind === 'welcome'
       ? `<ul class="intro-list">${WELCOME.map(([name, text]) => `<li><span class="intro-icon" aria-hidden="true">${icon(name, 18)}</span><span>${text}</span></li>`).join('')}</ul>`
       : `<ul class="intro-notes">${notes.map((n) => `<li>${escapeHtml(n)}</li>`).join('')}</ul>`;
-  const title = kind === 'welcome' ? 'Welcome to South Tyrol Snow' : `What's new in ${escapeHtml(minorOf(version))}`;
+  const title = kind === 'welcome' ? 'Welcome to Cima Map' : `What's new in ${escapeHtml(minorOf(version))}`;
   const link =
     kind === 'new' ? `<a href="${RELEASES_URL}" target="_blank" rel="noopener">All release notes${icon('arrow-up-right', 13)}</a>` : '<span></span>';
   return `

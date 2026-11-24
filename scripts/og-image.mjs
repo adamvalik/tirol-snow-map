@@ -75,7 +75,7 @@ try {
     const day = at.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Rome' });
     const card = document.createElement('div');
     card.id = 'og-card';
-    card.innerHTML = '<img src="./icons/icon.svg" alt="" /><div><strong>South Tyrol Snow Map</strong><span></span></div>';
+    card.innerHTML = '<img src="./icons/icon.svg" alt="" /><div><strong>Cima Map</strong><span></span></div>';
     card.querySelector('span').textContent = `Snow on ${day}`;
     const credit = document.createElement('div');
     credit.id = 'og-credit';

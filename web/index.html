@@ -6,9 +6,8 @@
     <meta name="description" content="Snow depth in South Tyrol (Südtirol, Alto Adige) on a 3D map: weather stations, snow seen from space, an estimated depth and a 3-day snowfall forecast." />
     <meta name="theme-color" content="#ffffff" />
     <!--
-      Not in search engines until the name and domain are settled: results would point to an address
-      that changes. A site under a sub-path cannot serve robots.txt (crawlers read it only at the
-      domain root), so this tag is the only way. The dev preview gets it from here too.
+      Not in search engines yet: turning it on is part of the work on search with the final domain
+      (#78). The dev preview gets it from here too.
     -->
     <meta name="robots" content="noindex" />
     <!-- The commit this page was built from, for the check of the live site after a deploy (scripts/live-check.mjs). -->
@@ -19,7 +18,7 @@
       below (web/test/pageMeta.test.ts checks). The canonical address is filled by vite.config.ts,
       so a new domain only changes SITE_URL.
     -->
-    <title>South Tyrol Snow Map – Südtirol, Alto Adige snow depth in 3D</title>
+    <title>Cima Map – 3D snow map of South Tyrol, Südtirol, Alto Adige</title>
     <link rel="canonical" href="__SITE_URL__" />
     <!-- The terrain tiles are asked for only once MapLibre and the style are in; open the connection now. -->
     <link rel="preconnect" href="https://tiles.mapterhorn.com" crossorigin />
@@ -29,9 +28,9 @@
       vite.config.ts; og.jpg is rendered after the build by scripts/og-image.mjs.
     -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="South Tyrol Snow Map" />
+    <meta property="og:site_name" content="Cima Map" />
     <meta property="og:locale" content="en_GB" />
-    <meta property="og:title" content="South Tyrol Snow Map" />
+    <meta property="og:title" content="Cima Map – 3D snow and terrain map of South Tyrol" />
     <meta property="og:description" content="Today's snow in 3D: weather stations, snow seen by Sentinel-2, estimated depth and a 3-day snowfall forecast." />
     <meta property="og:url" content="__SITE_URL__" />
     <meta property="og:image" content="__SITE_URL__og.jpg?v=__OG_VERSION__" />
@@ -40,7 +39,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="3D map of South Tyrol with today's snow" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="South Tyrol Snow Map" />
+    <meta name="twitter:title" content="Cima Map – 3D snow and terrain map of South Tyrol" />
     <meta name="twitter:description" content="Today's snow in 3D: weather stations, snow seen by Sentinel-2, estimated depth and a 3-day snowfall forecast." />
     <meta name="twitter:image" content="__SITE_URL__og.jpg?v=__OG_VERSION__" />
     <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
@@ -54,13 +53,13 @@
     -->
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Snow Map" />
+    <meta name="apple-mobile-web-app-title" content="Cima Map" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "South Tyrol Snow Map",
+        "name": "Cima Map",
         "url": "__SITE_URL__",
         "description": "Snow depth in South Tyrol (Südtirol, Alto Adige) on a 3D map: weather stations, snow seen from space, an estimated depth and a 3-day snowfall forecast.",
         "applicationCategory": "TravelApplication",
@@ -100,12 +99,15 @@
     <div id="map" role="application" aria-label="3D map of South Tyrol"></div>
 
     <!-- Phones: the name and data ages float over the map (opens About), share and north on the right. -->
-    <button id="brand-pill" class="brand-pill" type="button" data-open-about aria-label="South Tyrol Snow. Data age. Open About the data">
-      <span class="brand-pill-name">South Tyrol Snow</span>
-      <span class="ages-inline">
-        <span class="age" data-age="stations"><i data-icon="thermometer-simple" data-size="13"></i><span class="age-value">–</span></span>
-        <span class="age" data-age="satellite"><i data-icon="planet" data-size="13"></i><span class="age-value">–</span></span>
-        <span class="age" data-age="forecast"><i data-icon="cloud-snow" data-size="13"></i><span class="age-value">–</span></span>
+    <button id="brand-pill" class="brand-pill" type="button" data-open-about aria-label="Cima Map. Data age. Open About the data">
+      <img class="brand-pill-mark" src="./icons/icon.svg" alt="" width="30" height="30" />
+      <span class="brand-pill-text">
+        <span class="brand-pill-name">Cima Map</span>
+        <span class="ages-inline">
+          <span class="age" data-age="stations"><i data-icon="thermometer-simple" data-size="13"></i><span class="age-value">–</span></span>
+          <span class="age" data-age="satellite"><i data-icon="planet" data-size="13"></i><span class="age-value">–</span></span>
+          <span class="age" data-age="forecast"><i data-icon="cloud-snow" data-size="13"></i><span class="age-value">–</span></span>
+        </span>
       </span>
     </button>
 
@@ -123,8 +125,8 @@
       <button id="sheet-handle" class="sheet-handle phone-only" type="button" aria-label="Open the panel"><span></span></button>
 
       <header class="brand">
-        <span class="brand-mark" aria-hidden="true"><i data-icon="mountains" data-size="20"></i></span>
-        <h1>South Tyrol Snow</h1>
+        <img class="brand-mark" src="./icons/icon.svg" alt="" width="34" height="34" />
+        <h1>Cima Map</h1>
         <button class="icon-btn" type="button" data-share aria-label="Share this view" title="Share this view"><i data-icon="share-network" data-size="20"></i></button>
       </header>
 

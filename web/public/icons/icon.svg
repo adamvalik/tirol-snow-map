@@ -1,13 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- App icon "Depth bands" (C2 design): the peak painted in the map's snow-depth ramp, white at the top. -->
-  <defs><clipPath id="peak"><path d="M56 424 L256 112 L456 424 Z"/></clipPath></defs>
-  <rect width="512" height="512" fill="#14243d"/>
-  <path d="M300 424 L396 268 L492 424 Z" fill="#2a4a78"/>
-  <g clip-path="url(#peak)">
-    <rect y="100" width="512" height="96" fill="#ffffff"/>
-    <rect y="196" width="512" height="60" fill="#c6dbef"/>
-    <rect y="256" width="512" height="60" fill="#9ecae1"/>
-    <rect y="316" width="512" height="56" fill="#6baed6"/>
-    <rect y="372" width="512" height="52" fill="#3182bd"/>
-  </g>
+  <title>Cima Map</title>
+  <!-- App icon "Sun and shade" (issue #103): one summit, the gentler sun side lit, the steep north face in shade.
+       Construction and colours: docs/design/logo.md. -->
+  <rect width="512" height="512" fill="#16263f"/>
+  <path fill="#ffffff" d="M276.3 81.1L104.3 379.1L252.7 418.9Z"/>
+  <path fill="#6fb1ea" d="M287.2 86.8L321.2 213.6L356.1 187.5L407.7 380.3L264.0 418.8Z"/>
 </svg>

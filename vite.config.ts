@@ -41,8 +41,8 @@ if (goatcounterCode && !/^[a-z0-9-]+$/.test(goatcounterCode)) {
 }
 
 // Absolute address of the site, for the link preview tags in index.html (og:url, og:image), which
-// chat apps only read with a full URL. SITE_URL overrides it, e.g. once a custom domain is set.
-const siteUrl = (process.env.SITE_URL?.trim() || 'https://adamvalik.github.io/tirol-snow-map/').replace(/\/?$/, '/');
+// chat apps only read with a full URL. SITE_URL overrides it, for example for a fork on github.io.
+const siteUrl = (process.env.SITE_URL?.trim() || 'https://cimamap.com/').replace(/\/?$/, '/');
 if (!/^https:\/\/[^\s/]+\/\S*$/.test(siteUrl)) throw new Error(`SITE_URL should be an https:// address: ${siteUrl}`);
 // The preview picture (dist/og.jpg) is rendered after the build by scripts/og-image.mjs and changes
 // every day; the date in its address keeps chat apps from showing yesterday's from their cache.
