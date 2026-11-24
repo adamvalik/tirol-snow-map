@@ -210,7 +210,7 @@ Limits: `dev`'s pipeline calls the same upstreams, so while `dev` changes the pi
 
 ## Releases
 
-Versions follow semver: `0.x` while the app was tested with friends (`v0.2.0` testers, `v0.3.0` winter release, `v0.3.3` the name Cima Map), `1.0.0` for the public launch, then `v1.1.0` share picture and `v1.2.0` UI for all features. What goes into which version is its [milestone](https://github.com/adamvalik/tirol-snow-map/milestones). The version and commit show at the end of the About tab.
+Versions follow semver: `0.x` while the app was tested with friends (`v0.2.0` testers, `v0.3.0` winter release, `v0.3.3` the name Cima Map), `1.0.0` for the public launch, then `v1.1.0` share picture, `v1.2.0` UI for all features and `v1.3.0` the first new features in it (sun maps, the fog note). What goes into which version is its [milestone](https://github.com/adamvalik/tirol-snow-map/milestones). The version and commit show at the end of the About tab.
 
 Work happens on `dev`, which deploys the dev preview, and reaches `main` through a pull request. Other branches are named after their issue, `<type>/<issue>-<short-name>` (for example `feat/28-webcam-links`), and merge into `dev`; see "How work is tracked" in [`docs/README.md`](docs/README.md). To make one, see "How to make a release" in [`docs/release-plan.md`](docs/release-plan.md): `npm run release X.Y.Z` on `dev` bumps the version and adds the release notes, CI checks them on the pull request to `main`, and after the merge the deploy tags the commit and publishes the GitHub Release. Data deploys three times a day are not releases.
 
