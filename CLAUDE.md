@@ -39,7 +39,7 @@ Work is tracked on GitHub, not in docs (`docs/README.md`, "How work is tracked")
 
 ## Releases
 
-Versions follow `0.x` semver (`v0.2.0` testers, `v0.3.0` winter release, `v0.4.0` UI for all features, `v0.5.0` share picture, `1.0.0` public launch; patches for fixes). What goes into which version is its GitHub milestone. Data deploys are not releases. Steps (also in `docs/release-plan.md`, "How to make a release"):
+Versions follow semver (`v0.2.0` testers, `v0.3.0` winter release, `v0.3.3` the name Cima Map, `1.0.0` the public launch on WhatsApp and Instagram, `v1.1.0` share picture, `v1.2.0` UI for all features, `v1.3.0` sun maps, the fog note and webcam links in it; patches for fixes). What goes into which version is its GitHub milestone. Data deploys are not releases. Steps (also in `docs/release-plan.md`, "How to make a release"):
 
 1. The milestone has no open issues and its release checklist issue is ticked off. On `dev`: `npm run release X.Y.Z`. It bumps `package.json` and the lockfile and adds a row to the Releases table in `docs/release-plan.md`, drafted from the commit subjects since the last tag. Rewrite the row's "What" into short user-facing notes, a comma-separated list; it becomes the release notes as is. Commit.
 2. Pull request `dev` → `main`. CI's release check fails if the version is not above the last tag or has no row. Merge when green (or turn on auto-merge).
