@@ -5,6 +5,7 @@ The docs say how the app works and why. They do not say what is left to do: that
 | File | What |
 | --- | --- |
 | [`roadmap.md`](roadmap.md) | Direction and decisions: principles, area, name, hosting |
+| [`social.md`](social.md) | The Instagram account: what it posts and why, how a post is made, how posting becomes automatic |
 | [`release-plan.md`](release-plan.md) | How versions are numbered and made, and the Releases table (read by scripts, keep its format) |
 | [`design/`](design/) | How parts of the app are built, and designs for what comes: [`layers.md`](design/layers.md), [`gpx-api.md`](design/gpx-api.md), [`share-snapshot.md`](design/share-snapshot.md), [`logo.md`](design/logo.md) |
 | [`spikes/`](spikes/) | Research before building: [`data-sources-spike.md`](spikes/data-sources-spike.md), [`sun-shade-spike.md`](spikes/sun-shade-spike.md), [`name-spike.md`](spikes/name-spike.md) |

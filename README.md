@@ -134,6 +134,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 | `scripts/og-image.mjs` | Renders the link preview picture |
 | `scripts/icons.mjs` | Renders the home screen and favicon PNGs from `web/public/icons/icon.svg`, and the 1080 px avatar for the social accounts into `docs/design/logo/` (next to the mark and the Cima Map lockups; see `docs/design/logo.md`) |
 | `scripts/share-mockups.mjs` | Renders the share picture mock-ups in `docs/design/share-snapshot/` |
+| `scripts/social.mjs` | Renders Instagram posts from the live site into `social/posts/` (see `docs/social.md`) |
 | `.github/` | Workflows, issue forms (bug, idea, release checklist) and the pull request template |
 | `docs/` | Index and how work is tracked (`docs/README.md`), release plan, roadmap, design notes (`docs/design/`), spike reports (`docs/spikes/`) and the initial plan |
 | `LICENSE` | MIT licence for the code (the data keeps its own licences, see Attribution) |
