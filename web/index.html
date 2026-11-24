@@ -6,8 +6,9 @@
     <meta name="description" content="Snow depth in South Tyrol (Südtirol, Alto Adige) on a 3D map: weather stations, snow seen from space, an estimated depth and a 3-day snowfall forecast." />
     <meta name="theme-color" content="#ffffff" />
     <!--
-      Not in search engines yet: turning it on is part of the work on search with the final domain
-      (#78). The dev preview gets it from here too.
+      Out of search results unless the build asks to be in them: the deploy builds the site with
+      SEARCH_INDEX=on, which removes this tag (vite.config.ts, scripts/search.mjs). The dev preview
+      and local builds keep it.
     -->
     <meta name="robots" content="noindex" />
     <!-- The commit this page was built from, for the check of the live site after a deploy (scripts/live-check.mjs). -->

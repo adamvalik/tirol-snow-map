@@ -169,6 +169,9 @@ jobs:
           GOATCOUNTER_CODE: ${{ vars.GOATCOUNTER_CODE }}
           # The site's address for the link preview tags; unset means https://cimamap.com/.
           SITE_URL: ${{ vars.SITE_URL }}
+          # In search engines: no noindex tag, and robots.txt and sitemap.xml at the root. Only this
+          # build; the dev preview below keeps the tag.
+          SEARCH_INDEX: 'on'
       # The picture chat apps show for a shared link: today's map, rendered from the build. If it
       # fails, the live site's picture from an earlier run is kept, so the preview never goes blank.
       - name: Render the link preview picture
@@ -230,7 +233,7 @@ jobs:
             fi
           fi
           GITHUB_SHA=$(git rev-parse HEAD) npm run build
-          # The noindex tag comes with index.html (web/index.html), for both builds.
+          # No SEARCH_INDEX, so the page keeps its noindex tag (web/index.html, vite.config.ts).
           sed -i -e 's|<title>|<title>Dev – |' dist/index.html
           mv dist ../dist/dev
           echo "Dev preview: $(git rev-parse --short=7 HEAD), data from $data" >> "$GITHUB_STEP_SUMMARY"
