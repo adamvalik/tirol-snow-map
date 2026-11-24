@@ -268,14 +268,12 @@ input[type='range'] {
   padding: 16px 12px 14px 20px;
 }
 
+/* The app icon (web/public/icons/icon.svg), with the corner radius of a home screen icon. */
 .brand-mark {
-  display: grid;
-  place-items: center;
+  flex: none;
   width: 34px;
   height: 34px;
   border-radius: 9px;
-  background: var(--on);
-  color: var(--accent);
 }
 
 .brand h1 {
@@ -1945,6 +1943,13 @@ details[open] > .act .caret {
   line-height: 1.25;
 }
 
+.version-mark {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+
 .version-row small {
   font-size: 13px;
   color: var(--muted);
@@ -2564,14 +2569,27 @@ details[open] > .act .caret {
     top: calc(12px + env(safe-area-inset-top));
     left: 12px;
     display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 8px 14px 9px;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px 9px 9px;
     border: 0;
     background: #fff;
     border-radius: 16px;
     box-shadow: var(--shadow);
     text-align: left;
+  }
+
+  .brand-pill-mark {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+
+  .brand-pill-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
   .brand-pill-name {
