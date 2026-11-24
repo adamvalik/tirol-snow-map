@@ -36,6 +36,13 @@ From Instagram's own statements (Adam Mosseri) and the larger studies of 2026. T
 
 Feed pictures are 1080 × 1350 (4:5). The profile grid shows 3:4, which cuts 34 px from each side, so the frame keeps text away from the sides. The API also takes no picture narrower than 4:5.
 
+**Anything the app shows is material**, not only the snow of the day:
+
+- **Every layer**: the depth estimate, snow from space, stations, the forecast, sun and shade, lifts and slopes in 3D, via ferratas, bivouacs, the true-colour satellite photo.
+- **Tracks**: a GPX tour on the terrain, with its distance, climb, highest point, the snow along it and the elevation profile, as the share picture design draws it (`docs/design/share-snapshot.md`). The owner's own tours, example routes, and tours others send in (see the rules).
+- **Comparisons**: the same valley at noon on 21 June and 21 December, where the shade lies in each; the snow line now and two weeks ago (the timeline keeps 14 days); a north face against the south face across the valley. A snow comparison of summer and winter needs a summer satellite day, which the app does not keep: it takes a one-off fetch of an archived Sentinel-2 scene.
+- **Facts**: the highest station, the deepest snow measured, how far the shadow of a ridge reaches in December.
+
 **The weather sets the rhythm.** A storm is three posts: the forecast reel a day or two before, the stations' new snow once it has fallen, and the satellite's before and after on the first clear day. In calm weeks, two posts: a place, a feature, sun and shade. In winter about three posts a week plus stories, never a post for the sake of posting.
 
 **When.** Thursday and Friday evening for the weekend; the morning after a snowfall; a forecast reel as soon as the storm is in the 3-day forecast.
@@ -57,6 +64,7 @@ The app's rules hold on Instagram too (`CLAUDE.md`, Rules for the app):
 - **Nothing personal.** No one's track, location or face without their consent; followers' GPX files never.
 - **Credit every source on the picture**: OpenStreetMap, Mapterhorn, Copernicus Sentinel-2, Open-Meteo, the station operators, for the layers shown.
 - **Only our own pictures**, or others' with their written consent and their name on the post (a collab post is best).
+- **Tracks.** A track someone sends is posted only with their written consent, with their name only if they want it, and with the first and last few hundred metres cut when it starts at a home. An example route is labelled as one ("an example line"), never shown as a tour someone did. In winter a track is what someone did on a given day, with that day on it, never a recommendation to go: the snow and the slope change, the bulletin decides.
 
 ## Growing from zero
 
