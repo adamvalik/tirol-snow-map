@@ -1,6 +1,6 @@
 # Roadmap – direction and decisions
 
-Where the app is going and the decisions that shape it. Updated Nov 23, 2026. It holds no task lists: the work itself is tracked in GitHub issues and milestones (see [`README.md`](README.md) in this folder). The original build plan is [`initial-plan.md`](initial-plan.md); everything in it shipped by `v0.1.0`.
+Where the app is going and the decisions that shape it. Updated Nov 24, 2026. It holds no task lists: the work itself is tracked in GitHub issues and milestones (see [`README.md`](README.md) in this folder). The original build plan is [`initial-plan.md`](initial-plan.md); everything in it shipped by `v0.1.0`.
 
 ## Principles
 
@@ -22,8 +22,10 @@ Decided, with the date. Open questions are issues.
 - **Versions:** the app before testers was `v0.1.0`, testers got `v0.2.0` (Nov 7). How the numbers work is in [`release-plan.md`](release-plan.md).
 - **Domain after testing, once the name is settled,** about €5 a year; `github.io` until then (Nov 7).
 - **Logo:** "Sun and shade", one summit with a gentler sunlit side and a steep north face in shade (Nov 23). It needs no snow, so it fits summer and terrain too. It replaces the "Depth bands" icon (Nov 12), which round avatars cut off and whose colours ran against the map's snow ramp. See [`design/logo.md`](design/logo.md).
-- **Ship only what is solid** (Nov 18): `v0.3.0` brings the map look, winter sports, the sun and shade fixes and a What's new card, after a review and a phone check. Features that add controls wait for a UI designed for all of them (`v0.4.0`), drafts wait until they are checked, the share picture is `v0.5.0`, `1.0.0` is the public launch.
+- **Ship only what is solid** (Nov 18): `v0.3.0` brings the map look, winter sports, the sun and shade fixes and a What's new card, after a review and a phone check. Features that add controls wait for a UI designed for all of them, drafts wait until they are checked. The order after `v0.3.x` changed on Nov 24, see below.
 - **Work is tracked in GitHub issues and milestones, not in docs** (Nov 18). See [`README.md`](README.md) in this folder.
+- **The launch is `1.0.0`, on Nov 26** (Nov 24): the link goes to a WhatsApp group and onto Instagram (`@cimamap`), and from there the app is developed and marketed in the open. A public Instagram account is a place where strangers see it, so it is the launch, not a step before it. It ships what `v0.3.3` has, plus search indexing and a home screen hint; the first visit already gets a welcome card.
+- **Share picture before the new UI** (Nov 24): `v1.1.0` is the share picture, `v1.2.0` the UI for the whole feature set. The Instagram page needs pictures now, and each one shared from the app carries the address. The picture extends the share button the app already has, so it adds no control. The UI design waits for a week of real visits after the launch, since the visits before it were mostly our own.
 - **The name is Cima Map, on cimamap.com** (Nov 23). *Cima* is Italian for peak; "Map" is always part of the name. Tied to neither snow nor the region, so it fits summer use and a larger area. How it was chosen and what was dropped: [`spikes/name-spike.md`](spikes/name-spike.md). See Name.
 
 ## Area
