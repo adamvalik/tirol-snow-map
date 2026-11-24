@@ -89,11 +89,29 @@ npm ci
 node scripts/social.mjs storm     # forecast reel (9:16 MP4), cover (4:5) and story (9:16)
 node scripts/social.mjs intro     # the carousel that says what the map shows
 node scripts/social.mjs island    # South Tyrol with the snow the satellite saw last
+node scripts/social.mjs fallen    # after a storm: the stations with the most new snow in 72 h
 ```
 
 It opens cimamap.com in Chromium, captures the bare map canvas as the share picture mock-ups do (`docs/design/share-snapshot.md`) and frames it in the app's font. Numbers and times come from the site's data files, so a post shows the data of the moment it was made. The pictures land in `social/posts/<date>-<post>/`; they are not kept in git. The caption, alt text and the time to post go next to them in `caption.md`, which is kept, so the folder is the log of what was posted.
 
 The reel needs `ffmpeg`. It is silent: music is added in the Instagram app, because licensed music cannot be added through the API.
+
+### What goes with a post
+
+`caption.md` holds everything that is set in the app besides the pictures, so posting from the phone is copying, not deciding:
+
+| Setting | For | What to put |
+| --- | --- | --- |
+| **Caption** | All | The text, ready to paste: first line what it shows, the German and Italian lines, the avalanche line on snow posts, at most five hashtags |
+| **Alt text** | Pictures, carousels | One line per picture, what it shows (Advanced settings, Write alt text) |
+| **Location** | All | The valley, the group or South Tyrol (Südtirol) |
+| **Music** | Reels, optionally carousels | A mood and search words for the app's library (calm, instrumental, no lyrics over text), at low volume so the map is the point. Instagram's suggestions change daily, so the name of a track is picked in the app: one marked trending (an arrow) helps reach. Not on posts with sad or tense news |
+| **Cover** | Reels | Which frame, usually the last one with the number and the address; checked in the 3:4 grid crop |
+| **Topics** | Reels | Up to three in Advanced settings, for example Skiing, Weather, Travel |
+| **Share to feed** | Reels | On, so the reel is on the grid |
+| **Pin** | When it matters | The intro carousel always; a storm post until the storm is over |
+| **Story** | When it brings the link | Which picture, the link sticker (`cimamap.com/?ref=ig-story`), its text, and a poll or quiz if one fits |
+| **After posting** | All | Answer comments the same day; note under Posted in `caption.md` when it went out |
 
 ## From by hand to automatic
 
