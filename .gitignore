@@ -8,3 +8,9 @@ dist/
 smoke-output/
 
 /web/public/basemap/
+
+# Rendered Instagram posts (social/README.md); captions are kept
+/social/posts/**/*.jpg
+/social/posts/**/*.png
+/social/posts/**/*.mp4
+/social/posts/**/.reel/
