@@ -29,6 +29,7 @@ A merge without a version bump only deploys. If the release job fails, the next 
 
 | Version | Date | What |
 | --- | --- | --- |
+| `v1.0.0` | Nov 25, 2026 | Cima Map is public (free, no account, no ads), on Instagram as @cimamap, found in search engines by its name |
 | `v0.3.3` | Nov 24, 2026 | South Tyrol Snow Map is now Cima Map at cimamap.com, a new logo (one summit in sun and shade, on the home screen, in the header and in About), old github.io links lead to the new address |
 | `v0.3.2` | Nov 22, 2026 | Link previews in chats show where the snow is (the main ridge above Meran), visits counted by where the link was posted (no personal data), clearer messages about the data (how old it is instead of a raw error, and why the satellite picture is from that day, with the passes it checked), the snow forecast stays fresh when the weather service is busy, the new-snow note stays with a Hide depth button to undo Show depth |
 | `v0.3.1` | Nov 20, 2026 | Fixes for a steadier and faster map, white outline under slopes and lifts again, a clear screen when the map cannot start (no WebGL 2, an old browser, JavaScript off, the phone dropped the map), an open tab reloads once when it needs a file a newer version replaced, a lighter first view (snow values load after the map, an earlier connection to the terrain tiles), sun and shade does less repeated work, own not-found page, What's new comes back only for new features, not listed in search engines until the domain is settled, anonymous error counts (no details leave the device), MIT licence for the code |
