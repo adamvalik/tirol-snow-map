@@ -103,11 +103,11 @@ The reel needs `ffmpeg`. It is silent: music is added in the Instagram app, beca
 | Setting | For | What to put |
 | --- | --- | --- |
 | **Caption** | All | The text, ready to paste: first line what it shows, the German and Italian lines, the avalanche line on snow posts, at most five hashtags |
-| **Alt text** | Pictures, carousels | One line per picture, what it shows (Advanced settings, Write alt text) |
+| **Alt text** | Pictures, carousels; reels where the app offers it | One line per picture, what it shows (Advanced settings, Write alt text). The app does not offer it for reels everywhere |
 | **Location** | All | The valley, the group or South Tyrol (Südtirol) |
-| **Music** | Reels, optionally carousels | A mood and search words for the app's library (calm, instrumental, no lyrics over text), at low volume so the map is the point. Instagram's suggestions change daily, so the name of a track is picked in the app: one marked trending (an arrow) helps reach. Not on posts with sad or tense news |
+| **Music** | Reels, optionally carousels | A mood and search words for the app's library (calm, instrumental, no lyrics over text), at low volume so the map is the point, where the editor has a volume slider. Instagram's suggestions change daily, so the name of a track is picked in the app: one marked trending (an arrow) helps reach. Not on posts with sad or tense news |
 | **Cover** | Reels | Which frame, usually the last one with the number and the address; checked in the 3:4 grid crop |
-| **Topics** | Reels | Up to three in Advanced settings, for example Skiing, Weather, Travel |
+| **Topics** | Reels, where the app offers it | Up to three in Advanced settings, for example Skiing, Weather, Travel; not in every app version or region |
 | **Share to feed** | Reels | On, so the reel is on the grid |
 | **Pin** | When it matters | The intro carousel always; a storm post until the storm is over |
 | **Story** | When it brings the link | Which picture, the link sticker (`cimamap.com/?ref=ig-story`), its text, and a poll or quiz if one fits |
