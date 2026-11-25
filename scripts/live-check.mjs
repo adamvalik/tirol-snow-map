@@ -3,7 +3,9 @@
 // data, a wrong path, a stale picture) was only found by a person. For the site and the dev preview:
 // - index.html loads and names the commit that was built (<meta name="app-commit">),
 // - data/status.json is there and fresh,
-// - the basemap file answers, and at the root also the link preview picture og.jpg.
+// - the basemap file answers, and at the root also the link preview picture og.jpg,
+// - the dev preview carries the noindex tag; the site, when it does not, serves robots.txt and
+//   sitemap.xml (a site with the tag is only a note: it is what a build without SEARCH_INDEX gives).
 // Like scripts/monitor.mjs it keeps one issue, labelled `live-site`, in step: opened or updated
 // while a check fails, commented and closed when all pass again.
 //
@@ -23,7 +25,7 @@ const RETRY_MS = 20_000;
  * Checks one deployed build. Returns the problems found (empty when all is well) and notes that do
  * not fail it. `fetchFn` is fetch; `now` the current time in ms.
  */
-export async function checkSite({ base, commit, picture }, fetchFn = fetch, now = Date.now()) {
+export async function checkSite({ base, commit, picture, indexed }, fetchFn = fetch, now = Date.now()) {
   const problems = [];
   const notes = [];
   const bust = `check=${now}`;
@@ -42,6 +44,15 @@ export async function checkSite({ base, commit, picture }, fetchFn = fetch, now 
     const built = /<meta name="app-commit" content="([^"]*)"/.exec(html)?.[1];
     if (!built) notes.push(`\`${base}\` names no commit (a build from before the commit tag)`);
     else if (commit && built !== commit) problems.push(`\`${base}\` serves commit ${built}, expected ${commit}`);
+    const noindex = /<meta name="robots" content="[^"]*noindex/.test(html);
+    if (!indexed && !noindex) problems.push(`\`${base}\` has no noindex tag, so search engines may list it`);
+    else if (indexed && noindex) notes.push(`\`${base}\` carries a noindex tag: not in search engines`);
+    else if (indexed) {
+      for (const file of ['robots.txt', 'sitemap.xml']) {
+        const res = await get(file, { method: 'HEAD' });
+        if (!res.ok) problems.push(`\`${base}${file}\` answers ${res.status}`);
+      }
+    }
   }
 
   const status = await get('data/status.json');
@@ -69,8 +80,8 @@ export async function checkSite({ base, commit, picture }, fetchFn = fetch, now 
 
 /** Checks the site and the dev preview, a few times while the CDN may still serve old files. */
 async function checkAll(site, mainCommit, devCommit) {
-  const targets = [{ base: site, commit: mainCommit, picture: true }];
-  if (devCommit) targets.push({ base: `${site}dev/`, commit: devCommit, picture: false });
+  const targets = [{ base: site, commit: mainCommit, picture: true, indexed: true }];
+  if (devCommit) targets.push({ base: `${site}dev/`, commit: devCommit, picture: false, indexed: false });
   let result = { problems: [], notes: [] };
   for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
     const results = await Promise.all(targets.map((t) => checkSite(t)));
