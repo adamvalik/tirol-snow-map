@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- The short link in the Instagram bio (docs/social.md): cimamap.com/ig opens the map with
+     ?ref=ig-bio, so the visit counts as coming from the bio and the bio shows a clean address.
+     Relative, so it also works under /dev/. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content="0; url=../?ref=ig-bio" />
+    <title>Cima Map</title>
+    <script>location.replace('../?ref=ig-bio' + location.hash);</script>
+  </head>
+  <body>
+    <a href="../?ref=ig-bio">Open Cima Map</a>
+  </body>
+</html>

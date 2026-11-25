@@ -33,13 +33,14 @@ Work is tracked on GitHub, not in docs (`docs/README.md`, "How work is tracked")
 - Start from an issue. If there is none for the task, say so and suggest one; do not open issues the person did not ask for, except for findings below.
 - A pull request names its issue ("Closes #12") and fills in the template's checks.
 - Findings along the way (a bug, a leftover, a review point, an idea) become issues with a type label (`feature`, `bug`, `review`, `idea`, `docs`, `chore`) and an area label (`area: ui`, `area: sun`, `area: winter`, `area: snow`, `area: pipeline`, `area: release`), in the milestone of the version they block, and a sub-issue of that milestone's "Release vX.Y.Z" issue when it has one. Only `idea` issues go without a milestone ("later"). Not notes in the docs.
+- Instagram, content, outreach and the posting tooling go in the standing `Growth` milestone, not a version: an issue goes into a version only if it changes what ships in the app (the `/ig` short link and the share picture do; a post, a caption or the posting workflow do not). `Growth` has no release issue and never closes.
 - When you touch issues, check that none is untriaged (open, not an `idea`, no milestone) and suggest a milestone for each. Sessions cannot reach the project board; it shows the milestones and labels.
 - Docs say how things work and why. No task lists, no "to do", no status lines in them.
 - What goes into which version is the milestones; `docs/release-plan.md` only says how releases work.
 
 ## Releases
 
-Versions follow `0.x` semver (`v0.2.0` testers, `v0.3.0` winter release, `v0.4.0` UI for all features, `v0.5.0` share picture, `1.0.0` public launch; patches for fixes). What goes into which version is its GitHub milestone. Data deploys are not releases. Steps (also in `docs/release-plan.md`, "How to make a release"):
+Versions follow semver (`v0.2.0` testers, `v0.3.0` winter release, `v0.3.3` the name Cima Map, `1.0.0` the public launch on WhatsApp and Instagram, `v1.1.0` share picture, `v1.2.0` UI for all features, `v1.3.0` sun maps, the fog note and webcam links in it; patches for fixes). What goes into which version is its GitHub milestone. Data deploys are not releases. Steps (also in `docs/release-plan.md`, "How to make a release"):
 
 1. The milestone has no open issues and its release checklist issue is ticked off. On `dev`: `npm run release X.Y.Z`. It bumps `package.json` and the lockfile and adds a row to the Releases table in `docs/release-plan.md`, drafted from the commit subjects since the last tag. Rewrite the row's "What" into short user-facing notes, a comma-separated list; it becomes the release notes as is. Commit.
 2. Pull request `dev` → `main`. CI's release check fails if the version is not above the last tag or has no row. Merge when green (or turn on auto-merge).

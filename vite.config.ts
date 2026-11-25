@@ -3,6 +3,7 @@ import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { defineConfig, type Plugin } from 'vite';
 import { cardNotes } from './scripts/release-notes.mjs';
+import { indexable, robotsTxt, sitemapXml } from './scripts/search.mjs';
 
 // App version from package.json and the short commit it was built from (GITHUB_SHA in Actions,
 // git locally, "dev" without git). Shown in "About the data".
@@ -47,6 +48,10 @@ if (!/^https:\/\/[^\s/]+\/\S*$/.test(siteUrl)) throw new Error(`SITE_URL should 
 // The preview picture (dist/og.jpg) is rendered after the build by scripts/og-image.mjs and changes
 // every day; the date in its address keeps chat apps from showing yesterday's from their cache.
 const ogVersion = new Date().toISOString().slice(0, 10).replaceAll('-', '');
+// Search engines: only the deploy's build of the site sets SEARCH_INDEX=on. Every other build (the
+// dev preview, a local or CI build) keeps the noindex tag of index.html. See scripts/search.mjs.
+const searchIndex = (process.env.SEARCH_INDEX ?? '').trim();
+if (searchIndex && searchIndex !== 'on') throw new Error(`SEARCH_INDEX should be "on" or empty: ${searchIndex}`);
 
 /** Fills the __SITE_URL__, __OG_VERSION__ and __BUILD_COMMIT__ placeholders of index.html and 404.html. */
 function linkPreview(): Plugin {
@@ -57,8 +62,22 @@ function linkPreview(): Plugin {
   };
 }
 
+/** With SEARCH_INDEX=on: index.html without its noindex tag (404.html keeps it), robots.txt and sitemap.xml. */
+function search(): Plugin {
+  return {
+    name: 'search',
+    apply: 'build',
+    transformIndexHtml: (html, ctx) => (searchIndex && ctx.filename.endsWith('index.html') ? indexable(html) : html),
+    generateBundle() {
+      if (!searchIndex) return;
+      this.emitFile({ type: 'asset', fileName: 'robots.txt', source: robotsTxt(siteUrl) });
+      this.emitFile({ type: 'asset', fileName: 'sitemap.xml', source: sitemapXml(siteUrl) });
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [linkPreview()],
+  plugins: [linkPreview(), search()],
   root: 'web',
   // Relative base so the build works both at a GitHub Pages sub-path and locally.
   base: './',
