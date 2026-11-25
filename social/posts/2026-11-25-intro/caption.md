@@ -24,17 +24,43 @@ Dove c'è neve in Alto Adige? La mappa 3D, gratis nel browser.
 #südtirol #altoadige #dolomiti #skitouring #snow
 ```
 
+## Alt text
+
+One per slide, under Advanced settings, Write alt text.
+
+1.
+```
+South Tyrol in 3D as a block on a plain floor, the mountains blue with the estimated snow depth, the valleys bare.
+```
+2.
+```
+The Ortler group in 3D, its peaks and glaciers white where the satellite saw snow.
+```
+3.
+```
+The mountains around Meran in 3D, from the Ötztal to the Stubai Alps, blue with the snow depth, weather stations as dots.
+```
+4.
+```
+The Eisack valley between the Sarntal Alps and the Dolomites around Gröden, blue with the forecast new snow.
+```
+5.
+```
+Marmolada and Piz Boè in the afternoon sun, the north faces in shade.
+```
+6.
+```
+Free, in your browser, no account. Updated three times a day. cimamap.com.
+```
+
 ## Settings
 
-| Setting | Value |
-| --- | --- |
-| Alt text (Advanced settings, Write alt text, one per slide) | 1. South Tyrol in 3D as a block on a plain floor, the mountains blue with the estimated snow depth, the valleys bare. 2. The Ortler group in 3D, its peaks and glaciers white where the satellite saw snow. 3. The mountains around Meran in 3D, from the Ötztal to the Stubai Alps, blue with the snow depth, weather stations as dots. 4. The Eisack valley between the Sarntal Alps and the Dolomites around Gröden, blue with the forecast new snow. 5. Marmolada and Piz Boè in the afternoon sun, the north faces in shade. 6. Free, in your browser, no account. Updated three times a day. cimamap.com. |
-| Location | South Tyrol (Südtirol), Italy |
-| Music | None. The slides are read, not watched; a carousel without music looks calmer next to the reel |
-| Pin | Yes, pin it first (then the reel, so the reel shows first on the grid) |
-| Story | No: the story goes with the reel |
-| Share to Facebook | Off |
+- **Location**: South Tyrol (Südtirol), Italy
+- **Music**: none. The slides are read, not watched
+- **Pin**: yes, first (then the reel, so the reel shows first on the grid)
+- **Story**: none; the story goes with the reel
+- **Share to Facebook**: off
 
 ## Posted
 
-Not yet.
+Wed 25 Nov 2026, about 08:30, pinned. The storm reel was held back: the site's forecast was from Tuesday afternoon, and Open-Meteo's newer run looked about half as much snow.

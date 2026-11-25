@@ -98,7 +98,7 @@ The reel needs `ffmpeg`. It is silent: music is added in the Instagram app, beca
 
 ### What goes with a post
 
-`caption.md` holds everything that is set in the app besides the pictures, so posting from the phone is copying, not deciding:
+`caption.md` holds everything that is set in the app besides the pictures, so posting from the phone is copying, not deciding. Everything that is pasted (the caption, each alt text, a sticker's text) sits in its own code block, so it copies with one tap on a phone; the rest is a short list. What it covers:
 
 | Setting | For | What to put |
 | --- | --- | --- |
