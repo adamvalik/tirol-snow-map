@@ -162,8 +162,10 @@ if (POST === 'storm') {
   const fc = await data('forecast.json');
   if (!fc.available || !fc.frames?.length) throw new Error('No forecast on the site');
   const frames = fc.frames;
-  const last = frames.length - 1;
-  const peak = frames[last].maxCm;
+  // The post ends where the snow stops growing: a forecast that runs on for two dry days would
+  // otherwise hold the same number for a third of the reel and date the total too late.
+  const peak = frames.at(-1).maxCm;
+  const last = frames.findIndex((f) => f.maxCm >= peak);
   const first = Math.max(0, frames.findIndex((f) => f.maxCm > 0) - 1);
   const until = dayTime(frames[last].time);
   const span = `${dayOnly(frames[0].time)} to ${until}`;
@@ -237,7 +239,8 @@ if (POST === 'storm') {
       </div>
       <div class="abs dim" style="left:80px;right:180px;bottom:350px;font-size:17px">${fcCredit}</div>`, { transparent: true });
   }
-  const STEP = 0.42;
+  // About 6 s for the build-up, however many forecast steps the storm spans.
+  const STEP = Math.min(0.7, Math.max(0.42, 6 / steps.length));
   execFileSync('ffmpeg', [
     '-y', '-loglevel', 'error',
     '-framerate', String(1 / STEP), '-i', path.join(tmp, 'map-%03d.jpg'),
