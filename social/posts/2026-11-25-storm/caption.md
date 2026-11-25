@@ -63,4 +63,4 @@ How much new snow by Thursday evening, most anywhere?
 
 ## Posted
 
-Wed 25 Nov 2026, about 12:20, with music; pinned before the carousel until the storm is over. The app offered no alt text, topics or music volume for this reel.
+Wed 25 Nov 2026, about 12:20, with music; pinned before the carousel until the storm is over. The app offered no alt text, topics or music volume for this reel. Story posted the same day, with the link and quiz stickers.
