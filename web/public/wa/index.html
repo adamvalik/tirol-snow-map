@@ -1,0 +1,16 @@
+<!doctype html>
+<!-- The short link for the WhatsApp groups: cimamap.com/wa opens the map with ?ref=wa-erasmus,
+     so the visit counts as coming from WhatsApp and the message shows a clean address.
+     Relative, so it also works under /dev/. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content="0; url=../?ref=wa-erasmus" />
+    <title>Cima Map</title>
+    <script>location.replace('../?ref=wa-erasmus' + location.hash);</script>
+  </head>
+  <body>
+    <a href="../?ref=wa-erasmus">Open Cima Map</a>
+  </body>
+</html>

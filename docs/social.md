@@ -75,7 +75,7 @@ The algorithm does not know the account yet, so the first followers come from pe
 - **Comments with substance** on posts of local accounts (tourism boards, huts, guides, ski areas), from the @cimamap account, about the snow on their mountain. Ten minutes a day, by hand: this is the part that cannot be automated.
 - **The testers.** The first people who use the app are the first followers; the link in the app's About tab and in the WhatsApp groups brings them.
 - **Location tags** on every post (the valley or the summit) and keywords in the caption, so search finds the posts.
-- **Every link is counted by its channel**: the bio link is `cimamap.com/ig`, a page that opens the map with `?ref=ig-bio` (`web/public/ig/index.html`), so the bio shows a clean address; story stickers `?ref=ig-story` (README, Feedback and visit counts). GoatCounter then shows which posts bring visits.
+- **Every link is counted by its channel**: the bio link is `cimamap.com/ig`, a page that opens the map with `?ref=ig-bio` (`web/public/ig/index.html`), so the bio shows a clean address; the WhatsApp groups get `cimamap.com/wa` (`?ref=wa-erasmus`, `web/public/wa/index.html`); story stickers `?ref=ig-story` (README, Feedback and visit counts). GoatCounter then shows which posts bring visits.
 
 ## Measuring
 
