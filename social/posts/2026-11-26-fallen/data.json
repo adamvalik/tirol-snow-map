@@ -1,0 +1,54 @@
+{
+ "site": "https://cimamap.com/",
+ "stationsGeneratedAt": "2026-11-26T13:14:22.181Z",
+ "rows": [
+  {
+   "id": "province-bz:24300SF",
+   "name": "Ulten Rossbänke - Ultimo Pian dei Cavalli",
+   "elevation": 2255,
+   "snowChange72hCm": 34,
+   "snowDepthCm": 42.5,
+   "observedAt": "2026-11-26T13:00:00.000Z"
+  },
+  {
+   "id": "euregio-linea:ALBINA/351f4228-b4c1-38e7-cfa9-15d7b617a4de",
+   "name": "Passo Grostè",
+   "elevation": 2530,
+   "snowChange72hCm": 29,
+   "snowDepthCm": 44,
+   "observedAt": "2026-11-26T12:00:00.000Z"
+  },
+  {
+   "id": "euregio-linea:AT-07-GEOSPHERE/OBER1",
+   "name": "Obergurgl",
+   "elevation": 1941,
+   "snowChange72hCm": 29,
+   "snowDepthCm": 44,
+   "observedAt": "2026-11-26T13:00:00.000Z"
+  },
+  {
+   "id": "euregio-linea:ALBINA/96492e38-a3e5-6301-2d7c-18f417213b80",
+   "name": "Gries im Sulztal",
+   "elevation": 1585,
+   "snowChange72hCm": 27,
+   "snowDepthCm": 26,
+   "observedAt": "2026-11-26T13:00:00.000Z"
+  },
+  {
+   "id": "euregio-linea:ALBINA/SHEK2",
+   "name": "Äußeres Hochebenkar",
+   "elevation": 2565,
+   "snowChange72hCm": 26,
+   "snowDepthCm": 27.2,
+   "observedAt": "2026-11-26T11:10:00.000Z"
+  },
+  {
+   "id": "euregio-linea:ALBINA/b5e26a99-e8d7-24e2-e499-fb463f394cfe",
+   "name": "Peller",
+   "elevation": 2030,
+   "snowChange72hCm": 25,
+   "snowDepthCm": 40,
+   "observedAt": "2026-11-26T11:00:00.000Z"
+  }
+ ]
+}
