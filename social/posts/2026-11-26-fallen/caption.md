@@ -2,21 +2,21 @@
 
 - **Format**: picture, 4:5 (`fallen-4x5.jpg`), and a story (`story-9x16.jpg`)
 - **Post**: Thu 26 Nov 2026, about 18:00, with the WhatsApp message
-- **Made with**: `node scripts/social.mjs fallen`, Thu 26 Nov, 17:30, from the stations at 14:00. New snow in 72 hours: Ulten Rossbänke 34 cm, Passo Grostè 29, Obergurgl 29, Gries im Sulztal 27, Äußeres Hochebenkar 26, Peller 25. The 24 h and 48 h changes agree, so no sensor jumps. Snow depth now 25 to 50 cm at these stations.
+- **Made with**: `node scripts/social.mjs fallen`, Thu 26 Nov, 18:25, from the stations at 18:00 (a pipeline run started by hand). New snow in 72 hours: Passo Grostè 37 cm, Ulten Rossbänke 34, Obergurgl 30, Sulden Madritsch 30, Pfelders Grünboden 29, Gries im Sulztal 28. A render from the 14:00 data (up to 34 cm) was not posted. Snow depth now 27 to 55 cm at these stations.
 
 ## Caption
 
 ```
-The first big snowfall of the winter: up to 34 cm of new snow in 72 hours, measured at the weather stations in and around South Tyrol, to Thursday 14:00.
+The first big snowfall of the winter: up to 37 cm of new snow in 72 hours, measured at the weather stations in and around South Tyrol, to Thursday 18:00.
 
-Most at Ulten Rossbänke (2,255 m), then Passo Grostè and Obergurgl with 29 cm. It is still snowing in places this afternoon. Once the sky clears, the satellite shows where the snow lies, at about 60 m.
+Most at Passo Grostè (2,530 m) in the Brenta Dolomites, and in South Tyrol at Ulten Rossbänke with 34 cm. It is still snowing in places tonight. Once the sky clears, the satellite shows where the snow lies, at about 60 m.
 
 Every station, its snow depth and the forecast for your mountain: cimamap.com, link in bio.
 
 A lot of new snow is news, not an invitation: check avalanche.report before you go.
 
-Bis zu 34 cm Neuschnee in 72 Stunden an den Wetterstationen in und um Südtirol.
-Fino a 34 cm di neve fresca in 72 ore alle stazioni meteo in Alto Adige e dintorni.
+Bis zu 37 cm Neuschnee in 72 Stunden an den Wetterstationen in und um Südtirol.
+Fino a 37 cm di neve fresca in 72 ore alle stazioni meteo in Alto Adige e dintorni.
 
 #südtirol #altoadige #neuschnee #snow #skitouring
 ```
@@ -24,7 +24,7 @@ Fino a 34 cm di neve fresca in 72 ore alle stazioni meteo in Alto Adige e dintor
 ## Alt text
 
 ```
-A 3D map of South Tyrol, blue with the snow depth, and a list of the six weather stations with the most new snow in 72 hours: Ulten Rossbänke 34 cm, Passo Grostè 29 cm, Obergurgl 29 cm, Gries im Sulztal 27 cm, Äußeres Hochebenkar 26 cm, Peller 25 cm.
+A 3D map of South Tyrol, blue with the snow depth, and a list of the six weather stations with the most new snow in 72 hours: Passo Grostè 37 cm, Ulten Rossbänke 34 cm, Obergurgl 30 cm, Sulden Madritsch 30 cm, Pfelders Grünboden 29 cm, Gries im Sulztal 28 cm.
 ```
 
 ## Settings
