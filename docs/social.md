@@ -1,12 +1,82 @@
 # Instagram
 
-How the [@cimamap](https://www.instagram.com/cimamap/) account works: what it posts and why, how a post is made, and how posting moves from by hand to automatic. Started Nov 24, 2026, with no followers. The posts themselves are in [`social/`](../social/).
+The strategy of the [@cimamap](https://www.instagram.com/cimamap/) account, and the source of truth for it: what it posts, how often, why, and how a post is made. Started Nov 24, 2026, with no followers.
+
+## Where things live
+
+| What | Where |
+| --- | --- |
+| Strategy, series, rules, how a post is made | This file |
+| Calendar, ideas, what was posted and how it did | The [tracker](https://claude.ai/artifact/46gg9eDGJTzrsT65PXFsCp), a private dashboard. Sessions read and write it |
+| A post's pictures, caption, alt text and settings | `social/posts/<date>-<post>/`, made by `scripts/social.mjs` |
+| Work on the post scripts | GitHub issues in the `Growth` milestone |
+
+A post idea goes into the tracker, not into this file. A new kind of post that works goes into this file.
 
 ## The idea
 
-Every post answers the question the app answers: **where is the snow in South Tyrol, and where will it be?** It does so with the app's own data on the real terrain, never with stock photos or generated landscapes. That is the account's edge. Most snow content on Instagram is either a photo from one slope or a dramatic model map picked from many. A map of what the satellite saw, what about 350 stations measured and what the forecast blend says, with its date on it, is rarer and more useful.
+The account does two jobs at once:
 
-Being right matters more than being loud. A viral snow map that turns out wrong costs the trust the app lives on, and weather accounts that hype forecasts are called out for it. So the posts say "forecast", give the time it is for, and use "up to" only for the most anywhere in the area.
+- **It answers the question the app answers**: where is the snow in South Tyrol, and where will it be? With the app's own data on the real terrain, never stock photos or generated landscapes. A dated map of what the satellite saw, what about 350 stations measured and what the forecast says is rarer and more useful than a photo from one slope.
+- **It shows the app.** Reels of what the map can do (sun and shade, lifts in 3D, a tour on the terrain, the timeline) make people want to try it themselves. These posts are for views and curiosity, and every one ends on cimamap.com.
+
+Being right matters more than being loud. A viral snow map that turns out wrong costs the trust the app lives on. Posts say "forecast" and give the time it is for, and use "up to" only for the most anywhere in the area.
+
+## Until Christmas: try everything
+
+From the launch to Thu 24 Dec 2026 the account tries every series and every kind of post below, at a high pace, and the tracker keeps the numbers. After Christmas the numbers decide which kinds stay, which get more and which go. No follower target: it is an experiment.
+
+| Period | Feed posts | Stories |
+| --- | --- | --- |
+| To Sun 6 Dec | Every day or every other day, when there is something worth posting | Every day |
+| 7 to 24 Dec | 4 to 5 a week | Most days |
+
+- **Reels wherever something moves**: snow building up, the shade going round, the camera along a track or around a summit. Most posts are reels.
+- **A carousel** when there is something to read and save (a list of stations, a how-to, a comparison).
+- **A picture** for one clear number or one striking view.
+- **Never two feed posts on the same day.** A storm or a release takes the slot; the planned post moves to the next free day.
+- **No post for the sake of the pace.** A missed day costs less than a wrong map.
+
+## Series
+
+Recurring posts with the same look each time, so people recognise them and come back.
+
+| Series | When | Format | What | Script |
+| --- | --- | --- | --- | --- |
+| **Weekend snow** | Every Friday, about 17:00 | Reel | Snow now, the forecast to Sunday, the snow line; three numbers that matter | `weekend` |
+| **Storm** | When the 3-day forecast has 20 cm or more somewhere | Reel, picture, reel | 1. The forecast building up, as soon as the storm is in the forecast. 2. What fell at the stations, the evening or morning after. 3. Before and after from space, on the first clear day | `storm`, `fallen`, `fromspace` |
+| **Map trick** | Once a week | Reel | One thing the map does, shown in use. Ends on "Try it: cimamap.com" | `sun`, `lifts`, `timeline`, phone recording |
+| **Tour** | Every two weeks | Reel or carousel | One of our own GPX tracks on the terrain, with its numbers and the snow along it (see Tours) | `track` |
+| **Place** | Once a week | Reel | One mountain group or valley with today's snow, its name in German, Italian and English, location tag on | `orbit` |
+
+The rest of the week is filled with one-off posts.
+
+## One-off posts
+
+Ideas that do not belong to a series. Each is tried at least once before Christmas.
+
+| Kind | Format | Examples |
+| --- | --- | --- |
+| **Facts** | Carousel | The 350 stations and where they stand; the highest station; the deepest snow today; what a brown dot means |
+| **Comparisons** | Reel or carousel | Noon on 21 June and 21 December in the same valley; a north face and the south face across from it; the snow line now and two weeks ago |
+| **How to** | Reel, phone recording | Check your mountain in 10 seconds; load a GPX file; share the view |
+| **From space** | Picture or carousel | The true-colour satellite photo; what "60 m from space" means and why clouds hide the snow |
+| **Releases** | Reel or carousel | Every version people can see: the feature shown in use, with the release notes in plain words. The share picture (`v1.1.0`) is made with the feature itself |
+| **Days** | Reel | The shortest day (21 Dec): where the sun does not reach |
+
+A phone screen recording of the app is a quick reel when a script does not exist yet: open the map, do the thing, end on the address. Instagram ranks it as original content.
+
+**Anything the app shows is material**: the depth estimate, snow from space, stations, the forecast, sun and shade, lifts and slopes in 3D, via ferratas, bivouacs, the true-colour satellite photo, tracks, the timeline of 14 days back and 3 ahead. A snow comparison of summer and winter needs a summer satellite day, which the app does not keep: it takes a one-off fetch of an archived Sentinel-2 scene.
+
+## Tours
+
+Tours are the posts people send to the one they tour with, and the case the share picture is built for. Our own GPX tracks only, until people send theirs.
+
+- **Then and now**: a tour from summer or autumn, shown with today's snow. A comparison, not advice; it works in any weather.
+- **What we did**: a winter tour, posted after it is done, with its date: the snow on that day. Never "go there now", and the avalanche line at the end.
+- **For later**: a via ferrata or summer route with the snow on it now ("when will it melt?").
+- The start and the end near a home or a car park are cut. The GPX file itself is never published.
+- After `v1.1.0`, people make their own track pictures. Theirs are posted only with their written consent, best as a collab post with their name.
 
 ## Who it is for
 
@@ -16,37 +86,23 @@ Being right matters more than being loud. A viral snow map that turns out wrong 
 
 ## What works for a new account in 2026
 
-From Instagram's own statements (Adam Mosseri) and the larger studies of 2026. The exact weights are not public, and blogs often add precise numbers they cannot know:
+From Instagram's own statements (Adam Mosseri) and the larger studies of 2026. The exact weights are not public:
 
-- **Reels reach people who do not follow you yet.** For accounts under 1,000 followers they get clearly more reach than pictures or carousels. Watch time decides: short reels that are watched to the end win.
-- **Sends are the strongest signal for new people.** A post someone sends to a friend in a DM ("look, snow on Saturday") is worth more than a like. Posts should be worth sending: about a day, a place or a plan.
-- **Carousels get saved.** They do best for engagement and saves among people who already follow, and Instagram says they are growing.
-- **Hashtags matter less.** Instagram is capping them at five per post (rolling out since December 2025). Keywords in the caption and the name field do more: Instagram search reads them.
+- **Reels reach people who do not follow you yet.** Under 1,000 followers they get clearly more reach than pictures or carousels. Watch time decides: short reels watched to the end win.
+- **Sends are the strongest signal for new people.** A post sent in a DM ("look, snow on Saturday") is worth more than a like.
+- **Carousels get saved.** They do best with people who already follow.
+- **Hashtags matter less.** At most five per post. Keywords in the caption and the name field do more: Instagram search reads them.
 - **Original content is ranked higher.** Reposts and watermarked videos from other apps are pushed down.
 - **Trial reels** (shown to non-followers first) need 1,000 followers. Use them once there.
 
-## What we post
+## Formats
 
-| Format | For | Examples |
+| Format | Size | Rules |
 | --- | --- | --- |
-| **Reel**, 9:16, 8–15 s | Reach | The forecast snow building up over the terrain; before and after from space; sun and shade over a valley from sunrise to sunset |
-| **Carousel**, 4:5, 3–7 slides | Saves and sends | What the map shows; where the most new snow fell, by station; one valley or summit up close |
-| **Picture**, 4:5 | The grid | South Tyrol as a block with today's snow; a summit in the first snow |
-| **Story**, 9:16 | Followers, the link | The day's snow with a link sticker; a poll ("did it snow where you are?") |
-
-Feed pictures are 1080 × 1350 (4:5). The profile grid shows 3:4, which cuts 34 px from each side, so the frame keeps text away from the sides. The API also takes no picture narrower than 4:5.
-
-**Anything the app shows is material**, not only the snow of the day:
-
-- **Every layer**: the depth estimate, snow from space, stations, the forecast, sun and shade, lifts and slopes in 3D, via ferratas, bivouacs, the true-colour satellite photo.
-- **Tracks**: a GPX tour on the terrain, with its distance, climb, highest point, the snow along it and the elevation profile, as the share picture design draws it (`docs/design/share-snapshot.md`). The owner's own tours, example routes, and tours others send in (see the rules).
-- **Comparisons**: the same valley at noon on 21 June and 21 December, where the shade lies in each; the snow line now and two weeks ago (the timeline keeps 14 days); a north face against the south face across the valley. A snow comparison of summer and winter needs a summer satellite day, which the app does not keep: it takes a one-off fetch of an archived Sentinel-2 scene.
-- **Facts**: the highest station, the deepest snow measured, how far the shadow of a ridge reaches in December.
-- **Releases**: every version that people can see brings a post. The feature shown in use (a reel of it on the map, or a carousel of what it does), with the release notes from `docs/release-plan.md` in plain words. A release is news the account owns, and it tells followers the app keeps growing. The share picture (`v1.1.0`) is the first: the post can be made with the feature itself.
-
-**The weather sets the rhythm.** A storm is three posts: the forecast reel a day or two before, the stations' new snow once it has fallen, and the satellite's before and after on the first clear day. In calm weeks, two posts: a place, a feature, sun and shade. In winter about three posts a week plus stories, never a post for the sake of posting.
-
-**When.** Thursday and Friday evening for the weekend; the morning after a snowfall; a forecast reel as soon as the storm is in the 3-day forecast.
+| **Reel** | 9:16, 1080 × 1920, 8–15 s | The map already moving and the headline on screen in the first second, no logo intro. One idea per reel. The last frame has the number, the logo and cimamap.com, and is the cover. Silent; music is added in the app |
+| **Carousel** | 4:5, 3–7 slides | The first slide says what the rest shows |
+| **Picture** | 4:5, 1080 × 1350 | The profile grid shows 3:4, which cuts 34 px from each side, so text stays away from the sides. The API takes no picture narrower than 4:5 |
+| **Story** | 9:16 | Each feed post shared to the story the same day, with the link sticker. Polls and quizzes on quiet days |
 
 ## How it sounds
 
@@ -65,21 +121,23 @@ The app's rules hold on Instagram too (`CLAUDE.md`, Rules for the app):
 - **Nothing personal.** No one's track, location or face without their consent; followers' GPX files never.
 - **Credit every source on the picture**: OpenStreetMap, Mapterhorn, Copernicus Sentinel-2, Open-Meteo, the station operators, for the layers shown.
 - **Only our own pictures**, or others' with their written consent and their name on the post (a collab post is best).
-- **Tracks.** A track someone sends is posted only with their written consent, with their name only if they want it, and with the first and last few hundred metres cut when it starts at a home. An example route is labelled as one ("an example line"), never shown as a tour someone did. In winter a track is what someone did on a given day, with that day on it, never a recommendation to go: the snow and the slope change, the bulletin decides.
+- **Tracks** follow the rules under Tours. An example route is labelled as one ("an example line"), never shown as a tour someone did.
 
 ## Growing from zero
 
 The algorithm does not know the account yet, so the first followers come from people:
 
-- **Collab posts.** A mountain guide, a hut, a ski touring school or a photographer posts with us: their photo of the day, our map of the snow around it. The post shows on both profiles.
 - **Comments with substance** on posts of local accounts (tourism boards, huts, guides, ski areas), from the @cimamap account, about the snow on their mountain. Ten minutes a day, by hand: this is the part that cannot be automated.
+- **Collab posts.** A mountain guide, a hut, a ski touring school or a photographer posts with us: their photo of the day, our map of the snow around it. The post shows on both profiles.
 - **The testers.** The first people who use the app are the first followers; the link in the app's About tab and in the WhatsApp groups brings them.
 - **Location tags** on every post (the valley or the summit) and keywords in the caption, so search finds the posts.
 - **Every link is counted by its channel**: the bio link is `cimamap.com/ig`, a page that opens the map with `?ref=ig-bio` (`web/public/ig/index.html`), so the bio shows a clean address; the WhatsApp groups get `cimamap.com/wa` (`?ref=wa-erasmus`, `web/public/wa/index.html`); story stickers `?ref=ig-story` (README, Feedback and visit counts). GoatCounter then shows which posts bring visits.
 
 ## Measuring
 
-Once a week, from Instagram's Insights (and later from the API): reach from non-followers, sends per reach, saves, profile visits, and visits with `ref=ig-*` in GoatCounter. Followers count last: a post with many sends and few likes is a good post.
+Every Monday, about 15 minutes: the numbers of last week's posts go into the tracker from Instagram's Insights (and later from the API). Per post: views, reach, the share of non-followers, sends, saves and likes. Per week: visits with `ref=ig-*` in GoatCounter and the follower count.
+
+The tracker compares the kinds of posts by sends and saves per 1,000 reach, so a reel with many views and a carousel with few can be weighed fairly. Followers count last: a post with many sends and few likes is a good post. At Christmas this comparison decides what the account posts next.
 
 ## Making a post
 
@@ -91,11 +149,14 @@ node scripts/social.mjs storm     # forecast reel (9:16 MP4), cover (4:5) and st
 node scripts/social.mjs intro     # the carousel that says what the map shows
 node scripts/social.mjs island    # South Tyrol with the snow the satellite saw last
 node scripts/social.mjs fallen    # after a storm: the stations with the most new snow in 72 h
+node scripts/social.mjs weekend   # Friday: snow on the ground by height, new snow to Sunday (reel and story)
 ```
 
 It opens cimamap.com in Chromium, captures the bare map canvas as the share picture mock-ups do (`docs/design/share-snapshot.md`) and frames it in the app's font. Numbers and times come from the site's data files, so a post shows the data of the moment it was made. The pictures land in `social/posts/<date>-<post>/`; they are not kept in git. The caption, alt text and the time to post go next to them in `caption.md`, which is kept, so the folder is the log of what was posted.
 
-The reel needs `ffmpeg`. It is silent: music is added in the Instagram app, because licensed music cannot be added through the API.
+`--quick` renders a few frames only, to check the camera and the text. On a Mac, point `CHROMIUM_PATH` at Chrome (`/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`); a reel flight takes about 2 s a frame, 5 to 6 minutes in all.
+
+The weekend reel gives the snow on the ground as the median depth of the stations within 250 m of 1,500, 2,000 and 2,500 m (at least four each), and the new snow as the most anywhere in the forecast to the end of Sunday. The reel needs `ffmpeg`. It is silent: music is added in the Instagram app, because licensed music cannot be added through the API.
 
 ### What goes with a post
 
