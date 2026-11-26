@@ -32,7 +32,7 @@ From Instagram's own statements (Adam Mosseri) and the larger studies of 2026. T
 | **Reel**, 9:16, 8–15 s | Reach | The forecast snow building up over the terrain; before and after from space; sun and shade over a valley from sunrise to sunset |
 | **Carousel**, 4:5, 3–7 slides | Saves and sends | What the map shows; where the most new snow fell, by station; one valley or summit up close |
 | **Picture**, 4:5 | The grid | South Tyrol as a block with today's snow; a summit in the first snow |
-| **Story**, 9:16 | Followers, the link | The day's snow with a link sticker; a poll ("ski or wait?") |
+| **Story**, 9:16 | Followers, the link | The day's snow with a link sticker; a poll ("did it snow where you are?") |
 
 Feed pictures are 1080 × 1350 (4:5). The profile grid shows 3:4, which cuts 34 px from each side, so the frame keeps text away from the sides. The API also takes no picture narrower than 4:5.
 
@@ -111,7 +111,7 @@ The reel needs `ffmpeg`. It is silent: music is added in the Instagram app, beca
 | **Topics** | Reels, where the app offers it | Up to three in Advanced settings, for example Skiing, Weather, Travel; not in every app version or region |
 | **Share to feed** | Reels | On, so the reel is on the grid |
 | **Pin** | When it matters | The intro carousel always; a storm post until the storm is over |
-| **Story** | When it brings the link | Which picture, the link sticker (`cimamap.com/?ref=ig-story`), its text, and a poll or quiz if one fits |
+| **Story** | When it brings the link | Which picture, the link sticker (`cimamap.com/?ref=ig-story`) with its own text set in the app ("Customize sticker text"; without it the sticker shows the bare address), and a poll or quiz if one fits. Where they go: the poll or quiz over the map in the middle, never in the top band where Instagram shows the account and the progress bar; the link sticker under the credits, above the reply bar |
 | **After posting** | All | Answer comments the same day; note under Posted in `caption.md` when it went out |
 
 ## From by hand to automatic
