@@ -65,7 +65,7 @@ const data = async (name) => (await mapPage.goto(`${SITE}data/${name}?t=${Date.n
 
 /**
  * The bare map for `hash` at `size` (export pixels). `camera` is zoom/lat/lon/bearing/pitch for
- * that size (zoom as the export would show it, not the screen), `labels` 'none' or 'summits'.
+ * that size (zoom as the export would show it, not the screen), `labels` 'none', 'summits' or 'orient' (see openMap).
  */
 async function capture({ hash, size, camera, labels = 'summits' }) {
   await openMap({ hash, size, labels });
@@ -76,8 +76,8 @@ async function capture({ hash, size, camera, labels = 'summits' }) {
  * Frames of a camera move over one map state, for a reel. The page loads once; each camera is a
  * jump, an idle wait and a read, so after the first frame the tiles mostly come from the cache.
  */
-async function fly({ hash, size, cameras, labels = 'none' }) {
-  await openMap({ hash, size, labels });
+async function fly({ hash, size, cameras, labels = 'none', textScale = 1 }) {
+  await openMap({ hash, size, labels, textScale });
   const out = [];
   for (const [i, cam] of cameras.entries()) {
     out.push(await shoot(cam, i === 0 ? 600 : 0));
@@ -86,13 +86,13 @@ async function fly({ hash, size, cameras, labels = 'none' }) {
   return out;
 }
 
-async function openMap({ hash, size, labels }) {
+async function openMap({ hash, size, labels, textScale = 1 }) {
   await mapPage.goto('about:blank');
   // `?count=off` is not needed: automated browsers are never counted (web/src/app/analytics.ts).
   await mapPage.goto(`${SITE}${hash}`, { waitUntil: 'load' });
   await mapPage.waitForFunction(() => document.body.dataset.mapReadyMs, null, { timeout: 120_000 });
   await mapPage.evaluate(
-    async ({ size: [w, h], labels }) => {
+    async ({ size: [w, h], labels, textScale }) => {
       const RATIO = 2;
       const map = window.__snowmap.map;
       const idle = () => new Promise((r) => (map.loaded() && map.areTilesLoaded() ? r() : map.once('idle', r)));
@@ -101,10 +101,26 @@ async function openMap({ hash, size, labels }) {
       Object.assign(el.style, { position: 'fixed', left: '0', top: '0', width: `${w / RATIO}px`, height: `${h / RATIO}px`, zIndex: '0' });
       map.setPixelRatio(RATIO);
       map.setMinZoom(5);
+      // A number, or the outputs of a zoom interpolation, times k (a zoom expression cannot be
+      // wrapped in a product).
+      const times = (v, k) => (typeof v === 'number' ? v * k : Array.isArray(v) && v[0] === 'interpolate' ? v.map((x, i) => (i >= 4 && i % 2 === 0 && typeof x === 'number' ? x * k : x)) : v);
+      // 'orient': what tells a viewer where they are, the mountain groups, the valleys and the
+      // towns over about 13,000 people (Bozen, Meran, Brixen, Bruneck, Leifers).
+      const ORIENT = ['mountain-ranges', 'valleys', 'places_locality'];
       for (const l of map.getStyle().layers) {
         if (l.type !== 'symbol' || map.getLayoutProperty(l.id, 'visibility') === 'none') continue;
-        // Summits only (their own source): town, road and water names are noise in a picture.
-        if (labels === 'none' || l.source === 'protomaps') map.setLayoutProperty(l.id, 'visibility', 'none');
+        // 'summits': the map's own names only (mountain groups, valleys, summits); OSM town, road
+        // and water names are noise in a picture.
+        const hide = labels === 'none' || (labels === 'orient' ? !ORIENT.includes(l.id) : l.source === 'protomaps');
+        if (hide) map.setLayoutProperty(l.id, 'visibility', 'none');
+        else {
+          if (l.id === 'places_locality') map.setFilter(l.id, ['all', l.filter ?? true, ['>=', ['to-number', ['get', 'population'], 0], 13000]]);
+          if (textScale === 1) continue;
+          // Map text is sized for a screen held close; a reel is watched smaller.
+          map.setLayoutProperty(l.id, 'text-size', times(map.getLayoutProperty(l.id, 'text-size') ?? 16, textScale));
+          map.setPaintProperty(l.id, 'text-halo-width', (map.getPaintProperty(l.id, 'text-halo-width') ?? 1) * textScale);
+          if (map.getLayoutProperty(l.id, 'icon-image')) map.setLayoutProperty(l.id, 'icon-size', (map.getLayoutProperty(l.id, 'icon-size') ?? 1) * textScale);
+        }
       }
       map.resize();
       window.__shoot = async ([zoom, lat, lon, bearing, pitch], settleMs) => {
@@ -124,7 +140,7 @@ async function openMap({ hash, size, labels }) {
         return c.toDataURL('image/jpeg', 0.93);
       };
     },
-    { size, labels },
+    { size, labels, textScale },
   );
 }
 const shoot = (camera, settleMs) => mapPage.evaluate(([c, s]) => window.__shoot(c, s), [camera, settleMs]);
@@ -434,17 +450,24 @@ if (POST === 'weekend') {
       <b style="font-size:${56 * u}px;color:#fff;font-weight:700">${r.cm} cm</b></div>`).join('');
 
   // Reel, 9:16: a slow turn over South Tyrol on the depth estimate; the text in three beats.
-  const FPS = QUICK ? 3 : 15;
+  // Every frame of the video is a render: blending fewer renders up to 30 fps reads as stutter.
+  // --quick renders 3 a second to check the text and the labels.
+  const FPS = QUICK ? 3 : 30;
   const SECONDS = 11;
   const count = Math.round(FPS * SECONDS);
-  const ease = (t) => t * t * (3 - 2 * t);
+  // Gentle in and out, mostly an even turn.
+  const ease = (t) => t - Math.sin(2 * Math.PI * t) / (2 * Math.PI) * 0.35;
   const lerp = (a, b, t) => a + (b - a) * t;
   // Close enough that the snow fills the frame, looking north-east so the edge of the data stays
-  // out of sight: from Ulten over Meran towards the Sarntal Alps.
-  const [c0, c1] = [[9.55, 46.52, 10.95, 6, 58], [9.8, 46.6, 11.3, 36, 64]];
+  // out of sight: from Ulten over Meran towards the Sarntal Alps. Zoom and tilt stay fixed, so the
+  // terrain tiles keep their detail level and the mountains do not pop; the camera only turns
+  // and drifts.
+  const [c0, c1] = [[9.7, 46.53, 10.98, 4, 60], [9.7, 46.6, 11.28, 34, 60]];
   const cameras = Array.from({ length: count }, (_, i) => c0.map((v, j) => lerp(v, c1[j], ease(i / (count - 1)))));
   const t0 = Date.now();
-  const shots = await fly({ hash: `#map=8/46.6/11.45/0/30&layers=depth,${TERRAIN}`, size: [1080, 1920], cameras });
+  // Mountain groups, valleys in German and Italian and the main towns,
+  // larger than on screen, so a viewer knows where it is.
+  const shots = await fly({ hash: `#map=8/46.6/11.45/0/30&layers=depth,${TERRAIN},labels`, size: [1080, 1920], cameras, labels: 'orient', textScale: 1.6 });
   console.log(`flight of ${count} frames in ${((Date.now() - t0) / 1000).toFixed(0)} s`);
 
   const beats = [
@@ -472,7 +495,7 @@ if (POST === 'weekend') {
           <div class="title" style="font-size:80px">Snow this weekend</div>
           <div class="sub" style="font-size:34px;margin-top:16px">South Tyrol, ${weekend}</div>
         </div>
-        <div class="abs scrim" style="height:900px"></div>
+        <div class="abs scrim" style="height:980px;background:linear-gradient(rgba(12,22,34,0),rgba(12,22,34,.9) 24%,rgba(12,22,34,.96))"></div>
         <div class="abs" style="left:80px;right:180px;bottom:430px;opacity:${alpha}">${beats[b].body}</div>
         <div class="abs dim" style="left:80px;right:180px;bottom:350px;font-size:17px">${wkCredit}</div>`, { transparent: true });
       made.set(key, file);
@@ -492,8 +515,8 @@ if (POST === 'weekend') {
     '-framerate', String(FPS), '-i', path.join(tmp, 'map-%03d.jpg'),
     '-framerate', String(FPS), '-i', path.join(tmp, 'ov-%03d.png'),
     '-filter_complex',
-    // Blend the flight up to 30 fps, then lay the text on top.
-    `[0:v]framerate=fps=30:interp_start=0:interp_end=255:scene=100[m];[1:v]fps=30[o];[m][o]overlay=0:0:shortest=1,format=yuv420p[v]`,
+    // The flight as rendered (repeated frames in --quick), the text on top.
+    `[0:v]fps=30[m];[1:v]fps=30[o];[m][o]overlay=0:0:shortest=1,format=yuv420p[v]`,
     '-map', '[v]', '-c:v', 'libx264', '-preset', 'slow', '-crf', '19', '-movflags', '+faststart', '-r', '30',
     path.join(outDir, 'reel-9x16.mp4'),
   ]);
