@@ -8,7 +8,7 @@
 //   intro   The carousel that says what the map shows (4:5 slides), from the current data.
 //   island  South Tyrol as a block, with the snow the satellite saw last (4:5).
 //   fallen  After a storm: the stations with the most new snow in 72 hours, over the depth
-//           estimate (4:5). From the site's stations.json.
+//           estimate (4:5 and a 9:16 story). From the site's stations.json.
 //
 // Opens the site in Chromium, captures the bare map canvas the way scripts/share-mockups.mjs
 // does (map resized to the export size / 2, pixel ratio 2, read in the `render` event), and
@@ -340,13 +340,28 @@ if (POST === 'fallen') {
     <div class="abs sky" style="height:330px"></div>
     <div class="abs" style="left:80px;right:80px;top:70px">
       <div class="title" style="font-size:80px">Up to ${top} cm<br>in 72 hours</div>
-      <div class="sub" style="font-size:31px;margin-top:16px">New snow measured at the stations, to ${dayTime(observed)}</div>
+      <div class="sub" style="font-size:31px;margin-top:16px">New snow at the stations, to ${dayTime(observed)}</div>
     </div>
     <div class="abs scrim" style="height:700px;background:linear-gradient(rgba(12,22,34,0),rgba(12,22,34,.78) 22%,rgba(12,22,34,.9))"></div>
     <div class="abs" style="left:80px;right:80px;bottom:52px">
       <div style="margin-bottom:30px">${list(1)}</div>
       ${brand()}
       <div class="dim" style="font-size:16px;margin-top:18px">${stCredit}</div>
+    </div>`);
+  // Story, 9:16: the top four, the rest of the frame free for the link and a poll.
+  const tall = await capture({ hash: `#map=8/46.6/11.45/0/30&layers=depth,${TERRAIN},island`, size: [1080, 1920], camera: ISLAND_STORY, labels: 'none' });
+  const four = rows.slice(0, 4);
+  await frame(path.join(outDir, 'story-9x16.jpg'), [1080, 1920], `${img(tall)}
+    <div class="abs sky" style="height:620px"></div>
+    <div class="abs" style="left:80px;right:80px;top:270px">
+      <div class="title" style="font-size:96px">Up to ${top} cm<br>in 72 hours</div>
+      <div class="sub" style="font-size:34px;margin-top:18px">New snow at the stations, to ${dayTime(observed)}</div>
+    </div>
+    <div class="abs scrim" style="height:820px;background:linear-gradient(rgba(12,22,34,0),rgba(12,22,34,.8) 26%,rgba(12,22,34,.88) 70%,rgba(12,22,34,.55))"></div>
+    <div class="abs" style="left:80px;right:80px;bottom:420px">
+      ${four.map((x) => `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:14px 0;border-top:2px solid rgba(255,255,255,.16)"><span style="font-size:34px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${name(x).split(' / ')[0]}</span><b style="font-size:46px;color:#fff">+${Math.round(x.snowChange72hCm)} cm</b></div>`).join('')}
+      <div style="margin-top:30px">${brand(1.1)}</div>
+      <div class="dim" style="font-size:18px;margin-top:16px">${stCredit}</div>
     </div>`);
   await writeFile(path.join(outDir, 'data.json'), `${JSON.stringify({ site: SITE, stationsGeneratedAt: st.generatedAt, rows: rows.map((x) => ({ id: x.id, name: x.name, elevation: x.elevation, snowChange72hCm: x.snowChange72hCm, snowDepthCm: x.snowDepthCm, observedAt: x.observedAt })) }, null, 1)}\n`);
 }

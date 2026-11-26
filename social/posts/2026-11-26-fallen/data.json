@@ -1,0 +1,54 @@
+{
+ "site": "https://cimamap.com/",
+ "stationsGeneratedAt": "2026-11-26T17:16:59.627Z",
+ "rows": [
+  {
+   "id": "euregio-linea:ALBINA/351f4228-b4c1-38e7-cfa9-15d7b617a4de",
+   "name": "Passo Grostè",
+   "elevation": 2530,
+   "snowChange72hCm": 37,
+   "snowDepthCm": 53,
+   "observedAt": "2026-11-26T16:00:00.000Z"
+  },
+  {
+   "id": "province-bz:24300SF",
+   "name": "Ulten Rossbänke - Ultimo Pian dei Cavalli",
+   "elevation": 2255,
+   "snowChange72hCm": 34,
+   "snowDepthCm": 45.1,
+   "observedAt": "2026-11-26T16:30:00.000Z"
+  },
+  {
+   "id": "euregio-linea:AT-07-GEOSPHERE/OBER1",
+   "name": "Obergurgl",
+   "elevation": 1941,
+   "snowChange72hCm": 30,
+   "snowDepthCm": 44,
+   "observedAt": "2026-11-26T17:00:00.000Z"
+  },
+  {
+   "id": "province-bz:06090SF",
+   "name": "Sulden Madritsch - Solda Madriccio",
+   "elevation": 2825,
+   "snowChange72hCm": 30,
+   "snowDepthCm": 55.1,
+   "observedAt": "2026-11-26T17:00:00.000Z"
+  },
+  {
+   "id": "province-bz:20690SF",
+   "name": "Pfelders Grünboden - Prati di Plan",
+   "elevation": 2015,
+   "snowChange72hCm": 29,
+   "snowDepthCm": 39.7,
+   "observedAt": "2026-11-26T17:00:00.000Z"
+  },
+  {
+   "id": "euregio-linea:ALBINA/96492e38-a3e5-6301-2d7c-18f417213b80",
+   "name": "Gries im Sulztal",
+   "elevation": 1585,
+   "snowChange72hCm": 28,
+   "snowDepthCm": 27,
+   "observedAt": "2026-11-26T17:00:00.000Z"
+  }
+ ]
+}
