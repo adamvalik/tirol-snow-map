@@ -58,4 +58,4 @@ Did it snow where you are?
 
 ## Posted
 
-Not yet.
+Thu 26 Nov 2026, about 18:40, post and story (poll, link sticker), with the WhatsApp message to the Erasmus hikers group (`?ref=wa-erasmus`).
