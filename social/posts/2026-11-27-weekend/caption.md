@@ -26,7 +26,7 @@ Neve nel weekend in Alto Adige: circa 35 cm a 2.000 m, poca neve fresca fino a d
 Where the app offers it.
 
 ```
-A slow flight over the 3D terrain of South Tyrol, blue with the estimated snow depth. Text: snow on the ground about 50 cm at 2,500 m, 35 cm at 2,000 m, 15 cm at 1,500 m; new snow forecast to Sunday up to 2 cm; Cima Map, cimamap.com.
+A slow flight over the 3D terrain of South Tyrol from the Ötztal Alps past Bolzano, blue with the estimated snow depth, with the valley names. Text: snow on the ground about 50 cm at 2,500 m, 35 cm at 2,000 m, 15 cm at 1,500 m; new snow forecast to Sunday up to 2 cm; Cima Map, cimamap.com.
 ```
 
 ## Settings

@@ -154,9 +154,9 @@ node scripts/social.mjs weekend   # Friday: snow on the ground by height, new sn
 
 It opens cimamap.com in Chromium, captures the bare map canvas as the share picture mock-ups do (`docs/design/share-snapshot.md`) and frames it in the app's font. Numbers and times come from the site's data files, so a post shows the data of the moment it was made. The pictures land in `social/posts/<date>-<post>/`; they are not kept in git. The caption, alt text and the time to post go next to them in `caption.md`, which is kept, so the folder is the log of what was posted.
 
-`--quick` renders a few frames only, to check the camera and the text. On a Mac, point `CHROMIUM_PATH` at Chrome (`/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`); a reel flight takes about 2 s a frame, 5 to 6 minutes in all.
+`--quick` renders a few frames only, to check the camera and the text. On a Mac, point `CHROMIUM_PATH` at Chrome (`/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`); a flight renders about 2 s a frame, so an 11 s reel at 30 frames a second takes about 12 minutes.
 
-The weekend reel gives the snow on the ground as the median depth of the stations within 250 m of 1,500, 2,000 and 2,500 m (at least four each), and the new snow as the most anywhere in the forecast to the end of Sunday. The reel needs `ffmpeg`. It is silent: music is added in the Instagram app, because licensed music cannot be added through the API.
+A flight renders every frame of the video at fixed zoom and tilt (only turning and drifting), so the terrain does not pop between detail levels; blended in-between frames read as stutter. It shows the mountain groups, the valleys in German and Italian and the towns over about 13,000 people, larger than on screen. The weekend reel gives the snow on the ground as the median depth of the stations within 250 m of 1,500, 2,000 and 2,500 m (at least four each), and the new snow as the most anywhere in the forecast to the end of Sunday. The reel needs `ffmpeg`. It is silent: music is added in the Instagram app, because licensed music cannot be added through the API.
 
 ### What goes with a post
 
