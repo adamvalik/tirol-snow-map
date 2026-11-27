@@ -8,16 +8,52 @@ import { bugTarget } from './feedback.ts';
 export type StartProblem = 'webgl' | 'start' | 'context';
 
 const TEXT: Record<StartProblem, [reason: string, tryThis: string]> = {
-  webgl: [
-    'This browser or device cannot draw the 3D map. It needs WebGL 2.',
-    'Try a recent Chrome, Firefox or Safari, or turn on hardware acceleration in the browser settings.',
-  ],
+  webgl: ['This browser or device cannot draw the 3D map. It needs WebGL 2.', 'Try a recent Chrome, Firefox or Safari.'],
   start: ['Something went wrong while the map was starting.', 'Reload the page. If it happens again, try another browser.'],
   context: [
     'Phones do this when they run low on memory, often after switching apps.',
     'Reload the page to draw it again. It opens at the same place.',
   ],
 };
+
+/**
+ * What to try without WebGL 2, for the device in hand. iPhones and iPads have it from iOS 15; on a
+ * computer, Chrome and Edge lose it when graphics acceleration is off. Read here only, never sent.
+ */
+export function webglHelp(userAgent: string, touchPoints: number): string {
+  // iPadOS asks for desktop pages and names itself a Mac; only its touch screen tells it apart.
+  const apple = /iPhone|iPad|iPod/.test(userAgent) || (/Macintosh/.test(userAgent) && touchPoints > 1);
+  if (apple) return 'Update the iPhone or iPad to iOS 15 or later: Settings, General, Software Update.';
+  const mobile = /Android|Mobile/.test(userAgent);
+  if (!mobile && /Edg\//.test(userAgent))
+    return 'In Edge, open Settings, System and performance, turn on “Use graphics acceleration when available” and restart Edge.';
+  if (!mobile && /Chrome\//.test(userAgent) && !/OPR\//.test(userAgent))
+    return 'In Chrome, open Settings, System, turn on “Use graphics acceleration when available” and relaunch Chrome.';
+  return TEXT.webgl[1];
+}
+
+/** Whether an input event comes from a person (a bot that only loads the page sends none). */
+export function isPersonInput(e: Event): boolean {
+  if (!e.isTrusted) return false;
+  // Chrome sends a still cursor a move after the layout changes; only real movement counts.
+  if (e.type === 'pointermove') return (e as PointerEvent).movementX !== 0 || (e as PointerEvent).movementY !== 0;
+  return true;
+}
+
+const PERSON_EVENTS = ['pointerdown', 'pointermove', 'keydown', 'wheel', 'touchstart'] as const;
+
+/**
+ * Runs `then` once a person is on the visible page. Crawlers and link previews run Chrome without a
+ * GPU, so most pages without WebGL 2 have nobody looking (#119); they should not count as errors.
+ */
+function onceAPerson(then: () => void) {
+  const done = (e: Event) => {
+    if (document.hidden || !isPersonInput(e)) return;
+    for (const type of PERSON_EVENTS) window.removeEventListener(type, done, true);
+    then();
+  };
+  for (const type of PERSON_EVENTS) window.addEventListener(type, done, { capture: true, passive: true });
+}
 
 /** Whether the browser can give the map a WebGL 2 context. */
 export function supportsWebgl2(): boolean {
@@ -28,11 +64,15 @@ export function supportsWebgl2(): boolean {
   }
 }
 
-/** Shows the screen with what happened and what to try, and counts it (no details leave the device). */
+/**
+ * Shows the screen with what happened and what to try, and counts it (no details leave the device).
+ * Without WebGL 2 it counts only once a person does something on the page, so bots stay out.
+ */
 export function showStartError(problem: StartProblem) {
   const el = document.getElementById('start-error');
   if (!el) return;
-  const [reason, tryThis] = TEXT[problem];
+  const [reason, generic] = TEXT[problem];
+  const tryThis = problem === 'webgl' ? webglHelp(navigator.userAgent, navigator.maxTouchPoints) : generic;
   el.querySelector('h2')!.textContent = problem === 'context' ? 'The map stopped drawing' : 'The map could not start';
   el.querySelector('[data-reason]')!.textContent = reason;
   el.querySelector('[data-try]')!.textContent = tryThis;
@@ -45,7 +85,8 @@ export function showStartError(problem: StartProblem) {
   }
   el.dataset.problem = problem;
   el.hidden = false;
-  track(`error/${problem}`);
+  if (problem === 'webgl') onceAPerson(() => track('error/webgl'));
+  else track(`error/${problem}`);
 }
 
 /**
