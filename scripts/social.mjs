@@ -519,7 +519,7 @@ if (POST === 'weekend') {
       <div class="dim" style="font-size:22px;margin-top:14px">Typical depth at the weather stations, ${dayTime(observed)}</div>` },
     { until: 7.8, body: `<div class="cap" style="font-size:26px;margin-bottom:12px">New snow forecast to Sunday</div>
       <div class="big" style="font-size:150px">${newCm <= 0 ? 'None' : `${newCm} cm`}</div>
-      <div class="dim" style="font-size:30px;margin-top:14px">${forecastLine}: the most anywhere,<br>forecast as of ${dayTime(fc.fetchedAt ?? fc.generatedAt)}</div>` },
+      <div class="dim" style="font-size:30px;margin-top:14px">${newCm <= 0 ? 'Nowhere in South Tyrol' : `${forecastLine}: the most anywhere`},<br>forecast as of ${dayTime(fc.fetchedAt ?? fc.generatedAt)}</div>` },
     { until: Infinity, body: `<div class="title white" style="font-size:64px;margin-bottom:34px">Check the snow<br>at your height</div>${brand(1.25)}
       <div class="dim" style="font-size:30px;margin-top:20px">Free, in your browser</div>` },
   ];
