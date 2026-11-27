@@ -1,16 +1,16 @@
 {
  "site": "https://cimamap.com/",
- "stationsGeneratedAt": "2026-11-26T18:04:12.019Z",
- "observedAt": "2026-11-26T17:50:00.000Z",
+ "stationsGeneratedAt": "2026-11-27T18:00:22.669Z",
+ "observedAt": "2026-11-27T17:50:00.000Z",
  "ladder": [
   {
    "h": 2500,
-   "n": 32,
+   "n": 31,
    "cm": 50
   },
   {
    "h": 2000,
-   "n": 68,
+   "n": 69,
    "cm": 35
   },
   {
@@ -19,9 +19,9 @@
    "cm": 15
   }
  ],
- "forecastGeneratedAt": "2026-11-26T18:04:12.019Z",
- "newSnowToSundayCm": 2,
- "forecastUntil": "2026-11-29T16:00:00.000Z",
+ "forecastGeneratedAt": "2026-11-27T18:00:22.669Z",
+ "newSnowToSundayCm": 0,
+ "forecastUntil": "2026-11-29T22:00:00.000Z",
  "weekend": [
   "2026-11-28",
   "2026-11-29"
