@@ -148,6 +148,7 @@ Posts are made in a Claude session, so asking well is most of the work. Say whic
 - "Make Friday's weekend post." (the `weekend` post, rendered after the 14:00 data)
 - "A storm is coming, make the storm reel." (`storm`)
 - "Make a Tour reel from `ridge.gpx`, a ski tour, with the snow depth." (`track --gpx ridge.gpx --kind "Ski tour" --depth`)
+- "Make a sunset reel over the Dolomites." (`sun --mode sunset`; more under The sun reel)
 - "Change the end frame of the track reel: ..." (a change to `scripts/social.mjs`; the session renders `--quick` first)
 
 What to give it:
@@ -187,9 +188,9 @@ node scripts/social.mjs sun --mode year --place gardena        # true noon from 
 | `fallen` | `fallen-4x5.jpg`, `story-9x16.jpg` | `stations.json` | a minute |
 | `weekend` | `reel-9x16.mp4`, `story-9x16.jpg` | `stations.json`, `forecast.json` | about 12 minutes |
 | `track` | `reel-9x16.mp4` | the GPX file, the snow of its day | about 15 minutes |
-| `sun` | `reel-9x16.mp4` | the sun and shade the app draws | longer: every frame waits for the shade |
+| `sun` | `reel-9x16.mp4` | the sun and shade the app draws | 30 to 100 minutes: every frame waits for the shade |
 
-Every post writes into `social/posts/<date>-<post>/` (`--out` for another folder; `track --depth` into `<date>-track-depth`, `sun --mode sunset` into `<date>-sun-sunset`). A reel also leaves `reel-end.jpg` (the last frame, the cover) and `reel-sheet.jpg` (a few frames to check). `data.json` keeps the numbers the post shows and when the data was made, so the caption can be checked against it; the pictures are not kept in git. `caption.md` is written by hand or by the session next to them and is kept, so the folder is the log of what was posted.
+Every post writes into `social/posts/<date>-<post>/` (`--out` for another folder; `track --depth` into `<date>-track-depth`, `sun` with a mode other than `day` into `<date>-sun-<mode>`). A reel also leaves `reel-end.jpg` (the last frame, the cover) and `reel-sheet.jpg` (a few frames to check). `data.json` keeps the numbers the post shows and when the data was made, so the caption can be checked against it; the pictures are not kept in git. `caption.md` is written by hand or by the session next to them and is kept, so the folder is the log of what was posted.
 
 Options for every post:
 
@@ -231,7 +232,57 @@ Options:
 
 ### The sun reel
 
-The sun reel moves the app's own sun slider and date for every frame, as a person would, and takes the shot once the app has drawn the finer shade for that minute, so each frame is what the map shows at that time. The camera holds a place about 15 km across (`--place`: dolomites, gardena, ortler, meran) and only turns, over the land cover rather than the snow, because the app draws the shade under the snow cells. `--mode day` runs from just before sunrise to just after sunset with the sun on a day bar, `sunrise` and `sunset` the 80 minutes around them slowly, next to the time over a flat horizon (the summits see the sun first and last), and `year` true noon from 21 June to 21 December, so the sun is due south and only its height changes: a fixed clock time would jump when the clocks change. `--date` sets the day (today). The credit says what the shade leaves out: clear sky, and no trees or buildings. On this software-rendered browser the finer shade can take longer than the app's 8 s watchdog, so for the render only it waits a minute, and a shade that still fails stops the render rather than make a reel without it.
+The sun reel shows the app's sun and shade on the real terrain: the light moves over one place while a clock runs. It belongs to the Map trick series, and the 21 December Days post is the same reel. Each frame is the shade the app itself draws for that minute: the script moves the app's own sun slider and date, as a person would, and takes the shot once the finer shade is on the map.
+
+The four modes:
+
+| Mode | Shows | Time | Bottom of the frame | Folder |
+| --- | --- | --- | --- | --- |
+| `day` | The shade sweeping across the ridges | 15 min before sunrise to 20 min after sunset, at an even pace | Clock, the sun's height and direction, a day bar from sunrise to sunset | `<date>-sun` |
+| `sunrise` | The first light on the summits, then the slopes | 35 min before to 45 min after sunrise, slowing in the middle | Clock, the sun, sunrise over a flat horizon | `<date>-sun-sunrise` |
+| `sunset` | The last light on the summits | 45 min before to 30 min after sunset, slowing in the middle | Clock, the sun, sunset over a flat horizon | `<date>-sun-sunset` |
+| `year` | The shade growing towards winter | True noon, 21 June to 21 December of the date's year | Date, the sun's height, a bar from the longest to the shortest day | `<date>-sun-year` |
+
+- **True noon** in `year`: the sun is due south in every frame and only its height changes. A fixed clock time would jump when the clocks change in October.
+- **Flat horizon**: sunrise and sunset are those over a flat horizon at the place. The summits see the sun before and after, which is the point of the two slow modes.
+- **The camera** holds a place about 15 km across, at a fixed zoom and tilt, and only turns and drifts a little (`How a flight works`). It shows the land cover, the hillshade and the summits, not the snow: the app draws the shade under the snow cells, so a snow layer would hide it.
+- **The end**: the last 2.5 s hold on "Any day, any time" ("Any day of the year" in `year`), "The real ridges cast the shade. Try it on your mountain." and the address.
+- **The credit** says what the shade leaves out: clear sky, and no trees or buildings in the terrain.
+
+Places (`--place`), each a start and an end camera in `SUN_PLACES` in the script:
+
+| Place | Where | Looks |
+| --- | --- | --- |
+| `dolomites` | Sella and Langkofel | South-east to south, Marmolada behind |
+| `gardena` | Val Gardena / Gröden | South-east, along the valley to Langkofel |
+| `ortler` | Ortler, Vinschgau | South, at the Ortler's north side |
+| `meran` | Meran / Merano | South-east, over the town and its slopes |
+
+A new place is one more line there: a name and two cameras `[zoom, lat, lon, bearing, pitch]`, zoom as in the other posts (one more than on screen). Keep the zoom at 12 or more, so the app draws its finer shade, and render it `--quick` first. Morning light falls on east faces: a camera that looks west shows a sunrise best.
+
+Options:
+
+| Option | What | Default |
+| --- | --- | --- |
+| `--mode MODE` | `day`, `sunrise`, `sunset` or `year` | `day` |
+| `--place NAME` | `dolomites`, `gardena`, `ortler` or `meran` | `dolomites` |
+| `--date YYYY-MM-DD` | The day; for `year`, only its year counts | today |
+| `--seconds S` | Length of the reel, the end included | 12 |
+| `--layers LIST` | The app's layers, as in a share link | `sun,basemap,hillshade,relief,labels` |
+
+How it waits for the shade, and what to look for in the log:
+
+- **Every frame waits** until the finer shade has been drawn and the page has been quiet for a moment, so a frame never shows the quick, coarser shade of a slider being dragged. When the sun has not moved enough for the app to redraw (the same minute and the same tenth of a degree), or every summit has lost the sun and the app shows the plain night shade, the frame does not wait.
+- **The app's 8 s watchdog** turns the shade off for good when the worker is slow. A software-rendered browser, as in a cloud session, can be that slow while it renders, so for the render only the watchdog waits a minute. A shade that still fails stops the render with an error, rather than make a reel without shade.
+- **"frame N: no shade drawn"** in the log means a frame waited a minute and nothing came. A few in a row are worth a look at those frames in the reel.
+- **It is slow**: about 8 to 18 s a frame in a cloud session, so 30 to 100 minutes for a 12 s reel, depending on how many renders run at once. Render `--quick --seconds 4` first (12 frames, about 3 minutes) and look at `reel-sheet.jpg`, then the full reel. In a cloud session, run the full render in the background.
+
+Asking a session, for example:
+
+- "Make a sunset reel over the Dolomites for today." (`sun --mode sunset`)
+- "Make the sun reel for the shortest day in Val Gardena." (`sun --mode day --place gardena --date 2026-12-21`)
+- "Show how the shade grows towards winter." (`sun --mode year --place gardena`)
+- "Add a place for the Rosengarten at sunset." (a new line in `SUN_PLACES`, rendered `--quick` first)
 
 ### What goes with a post
 
