@@ -14,3 +14,6 @@ smoke-output/
 /social/posts/**/*.png
 /social/posts/**/*.mp4
 /social/posts/**/.reel/
+# Our own GPX tracks for the Tour posts are never published (docs/social.md, Tours)
+*.gpx
+!/fixtures/gpx/*.gpx
