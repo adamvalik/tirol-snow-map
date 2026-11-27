@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "smoke": "node scripts/smoke.mjs",
+    "profile": "node scripts/first-view.mjs",
     "basemap": "tsx pipeline/src/basemap/run.ts",
     "basemap:assets": "tsx pipeline/src/basemap/assets.ts",
     "dem": "tsx pipeline/src/dem-run.ts",
