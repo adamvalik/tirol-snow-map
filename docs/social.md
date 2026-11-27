@@ -44,12 +44,12 @@ Recurring posts with the same look each time, so people recognise them and come 
 | Series | When | Format | What | Script |
 | --- | --- | --- | --- | --- |
 | **Weekend snow** | Every Friday, about 17:00 | Reel | Snow now, the forecast to Sunday, the snow line; three numbers that matter | `weekend` |
-| **Storm** | When the 3-day forecast has 20 cm or more somewhere | Reel, picture, reel | 1. The forecast building up, as soon as the storm is in the forecast. 2. What fell at the stations, the evening or morning after. 3. Before and after from space, on the first clear day | `storm`, `fallen`, `fromspace` |
-| **Map trick** | Once a week | Reel | One thing the map does, shown in use. Ends on "Try it: cimamap.com" | `sun`, `lifts`, `timeline`, phone recording |
+| **Storm** | When the 3-day forecast has 20 cm or more somewhere | Reel, picture, reel | 1. The forecast building up, as soon as the storm is in the forecast. 2. What fell at the stations, the evening or morning after. 3. Before and after from space, on the first clear day | `storm`, `fallen`; the third by hand |
+| **Map trick** | Once a week | Reel | One thing the map does, shown in use. Ends on "Try it: cimamap.com" | A phone recording |
 | **Tour** | Every two weeks | Reel or carousel | One of our own GPX tracks on the terrain, with its numbers and the snow along it (see Tours) | `track` |
-| **Place** | Once a week | Reel | One mountain group or valley with today's snow, its name in German, Italian and English, location tag on | `orbit` |
+| **Place** | Once a week | Reel | One mountain group or valley with today's snow, its name in German, Italian and English, location tag on | By hand or a phone recording |
 
-The rest of the week is filled with one-off posts.
+Script names are posts of `scripts/social.mjs` (Making a post). The rest of the week is filled with one-off posts.
 
 ## One-off posts
 
@@ -141,7 +141,29 @@ The tracker compares the kinds of posts by sends and saves per 1,000 reach, so a
 
 ## Making a post
 
-`scripts/social.mjs` renders a post from the live map:
+### Asking a session
+
+Posts are made in a Claude session, so asking well is most of the work. Say which post, for which day, and what it is for; the session renders it, looks at the frames, writes `caption.md` and sends the files to the phone. For example:
+
+- "Make Friday's weekend post." (the `weekend` post, rendered after the 14:00 data)
+- "A storm is coming, make the storm reel." (`storm`)
+- "Make a Tour reel from `ridge.gpx`, a ski tour, with the snow depth." (`track --gpx ridge.gpx --kind "Ski tour" --depth`)
+- "Change the end frame of the track reel: ..." (a change to `scripts/social.mjs`; the session renders `--quick` first)
+
+What to give it:
+
+- **A GPX track**: put the file in the repository folder (any name ending in `.gpx`; git ignores it). The app cannot read `~/Downloads` or `~/Desktop` without asking macOS, so a path there often fails. Say what kind of tour it was if the file does not, and the day if it has no timestamps.
+- **Feedback on a frame**: a screenshot of the frame and what bothers you is enough; the session changes the script and renders the frame again.
+
+What to check before posting:
+
+- `reel-sheet.jpg`, a few frames side by side, and then the reel itself in playback: the sheet does not show stutter.
+- The numbers in the caption against `data.json`, and the day the post says.
+- The avalanche line on snow posts.
+
+### The posts
+
+`scripts/social.mjs` renders a post from the live map. The comment at the top of the script lists every post and its options.
 
 ```sh
 npm ci
@@ -150,17 +172,66 @@ node scripts/social.mjs intro     # the carousel that says what the map shows
 node scripts/social.mjs island    # South Tyrol with the snow the satellite saw last
 node scripts/social.mjs fallen    # after a storm: the stations with the most new snow in 72 h
 node scripts/social.mjs weekend   # Friday: snow on the ground by height, new snow to Sunday (reel and story)
-node scripts/social.mjs track --gpx ~/tour.gpx --kind Hike   # Tour: a flight along our own GPX track (reel)
+node scripts/social.mjs track --gpx ridge.gpx --kind Hike   # Tour: a flight along our own GPX track (reel)
+node scripts/social.mjs track --gpx ridge.gpx --depth       # the same, with the snow depth along the way
 node scripts/social.mjs sun --mode day --place dolomites       # Map trick: sun and shade from sunrise to sunset (reel)
 node scripts/social.mjs sun --mode sunset                      # the last light on the summits; also --mode sunrise
 node scripts/social.mjs sun --mode year --place gardena        # true noon from 21 June to 21 December (reel)
 ```
 
-It opens cimamap.com in Chromium, captures the bare map canvas as the share picture mock-ups do (`docs/design/share-snapshot.md`) and frames it in the app's font. Numbers and times come from the site's data files, so a post shows the data of the moment it was made. The pictures land in `social/posts/<date>-<post>/`; they are not kept in git. The caption, alt text and the time to post go next to them in `caption.md`, which is kept, so the folder is the log of what was posted.
+| Post | Makes | Data | Takes |
+| --- | --- | --- | --- |
+| `storm` | `reel-9x16.mp4`, `cover-4x5.jpg`, `story-9x16.jpg` | `forecast.json` | a few minutes |
+| `intro` | `1-cover.jpg` to `6-open.jpg` | the current layers | a minute |
+| `island` | `island-4x5.jpg` | the last satellite day | a minute |
+| `fallen` | `fallen-4x5.jpg`, `story-9x16.jpg` | `stations.json` | a minute |
+| `weekend` | `reel-9x16.mp4`, `story-9x16.jpg` | `stations.json`, `forecast.json` | about 12 minutes |
+| `track` | `reel-9x16.mp4` | the GPX file, the snow of its day | about 15 minutes |
+| `sun` | `reel-9x16.mp4` | the sun and shade the app draws | longer: every frame waits for the shade |
 
-`--quick` renders a few frames only, to check the camera and the text. On a Mac, point `CHROMIUM_PATH` at Chrome (`/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`); a flight renders about 2 s a frame, so an 11 s reel at 30 frames a second takes about 12 minutes. Start a long render with `caffeinate -is` in front, or a Mac that goes to sleep stalls it.
+Every post writes into `social/posts/<date>-<post>/` (`--out` for another folder; `track --depth` into `<date>-track-depth`, `sun --mode sunset` into `<date>-sun-sunset`). A reel also leaves `reel-end.jpg` (the last frame, the cover) and `reel-sheet.jpg` (a few frames to check). `data.json` keeps the numbers the post shows and when the data was made, so the caption can be checked against it; the pictures are not kept in git. `caption.md` is written by hand or by the session next to them and is kept, so the folder is the log of what was posted.
 
-A flight renders every frame of the video at fixed zoom and tilt (only turning and drifting), so the terrain does not pop between detail levels; blended in-between frames read as stutter. It shows the mountain groups, the valleys in German and Italian and the towns over about 13,000 people, larger than on screen. The weekend reel gives the snow on the ground as the median depth of the stations within 250 m of 1,500, 2,000 and 2,500 m (at least four each), and the new snow as the most anywhere in the forecast to the end of Sunday. The track reel flies along a GPX track on the snow the satellite saw on the day of the tour (the day slider), over the land cover, so forest, meadows and snow read as a real place. The line draws itself behind a dot while the height and the distance count up over an elevation profile coloured by what the satellite saw along the way (snow, bare, not seen); the last three seconds hold on the tour's distance, climb, highest point and the share of the way on snow. The camera looks along the way the track goes over a long stretch, so switchbacks do not swing it. The first and the last 400 m are cut (`--trim`), and only the line, the heights and the day are read from the file: no times of day, no heart rate. The file stays outside the post folder, and `.gitignore` keeps every `*.gpx` but the test fixtures out of git. `--title`, `--kind` and `--date` override what the file says; `--seconds` sets the length (14 s). The sun reel moves the app's own sun slider and date for every frame, as a person would, and takes the shot once the app has drawn the finer shade for that minute, so each frame is what the map shows at that time. The camera holds a place about 15 km across (`--place`: dolomites, gardena, ortler, meran) and only turns, over the land cover rather than the snow, because the app draws the shade under the snow cells. `--mode day` runs from just before sunrise to just after sunset with the sun on a day bar, `sunrise` and `sunset` the 80 minutes around them slowly, next to the time over a flat horizon (the summits see the sun first and last), and `year` true noon from 21 June to 21 December, so the sun is due south and only its height changes: a fixed clock time would jump when the clocks change. `--date` sets the day (today). The credit says what the shade leaves out: clear sky, and no trees or buildings. On this software-rendered browser the finer shade can take longer than the app's 8 s watchdog, so for the render only it waits a minute, and a shade that still fails stops the render rather than make a reel without it. The reel needs `ffmpeg`. It is silent: music is added in the Instagram app, because licensed music cannot be added through the API.
+Options for every post:
+
+- `--quick` renders a few frames only, to check the camera and the text in a minute.
+- `--site URL` renders from another copy of the map, for example `http://localhost:5173/` (`npm run dev`) or the dev preview at `https://cimamap.com/dev/`, to show a change before it is live.
+- On a Mac, point `CHROMIUM_PATH` at Chrome (`/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`). The reels need `ffmpeg`.
+- A flight renders about 2 s a frame, at 30 frames a second. Start a long render with `caffeinate -is` in front, or a Mac that goes to sleep stalls it.
+
+It opens the site in Chromium, captures the bare map canvas as the share picture mock-ups do (`docs/design/share-snapshot.md`) and frames it in the app's font. Numbers and times come from the site's data files, so a post shows the data of the moment it was made. The reels are silent: music is added in the Instagram app, because licensed music cannot be added through the API.
+
+### How a flight works
+
+A flight renders every frame of the video at fixed zoom and tilt (only turning and drifting), so the terrain does not pop between detail levels; blended in-between frames read as stutter. It shows the mountain groups, the valleys in German and Italian and the towns over about 13,000 people, larger than on screen.
+
+The weekend reel gives the snow on the ground as the median depth of the stations within 250 m of 1,500, 2,000 and 2,500 m (at least four each), and the new snow as the most anywhere in the forecast to the end of Sunday.
+
+### The track reel
+
+The track reel flies along a GPX track on the snow the satellite saw on the day of the tour (the day slider), over the land cover, so forest, meadows and snow read as a real place. The labels are the groups, the valleys, the summits and the villages near the way.
+
+- **On the way**: the line draws itself behind a dot while the height and the distance count up over an elevation profile coloured by what the satellite saw along the way (snow, bare, not seen).
+- **At the end**: the last three seconds hold on the tour's distance, climb, highest point and the share of the way on snow, and the camera eases back so the dot stays in view.
+- **The camera** looks along the way the track goes over a long stretch, so switchbacks do not swing it.
+- **Privacy**: the first and the last 400 m are cut, and only the line, the heights and the day are read from the file: no times of day, no heart rate. The file stays outside the post folder, and `.gitignore` keeps every `*.gpx` but the test fixtures out of git. The distance, climb and highest point are those of the whole recording.
+
+Options:
+
+| Option | What | Default |
+| --- | --- | --- |
+| `--gpx FILE` | The track (required) | |
+| `--title TEXT` | The title; "A-B" or "A → B" becomes "A to B" | the track's name |
+| `--kind TEXT` | Hike, Ski tour, Trail run, Bike ride, Tour | from the file's `<type>` |
+| `--date YYYY-MM-DD` | The day, and so the snow, shown | the first timestamp |
+| `--trim M` | Metres cut from the start and the end | 400 |
+| `--seconds S` | Length of the reel | 14 |
+| `--depth` | Add the estimated snow depth (below) | off |
+
+`--depth` adds the estimated snow depth of that day: a third number next to the height and the distance, with a thin bar under it that fills to the depth at the dot (smoothed over about 200 m, so it moves rather than jumps between the 250 m cells), the profile gets a white snow cap as thick as the snow along the way, and the end adds the deepest snow. The script reads the depth from the day's data picture on the site, as the app does for a tap, at the same points as the app's snow along the track.
+
+### The sun reel
+
+The sun reel moves the app's own sun slider and date for every frame, as a person would, and takes the shot once the app has drawn the finer shade for that minute, so each frame is what the map shows at that time. The camera holds a place about 15 km across (`--place`: dolomites, gardena, ortler, meran) and only turns, over the land cover rather than the snow, because the app draws the shade under the snow cells. `--mode day` runs from just before sunrise to just after sunset with the sun on a day bar, `sunrise` and `sunset` the 80 minutes around them slowly, next to the time over a flat horizon (the summits see the sun first and last), and `year` true noon from 21 June to 21 December, so the sun is due south and only its height changes: a fixed clock time would jump when the clocks change. `--date` sets the day (today). The credit says what the shade leaves out: clear sky, and no trees or buildings. On this software-rendered browser the finer shade can take longer than the app's 8 s watchdog, so for the render only it waits a minute, and a shade that still fails stops the render rather than make a reel without it.
 
 ### What goes with a post
 
