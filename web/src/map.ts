@@ -3,6 +3,7 @@ import type { StyleSpecification } from 'maplibre-gl';
 import { Protocol } from 'pmtiles';
 import { basemapLayers, basemapSources, glyphsUrl, spriteUrl } from './basemap.ts';
 import { type EdgeStyle, elevationTiles, FLOOR_COLOR, FLOOR_M, OUTSIDE_SOURCE, outsideMaskLayer, outsideSource, registerIslandProtocol, withinArea } from './island.ts';
+import { watchZoom } from './nearFirst.ts';
 import { DEFAULT_SKY, hillshadePaint } from './sun.ts';
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 locates its worker relative to its own module URL, which a bundler cannot follow;
@@ -105,7 +106,7 @@ function createStyle(lowPower: boolean, edge: EdgeStyle): StyleSpecification {
 
 export function createMap(container: string, view = DEFAULT_VIEW, edge: EdgeStyle = 'faded'): maplibregl.Map {
   const lowPower = isLowPowerDevice();
-  return new maplibregl.Map({
+  const map = new maplibregl.Map({
     container,
     style: createStyle(lowPower, edge),
     ...view,
@@ -118,4 +119,7 @@ export function createMap(container: string, view = DEFAULT_VIEW, edge: EdgeStyl
     maxTileCacheSize: lowPower ? 100 : null,
     cancelPendingTileRequestsWhileZooming: true,
   });
+  // The first view's near elevation tiles load before the far ones (nearFirst.ts).
+  watchZoom(map);
+  return map;
 }
