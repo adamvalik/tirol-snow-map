@@ -936,9 +936,11 @@ if (POST === 'sun') {
     size: [1080, 1920], cameras, labels: 'summits', textScale: 1.5,
     before: async (i) => {
       const t = tFrames[i];
-      const az = sunAt(t).azimuth;
-      // As the app's shade decides to redraw (shadows.ts): a new minute or a new tenth of a degree.
-      const key = `${Math.round(t / MIN)}/${az.toFixed(1)}`;
+      const s = sunAt(t);
+      // As the app's shade decides to redraw (shadows.ts): a new minute or a new tenth of a degree,
+      // but nothing new once every summit of the region has lost the sun (below about -2.1° there,
+      // which is up to ~1.5° lower here than in the far west of the region).
+      const key = s.altitude < -3.6 ? 'night' : `${Math.round(t / MIN)}/${s.azimuth.toFixed(1)}`;
       const expect = key !== lastKey;
       lastKey = key;
       const day = localDay(t);
