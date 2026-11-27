@@ -88,7 +88,9 @@ function start() {
 
   watchContext(map);
 
-  map.on('load', async () => {
+  // The layers go on as soon as the style is in, not on 'load', which waits for every terrain and
+  // basemap tile: on a slow phone that was half a minute without stations or a timeline (#112).
+  map.once('style.load', async () => {
     try {
       await initLayers(app);
       // Some switches were changed by the layers (nothing to show), without a change event.
