@@ -3,6 +3,8 @@ import type { StyleSpecification } from 'maplibre-gl';
 import { Protocol } from 'pmtiles';
 import { basemapLayers, basemapSources, glyphsUrl, spriteUrl } from './basemap.ts';
 import { type EdgeStyle, elevationTiles, FLOOR_COLOR, FLOOR_M, OUTSIDE_SOURCE, outsideMaskLayer, outsideSource, registerIslandProtocol, withinArea } from './island.ts';
+import { watchZoom } from './nearFirst.ts';
+import { counted } from './tileCount.ts';
 import { DEFAULT_SKY, hillshadePaint } from './sun.ts';
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 locates its worker relative to its own module URL, which a bundler cannot follow;
@@ -10,8 +12,10 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 
 maplibregl.setWorkerUrl(workerUrl);
-// The OSM basemap is a single PMTiles file read with HTTP range requests.
-maplibregl.addProtocol('pmtiles', new Protocol({ metadata: true }).tile);
+// The OSM basemap is a single PMTiles file read with HTTP range requests; each tile is counted for
+// the loading note (tileCount.ts).
+const pmtiles = new Protocol({ metadata: true });
+maplibregl.addProtocol('pmtiles', (params, abort) => counted(pmtiles.tile(params, abort)));
 // Elevation tiles cut to the covered area, so the map is an island (island.ts).
 registerIslandProtocol();
 
@@ -30,16 +34,16 @@ export const MAX_BOUNDS: [[number, number], [number, number]] = [
   [13.4, 47.75],
 ];
 
-/** Phones and tablets: coarser terrain mesh and capped pixel ratio keep tilting smooth. */
+/** Phones and tablets: coarser terrain mesh and shading, and a capped pixel ratio, keep tilting smooth. */
 export const isLowPowerDevice = (): boolean =>
   matchMedia('(max-width: 700px), (pointer: coarse)').matches;
 
 function createStyle(lowPower: boolean, edge: EdgeStyle): StyleSpecification {
-  const dem = (maxzoom: number) =>
+  const dem = (maxzoom: number, tileSize = 512) =>
     ({
       type: 'raster-dem',
       tiles: [elevationTiles(MAPTERHORN_TILES, edge)] as string[],
-      tileSize: 512,
+      tileSize,
       encoding: 'terrarium',
       maxzoom,
       attribution: '<a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a>',
@@ -50,9 +54,12 @@ function createStyle(lowPower: boolean, edge: EdgeStyle): StyleSpecification {
     glyphs: glyphsUrl(),
     sprite: spriteUrl(),
     // Separate sources for the 3D mesh and the drawn layers, as MapLibre recommends; the tiles are shared via HTTP cache.
+    // On phones the shading's 512 px tiles each cover twice the size, so it uses the tiles the mesh
+    // loads anyway (MapLibre loads the mesh one zoom level coarser): the opening view downloads
+    // 15 elevation tiles instead of 26, about 1.9 MB less, for a slightly softer shading (#112).
     sources: {
       terrain: dem(lowPower ? 13 : 14),
-      dem: dem(DEM_MAX_ZOOM),
+      dem: dem(DEM_MAX_ZOOM, lowPower ? 1024 : 512),
       ...basemapSources(),
       [OUTSIDE_SOURCE]: outsideSource(),
     },
@@ -105,7 +112,7 @@ function createStyle(lowPower: boolean, edge: EdgeStyle): StyleSpecification {
 
 export function createMap(container: string, view = DEFAULT_VIEW, edge: EdgeStyle = 'faded'): maplibregl.Map {
   const lowPower = isLowPowerDevice();
-  return new maplibregl.Map({
+  const map = new maplibregl.Map({
     container,
     style: createStyle(lowPower, edge),
     ...view,
@@ -118,4 +125,7 @@ export function createMap(container: string, view = DEFAULT_VIEW, edge: EdgeStyl
     maxTileCacheSize: lowPower ? 100 : null,
     cancelPendingTileRequestsWhileZooming: true,
   });
+  // The first view's near elevation tiles load before the far ones (nearFirst.ts).
+  watchZoom(map);
+  return map;
 }

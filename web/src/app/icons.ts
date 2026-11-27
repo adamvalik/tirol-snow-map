@@ -67,7 +67,17 @@ export function icon(name: IconName, size = 20, label?: string): string {
 export const PLAY_ICON = icon('play-fill', 16);
 export const PAUSE_ICON = icon('pause-fill', 16);
 
-/** Fills the `<i data-icon="name" data-size="20">` placeholders of index.html. */
+/**
+ * The `<i data-icon="name" data-size="20"></i>` placeholders of a page as SVG. The build does this
+ * for index.html (vite.config.ts), so the buttons have their icons in the first paint, before the
+ * app's code has loaded (#112).
+ */
+export const inlineIcons = (html: string): string =>
+  html.replace(/<i data-icon="([\w-]+)" data-size="(\d+)"><\/i>/g, (tag, name: string, size: string) =>
+    name in PATHS ? icon(name as IconName, Number(size)) : tag,
+  );
+
+/** Fills the `<i data-icon="name" data-size="20">` placeholders left in the page, or added later. */
 export function hydrateIcons(root: ParentNode = document) {
   for (const el of root.querySelectorAll<HTMLElement>('i[data-icon]')) {
     const name = el.dataset.icon as IconName;

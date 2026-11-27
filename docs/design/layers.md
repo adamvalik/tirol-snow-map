@@ -18,4 +18,4 @@ How `web/src/` is put together. `main.ts` only starts things; it was split from 
 
 ## Does the split cost speed?
 
-No. Vite bundles all modules into the same JavaScript either way, so the split does not change load or render speed. What costs time on the first visit is the 7–12 MB of terrain tiles, not the code.
+No. Vite bundles all modules into the same JavaScript either way, so the split does not change load or render speed. What costs time on the first visit is the 5–12 MB of terrain tiles, not the code.

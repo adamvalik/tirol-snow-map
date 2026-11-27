@@ -48,7 +48,7 @@ describe('island', () => {
   it('sends elevation tiles through the cutting protocol only for the island look', () => {
     const url = 'https://tiles.mapterhorn.com/{z}/{x}/{y}.webp';
     expect(elevationTiles(url, 'island')).toBe('island://tiles.mapterhorn.com/{z}/{x}/{y}.webp');
-    expect(elevationTiles(url, 'faded')).toBe(url);
+    expect(elevationTiles(url, 'faded')).toBe('dem://tiles.mapterhorn.com/{z}/{x}/{y}.webp');
   });
 
   it('keeps the island look in a shared link', () => {

@@ -73,7 +73,7 @@ GitHub Pages is enough for testers and likely for a regional launch:
 | Limit (GitHub Pages) | Ours |
 | --- | --- |
 | Published site up to 1 GB | App, data and basemap well below; the basemap is the big file and under the 100 MB file limit |
-| About 100 GB bandwidth a month (soft) | Most of a first visit's 7–12 MB is terrain tiles from Mapterhorn, not Pages. At about 3 MB from Pages per visit, that is about 30,000 visits a month |
+| About 100 GB bandwidth a month (soft) | Most of a first visit's 5–12 MB is terrain tiles from Mapterhorn, not Pages. At about 3 MB from Pages per visit, that is about 30,000 visits a month |
 | 10 builds an hour (soft) | Three scheduled deploys a day |
 | Public repository, not for commercial use | A free hobby app |
 

@@ -24,3 +24,24 @@ describe('page title and description', () => {
     expect(html).toContain('<link rel="canonical" href="__SITE_URL__" />');
   });
 });
+
+describe('first paint', async () => {
+  const { inlineIcons } = await import('../src/app/icons.ts');
+
+  it('draws every icon of the page at build time', () => {
+    const built = inlineIcons(html);
+    expect(html).toMatch(/<i data-icon="/);
+    expect(built).not.toMatch(/<i data-icon="/);
+    expect(built).toContain('<svg aria-hidden="true" viewBox="0 0 256 256" width="22" height="22"');
+  });
+
+  it('leaves an unknown icon to the app', () => {
+    expect(inlineIcons('<i data-icon="nope" data-size="12"></i>')).toBe('<i data-icon="nope" data-size="12"></i>');
+  });
+
+  it('puts the timeline where the app keeps it, with the same breakpoint', () => {
+    const layout = readFileSync('web/src/app/layout.ts', 'utf8');
+    const query = /matchMedia\('([^']+)'\)/.exec(layout)![1];
+    expect(html).toContain(`window.matchMedia('${query}')`);
+  });
+});

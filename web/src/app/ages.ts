@@ -32,13 +32,14 @@ function render() {
   const words: string[] = [];
   for (const key of Object.keys(NAMES) as AgeKey[]) {
     const a = ages.get(key);
-    const text = a?.at ? shortAge(a.at) : (a?.missing ?? '–');
+    // Not set yet: empty, which shows a grey placeholder until the source has loaded (style.css).
+    const text = !a ? '' : a.at ? shortAge(a.at) : (a.missing ?? '–');
     for (const el of document.querySelectorAll<HTMLElement>(`[data-age="${key}"]`)) {
       el.classList.toggle('stale', !!a?.stale);
       el.querySelector('.age-value')!.textContent = text;
       el.title = a?.stale ? `${NAMES[key]}: out of date` : '';
     }
-    words.push(`${NAMES[key]} ${text}${a?.stale ? ', out of date' : ''}`);
+    words.push(`${NAMES[key]} ${text || 'loading'}${a?.stale ? ', out of date' : ''}`);
   }
   const label = `Data age: ${words.join(', ')}. Open About the data`;
   document.getElementById('data-age')?.setAttribute('aria-label', label);

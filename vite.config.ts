@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { defineConfig, type Plugin } from 'vite';
 import { cardNotes } from './scripts/release-notes.mjs';
 import { indexable, robotsTxt, sitemapXml } from './scripts/search.mjs';
+import { inlineIcons } from './web/src/app/icons.ts';
 
 // App version from package.json and the short commit it was built from (GITHUB_SHA in Actions,
 // git locally, "dev" without git). Shown in "About the data".
@@ -62,6 +63,11 @@ function linkPreview(): Plugin {
   };
 }
 
+/** The icons of index.html drawn in the page itself, so they show before the app's code has loaded (#112). */
+function icons(): Plugin {
+  return { name: 'inline-icons', transformIndexHtml: { order: 'pre', handler: inlineIcons } };
+}
+
 /** With SEARCH_INDEX=on: index.html without its noindex tag (404.html keeps it), robots.txt and sitemap.xml. */
 function search(): Plugin {
   return {
@@ -77,7 +83,7 @@ function search(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [linkPreview(), search()],
+  plugins: [linkPreview(), icons(), search()],
   root: 'web',
   // Relative base so the build works both at a GitHub Pages sub-path and locally.
   base: './',

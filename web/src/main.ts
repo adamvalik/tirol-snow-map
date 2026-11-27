@@ -6,6 +6,7 @@ import { hydrateIcons } from './app/icons.ts';
 import { track, trackVisit } from './app/analytics.ts';
 import { setupLayout, syncQuick } from './app/layout.ts';
 import { setupLocate } from './app/locate.ts';
+import { setupMapLoading } from './app/mapLoading.ts';
 import { setupNewDeployReload } from './app/newDeploy.ts';
 import { PointPanel } from './app/point.ts';
 import { setupShare } from './app/share.ts';
@@ -24,6 +25,7 @@ import { pointSnow } from './layers/snow.ts';
 import { edgeStyle, terrainExaggeration } from './layers/terrain.ts';
 import type { App } from './layers/types.ts';
 import { createMap, DEFAULT_VIEW } from './map.ts';
+import { onNearLoaded } from './nearFirst.ts';
 import { parseHash } from './viewState.ts';
 
 // Tells the inline script in index.html that the app's code runs (it shows the start screen otherwise).
@@ -88,7 +90,9 @@ function start() {
 
   watchContext(map);
 
-  map.on('load', async () => {
+  // The layers go on as soon as the style is in, not on 'load', which waits for every terrain and
+  // basemap tile: on a slow phone that was half a minute without stations or a timeline (#112).
+  map.once('style.load', async () => {
     try {
       await initLayers(app);
       // Some switches were changed by the layers (nothing to show), without a change event.
@@ -111,6 +115,10 @@ function start() {
     if (id === SUMMIT_ICON) map.addImage(id, summitIcon(2), { pixelRatio: 2 });
     else map.addImage(id, { width: 1, height: 1, data: new Uint8Array(4) });
   });
+
+  setupMapLoading(map);
+  // For `npm run profile`: the terrain in front is in.
+  onNearLoaded(() => (document.body.dataset.terrainReadyMs = String(Math.round(performance.now()))));
 
   // Hooks for the smoke test (scripts/smoke.mjs) and for debugging from the console.
   map.once('idle', () => {

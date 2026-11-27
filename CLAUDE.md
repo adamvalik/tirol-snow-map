@@ -59,6 +59,7 @@ Node 22+.
 | `npm run pipeline:fixtures` | Pipeline offline, from the saved fixtures (no secrets) |
 | `npm run build` | Typecheck and production build into `dist/` |
 | `npm run smoke` | After `build`: browser smoke test (desktop and phone) |
+| `npm run profile` | After `build`: first view on a throttled phone, before/after numbers (`DIST=` another build) |
 | `npm run dev` | Local app at http://localhost:5173 |
 | `npm run release X.Y.Z` | Bump the version and add its Releases row (see Releases) |
 

@@ -9,8 +9,10 @@
 
 import * as maplibregl from 'maplibre-gl';
 import type { FilterSpecification, LayerSpecification, SourceSpecification } from 'maplibre-gl';
-import { convertFilter, expression } from '@maplibre/maplibre-gl-style-spec';
 import { MODEL_GRID } from '../../shared/grid.ts';
+import { convertFilter, isExpressionFilter } from './legacyFilter.ts';
+import { nearFirst } from './nearFirst.ts';
+import { counted } from './tileCount.ts';
 
 /** The covered area: snow from space, depth estimate, satellite picture and shadows share this grid. */
 export const AREA = { west: MODEL_GRID.west, south: MODEL_GRID.south, east: MODEL_GRID.east, north: MODEL_GRID.north };
@@ -24,6 +26,8 @@ export const FLOOR_M = -100;
 export const FLOOR_COLOR = '#e8ebee';
 
 export const ISLAND_PROTOCOL = 'island';
+/** The faded look's elevation tiles: loaded as they are, near ones first (nearFirst.ts). */
+export const DEM_PROTOCOL = 'dem';
 
 /** Terrarium encoding of FLOOR_M: elevation = R * 256 + G + B / 256 - 32768. */
 const floorRgb = (): [number, number, number] => {
@@ -71,37 +75,66 @@ function flatTile(): Promise<ImageBitmap> {
   return createImageBitmap(floorTile, bitmapOptions);
 }
 
+/** The https URL and the tile of a protocol URL. */
+function tileOf(protocolUrl: string, protocol: string): { url: string; z: number; x: number; y: number } {
+  const url = protocolUrl.replace(`${protocol}://`, 'https://');
+  const m = /\/(\d+)\/(\d+)\/(\d+)\.\w+$/.exec(url);
+  if (!m) throw new Error(`${protocol}: unexpected tile URL ${url}`);
+  return { url, z: Number(m[1]), x: Number(m[2]), y: Number(m[3]) };
+}
+
+async function fetchTile(url: string, signal: AbortSignal): Promise<Response> {
+  const res = await fetch(url, { signal });
+  if (!res.ok) throw Object.assign(new Error(`HTTP ${res.status}: ${url}`), { status: res.status });
+  return res;
+}
+
+const cacheMeta = (res: Response) => ({ cacheControl: res.headers.get('Cache-Control'), expires: res.headers.get('Expires') });
+
 /**
- * `island://host/z/x/y.ext` loads `https://host/z/x/y.ext` and cuts it to the area.
- * Used for both elevation sources (3D mesh and hillshade/relief).
+ * `island://host/z/x/y.ext` loads `https://host/z/x/y.ext` and cuts it to the area; `dem://` loads
+ * it as it is. Used for both elevation sources (3D mesh and hillshade/relief), so both looks load
+ * the first view's near tiles first (nearFirst.ts).
  */
 export function registerIslandProtocol(): void {
-  maplibregl.addProtocol(ISLAND_PROTOCOL, async (params, abort) => {
-    const url = params.url.replace(`${ISLAND_PROTOCOL}://`, 'https://');
-    const m = /\/(\d+)\/(\d+)\/(\d+)\.\w+$/.exec(url);
-    if (!m) throw new Error(`island: unexpected tile URL ${url}`);
-    const [z, x, y] = [Number(m[1]), Number(m[2]), Number(m[3])];
+  // Each tile is counted for the loading note (tileCount.ts).
+  maplibregl.addProtocol(DEM_PROTOCOL, (params, abort) => counted(loadDem(params.url, abort)));
+  maplibregl.addProtocol(ISLAND_PROTOCOL, (params, abort) => counted(loadIsland(params.url, abort)));
+}
 
-    const r = areaPixels(z, x, y, TILE_SIZE);
-    if (r.x0 >= r.x1 || r.y0 >= r.y1) return { data: await flatTile() };
-
-    const res = await fetch(url, { signal: abort.signal });
-    if (!res.ok) throw Object.assign(new Error(`HTTP ${res.status}: ${url}`), { status: res.status });
-    const meta = { cacheControl: res.headers.get('Cache-Control'), expires: res.headers.get('Expires') };
-    const whole = r.x0 === 0 && r.y0 === 0 && r.x1 === TILE_SIZE && r.y1 === TILE_SIZE;
-    if (whole) return { data: await res.arrayBuffer(), ...meta };
-
-    const bitmap = await createImageBitmap(await res.blob(), bitmapOptions);
-    const size = bitmap.width;
-    const edge = size === TILE_SIZE ? r : areaPixels(z, x, y, size);
-    const canvas = new OffscreenCanvas(size, size);
-    const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
-    ctx.drawImage(bitmap, 0, 0);
-    bitmap.close();
-    const img = ctx.getImageData(0, 0, size, size);
-    cutToArea(img.data, size, edge);
-    return { data: await createImageBitmap(img, bitmapOptions), ...meta };
+/** An elevation tile as it is. */
+async function loadDem(protocolUrl: string, abort: AbortController) {
+  const { url, z } = tileOf(protocolUrl, DEM_PROTOCOL);
+  return nearFirst(z, abort.signal, async () => {
+    const res = await fetchTile(url, abort.signal);
+    return { data: await res.arrayBuffer(), ...cacheMeta(res) };
   });
+}
+
+/** An elevation tile cut to the area (all floor outside it, never downloaded when wholly outside). */
+async function loadIsland(protocolUrl: string, abort: AbortController) {
+  const { url, z, x, y } = tileOf(protocolUrl, ISLAND_PROTOCOL);
+
+  const r = areaPixels(z, x, y, TILE_SIZE);
+  if (r.x0 >= r.x1 || r.y0 >= r.y1) return { data: await flatTile() };
+
+  const { blob, meta } = await nearFirst(z, abort.signal, async () => {
+    const res = await fetchTile(url, abort.signal);
+    return { blob: await res.blob(), meta: cacheMeta(res) };
+  });
+  const whole = r.x0 === 0 && r.y0 === 0 && r.x1 === TILE_SIZE && r.y1 === TILE_SIZE;
+  if (whole) return { data: await blob.arrayBuffer(), ...meta };
+
+  const bitmap = await createImageBitmap(blob, bitmapOptions);
+  const size = bitmap.width;
+  const edge = size === TILE_SIZE ? r : areaPixels(z, x, y, size);
+  const canvas = new OffscreenCanvas(size, size);
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
+  ctx.drawImage(bitmap, 0, 0);
+  bitmap.close();
+  const img = ctx.getImageData(0, 0, size, size);
+  cutToArea(img.data, size, edge);
+  return { data: await createImageBitmap(img, bitmapOptions), ...meta };
 }
 
 /** The area as a polygon, and the world outside it with the area as a hole. */
@@ -136,9 +169,9 @@ const MASK_PAINT: Record<EdgeStyle, { color: string; opacity: number }> = {
   faded: { color: '#f2f3f5', opacity: 0.62 },
 };
 
-/** Elevation tile URL for an edge style: through the cutting protocol, or straight from the host. */
+/** Elevation tile URL for an edge style: through the cutting protocol, or as they are. */
 export const elevationTiles = (url: string, style: EdgeStyle): string =>
-  style === 'island' ? url.replace('https://', `${ISLAND_PROTOCOL}://`) : url;
+  url.replace('https://', `${style === 'island' ? ISLAND_PROTOCOL : DEM_PROTOCOL}://`);
 
 /** Covers (island) or veils (faded) roads, rivers, land cover and terrain beyond the edge. */
 export const outsideMaskLayer = (style: EdgeStyle): LayerSpecification => ({
@@ -168,6 +201,6 @@ export function withinArea(filter: FilterSpecification | undefined): FilterSpeci
   ];
   if (!filter) return inside;
   // Some basemap layers use the old filter syntax, which cannot be combined with expressions.
-  const asExpression = expression.isExpressionFilter(filter) ? filter : convertFilter(filter);
+  const asExpression = isExpressionFilter(filter) ? filter : convertFilter(filter);
   return ['all', asExpression, inside] as FilterSpecification;
 }
