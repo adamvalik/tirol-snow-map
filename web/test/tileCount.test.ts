@@ -20,3 +20,19 @@ describe('tileCount', () => {
     expect(listener).toHaveBeenLastCalledWith(3, 3);
   });
 });
+
+describe('progressShare', async () => {
+  const { progressShare } = await import('../src/app/mapLoading.ts');
+
+  it('fills with the tiles, up to 95 % before the map is done', () => {
+    expect(progressShare(0, 0, 0)).toBe(0);
+    expect(progressShare(5, 10, 0)).toBeCloseTo(0.475);
+    expect(progressShare(10, 10, 0)).toBeCloseTo(0.95);
+  });
+
+  it('never goes back when more tiles are asked for', () => {
+    const before = progressShare(9, 10, 0);
+    expect(progressShare(9, 20, before)).toBe(before);
+    expect(progressShare(19, 20, before)).toBeGreaterThan(before);
+  });
+});

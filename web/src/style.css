@@ -2592,8 +2592,8 @@ details[open] > .act .caret {
   pointer-events: none;
 }
 
-/* Over the map while the first view loads, with a count (app/mapLoading.ts): in the middle until
-   the terrain in front is in, then small at the side, where the forecast chip goes. */
+/* Over the map while the first view loads, with a progress bar (app/mapLoading.ts): in the middle
+   until the terrain in front is in, then small at the side, where the forecast chip goes. */
 .map-loading {
   position: fixed;
   inset: 0 0 0 360px;
@@ -2602,18 +2602,65 @@ details[open] > .act .caret {
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  transition: opacity 0.3s;
 }
 
-.map-loading > span {
-  padding: 7px 14px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #fff 30%, var(--soft) 50%, #fff 70%) 0 0 / 200% 100% #fff;
-  animation: shine 1.6s linear infinite;
+.map-loading.done {
+  opacity: 0;
+}
+
+.map-loading-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px 12px;
+  border-radius: 14px;
+  background: #fff;
   box-shadow: var(--shadow);
   font-size: 14px;
   font-weight: 600;
   color: var(--ink-2);
-  font-variant-numeric: tabular-nums;
+}
+
+.map-progress {
+  width: 160px;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--line);
+}
+
+/* Before the first tile is asked for, the empty track shines. */
+.map-progress[aria-valuenow='0'] {
+  background: linear-gradient(90deg, var(--line) 30%, var(--hover) 50%, var(--line) 70%) 0 0 / 200% 100% var(--line);
+  animation: shine 1.6s linear infinite;
+}
+
+.map-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  transition: transform 0.4s ease-out;
+}
+
+.map-loading.aside {
+  inset: auto 36px calc(var(--timeline-h, 70px) + 32px) auto;
+}
+
+.map-loading.aside .map-loading-card {
+  flex-direction: row;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.94);
+  font-size: 13px;
+}
+
+.map-loading.aside .map-progress {
+  width: 64px;
+  height: 3px;
 }
 
 /* The timeline starts in the phone sheet (index.html); on wider screens it is moved out before the
@@ -2622,23 +2669,6 @@ details[open] > .act .caret {
   .sheet-time {
     display: none;
   }
-}
-
-/* Room for the count, so the note does not widen as it grows. */
-#map-loading-count {
-  display: inline-block;
-  min-width: 6.2em;
-}
-
-.map-loading.aside {
-  inset: auto 36px calc(var(--timeline-h, 70px) + 32px) auto;
-}
-
-.map-loading.aside > span {
-  padding: 3px 10px;
-  font-size: 13px;
-  box-shadow: none;
-  background-color: rgb(255 255 255 / 0.94);
 }
 
 @media (max-width: 700px) {
@@ -2661,8 +2691,13 @@ details[open] > .act .caret {
   .age-value:empty::before,
   .tl-date:empty::before,
   .play-btn:empty,
-  .map-loading > span {
+  .map-progress[aria-valuenow='0'] {
     animation: none;
+  }
+
+  .map-loading,
+  .map-progress-fill {
+    transition: none;
   }
 }
 
