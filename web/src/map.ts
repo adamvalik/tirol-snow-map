@@ -4,6 +4,7 @@ import { Protocol } from 'pmtiles';
 import { basemapLayers, basemapSources, glyphsUrl, spriteUrl } from './basemap.ts';
 import { type EdgeStyle, elevationTiles, FLOOR_COLOR, FLOOR_M, OUTSIDE_SOURCE, outsideMaskLayer, outsideSource, registerIslandProtocol, withinArea } from './island.ts';
 import { watchZoom } from './nearFirst.ts';
+import { counted } from './tileCount.ts';
 import { DEFAULT_SKY, hillshadePaint } from './sun.ts';
 import 'maplibre-gl/dist/maplibre-gl.css';
 // MapLibre 6 locates its worker relative to its own module URL, which a bundler cannot follow;
@@ -11,8 +12,10 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 
 maplibregl.setWorkerUrl(workerUrl);
-// The OSM basemap is a single PMTiles file read with HTTP range requests.
-maplibregl.addProtocol('pmtiles', new Protocol({ metadata: true }).tile);
+// The OSM basemap is a single PMTiles file read with HTTP range requests; each tile is counted for
+// the loading note (tileCount.ts).
+const pmtiles = new Protocol({ metadata: true });
+maplibregl.addProtocol('pmtiles', (params, abort) => counted(pmtiles.tile(params, abort)));
 // Elevation tiles cut to the covered area, so the map is an island (island.ts).
 registerIslandProtocol();
 

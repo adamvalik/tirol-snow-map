@@ -99,8 +99,8 @@
       Until the data is in, the ages, the day and the days are grey placeholders (style.css, Loading).
     -->
     <div id="map" role="application" aria-label="3D map of South Tyrol"></div>
-    <!-- Until the terrain in front has loaded (main.ts). -->
-    <div id="map-loading" class="map-loading" role="status"><span>Loading the terrain…</span></div>
+    <!-- Until every tile of the first view is in, with a count (app/mapLoading.ts). -->
+    <div id="map-loading" class="map-loading" role="status"><span>Loading the map<span id="map-loading-count" aria-hidden="true">…</span></span></div>
 
     <!-- Phones: the name and data ages float over the map (opens About), share and north on the right. -->
     <button id="brand-pill" class="brand-pill" type="button" data-open-about aria-label="Cima Map. Data age. Open About the data">

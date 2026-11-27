@@ -6,6 +6,7 @@ import { hydrateIcons } from './app/icons.ts';
 import { track, trackVisit } from './app/analytics.ts';
 import { setupLayout, syncQuick } from './app/layout.ts';
 import { setupLocate } from './app/locate.ts';
+import { setupMapLoading } from './app/mapLoading.ts';
 import { setupNewDeployReload } from './app/newDeploy.ts';
 import { PointPanel } from './app/point.ts';
 import { setupShare } from './app/share.ts';
@@ -14,7 +15,6 @@ import { applyLinkSwitches } from './app/switches.ts';
 import { dayView, loadHistory, setupTimeline } from './app/timeline.ts';
 import { setupTrack } from './app/track.ts';
 import { setupBasemapRetry } from './app/basemapRetry.ts';
-import { $ } from './app/dom.ts';
 import { showStartError, supportsWebgl2, watchContext } from './app/startError.ts';
 import { setupWarnings } from './app/warnings.ts';
 import { setupWhatsNew } from './app/whatsNew.ts';
@@ -116,11 +116,9 @@ function start() {
     else map.addImage(id, { width: 1, height: 1, data: new Uint8Array(4) });
   });
 
-  // The terrain in front is in: the note over the map goes (the horizon may still be loading).
-  onNearLoaded(() => {
-    $('map-loading').hidden = true;
-    document.body.dataset.terrainReadyMs = String(Math.round(performance.now()));
-  });
+  setupMapLoading(map);
+  // For `npm run profile`: the terrain in front is in.
+  onNearLoaded(() => (document.body.dataset.terrainReadyMs = String(Math.round(performance.now()))));
 
   // Hooks for the smoke test (scripts/smoke.mjs) and for debugging from the console.
   map.once('idle', () => {

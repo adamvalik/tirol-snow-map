@@ -12,6 +12,7 @@ import type { FilterSpecification, LayerSpecification, SourceSpecification } fro
 import { MODEL_GRID } from '../../shared/grid.ts';
 import { convertFilter, isExpressionFilter } from './legacyFilter.ts';
 import { nearFirst } from './nearFirst.ts';
+import { counted } from './tileCount.ts';
 
 /** The covered area: snow from space, depth estimate, satellite picture and shadows share this grid. */
 export const AREA = { west: MODEL_GRID.west, south: MODEL_GRID.south, east: MODEL_GRID.east, north: MODEL_GRID.north };
@@ -96,38 +97,44 @@ const cacheMeta = (res: Response) => ({ cacheControl: res.headers.get('Cache-Con
  * the first view's near tiles first (nearFirst.ts).
  */
 export function registerIslandProtocol(): void {
-  maplibregl.addProtocol(DEM_PROTOCOL, async (params, abort) => {
-    const { url, z } = tileOf(params.url, DEM_PROTOCOL);
-    return nearFirst(z, abort.signal, async () => {
-      const res = await fetchTile(url, abort.signal);
-      return { data: await res.arrayBuffer(), ...cacheMeta(res) };
-    });
+  // Each tile is counted for the loading note (tileCount.ts).
+  maplibregl.addProtocol(DEM_PROTOCOL, (params, abort) => counted(loadDem(params.url, abort)));
+  maplibregl.addProtocol(ISLAND_PROTOCOL, (params, abort) => counted(loadIsland(params.url, abort)));
+}
+
+/** An elevation tile as it is. */
+async function loadDem(protocolUrl: string, abort: AbortController) {
+  const { url, z } = tileOf(protocolUrl, DEM_PROTOCOL);
+  return nearFirst(z, abort.signal, async () => {
+    const res = await fetchTile(url, abort.signal);
+    return { data: await res.arrayBuffer(), ...cacheMeta(res) };
   });
+}
 
-  maplibregl.addProtocol(ISLAND_PROTOCOL, async (params, abort) => {
-    const { url, z, x, y } = tileOf(params.url, ISLAND_PROTOCOL);
+/** An elevation tile cut to the area (all floor outside it, never downloaded when wholly outside). */
+async function loadIsland(protocolUrl: string, abort: AbortController) {
+  const { url, z, x, y } = tileOf(protocolUrl, ISLAND_PROTOCOL);
 
-    const r = areaPixels(z, x, y, TILE_SIZE);
-    if (r.x0 >= r.x1 || r.y0 >= r.y1) return { data: await flatTile() };
+  const r = areaPixels(z, x, y, TILE_SIZE);
+  if (r.x0 >= r.x1 || r.y0 >= r.y1) return { data: await flatTile() };
 
-    const { blob, meta } = await nearFirst(z, abort.signal, async () => {
-      const res = await fetchTile(url, abort.signal);
-      return { blob: await res.blob(), meta: cacheMeta(res) };
-    });
-    const whole = r.x0 === 0 && r.y0 === 0 && r.x1 === TILE_SIZE && r.y1 === TILE_SIZE;
-    if (whole) return { data: await blob.arrayBuffer(), ...meta };
-
-    const bitmap = await createImageBitmap(blob, bitmapOptions);
-    const size = bitmap.width;
-    const edge = size === TILE_SIZE ? r : areaPixels(z, x, y, size);
-    const canvas = new OffscreenCanvas(size, size);
-    const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
-    ctx.drawImage(bitmap, 0, 0);
-    bitmap.close();
-    const img = ctx.getImageData(0, 0, size, size);
-    cutToArea(img.data, size, edge);
-    return { data: await createImageBitmap(img, bitmapOptions), ...meta };
+  const { blob, meta } = await nearFirst(z, abort.signal, async () => {
+    const res = await fetchTile(url, abort.signal);
+    return { blob: await res.blob(), meta: cacheMeta(res) };
   });
+  const whole = r.x0 === 0 && r.y0 === 0 && r.x1 === TILE_SIZE && r.y1 === TILE_SIZE;
+  if (whole) return { data: await blob.arrayBuffer(), ...meta };
+
+  const bitmap = await createImageBitmap(blob, bitmapOptions);
+  const size = bitmap.width;
+  const edge = size === TILE_SIZE ? r : areaPixels(z, x, y, size);
+  const canvas = new OffscreenCanvas(size, size);
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })!;
+  ctx.drawImage(bitmap, 0, 0);
+  bitmap.close();
+  const img = ctx.getImageData(0, 0, size, size);
+  cutToArea(img.data, size, edge);
+  return { data: await createImageBitmap(img, bitmapOptions), ...meta };
 }
 
 /** The area as a polygon, and the world outside it with the area as a hole. */
