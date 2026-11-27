@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { webglHelp } from '../src/app/startError.ts';
+import { isPersonInput, webglHelp } from '../src/app/startError.ts';
 
 const UA = {
   iphone: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1',
@@ -29,4 +29,13 @@ describe('start screen without WebGL 2', () => {
     expect(webglHelp(UA.ipad, 0)).toBe(general);
   });
 
+  it('counts only input from a person', () => {
+    const ev = (type: string, isTrusted: boolean, move = 0) => ({ type, isTrusted, movementX: move, movementY: 0 }) as unknown as Event;
+    expect(isPersonInput(ev('pointerdown', true))).toBe(true);
+    expect(isPersonInput(ev('keydown', true))).toBe(true);
+    expect(isPersonInput(ev('pointermove', true, 3))).toBe(true);
+    // A still cursor after a layout change, and events made by a script, are not a person.
+    expect(isPersonInput(ev('pointermove', true, 0))).toBe(false);
+    expect(isPersonInput(ev('pointerdown', false))).toBe(false);
+  });
 });

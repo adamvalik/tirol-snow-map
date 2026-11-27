@@ -32,6 +32,29 @@ export function webglHelp(userAgent: string, touchPoints: number): string {
   return TEXT.webgl[1];
 }
 
+/** Whether an input event comes from a person (a bot that only loads the page sends none). */
+export function isPersonInput(e: Event): boolean {
+  if (!e.isTrusted) return false;
+  // Chrome sends a still cursor a move after the layout changes; only real movement counts.
+  if (e.type === 'pointermove') return (e as PointerEvent).movementX !== 0 || (e as PointerEvent).movementY !== 0;
+  return true;
+}
+
+const PERSON_EVENTS = ['pointerdown', 'pointermove', 'keydown', 'wheel', 'touchstart'] as const;
+
+/**
+ * Runs `then` once a person is on the visible page. Crawlers and link previews run Chrome without a
+ * GPU, so most pages without WebGL 2 have nobody looking (#119); they should not count as errors.
+ */
+function onceAPerson(then: () => void) {
+  const done = (e: Event) => {
+    if (document.hidden || !isPersonInput(e)) return;
+    for (const type of PERSON_EVENTS) window.removeEventListener(type, done, true);
+    then();
+  };
+  for (const type of PERSON_EVENTS) window.addEventListener(type, done, { capture: true, passive: true });
+}
+
 /** Whether the browser can give the map a WebGL 2 context. */
 export function supportsWebgl2(): boolean {
   try {
@@ -43,6 +66,7 @@ export function supportsWebgl2(): boolean {
 
 /**
  * Shows the screen with what happened and what to try, and counts it (no details leave the device).
+ * Without WebGL 2 it counts only once a person does something on the page, so bots stay out.
  */
 export function showStartError(problem: StartProblem) {
   const el = document.getElementById('start-error');
@@ -61,7 +85,8 @@ export function showStartError(problem: StartProblem) {
   }
   el.dataset.problem = problem;
   el.hidden = false;
-  track(`error/${problem}`);
+  if (problem === 'webgl') onceAPerson(() => track('error/webgl'));
+  else track(`error/${problem}`);
 }
 
 /**
