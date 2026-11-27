@@ -256,7 +256,7 @@ Places (`--place`), each a start and an end camera in `SUN_PLACES` in the script
 | `dolomites` | Sella and Langkofel | South-east to south, Marmolada behind |
 | `gardena` | Val Gardena / Gröden | South-east, along the valley to Langkofel |
 | `ortler` | Ortler, Vinschgau | South, at the Ortler's north side |
-| `meran` | Meran / Merano | South-east, over the town and its slopes |
+| `meran` | Meran / Merano | South-east to south, down the Etsch valley, the Ifinger on the side |
 
 A new place is one more line there: a name and two cameras `[zoom, lat, lon, bearing, pitch]`, zoom as in the other posts (one more than on screen). Keep the zoom at 12 or more, so the app draws its finer shade, and render it `--quick` first. Morning light falls on east faces: a camera that looks west shows a sunrise best.
 
