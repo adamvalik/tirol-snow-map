@@ -31,8 +31,12 @@
 //                    sunset      the last light on the summits, slowly
 //                    year        true noon from 21 June to 21 December: the shade grows
 //             --place NAME       dolomites (default), ortler, meran, gardena; see SUN_PLACES
-//             --date YYYY-MM-DD  the day (day and sunrise modes), default today
+//             --date YYYY-MM-DD  the day, default today; for year only its year counts
 //             --seconds S        length of the reel, default 12
+//             --layers LIST      the app's layers, default sun,basemap,hillshade,relief,labels (no snow:
+//                                the app draws the shade under the snow cells)
+//           Slow: every frame waits for the app's finer shade. Render --quick first. docs/social.md,
+//           "The sun reel", has the places, the log messages and how to add a place.
 //
 // Opens the site in Chromium, captures the bare map canvas the way scripts/share-mockups.mjs
 // does (map resized to the export size / 2, pixel ratio 2, read in the `render` event), and
@@ -1013,7 +1017,8 @@ if (POST === 'sun') {
       // but nothing new once every summit of the region has lost the sun (below about -2.1° there,
       // which is up to ~1.5° lower here than in the far west of the region).
       const key = s.altitude < -3.6 ? 'night' : `${Math.round(t / MIN)}/${s.azimuth.toFixed(1)}`;
-      const expect = key !== lastKey;
+      // All in shade is drawn at once, without the worker (and at load, when the reel starts there).
+      const expect = key !== lastKey && key !== 'night';
       lastKey = key;
       const day = localDay(t);
       const r = await mapPage.evaluate(
