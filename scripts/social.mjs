@@ -21,6 +21,9 @@
 //             --date YYYY-MM-DD  default: the day of the first timestamp; the snow is that day's
 //             --trim M           metres cut from the start and the end, default 400 (a home, a car)
 //             --seconds S        length of the reel, default 14
+//             --depth            add the estimated snow depth: a third number with a bar that rises
+//                                and falls with the depth at the dot, and a snow cap on the profile
+//                                as deep as the snow along the way (into social/posts/<date>-track-depth)
 //   sun     The Map trick series: sun and shade on the real terrain, the sun moved with the app's
 //           own slider, every frame the shade the app draws for that minute. A reel (9:16 MP4).
 //             --mode day         sunrise to sunset on one day (default)
@@ -55,14 +58,16 @@ if (!['storm', 'intro', 'island', 'fallen', 'weekend', 'track', 'sun'].includes(
   process.exit(2);
 }
 if (POST === 'track' && !arg('gpx')) {
-  console.error('usage: node scripts/social.mjs track --gpx FILE [--title TEXT] [--kind TEXT] [--date YYYY-MM-DD] [--trim M] [--seconds S]');
+  console.error('usage: node scripts/social.mjs track --gpx FILE [--title TEXT] [--kind TEXT] [--date YYYY-MM-DD] [--trim M] [--seconds S] [--depth]');
   process.exit(2);
 }
 const QUICK = process.argv.includes('--quick');
 const SITE = arg('site', 'https://cimamap.com/').replace(/\/?$/, '/');
 const TZ = 'Europe/Rome';
 const today = new Date().toLocaleDateString('en-CA', { timeZone: TZ });
-const outDir = path.resolve(arg('out', `social/posts/${today}-${POST}${POST === 'sun' && arg('mode', 'day') !== 'day' ? `-${arg('mode')}` : ''}`));
+const DEPTH = POST === 'track' && process.argv.includes('--depth');
+const variant = DEPTH ? '-depth' : POST === 'sun' && arg('mode', 'day') !== 'day' ? `-${arg('mode')}` : '';
+const outDir = path.resolve(arg('out', `social/posts/${today}-${POST}${variant}`));
 await mkdir(outDir, { recursive: true });
 
 const when = (iso, opts) => new Date(iso).toLocaleString('en-GB', { timeZone: TZ, ...opts });
@@ -724,7 +729,7 @@ if (POST === 'track') {
   const shots = await fly({
     hash, size: [1080, 1920], cameras, labels: 'local', textScale: 1.5,
     setup: async () => {
-      snow = await mapPage.evaluate(async ({ line, gpxText }) => {
+      snow = await mapPage.evaluate(async ({ line, gpxText, wantDepth }) => {
         const { map, gpx } = window.__snowmap;
         let along = null;
         try {
@@ -732,6 +737,35 @@ if (POST === 'track') {
           for (let k = 0; k < 60 && !(along = gpx.snow()); k++) await new Promise((r) => setTimeout(r, 500));
         } catch (e) {
           console.log('snow along the track:', e.message);
+        }
+        // The depth estimate at the same profile points: the app reads it from the day's data PNG
+        // only for a tap, so it is decoded here as web/src/snow.ts SnowValues does, on the
+        // shared/grid.ts cells. Everything comes from the site itself.
+        let depths = null;
+        if (wantDepth && along) {
+          try {
+            const base = new URL('data/', location.href);
+            const json = async (p) => (await fetch(new URL(p, base))).json();
+            const snowPath = along.day ? (await json('history.json')).days.find((d) => d.date === along.day)?.snow ?? 'snow.json' : 'snow.json';
+            const file = await json(snowPath);
+            if (file.depth && file.files.data) {
+              const bitmap = await createImageBitmap(await (await fetch(new URL(file.files.data, base))).blob(), { premultiplyAlpha: 'none', colorSpaceConversion: 'none' });
+              const ctx = new OffscreenCanvas(bitmap.width, bitmap.height).getContext('2d', { willReadFrequently: true });
+              ctx.drawImage(bitmap, 0, 0);
+              const px = ctx.getImageData(0, 0, bitmap.width, bitmap.height).data;
+              const g = file.grid;
+              const my = (lat) => Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));
+              depths = gpx.track().profile.points.map(({ lon, lat }) => {
+                if (lon < g.west || lon >= g.east || lat <= g.south || lat > g.north) return null;
+                const col = Math.min(g.width - 1, Math.floor(((lon - g.west) / (g.east - g.west)) * g.width));
+                const row = Math.min(g.height - 1, Math.floor(((my(g.north) - my(lat)) / (my(g.north) - my(g.south))) * g.height));
+                const i = (row * g.width + col) * 4;
+                return ((px[i] & 3) << 8) + px[i + 1];
+              });
+            }
+          } catch (e) {
+            console.log('depth along the track:', e.message);
+          }
         }
         // The app's own drawing of the track is replaced by one that grows with the flight.
         for (const id of ['gpx-casing', 'gpx-line', 'gpx-ends', 'gpx-hit', 'gpx-label']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', 'none');
@@ -756,9 +790,10 @@ if (POST === 'track') {
             feature('head', { type: 'Point', coordinates: head }),
           ] });
         };
-        return along && { date: along.date, sensor: along.sensor, day: along.day, route: along.route, points: along.points };
-      }, { line: P.map((p) => [p[0], p[1]]), gpxText });
-      console.log('snow along the track:', JSON.stringify({ ...snow, points: snow?.points.length }));
+        return along && { date: along.date, sensor: along.sensor, day: along.day, route: along.route, points: along.points, depths };
+      }, { line: P.map((p) => [p[0], p[1]]), gpxText, wantDepth: DEPTH });
+      console.log('snow along the track:', JSON.stringify({ ...snow, points: snow?.points.length, depths: snow?.depths && Math.max(...snow.depths.filter((d) => d !== null)) }));
+      if (DEPTH && !snow?.depths) throw new Error('No snow depth estimate for this day');
     },
     before: (i) => mapPage.evaluate((f) => window.__trackAt(f), sAt[i] / L),
   });
@@ -776,11 +811,35 @@ if (POST === 'track') {
   const PW = 820;
   const PH = 150;
   const px = (s) => (s / L) * PW;
-  const py = (e) => 8 + ((maxE - e) / (maxE - minE || 1)) * (PH - 16);
+  // With --depth the profile keeps room above it for the snow cap.
+  const CAP = 30;
+  const TOP = DEPTH ? CAP + 6 : 8;
+  const py = (e) => TOP + ((maxE - e) / (maxE - minE || 1)) * (PH - TOP - 8);
+  // The depth estimate at the profile points (250 m cells), a little smoothed so the bar moves
+  // rather than jumps from cell to cell; the scale reaches a round number above the deepest.
+  const rawD = snow?.depths ?? [];
+  const dSm = rawD.map((_, i) => {
+    let [sum, n] = [0, 0];
+    for (let m = Math.max(0, i - 4); m <= Math.min(rawD.length - 1, i + 4); m++) if (rawD[m] !== null) [sum, n] = [sum + rawD[m], n + 1];
+    return n ? sum / n : 0;
+  });
+  const maxD = Math.max(0, ...rawD.filter((d) => d !== null));
+  const scaleMax = [20, 30, 40, 50, 60, 80, 100, 150, 200, 300].find((v) => v >= maxD * 1.15) ?? Math.ceil(maxD / 100) * 100;
+  const depthAt = (s) => (dSm.length ? at(dSm, s) : 0);
   const prof = Array.from({ length: 201 }, (_, k) => [px((L * k) / 200), py(at(eleS, (L * k) / 200))]);
   const area = `M0,${PH} ${prof.map(([x, y]) => `L${x.toFixed(1)},${y.toFixed(1)}`).join(' ')} L${PW},${PH} Z`;
   // What the satellite saw along the way, as runs of one state; the app's points are evenly spaced.
-  const FILL = { snow: '#f4f7fa', bare: '#a8916f', unseen: 'url(#hatch)', null: 'rgba(255,255,255,.2)' };
+  // With --depth the ground is one tone and the snow sits on it as a cap as deep as the estimate.
+  const FILL = DEPTH
+    ? { snow: 'rgba(255,255,255,.2)', bare: 'rgba(255,255,255,.2)', unseen: 'url(#hatch)', null: 'rgba(255,255,255,.2)' }
+    : { snow: '#f4f7fa', bare: '#a8916f', unseen: 'url(#hatch)', null: 'rgba(255,255,255,.2)' };
+  const capPts = dSm.map((d, k) => {
+    const x = (k / (dSm.length - 1)) * PW;
+    const y = py(at(eleS, (x / PW) * L));
+    return [x, y, y - (Math.min(d, scaleMax) / scaleMax) * CAP];
+  });
+  const capPath = capPts.length ? `M${capPts.map(([x, , t]) => `${x.toFixed(1)},${t.toFixed(1)}`).join(' L')} L${[...capPts].reverse().map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' L')} Z` : '';
+  const swatch = (bg) => `<i style="display:inline-block;width:26px;height:14px;border-radius:3px;background:${bg};margin-right:9px"></i>`;
   const runs = [];
   const states = snow?.points ?? [];
   states.forEach((st, k) => {
@@ -793,27 +852,40 @@ if (POST === 'track') {
       <defs><clipPath id="area"><path d="${area}"/></clipPath>
         <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="12" fill="rgba(120,132,144,.55)"/><rect width="4" height="12" fill="rgba(255,255,255,.55)"/></pattern></defs>
       <g clip-path="url(#area)">
-        ${runs.length ? runs.map((r) => `<rect x="${r.x0.toFixed(1)}" y="0" width="${(r.x1 - r.x0 + 0.6).toFixed(1)}" height="${PH}" fill="${FILL[r.st] ?? FILL.null}"/>`).join('') : `<rect x="0" y="0" width="${px(s).toFixed(1)}" height="${PH}" fill="#7048e8"/>`}
+        ${DEPTH ? `<rect x="0" y="0" width="${PW}" height="${PH}" fill="${FILL.null}"/>${runs.filter((r) => r.st === 'unseen').map((r) => `<rect x="${r.x0.toFixed(1)}" y="0" width="${(r.x1 - r.x0).toFixed(1)}" height="${PH}" fill="${FILL.unseen}"/>`).join('')}`
+          : runs.length ? runs.map((r) => `<rect x="${r.x0.toFixed(1)}" y="0" width="${(r.x1 - r.x0 + 0.6).toFixed(1)}" height="${PH}" fill="${FILL[r.st] ?? FILL.null}"/>`).join('') : `<rect x="0" y="0" width="${px(s).toFixed(1)}" height="${PH}" fill="#7048e8"/>`}
         <rect x="${px(s).toFixed(1)}" y="0" width="${(PW - px(s)).toFixed(1)}" height="${PH}" fill="rgba(12,22,34,.6)"/>
       </g>
+      ${capPath ? `<defs><clipPath id="done"><rect x="0" y="0" width="${px(s).toFixed(1)}" height="${PH}"/></clipPath><clipPath id="ahead"><rect x="${px(s).toFixed(1)}" y="0" width="${(PW - px(s)).toFixed(1)}" height="${PH}"/></clipPath></defs>
+        <path d="${capPath}" fill="#eef4fb" clip-path="url(#done)"/><path d="${capPath}" fill="#eef4fb" opacity=".35" clip-path="url(#ahead)"/>` : ''}
       <path d="${prof.map(([x, y], k) => `${k ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`).join(' ')}" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="3"/>
       <circle cx="${px(s).toFixed(1)}" cy="${py(at(eleS, s)).toFixed(1)}" r="11" fill="#7048e8" stroke="#fff" stroke-width="4"/></svg>
       ${runs.length ? `<div class="dim" style="display:flex;gap:30px;font-size:23px;margin-top:14px;align-items:center">
-        <span><i style="display:inline-block;width:26px;height:14px;border-radius:3px;background:${FILL.snow};margin-right:9px"></i>snow${route?.lowestSnowM ? `, from ${num(Math.round(route.lowestSnowM / 10) * 10)} m` : ''}</span>
-        <span><i style="display:inline-block;width:26px;height:14px;border-radius:3px;background:${FILL.bare};margin-right:9px"></i>bare</span>
+        ${DEPTH ? `<span>${swatch('#eef4fb')}snow depth, up to ${maxD} cm (estimate)</span>`
+          : `<span>${swatch(FILL.snow)}snow${route?.lowestSnowM ? `, from ${num(Math.round(route.lowestSnowM / 10) * 10)} m` : ''}</span><span>${swatch(FILL.bare)}bare</span>`}
         ${unseenShare >= 0.02 ? `<span><svg width="26" height="14" style="vertical-align:-1px;margin-right:9px"><defs><pattern id="h2" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="rgba(120,132,144,.55)"/><rect width="3" height="8" fill="rgba(255,255,255,.55)"/></pattern></defs><rect width="26" height="14" rx="3" fill="url(#h2)"/></svg>not seen (cloud)</span>` : ''}
       </div>` : ''}`;
   const row = (label, value) => `<div style="display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-top:2px solid rgba(255,255,255,.16)">
       <span style="font-size:34px;font-weight:600;color:#fff">${label}</span><b style="font-size:52px;color:#fff;font-weight:700">${value}</b></div>`;
-  const live = (s) => `<div style="display:flex;gap:70px;font-variant-numeric:tabular-nums">
-      ${hasEle ? `<div><div class="cap" style="font-size:26px;margin-bottom:10px">Height</div><div class="big" style="font-size:104px">${num(at(eleS, s))} m</div></div>` : ''}
-      <div><div class="cap" style="font-size:26px;margin-bottom:10px">Distance</div><div class="big" style="font-size:104px">${km(trimM + s)}</div></div></div>
+  // With --depth a third number, the snow at the dot, with a thin bar under it that fills to the
+  // depth on the scale of the deepest along the way. The units are set smaller so three fit, and
+  // the columns have fixed widths, so the snow does not shift when the distance gains a digit.
+  const unit = (u) => `<span style="font-size:.5em;font-weight:600;margin-left:.14em">${u}</span>`;
+  const stat = (label, value, width, extra = '') => `<div style="${DEPTH ? `width:${width}px;flex:none` : ''}"><div class="cap" style="font-size:26px;margin-bottom:10px">${label}</div><div class="big" style="font-size:${DEPTH ? 96 : 104}px;white-space:nowrap">${value}</div>${extra}</div>`;
+  const live = (s) => {
+    const d = Math.round(depthAt(s));
+    const bar = `<div style="height:8px;border-radius:4px;margin-top:14px;background:rgba(255,255,255,.22);overflow:hidden"><div style="height:100%;width:${((Math.min(d, scaleMax) / scaleMax) * 100).toFixed(1)}%;background:#eef4fb;border-radius:4px"></div></div>`;
+    return `<div style="display:flex;gap:${DEPTH ? 44 : 70}px;font-variant-numeric:tabular-nums">
+      ${hasEle ? stat('Height', DEPTH ? `${num(at(eleS, s))}${unit('m')}` : `${num(at(eleS, s))} m`, 290) : ''}
+      ${stat('Distance', DEPTH ? `${((trimM + s) / 1000).toFixed(1)}${unit('km')}` : km(trimM + s), 260)}
+      ${DEPTH ? stat('Snow', `${d}${unit('cm')}`, 180, bar) : ''}</div>
       ${hasEle ? profile(s) : ''}`;
+  };
   const end = `<div class="cap" style="font-size:26px;margin-bottom:10px">The ${kind.toLowerCase()}</div>
-      ${row('Distance', km(stats.distanceM))}${stats.ascentM !== null ? row('Climb', `${num(stats.ascentM)} m`) : ''}${stats.highestM !== null ? row('Highest point', `${num(stats.highestM)} m`) : ''}
+      ${row('Distance', km(stats.distanceM))}${stats.ascentM !== null ? row('Climb', `${num(stats.ascentM)} m`) : ''}${stats.highestM !== null ? row('Highest point', `${num(stats.highestM)} m`) : ''}${DEPTH && maxD >= 1 ? row('Deepest snow, estimated', `~${maxD} cm`) : ''}
       ${snowLine ? `<div class="dim" style="font-size:28px;margin-top:16px">${snowLine}, ${snowWhen}</div>` : ''}
-      <div style="margin-top:36px">${brand(1.25)}</div><div class="dim" style="font-size:30px;margin-top:20px">Put your own GPX on the snow</div>`;
-  const trCredit = credit(layers.includes('depth') ? ', snow from stations and Copernicus Sentinel-2' : ', snow Copernicus Sentinel-2');
+      <div style="margin-top:${DEPTH ? 28 : 36}px">${brand(1.25)}</div><div class="dim" style="font-size:30px;margin-top:20px">Put your own GPX on the snow</div>`;
+  const trCredit = credit(DEPTH || layers.includes('depth') ? ', snow from stations and Copernicus Sentinel-2' : ', snow Copernicus Sentinel-2');
 
   const tmp = path.join(outDir, '.reel');
   await rm(tmp, { recursive: true, force: true });
@@ -850,7 +922,7 @@ if (POST === 'track') {
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', path.join(outDir, 'reel-9x16.mp4'), '-vf', `select='${pick.map((n) => `eq(n\\,${n})`).join('+')}',scale=360:-1,tile=4x1`, '-frames:v', '1', '-vsync', 'vfr', path.join(outDir, 'reel-sheet.jpg')]);
   await rm(tmp, { recursive: true, force: true });
   // The numbers in the post, for the caption; no positions or times.
-  await writeFile(path.join(outDir, 'data.json'), `${JSON.stringify({ site: SITE, title, kind, date, ...stats, trimM: Math.round(trimM), shownM: Math.round(L), seconds: SECONDS, snow: snow && { ...snow, points: undefined } }, null, 1)}\n`);
+  await writeFile(path.join(outDir, 'data.json'), `${JSON.stringify({ site: SITE, title, kind, date, ...stats, trimM: Math.round(trimM), shownM: Math.round(L), seconds: SECONDS, ...(DEPTH ? { maxDepthCm: maxD } : {}), snow: snow && { ...snow, points: undefined, depths: undefined } }, null, 1)}\n`);
 }
 
 if (POST === 'sun') {
