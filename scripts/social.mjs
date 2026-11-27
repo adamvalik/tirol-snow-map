@@ -1014,9 +1014,11 @@ if (POST === 'sun') {
       const t = tFrames[i];
       const s = sunAt(t);
       // As the app's shade decides to redraw (shadows.ts): a new minute or a new tenth of a degree,
-      // but nothing new once every summit of the region has lost the sun (below about -2.1° there,
-      // which is up to ~1.5° lower here than in the far west of the region).
-      const key = s.altitude < -3.6 ? 'night' : `${Math.round(t / MIN)}/${s.azimuth.toFixed(1)}`;
+      // but nothing new while every summit of the region is without the sun: below -2.1° at all
+      // corners of the model grid (shared/grid.ts), the sun's lowest point there. A little lower
+      // here, so a frame near the edge waits rather than being shot before its shade.
+      const regionHigh = Math.max(...[10.2, 12.7].flatMap((lo) => [46.1, 47.25].map((la) => getPosition(new Date(t), la, lo).altitude)));
+      const key = regionHigh < -2.2 ? 'night' : `${Math.round(t / MIN)}/${s.azimuth.toFixed(1)}`;
       // All in shade is drawn at once, without the worker (and at load, when the reel starts there).
       const expect = key !== lastKey && key !== 'night';
       lastKey = key;
