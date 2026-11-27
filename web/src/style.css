@@ -2592,6 +2592,14 @@ details[open] > .act .caret {
   pointer-events: none;
 }
 
+/* The timeline starts in the phone sheet (index.html); on wider screens it is moved out before the
+   first paint, and this keeps it from showing in the sidebar if the page paints sooner. */
+@media (min-width: 701px) {
+  .sheet-time {
+    display: none;
+  }
+}
+
 /* Over the map until the terrain in front has loaded. */
 .map-loading {
   position: fixed;
