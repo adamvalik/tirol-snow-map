@@ -31,16 +31,16 @@ export const MAX_BOUNDS: [[number, number], [number, number]] = [
   [13.4, 47.75],
 ];
 
-/** Phones and tablets: coarser terrain mesh and capped pixel ratio keep tilting smooth. */
+/** Phones and tablets: coarser terrain mesh and shading, and a capped pixel ratio, keep tilting smooth. */
 export const isLowPowerDevice = (): boolean =>
   matchMedia('(max-width: 700px), (pointer: coarse)').matches;
 
 function createStyle(lowPower: boolean, edge: EdgeStyle): StyleSpecification {
-  const dem = (maxzoom: number) =>
+  const dem = (maxzoom: number, tileSize = 512) =>
     ({
       type: 'raster-dem',
       tiles: [elevationTiles(MAPTERHORN_TILES, edge)] as string[],
-      tileSize: 512,
+      tileSize,
       encoding: 'terrarium',
       maxzoom,
       attribution: '<a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a>',
@@ -51,9 +51,12 @@ function createStyle(lowPower: boolean, edge: EdgeStyle): StyleSpecification {
     glyphs: glyphsUrl(),
     sprite: spriteUrl(),
     // Separate sources for the 3D mesh and the drawn layers, as MapLibre recommends; the tiles are shared via HTTP cache.
+    // On phones the shading's 512 px tiles each cover twice the size, so it uses the tiles the mesh
+    // loads anyway (MapLibre loads the mesh one zoom level coarser): the opening view downloads
+    // 15 elevation tiles instead of 26, about 1.9 MB less, for a slightly softer shading (#112).
     sources: {
       terrain: dem(lowPower ? 13 : 14),
-      dem: dem(DEM_MAX_ZOOM),
+      dem: dem(DEM_MAX_ZOOM, lowPower ? 1024 : 512),
       ...basemapSources(),
       [OUTSIDE_SOURCE]: outsideSource(),
     },
