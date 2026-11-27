@@ -137,7 +137,7 @@ Open-Meteo forecast (on click) -------------------------------------------------
 | `scripts/icons.mjs` | Renders the home screen and favicon PNGs from `web/public/icons/icon.svg`, and the 1080 px avatar for the social accounts into `docs/design/logo/` (next to the mark and the Cima Map lockups; see `docs/design/logo.md`) |
 | `scripts/share-mockups.mjs` | Renders the share picture mock-ups in `docs/design/share-snapshot/` |
 | `scripts/search.mjs` | The noindex tag, `robots.txt` and `sitemap.xml` for an indexed build (used by `vite.config.ts`, see Deployment) |
-| `scripts/social.mjs` | Renders Instagram posts from the live site into `social/posts/` (see `docs/social.md`) |
+| `scripts/social.mjs`, `scripts/social/` | Renders Instagram posts from the live site into `social/posts/`: one file per post in `scripts/social/posts/`, a new post is a new file there, and what they share in `scripts/social/core.mjs` (see `docs/social.md`, The posts) |
 | `social/` | One folder per Instagram post, with its caption; the rendered pictures are not in git |
 | `.github/` | Workflows, issue forms (bug, idea, release checklist) and the pull request template |
 | `docs/` | Index and how work is tracked (`docs/README.md`), release plan, roadmap, design notes (`docs/design/`), spike reports (`docs/spikes/`) and the initial plan |

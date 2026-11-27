@@ -9,6 +9,7 @@ The strategy of the [@cimamap](https://www.instagram.com/cimamap/) account, and 
 | Strategy, series, rules, how a post is made | This file |
 | Calendar, ideas, what was posted and how it did | The [tracker](https://claude.ai/artifact/46gg9eDGJTzrsT65PXFsCp), a private dashboard. Sessions read and write it |
 | A post's pictures, caption, alt text and settings | `social/posts/<date>-<post>/`, made by `scripts/social.mjs` |
+| The script of a post | `scripts/social/posts/<post>.mjs`, one file per post |
 | Work on the post scripts | GitHub issues in the `Growth` milestone |
 
 A post idea goes into the tracker, not into this file. A new kind of post that works goes into this file.
@@ -149,7 +150,7 @@ Posts are made in a Claude session, so asking well is most of the work. Say whic
 - "A storm is coming, make the storm reel." (`storm`)
 - "Make a Tour reel from `ridge.gpx`, a ski tour, with the snow depth." (`track --gpx ridge.gpx --kind "Ski tour" --depth`)
 - "Make a sunset reel over the Dolomites." (`sun --mode sunset`; more under The sun reel)
-- "Change the end frame of the track reel: ..." (a change to `scripts/social.mjs`; the session renders `--quick` first)
+- "Change the end frame of the track reel: ..." (a change to `scripts/social/posts/track.mjs`; the session renders `--quick` first)
 
 What to give it:
 
@@ -164,7 +165,7 @@ What to check before posting:
 
 ### The posts
 
-`scripts/social.mjs` renders a post from the live map. The comment at the top of the script lists every post and its options.
+`scripts/social.mjs` renders a post from the live map. Each post is its own file, `scripts/social/posts/<post>.mjs`, with what it makes and its options in the comment at the top; `node scripts/social.mjs` alone lists them.
 
 ```sh
 npm ci
@@ -200,6 +201,8 @@ Options for every post:
 - A flight renders about 2 s a frame, at 30 frames a second. Start a long render with `caffeinate -is` in front, or a Mac that goes to sleep stalls it.
 
 It opens the site in Chromium, captures the bare map canvas as the share picture mock-ups do (`docs/design/share-snapshot.md`) and frames it in the app's font. Numbers and times come from the site's data files, so a post shows the data of the moment it was made. The reels are silent: music is added in the Instagram app, because licensed music cannot be added through the API.
+
+A new post is a new file in `scripts/social/posts/`, named after the post: `node scripts/social.mjs <name>` finds it, so two sessions can each add a post without touching the same file. It exports `usage` (the name and its options, for the list), `run({ outDir })`, which makes the files, and where needed `needs` (options it cannot run without, like `--gpx`) and `variant()` (a suffix for the default folder, like `-depth`). What the posts share is in `scripts/social/core.mjs`: the options, the browser, `capture` and `fly` for the map, `frame` for a picture in the app's font, `brand`, `legend` and `credit`, and the island views. Start from the post that is closest, add a line to the commands and the table above, and render it `--quick`.
 
 ### How a flight works
 
@@ -249,7 +252,7 @@ The four modes:
 - **The end**: the last 2.5 s hold on "Any day, any time" ("Any day of the year" in `year`), "The real ridges cast the shade. Try it on your mountain." and the address.
 - **The credit** says what the shade leaves out: clear sky, and no trees or buildings in the terrain.
 
-Places (`--place`), each a start and an end camera in `SUN_PLACES` in the script:
+Places (`--place`), each a start and an end camera in `SUN_PLACES` in `scripts/social/posts/sun.mjs`:
 
 | Place | Where | Looks |
 | --- | --- | --- |
