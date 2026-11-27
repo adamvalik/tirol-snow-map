@@ -9,8 +9,8 @@
 
 import * as maplibregl from 'maplibre-gl';
 import type { FilterSpecification, LayerSpecification, SourceSpecification } from 'maplibre-gl';
-import { convertFilter, expression } from '@maplibre/maplibre-gl-style-spec';
 import { MODEL_GRID } from '../../shared/grid.ts';
+import { convertFilter, isExpressionFilter } from './legacyFilter.ts';
 
 /** The covered area: snow from space, depth estimate, satellite picture and shadows share this grid. */
 export const AREA = { west: MODEL_GRID.west, south: MODEL_GRID.south, east: MODEL_GRID.east, north: MODEL_GRID.north };
@@ -168,6 +168,6 @@ export function withinArea(filter: FilterSpecification | undefined): FilterSpeci
   ];
   if (!filter) return inside;
   // Some basemap layers use the old filter syntax, which cannot be combined with expressions.
-  const asExpression = expression.isExpressionFilter(filter) ? filter : convertFilter(filter);
+  const asExpression = isExpressionFilter(filter) ? filter : convertFilter(filter);
   return ['all', asExpression, inside] as FilterSpecification;
 }
