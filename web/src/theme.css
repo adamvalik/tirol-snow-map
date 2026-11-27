@@ -44,7 +44,8 @@
   --danger: #b42318;
   --fav: #c2255c;
   --sun: #a15c00;
-  --map-bg: #dcd8cf;
+  /* Behind the map until it draws: its floor colour (FLOOR_COLOR in island.ts). */
+  --map-bg: #e8ebee;
 
   --radius: 12px;
   --shadow: 0 1px 2px rgb(15 23 42 / 0.08), 0 4px 14px rgb(15 23 42 / 0.14);

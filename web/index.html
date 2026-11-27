@@ -95,9 +95,12 @@
     <!--
       Layout (C2 design): a sidebar on desktop, a bottom sheet on phones. The same markup serves
       both; app/layout.ts moves the timeline into the sheet on narrow screens. Icons are
-      <i data-icon> placeholders filled from app/icons.ts at start.
+      <i data-icon> placeholders, drawn into the page by the build (vite.config.ts, app/icons.ts).
+      Until the data is in, the ages, the day and the days are grey placeholders (style.css, Loading).
     -->
     <div id="map" role="application" aria-label="3D map of South Tyrol"></div>
+    <!-- Until the terrain in front has loaded (main.ts). -->
+    <div id="map-loading" class="map-loading" role="status"><span>Loading the terrain…</span></div>
 
     <!-- Phones: the name and data ages float over the map (opens About), share and north on the right. -->
     <button id="brand-pill" class="brand-pill" type="button" data-open-about aria-label="Cima Map. Data age. Open About the data">
@@ -105,9 +108,9 @@
       <span class="brand-pill-text">
         <span class="brand-pill-name">Cima Map</span>
         <span class="ages-inline">
-          <span class="age" data-age="stations"><i data-icon="thermometer-simple" data-size="13"></i><span class="age-value">–</span></span>
-          <span class="age" data-age="satellite"><i data-icon="planet" data-size="13"></i><span class="age-value">–</span></span>
-          <span class="age" data-age="forecast"><i data-icon="cloud-snow" data-size="13"></i><span class="age-value">–</span></span>
+          <span class="age" data-age="stations"><i data-icon="thermometer-simple" data-size="13"></i><span class="age-value"></span></span>
+          <span class="age" data-age="satellite"><i data-icon="planet" data-size="13"></i><span class="age-value"></span></span>
+          <span class="age" data-age="forecast"><i data-icon="cloud-snow" data-size="13"></i><span class="age-value"></span></span>
         </span>
       </span>
     </button>
@@ -132,9 +135,9 @@
       </header>
 
       <button id="data-age" class="ages" type="button" data-open-about aria-label="Data age. Open About the data">
-        <span class="age" data-age="stations"><span class="age-name"><i data-icon="thermometer-simple" data-size="14"></i>Stations</span><span class="age-value">–</span></span>
-        <span class="age" data-age="satellite"><span class="age-name"><i data-icon="planet" data-size="14"></i>Satellite</span><span class="age-value">–</span></span>
-        <span class="age" data-age="forecast"><span class="age-name"><i data-icon="cloud-snow" data-size="14"></i>Forecast</span><span class="age-value">–</span></span>
+        <span class="age" data-age="stations"><span class="age-name"><i data-icon="thermometer-simple" data-size="14"></i>Stations</span><span class="age-value"></span></span>
+        <span class="age" data-age="satellite"><span class="age-name"><i data-icon="planet" data-size="14"></i>Satellite</span><span class="age-value"></span></span>
+        <span class="age" data-age="forecast"><span class="age-name"><i data-icon="cloud-snow" data-size="14"></i>Forecast</span><span class="age-value"></span></span>
       </button>
 
       <!-- Phones: the timeline sits here, at the top of the sheet. -->
@@ -326,9 +329,23 @@
           <span id="day-note" class="tl-note">Measured and from space</span>
         </div>
         <button id="day-back" class="back-btn" type="button" hidden>Back to now</button>
-        <div id="days" class="days" role="radiogroup" aria-label="Day"></div>
+        <div id="days" class="days" role="radiogroup" aria-label="Day"><span class="day skeleton" aria-hidden="true"></span><span class="day skeleton" aria-hidden="true"></span><span class="day skeleton" aria-hidden="true"></span><span class="day skeleton" aria-hidden="true"></span><span class="day skeleton" aria-hidden="true"></span><span class="day skeleton" aria-hidden="true"></span><span class="day skeleton" aria-hidden="true"></span></div>
       </div>
     </section>
+
+    <!--
+      Before the first paint: the timeline and the legends where app/layout.ts (placeTimeline) keeps
+      them, so the sheet does not grow when the app's code starts (#112). Same breakpoint as isPhone().
+    -->
+    <script>
+      (function () {
+        var legends = document.querySelector('.legends');
+        if (window.matchMedia('(max-width: 700px)').matches) {
+          document.getElementById('sheet-time').appendChild(document.getElementById('timeline'));
+          document.getElementById('tab-layers').appendChild(legends);
+        } else document.body.appendChild(legends);
+      })();
+    </script>
 
     <div id="map-chip" class="map-chip" aria-hidden="true" hidden></div>
 

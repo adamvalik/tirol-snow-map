@@ -2546,6 +2546,93 @@ details[open] > .act .caret {
   box-sizing: border-box;
 }
 
+/* --- Loading: the page's shape before the data (#112) ------------------------ */
+
+/* Grey placeholders with a slow shine, where the data ages, the day and the days will be. */
+@keyframes shine {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.skeleton,
+.age-value:empty::before,
+.tl-date:empty::before,
+.play-btn:empty {
+  background: linear-gradient(90deg, var(--line) 30%, var(--hover) 50%, var(--line) 70%) 0 0 / 200% 100% var(--line);
+  animation: shine 1.6s linear infinite;
+}
+
+.age-value:empty::before,
+.tl-date:empty::before {
+  content: '';
+  display: inline-block;
+  height: 0.85em;
+  border-radius: 4px;
+  vertical-align: -0.05em;
+}
+
+.age-value:empty::before {
+  width: 3.2em;
+}
+
+.tl-date:empty::before {
+  width: 6.5em;
+}
+
+.play-btn:empty {
+  cursor: default;
+}
+
+.days .day.skeleton {
+  pointer-events: none;
+}
+
+/* Over the map until the terrain in front has loaded. */
+.map-loading {
+  position: fixed;
+  inset: 0 0 0 360px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.map-loading span {
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #fff 30%, var(--soft) 50%, #fff 70%) 0 0 / 200% 100% #fff;
+  animation: shine 1.6s linear infinite;
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+@media (max-width: 700px) {
+  /* Above the sheet, in the open part of the map. */
+  .map-loading {
+    inset: 0;
+    align-items: flex-start;
+    padding-top: 36vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton,
+  .age-value:empty::before,
+  .tl-date:empty::before,
+  .play-btn:empty,
+  .map-loading span {
+    animation: none;
+  }
+}
+
 /* --- Phones: a bottom sheet -------------------------------------------------- */
 
 @media (max-width: 700px) {

@@ -14,6 +14,7 @@ import { applyLinkSwitches } from './app/switches.ts';
 import { dayView, loadHistory, setupTimeline } from './app/timeline.ts';
 import { setupTrack } from './app/track.ts';
 import { setupBasemapRetry } from './app/basemapRetry.ts';
+import { $ } from './app/dom.ts';
 import { showStartError, supportsWebgl2, watchContext } from './app/startError.ts';
 import { setupWarnings } from './app/warnings.ts';
 import { setupWhatsNew } from './app/whatsNew.ts';
@@ -24,6 +25,7 @@ import { pointSnow } from './layers/snow.ts';
 import { edgeStyle, terrainExaggeration } from './layers/terrain.ts';
 import type { App } from './layers/types.ts';
 import { createMap, DEFAULT_VIEW } from './map.ts';
+import { onNearLoaded } from './nearFirst.ts';
 import { parseHash } from './viewState.ts';
 
 // Tells the inline script in index.html that the app's code runs (it shows the start screen otherwise).
@@ -112,6 +114,12 @@ function start() {
     if (map.hasImage(id)) return;
     if (id === SUMMIT_ICON) map.addImage(id, summitIcon(2), { pixelRatio: 2 });
     else map.addImage(id, { width: 1, height: 1, data: new Uint8Array(4) });
+  });
+
+  // The terrain in front is in: the note over the map goes (the horizon may still be loading).
+  onNearLoaded(() => {
+    $('map-loading').hidden = true;
+    document.body.dataset.terrainReadyMs = String(Math.round(performance.now()));
   });
 
   // Hooks for the smoke test (scripts/smoke.mjs) and for debugging from the console.
