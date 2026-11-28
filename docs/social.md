@@ -47,7 +47,7 @@ Recurring posts with the same look each time, so people recognise them and come 
 | **Weekend snow** | Every Friday, about 17:00 | Reel | Snow now, the forecast to Sunday, the snow line; three numbers that matter | `weekend` |
 | **Storm** | When the 3-day forecast has 20 cm or more somewhere | Reel, picture, reel | 1. The forecast building up, as soon as the storm is in the forecast. 2. What fell at the stations, the evening or morning after. 3. Before and after from space, on the first clear day | `storm`, `fallen`; the third by hand |
 | **Map trick** | Once a week | Reel | One thing the map does, shown in use. Ends on "Try it: cimamap.com" | A phone recording |
-| **Tour** | Every two weeks | Reel or carousel | One of our own GPX tracks on the terrain, with its numbers and the snow along it (see Tours) | `track` |
+| **Tour** | Every two weeks | Reel or carousel | One of our own GPX tracks on the terrain, with its numbers and the snow along it (see Tours) | `track`; two days with a night at a bivouac, `overnight` |
 | **Place** | Once a week | Reel | One mountain group or valley with today's snow, its name in German, Italian and English, location tag on | By hand or a phone recording |
 
 Script names are posts of `scripts/social.mjs` (Making a post). The rest of the week is filled with one-off posts.
@@ -149,6 +149,7 @@ Posts are made in a Claude session, so asking well is most of the work. Say whic
 - "Make Friday's weekend post." (the `weekend` post, rendered after the 14:00 data)
 - "A storm is coming, make the storm reel." (`storm`)
 - "Make a Tour reel from `ridge.gpx`, a ski tour, with the snow depth." (`track --gpx ridge.gpx --kind "Ski tour" --depth`)
+- "Make the overnighter reel from `day1.gpx` and `day2.gpx`, a night at Biwak Mintl, a wooden hut." (`overnight --gpx day1.gpx --gpx2 day2.gpx --hut-kind wood`)
 - "Make a sunset reel over the Dolomites." (`sun --mode sunset`; more under The sun reel)
 - "Change the end frame of the track reel: ..." (a change to `scripts/social/posts/track.mjs`; the session renders `--quick` first)
 
@@ -176,6 +177,7 @@ node scripts/social.mjs fallen    # after a storm: the stations with the most ne
 node scripts/social.mjs weekend   # Friday: snow on the ground by height, new snow to Sunday (reel and story)
 node scripts/social.mjs track --gpx ridge.gpx --kind Hike   # Tour: a flight along our own GPX track (reel)
 node scripts/social.mjs track --gpx ridge.gpx --depth       # the same, with the snow depth along the way
+node scripts/social.mjs overnight --gpx day1.gpx --gpx2 day2.gpx   # Tour: two days with a night at a bivouac, with sun and shade (reel)
 node scripts/social.mjs sun --mode day --place dolomites       # Map trick: sun and shade from sunrise to sunset (reel)
 node scripts/social.mjs sun --mode sunset                      # the last light on the summits; also --mode sunrise
 node scripts/social.mjs sun --mode year --place gardena        # true noon from 21 June to 21 December (reel)
@@ -189,6 +191,7 @@ node scripts/social.mjs sun --mode year --place gardena        # true noon from 
 | `fallen` | `fallen-4x5.jpg`, `story-9x16.jpg` | `stations.json` | a minute |
 | `weekend` | `reel-9x16.mp4`, `story-9x16.jpg` | `stations.json`, `forecast.json` | about 12 minutes |
 | `track` | `reel-9x16.mp4` | the GPX file, the snow of its day | about 15 minutes |
+| `overnight` | `reel-9x16.mp4` | both GPX files, the snow of day 1, the sun and shade the app draws | 1 to 2 hours: every frame waits for the shade |
 | `sun` | `reel-9x16.mp4` | the sun and shade the app draws | 30 to 100 minutes: every frame waits for the shade |
 
 Every post writes into `social/posts/<date>-<post>/` (`--out` for another folder; `track --depth` into `<date>-track-depth`, `sun` with a mode other than `day` into `<date>-sun-<mode>`). A reel also leaves `reel-end.jpg` (the last frame, the cover) and `reel-sheet.jpg` (a few frames to check). `data.json` keeps the numbers the post shows and when the data was made, so the caption can be checked against it; the pictures are not kept in git. `caption.md` is written by hand or by the session next to them and is kept, so the folder is the log of what was posted.
@@ -232,6 +235,32 @@ Options:
 | `--depth` | Add the estimated snow depth (below) | off |
 
 `--depth` adds the estimated snow depth of that day: a third number next to the height and the distance, with a thin bar under it that fills to the depth at the dot (smoothed over about 200 m, so it moves rather than jumps between the 250 m cells), the profile gets a white snow cap as thick as the snow along the way, and the end adds the deepest snow. The script reads the depth from the day's data picture on the site, as the app does for a tap, at the same points as the app's snow along the track.
+
+### The overnight reel
+
+The overnight reel is a Tour reel over two days with a night at a bivouac: the track reel and the sun reel in one. Day 1 flies along the way to the hut on the snow of that day, with the app's sun and shade for the time the file says you were at each point. At the hut the line stops and the camera turns from the way in to the way out while the night goes by. Day 2 goes on from the hut, and the last 3 seconds hold on both days' numbers.
+
+- **The clock** is the time at the dot, from the files' timestamps, and the shade in every frame is the app's own for that minute, set on its sun controls as in the sun reel. The camera moves evenly along the way, so a long break makes the clock jump ahead.
+- **The night**: the evening light and the first light get most of the night's frames. The dark hours, while every summit is without the sun and the shade does not change, pass in about a second under the app's night overlay.
+- **The hut** is the app's bivouac nearest the end of day 1 (within 500 m), and the only one on the map: its icon and name, drawn above the night overlay so it stays lit. The 3D cabin is a few pixels at the reel's zoom, so the icon is used. `--hut-kind` overrides how the app draws it, for a hut OpenStreetMap does not tag as wood.
+- **The shade goes above the snow**: the app draws it under the snow cells, which are 95 % white, so on snow it would hardly show. The reel moves it above them in its own page; the app is not changed.
+- **At the bottom**: the day ("Day 1, Sat 28 Nov", then "Night at Biwak Mintl, 2,144 m", then "Day 2"), the clock, the height and the distance of that day (at night the sunset and the sunrise over a flat horizon), and one profile over both days: day 1, a band for the night in the colours of the sky at the times shown, with the hut on it, and day 2. The profile is coloured by what the satellite saw along the way, as in the track reel.
+- **At the end**: each day's distance and climb, the highest point, the hut's height and the share of the way on snow.
+- **Privacy**: as in the track reel, the first 400 m of day 1 and the last 400 m of day 2 are cut, and nothing at the hut. The reel shows the clock, so it reads the times of day, but no heart rate or anything else, and `data.json` keeps no positions. The distance, climb and highest point are those of the whole recordings.
+- **Slow**: every frame waits for the shade as in the sun reel, and the camera moves on, so the finer shade is worked out again for each new place. Render `--quick` first (3 frames a second) and look at `reel-sheet.jpg`: day 1, the evening, the dark, the first light, day 2 and the end. In a cloud session, run the full render in the background.
+
+Options:
+
+| Option | What | Default |
+| --- | --- | --- |
+| `--gpx FILE` | Day 1, ending at the bivouac (required) | |
+| `--gpx2 FILE` | Day 2, starting from it (required) | |
+| `--title TEXT` | The title | "<bivouac> Overnighter" |
+| `--kind TEXT` | Hike, Ski tour, Tour | from day 1's `<type>`, else Hike |
+| `--hut-kind KIND` | `wood` or `metal`: how the hut is drawn | as the app draws it |
+| `--trim M` | Metres cut from the start of day 1 and the end of day 2 | 400 |
+| `--seconds S` | Length of the reel, the end included | 20 |
+| `--date`, `--start`, `--start2` | Only for files without times (planned routes): day 1's date and when each day starts, `HH:MM`; the times on the way come from the usual hiking-time rule (DIN 33466) | today, 08:00 |
 
 ### The sun reel
 
