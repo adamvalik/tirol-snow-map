@@ -211,12 +211,12 @@ export async function run({ outDir }) {
     return sum / wsum;
   });
   const cameras = sAt.map((s, i) => {
-    // The camera stands back from the dot, so the dot is about 220 px above the middle of the
-    // frame, clear of the numbers (at a tilt of 60° that is about half the view across). At night
-    // it circles the hut at that distance. In the hold it turns a little and eases back further.
+    // The dot is the centre of the camera, drawn 200 px above the middle of the frame by the map's
+    // padding (set up below), clear of the numbers; at night the camera turns around the hut. In
+    // the hold it turns a little and eases back.
     const h = phase(i) === 'end' ? (i - (count - nH) + 1) / nH : 0;
     const ease = h - Math.sin(2 * Math.PI * h) / (2 * Math.PI);
-    const back = viewM * (0.47 + 0.1 * ease);
+    const back = viewM * 0.08 * ease;
     const b = (headings[i] + 22 * ease) * RAD;
     const [lon0, lat0c] = s <= L1 ? camAt(0, s) : camAt(1, s - L1);
     const lat = lat0c - (back * Math.cos(b)) / 111_320;
@@ -279,6 +279,9 @@ export async function run({ outDir }) {
           console.log('snow along the track:', e.message);
         }
         for (const id of ['gpx-casing', 'gpx-line', 'gpx-ends', 'gpx-hit', 'gpx-label']) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', 'none');
+        // The camera's centre (the dot) 200 px above the middle of the 1920 px frame: padding in CSS
+        // pixels, half of those. Moving the camera back instead lets ridges hide the dot.
+        map.setPadding({ top: 0, bottom: 200, left: 0, right: 0 });
         // The app draws the shade under the snow cells, which would hide it on the snow: here it goes
         // right above them.
         const ids = map.getStyle().layers.map((l) => l.id);
