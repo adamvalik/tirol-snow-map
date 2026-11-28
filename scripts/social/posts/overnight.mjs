@@ -211,10 +211,12 @@ export async function run({ outDir }) {
     return sum / wsum;
   });
   const cameras = sAt.map((s, i) => {
-    // In the hold the camera turns a little and eases back, so the dot rises above the numbers.
+    // The camera stands back from the dot, so the dot is about 220 px above the middle of the
+    // frame, clear of the numbers (at a tilt of 60° that is about half the view across). At night
+    // it circles the hut at that distance. In the hold it turns a little and eases back further.
     const h = phase(i) === 'end' ? (i - (count - nH) + 1) / nH : 0;
     const ease = h - Math.sin(2 * Math.PI * h) / (2 * Math.PI);
-    const back = viewM * 0.22 * ease;
+    const back = viewM * (0.47 + 0.1 * ease);
     const b = (headings[i] + 22 * ease) * RAD;
     const [lon0, lat0c] = s <= L1 ? camAt(0, s) : camAt(1, s - L1);
     const lat = lat0c - (back * Math.cos(b)) / 111_320;
@@ -488,7 +490,7 @@ export async function run({ outDir }) {
         <div class="title" style="font-size:80px">${title}</div>
         <div class="sub" style="font-size:34px;margin-top:16px">${sub}</div>
       </div>
-      <div class="abs scrim" style="height:${atEnd ? 1120 : 880}px;background:linear-gradient(rgba(12,22,34,0),rgba(12,22,34,.85) 26%,rgba(12,22,34,.94))"></div>
+      <div class="abs scrim" style="height:${atEnd ? 1250 : 1080}px;background:linear-gradient(rgba(12,22,34,0),rgba(12,22,34,.82) 20%,rgba(12,22,34,.94))"></div>
       <div class="abs" style="left:80px;right:180px;bottom:430px;opacity:${alpha}">${atEnd ? end : live(i)}</div>
       <div class="abs dim" style="left:80px;right:180px;bottom:350px;font-size:17px">${ovCredit}</div>`, { transparent: true });
   }
