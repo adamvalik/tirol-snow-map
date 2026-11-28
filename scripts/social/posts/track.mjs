@@ -12,9 +12,10 @@
 //                      as deep as the snow along the way (into social/posts/<date>-track-depth)
 
 import { execFileSync } from 'node:child_process';
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { QUICK, SITE, TERRAIN, TZ, arg, brand, credit, dayOnly, fly, frame, mapPage } from '../core.mjs';
+import { RAD, along, at as atAlong, bearing, climb, kindOf, readGpx, resample, smooth } from '../gpx.mjs';
 
 export const usage = 'track --gpx FILE [--title TEXT] [--kind TEXT] [--date YYYY-MM-DD] [--trim M] [--seconds S] [--depth]';
 export const needs = ['gpx'];
@@ -25,46 +26,7 @@ export const variant = () => (DEPTH ? '-depth' : '');
 export async function run({ outDir }) {
   // The track. Only its line and its heights are used: no times besides the day, no heart rate,
   // and nothing of the file is written into the post folder.
-  const { DOMParser } = await import('@xmldom/xmldom');
-  const doc = new DOMParser().parseFromString(await readFile(path.resolve(arg('gpx')), 'utf8'), 'application/xml');
-  const tags = (root, name) => Array.from(root.getElementsByTagName('*')).filter((e) => e.localName === name);
-  const childText = (el, name) => Array.from(el.childNodes).find((n) => n.localName === name)?.textContent?.trim() || null;
-  const pts = tags(doc, 'trkpt').length ? tags(doc, 'trkpt') : tags(doc, 'rtept');
-  const raw = pts
-    .map((p) => [Number(p.getAttribute('lon')), Number(p.getAttribute('lat')), Number(childText(p, 'ele') ?? NaN), childText(p, 'time')])
-    .filter(([lon, lat]) => Number.isFinite(lon) && Number.isFinite(lat));
-  if (raw.length < 2) throw new Error('The GPX file has no track to fly along');
-  const hasEle = raw.every((p) => Number.isFinite(p[2]));
-  const trk = tags(doc, 'trk')[0];
-  const fileName = trk ? childText(trk, 'name') : null;
-  const fileType = (trk ? childText(trk, 'type') : null) ?? '';
-
-  // As shared/geo.ts: metres on a sphere, a point every `step` metres, climb with 5 m hysteresis.
-  const RAD = Math.PI / 180;
-  const dist = (a, b) => 6371008.8 * Math.hypot((b[0] - a[0]) * RAD * Math.cos(((a[1] + b[1]) / 2) * RAD), (b[1] - a[1]) * RAD);
-  const along = (line) => line.reduce((acc, p, i) => (acc.push(i ? acc[i - 1] + dist(line[i - 1], p) : 0), acc), []);
-  const resample = (line, step) => {
-    const cum = along(line);
-    const out = [];
-    let k = 0;
-    for (let d = 0; d < cum.at(-1); d += step) {
-      while (cum[k + 1] < d) k++;
-      const t = (d - cum[k]) / (cum[k + 1] - cum[k] || 1);
-      out.push([0, 1, 2].map((j) => line[k][j] + (line[k + 1][j] - line[k][j]) * t));
-    }
-    out.push(line.at(-1).slice(0, 3));
-    return out;
-  };
-  const climb = (eles) => {
-    let [up, ref, dir] = [0, eles[0], 0];
-    for (const e of eles.slice(1)) {
-      if (dir >= 0 && e > ref && (dir === 1 || e - ref >= 5)) [up, ref, dir] = [up + e - ref, e, 1];
-      else if (dir <= 0 && e < ref && (dir === -1 || ref - e >= 5)) [ref, dir] = [e, -1];
-      else if (dir === 1 && ref - e >= 5) [ref, dir] = [e, -1];
-      else if (dir === -1 && e - ref >= 5) [up, ref, dir] = [up + e - ref, e, 1];
-    }
-    return up;
-  };
+  const { raw, hasEle, name: fileName, type: fileType } = await readGpx(arg('gpx'));
 
   // The tour's numbers, of the whole recording.
   const cumRaw = along(raw);
@@ -83,25 +45,9 @@ export async function run({ outDir }) {
   const cumP = along(P);
   const L = cumP.at(-1);
   // Box averages over ±k points: the camera follows a calm line, the height reads without GPS jitter.
-  const smooth = (k, j) => P.map((_, i) => {
-    let [sum, n] = [0, 0];
-    for (let m = Math.max(0, i - k); m <= Math.min(P.length - 1, i + k); m++) [sum, n] = [sum + P[m][j], n + 1];
-    return sum / n;
-  });
-  const [camLon, camLat, eleS] = [smooth(15, 0), smooth(15, 1), smooth(3, 2)];
-  const at = (arr, s) => {
-    const x = Math.max(0, Math.min(arr.length - 1, (s / L) * (arr.length - 1)));
-    const i = Math.min(arr.length - 2, Math.floor(x));
-    return arr[i] + (arr[i + 1] - arr[i]) * (x - i);
-  };
+  const [camLon, camLat, eleS] = [smooth(P, 15, 0), smooth(P, 15, 1), smooth(P, 3, 2)];
+  const at = (arr, s) => atAlong(arr, s, L);
   const camAt = (s) => [at(camLon, s), at(camLat, s)];
-  const bearing = (a, b) => {
-    const dLon = (b[0] - a[0]) * RAD;
-    const y = Math.sin(dLon) * Math.cos(b[1] * RAD);
-    const x = Math.cos(a[1] * RAD) * Math.sin(b[1] * RAD) - Math.sin(a[1] * RAD) * Math.cos(b[1] * RAD) * Math.cos(dLon);
-    return Math.atan2(y, x) / RAD;
-  };
-
   // The flight: along the line, then a hold at the end with a slow turn while the numbers show.
   // Zoom and tilt stay fixed, as in the weekend reel, so the terrain does not pop.
   const FPS = QUICK ? 3 : 30;
@@ -146,10 +92,10 @@ export async function run({ outDir }) {
     return [ZOOM, lat, lon, headings[i] + turn, PITCH];
   });
 
-  const firstTime = raw.find((p) => p[3])?.[3];
+  const firstTime = raw.find((p) => Number.isFinite(p[3]))?.[3];
   const date = arg('date', firstTime ? new Date(firstTime).toLocaleDateString('en-CA', { timeZone: TZ }) : null);
   const dateText = date ? `${dayOnly(`${date}T12:00:00Z`)} ${date.slice(0, 4)}` : null;
-  const kind = arg('kind', /ski|backcountry/i.test(fileType) ? 'Ski tour' : /hik|walk|trek/i.test(fileType) ? 'Hike' : /run/i.test(fileType) ? 'Trail run' : /bik|cycl/i.test(fileType) ? 'Bike ride' : 'Tour');
+  const kind = arg('kind', kindOf(fileType));
   const parts = (fileName ?? '').split(/\s*(?:→|->|–|-)\s*/).filter(Boolean);
   const title = arg('title', parts.length === 2 ? `${parts[0]} to ${parts[1]}` : fileName || 'A tour in South Tyrol');
 
